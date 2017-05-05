@@ -2,6 +2,7 @@
 
 import { ToInteger } from "./spec";
 import { isNumberKey, isArrayBuffer, isArrayLike, isPlusZero } from "./is";
+import memoize from "lodash-es/memoize";
 import { createPrivateStorage } from "./private";
 
 import { roundToFloat16Bits, convertNumber } from "./lib";
@@ -76,17 +77,21 @@ const handler = {
                 return ret;
             
             // TypedArray methods can't be called by Proxy
-            _(ret).proxy = _(ret).proxy || new Proxy(ret, {
-                apply(func, thisArg, args) {
-                    if(!isFloat16Array(thisArg))
-                        return Reflect.apply(func, thisArg, args);
+            let proxy = _(ret).proxy;
 
-                    // peel off proxy
-                    return Reflect.apply(func, _(thisArg).target, args);
-                }
-            });
+            if(proxy === undefined) {
+                proxy = _(ret).proxy = new Proxy(ret, {
+                    apply(func, thisArg, args) {
+                        if(!isFloat16Array(thisArg))
+                            return Reflect.apply(func, thisArg, args);
 
-            return _(ret).proxy;
+                        // peel off proxy
+                        return Reflect.apply(func, _(thisArg).target, args);
+                    }
+                });
+            }
+
+            return proxy;
         }
     },
 
@@ -362,7 +367,9 @@ export default class Float16Array extends Uint16Array {
             compareFunction = defaultCompareFunction;
         }
 
-        super.sort((x, y) => compareFunction(convertNumber(x), convertNumber(y)));
+        const _convertNumber = memoize(convertNumber);
+
+        super.sort((x, y) => compareFunction(_convertNumber(x), _convertNumber(y)));
         
         return _(this).proxy;
     }
