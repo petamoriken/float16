@@ -1,0 +1,34 @@
+{
+  "name": "float16",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "jsnext:main": "src/index.js",
+  "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.kimamass.com)",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn run build:lib && yarn run build:browser",
+    "build:lib": "babel src -d lib",
+    "build:browser": "rollup -c",
+    "clean": "rm -rf lib browser",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-module-resolver": "^2.7.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
+    "eslint": "^3.19.0",
+    "intelli-espower-loader": "^1.0.1",
+    "lodash-es": "^4.17.4",
+    "mocha": "^3.3.0",
+    "power-assert": "^1.4.2",
+    "rollup": "^0.41.6",
+    "rollup-plugin-node-resolve": "^3.0.0"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "lodash": "^4.17.4"
+  }
+}
