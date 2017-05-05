@@ -76,7 +76,7 @@ const handler = {
                 return ret;
             
             // TypedArray methods can't be called by Proxy
-            return new Proxy(ret, {
+            _(ret).proxy = _(ret).proxy || new Proxy(ret, {
                 apply(func, thisArg, args) {
                     if(!isFloat16Array(thisArg))
                         return Reflect.apply(func, thisArg, args);
@@ -85,6 +85,8 @@ const handler = {
                     return Reflect.apply(func, _(thisArg).target, args);
                 }
             });
+
+            return _(ret).proxy;
         }
     },
 

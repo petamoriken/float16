@@ -45,7 +45,6 @@ describe("Float16Array", () => {
 
         const float16_1 = new Float16Array(array);
         
-        
         assert( float16_1.BYTES_PER_ELEMENT === 2 );
         assert( float16_1.byteOffset === 0 );
         assert( float16_1.byteLength === 8 );
@@ -129,6 +128,12 @@ describe("Float16Array", () => {
         for(const val of float16) {
             assert( val === checkArray.shift() );
         }
+    });
+
+    it("prototype methods are same as themselves", () => {
+        const float16 = new Float16Array();
+
+        assert( float16.map === float16.map );
     });
 
     describe(".from()", () => {
@@ -218,6 +223,16 @@ describe("Float16Array", () => {
 
             assert( float16 instanceof Float16Array );
             assert.deepEqual( float16, checkArray );
+        });
+
+    });
+
+    describe("get #[ @@toStringTag ]", () => {
+
+        it("getter returns 'Float16Array'", () => {
+            const float16 = new Float16Array();
+
+            assert( float16[Symbol.toStringTag] === "Float16Array" );
         });
 
     });
