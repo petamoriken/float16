@@ -10,8 +10,6 @@ import { roundToFloat16Bits, convertNumber } from "./lib";
 
 const _ = createPrivateStorage();
 
-const stringTag = "Float16Array";
-
 
 function isFloat16Array(target) {
     return target instanceof Float16Array;
@@ -107,7 +105,7 @@ const handler = {
 
 export default class Float16Array extends Uint16Array {
 
-    constructor(input, offset, length) {
+    constructor(input, byteOffset, length) {
 
         // input Float16Array
         if(isFloat16Array(input)) {
@@ -128,7 +126,7 @@ export default class Float16Array extends Uint16Array {
 
         // 22.2.1.2, 22.2.1.5 primitive, ArrayBuffer
         } else {
-            super(input, offset, length);
+            super(input, byteOffset, length);
         }
         
         const proxy = new Proxy(this, handler);
@@ -374,6 +372,26 @@ export default class Float16Array extends Uint16Array {
         return _(this).proxy;
     }
 
+    // copy element methods
+    slice(...opts) {
+        assertFloat16Array(this);
+
+        // const float16bits = super.slice(...opts);
+
+        const uint16 = new Uint16Array( this.buffer, this.byteOffset, this.length );
+        const float16bits = uint16.slice(...opts);
+
+        return new Float16Array( float16bits.buffer );
+    }
+
+    subarray(...opts) {
+        assertFloat16Array(this);
+
+        const float16bits = super.subarray(...opts);
+        return new Float16Array( float16bits.buffer, float16bits.byteOffset, float16bits.length );        
+    }
+
+    // contains methods
     indexOf(element, ...opts) {
         assertFloat16Array(this);
 
@@ -469,7 +487,8 @@ export default class Float16Array extends Uint16Array {
     }
 
     get [Symbol.toStringTag]() {
-        return stringTag;
+        if(isFloat16Array(this))
+            return "Float16Array";
     }
 
 }

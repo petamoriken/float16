@@ -241,10 +241,14 @@ describe("Float16Array", () => {
 
     describe("get #[ @@toStringTag ]", () => {
 
-        it("getter returns 'Float16Array'", () => {
+        it("return 'Float16Array' when access by instance", () => {
             const float16 = new Float16Array();
 
             assert( float16[Symbol.toStringTag] === "Float16Array" );
+        });
+
+        it("return undefined when access by prototype", () => {
+            assert( Float16Array.prototype[Symbol.toStringTag] === undefined );
         });
 
     });
@@ -757,6 +761,64 @@ describe("Float16Array", () => {
             
             assert( float16.sort((x, y) => x > y) === float16 );
             assert.deepEqual( float16, [-Infinity, -2, -1, 1, 2, Infinity] );
+        });
+
+    });
+
+    describe("#slice()", () => {
+
+        it("property `name` is 'slice'", () => {
+            assert( Float16Array.prototype.slice.name === "slice" );
+        });
+
+        it("property `length` is 0", () => {
+            assert( Float16Array.prototype.slice.length === 0 );
+        });
+
+        it("get slice", () => {
+            const float16 = new Float16Array([1, 2, 3]);
+
+            const sliced = float16.slice();
+            assert( sliced instanceof Float16Array );
+            assert.deepEqual( float16, sliced );
+            assert( float16.buffer !== sliced.buffer );
+        });
+
+        it("check sliced element & offset", () => {
+            const float16 = new Float16Array([1, 2, 3, 4]);
+
+            const sliced = float16.slice(1, 3);
+            assert( sliced.byteOffset === 0 );
+            assert.deepEqual( sliced, [2, 3] );
+        });
+
+    });
+
+    describe("#subarray()", () => {
+
+        it("property `name` is 'subarray'", () => {
+            assert( Float16Array.prototype.subarray.name === "subarray" );
+        });
+
+        it("property `length` is 0", () => {
+            assert( Float16Array.prototype.subarray.length === 0 );
+        });
+
+        it("get subarray", () => {
+            const float16 = new Float16Array([1, 2, 3]);
+
+            const subarray = float16.subarray();
+            assert( subarray instanceof Float16Array );
+            assert.deepEqual( float16, subarray );
+            assert( float16.buffer === subarray.buffer );
+        });
+
+        it("check subarray element & offset", () => {
+            const float16 = new Float16Array([1, 2, 3, 4]);
+
+            const subarray = float16.subarray(1, 3);
+            assert( subarray.byteOffset === 2 );
+            assert.deepEqual( subarray, [2, 3] );
         });
 
     });
