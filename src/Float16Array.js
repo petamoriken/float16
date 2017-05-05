@@ -47,7 +47,7 @@ function defaultCompareFunction(x, y) {
         if(!isPlusZero_x && isPlusZero_y)
             return -1;
         
-        if(isPlusZero_x && isPlusZero_y)
+        if(isPlusZero_x && !isPlusZero_y)
             return 1;
     }
 

@@ -3,12 +3,24 @@ const assert = require("power-assert");
 const Float16Array = require("../lib/Float16Array");
 
 
-function deepEqualWithNaN(x, y) {
+function isPlusZero(num) {
+    return num === 0 && 1 / num === Infinity;
+}
+
+function isMinusZero(num) {
+    return num === 0 && 1 / num === -Infinity;
+}
+
+function deepEqualNumber(x, y) {
     assert(x.length === y.length);
 
     for(let i = 0, l = x.length; i < l; ++i) {
         const [val_x, val_y] = [x[i], y[i]];
         assert( val_x === val_y || Number.isNaN(val_x) && Number.isNaN(val_y) );
+
+        if(val_x === 0 && val_y === 0) {
+            assert(isPlusZero(val_x) && isPlusZero(val_y) || isMinusZero(val_x) && isMinusZero(val_y));
+        }
     }
 }
 
@@ -734,10 +746,10 @@ describe("Float16Array", () => {
         });
 
         it("check default compare", () => {
-            const float16 = new Float16Array([1, 2, -1, -2, NaN, Infinity, -Infinity]);
+            const float16 = new Float16Array([1, 2, -1, -2, 0, -0, NaN, Infinity, -Infinity]);
             
             assert( float16.sort() === float16 );
-            deepEqualWithNaN( float16, [-Infinity, -2, -1, 1, 2, Infinity, NaN] );
+            deepEqualNumber( float16, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
         });
 
         it("check custom compare", () => {

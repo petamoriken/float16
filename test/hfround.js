@@ -36,6 +36,10 @@ describe("hfround()", () => {
         assert( isPlusZero( hfround(null) ) );
     });
 
+    it("return -0 when value is -0", () => {
+        assert( isMinusZero( hfround(-0) ) );
+    });
+
     it("return ±Infinity when value is ±Infinity", () => {
         assert( hfround(Infinity) === Infinity );
         assert( hfround(-Infinity) === -Infinity );
