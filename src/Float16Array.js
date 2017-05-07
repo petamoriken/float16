@@ -1,9 +1,10 @@
 "use strict";
 
-import { ToInteger } from "./spec";
-import { isNumberKey, isArrayBuffer, isArrayLike, isPlusZero } from "./is";
-import memoize from "lodash-es/memoize";
+import { ToInteger, defaultCompareFunction } from "./spec";
+import { isNumberKey, isArrayBuffer, isArrayLike } from "./is";
 import { createPrivateStorage } from "./private";
+
+import memoize from "lodash-es/memoize";
 
 import { roundToFloat16Bits, convertNumber } from "./lib";
 
@@ -19,37 +20,6 @@ function assertFloat16Array(target) {
     if(!isFloat16Array(target)) {
         throw new TypeError("This is not a Float16Array");
     }
-}
-
-function defaultCompareFunction(x, y) {
-    const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
-
-    if(isNaN_x && isNaN_y)
-        return 0;
-
-    if(isNaN_x)
-        return 1;
-
-    if(isNaN_y)
-        return -1;
-
-    if(x < y)
-        return -1;
-
-    if(x > y)
-        return 1;
-    
-    if(x === 0 && y === 0) {
-        const [isPlusZero_x, isPlusZero_y] = [isPlusZero(x), isPlusZero(y)];
-
-        if(!isPlusZero_x && isPlusZero_y)
-            return -1;
-        
-        if(isPlusZero_x && !isPlusZero_y)
-            return 1;
-    }
-
-    return 0;
 }
 
 function copyToArray(float16bits) {
