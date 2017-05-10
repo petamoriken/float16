@@ -9,6 +9,8 @@ import memoize from "lodash-es/memoize";
 import { roundToFloat16Bits, convertNumber } from "./lib";
 
 
+const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
+
 const _ = createPrivateStorage();
 
 
@@ -36,8 +38,14 @@ function copyToArray(float16bits) {
 // proxy handler
 const handler = {
     get(target, key) {
+        // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
+        if(!isTypedArrayIndexedPropertyWritable) {
+            target = _(target).target;
+        }
+
         if(isNumberKey(key)) {
             return convertNumber( Reflect.get(target, key) );
+
         } else {
             const ret = Reflect.get(target, key);
 
@@ -66,10 +74,23 @@ const handler = {
     set(target, key, value) {
         if(isNumberKey(key)) {
             Reflect.set(target, key, roundToFloat16Bits(value));
+
         } else {
             Reflect.set(target, key, value);
         }
     }
+};
+
+if(!isTypedArrayIndexedPropertyWritable) {
+    handler.getPrototypeOf = target => Reflect.getPrototypeOf( _(target).target );
+    handler.setPrototypeOf = (target, prototype) => Reflect.setPrototypeOf( _(target).target, prototype );
+    handler.isExtensible = target => Reflect.isExtensible( _(target).target );
+    handler.preventExtensions = target => Reflect.preventExtensions( _(target).target );
+    handler.getOwnPropertyDescriptor = (target, key) => Reflect.getOwnPropertyDescriptor( _(target).target, key );
+    handler.defineProperty = (target, key, descriptor) => Reflect.defineProperty( _(target).target, key, descriptor );
+    handler.deleteProperty = (target, key) => Reflect.deleteProperty( _(target).target, key );
+    handler.has = (target, key) => Reflect.has( _(target).target, key );
+    handler.ownKeys = target => Reflect.ownKeys( _(target).target );
 }
 
 
@@ -96,10 +117,34 @@ export default class Float16Array extends Uint16Array {
 
         // 22.2.1.2, 22.2.1.5 primitive, ArrayBuffer
         } else {
-            super(input, byteOffset, length);
+            switch(arguments.length) {
+                case 0:
+                    super();
+                    break;
+                
+                case 1:
+                    super(input);
+                    break;
+                
+                case 2:
+                    super(input, byteOffset);
+                    break;
+                
+                default:
+                    super(input, byteOffset, length);
+            }
         }
         
-        const proxy = new Proxy(this, handler);
+        let proxy;
+
+        // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
+        if(isTypedArrayIndexedPropertyWritable) {
+            proxy = new Proxy(this, handler);
+        } else {
+            const wrapper = Object.create(null);
+            _(wrapper).target = this;
+            proxy = new Proxy(wrapper, handler);
+        }
 
         // proxy private storage
         _(proxy).target = this;
@@ -124,7 +169,7 @@ export default class Float16Array extends Uint16Array {
     }
 
     static of(...args) {
-        return new this(args);
+        return new Float16Array(args);
     }
 
     // iterate methods
@@ -346,10 +391,19 @@ export default class Float16Array extends Uint16Array {
     slice(...opts) {
         assertFloat16Array(this);
 
-        // const float16bits = super.slice(...opts);
+        let float16bits;
 
-        const uint16 = new Uint16Array( this.buffer, this.byteOffset, this.length );
-        const float16bits = uint16.slice(...opts);
+        // V8, SpiderMonkey, JavaScriptCore throw TypeError
+        try {
+            float16bits = super.slice(...opts);
+        } catch(e) {
+            if(e instanceof TypeError) {
+                const uint16 = new Uint16Array( this.buffer, this.byteOffset, this.length );
+                float16bits = uint16.slice(...opts);
+            } else {
+                throw e;
+            }
+        }
 
         return new Float16Array( float16bits.buffer );
     }
@@ -357,7 +411,20 @@ export default class Float16Array extends Uint16Array {
     subarray(...opts) {
         assertFloat16Array(this);
 
-        const float16bits = super.subarray(...opts);
+        let float16bits;
+
+        // SpiderMonkey, JavaScriptCore throw TypeError
+        try {
+            float16bits = super.subarray(...opts);
+        } catch(e) {
+            if(e instanceof TypeError) {
+                const uint16 = new Uint16Array( this.buffer, this.byteOffset, this.length );
+                float16bits = uint16.subarray(...opts);
+            } else {
+                throw e;
+            }
+        }
+        
         return new Float16Array( float16bits.buffer, float16bits.byteOffset, float16bits.length );        
     }
 
