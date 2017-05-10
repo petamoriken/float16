@@ -10,7 +10,8 @@
     "build:lib": "babel src -d lib",
     "build:browser": "rollup -c",
     "clean": "rm -rf lib browser",
-    "test": "mocha"
+    "test": "yarn run test:lib",
+    "test:lib": "mocha"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

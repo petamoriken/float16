@@ -1,3 +1,5 @@
+(function() {
+
 const maxFloat16 = 65504;
 const minFloat16 = 2 ** -24;
 
@@ -75,3 +77,5 @@ describe("hfround()", () => {
         assert( hfround(1.337) === 1.3369140625 );
     });
 });
+
+})();
