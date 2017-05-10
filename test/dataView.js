@@ -1,7 +1,4 @@
-const assert = require("power-assert");
-
-const { getFloat16, setFloat16 } = require("../lib/dataView");
-
+(function() {
 
 const buffer = new ArrayBuffer(2);
 const dataView = new DataView(buffer);
@@ -79,3 +76,5 @@ describe("additional DataView methods", () => {
     });
 
 });
+
+})();

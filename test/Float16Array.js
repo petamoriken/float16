@@ -1,7 +1,4 @@
-const assert = require("power-assert");
-
-const Float16Array = require("../lib/Float16Array");
-
+(function() {
 
 function isPlusZero(num) {
     return num === 0 && 1 / num === Infinity;
@@ -11,7 +8,27 @@ function isMinusZero(num) {
     return num === 0 && 1 / num === -Infinity;
 }
 
-function deepEqualNumber(x, y) {
+function isDeepEqualArray(x, y) {
+    if(!(x.length === y.length))
+        return false;
+
+    for(let i = 0, l = x.length; i < l; ++i) {
+        if(x[i] !== y[i])
+            return false;
+    }
+
+    return true;
+}
+
+function deepEqualArray(x, y) {
+    assert(x.length === y.length);
+
+    for(let i = 0, l = x.length; i < l; ++i) {
+        assert( x[i] === y[i] );
+    }
+}
+
+function deepEqualNumberArray(x, y) {
     assert(x.length === y.length);
 
     for(let i = 0, l = x.length; i < l; ++i) {
@@ -43,11 +60,7 @@ describe("Float16Array", () => {
         assert.doesNotThrow(() => new Float16Array(0));          
         assert.doesNotThrow(() => new Float16Array(4));
 
-        assert.doesNotThrow(() => new Float16Array(null));
-        assert.doesNotThrow(() => new Float16Array(undefined));        
-        assert.doesNotThrow(() => new Float16Array("test"));
-
-        assert.throws(() => new Float16Array(-1), RangeError);
+        assert.throws(() => new Float16Array(-1), Error);
         assert.throws(() => new Float16Array(Symbol()), TypeError);
     });
 
@@ -61,7 +74,7 @@ describe("Float16Array", () => {
         assert( float16_1.byteOffset === 0 );
         assert( float16_1.byteLength === 8 );
         assert( float16_1.length === 4 );
-        assert.deepEqual( float16_1, checkArray );
+        deepEqualArray( float16_1, checkArray );
 
         const float16_2 = new Float16Array( new Float32Array(array) );
 
@@ -69,7 +82,7 @@ describe("Float16Array", () => {
         assert( float16_2.byteOffset === 0 );
         assert( float16_2.byteLength === 8 );
         assert( float16_2.length === 4 );
-        assert.deepEqual( float16_2, checkArray );
+        deepEqualArray( float16_2, checkArray );
     });
 
     it("input ArrayLike", () => {
@@ -82,7 +95,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        assert.deepEqual( float16, checkArray );
+        deepEqualArray( float16, checkArray );
     });
 
     it("input Iterator", () => {
@@ -95,7 +108,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        assert.deepEqual( float16, checkArray );
+        deepEqualArray( float16, checkArray );
     });
 
     it("input myself (Float16Array)", () => {
@@ -108,7 +121,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        assert.deepEqual( float16, checkArray );
+        deepEqualArray( float16, checkArray );
     });
 
     it("input ArrayBuffer", () => {
@@ -121,7 +134,7 @@ describe("Float16Array", () => {
         assert( float16_1.byteOffset === 0 );
         assert( float16_1.byteLength === 8 );
         assert( float16_1.length === 4 );
-        assert.deepEqual( float16_1, [1, 1.099609375, 1.19921875, 1.2998046875] );
+        deepEqualArray( float16_1, [1, 1.099609375, 1.19921875, 1.2998046875] );
 
         const float16_2 = new Float16Array(buffer, 2, 2);
 
@@ -130,7 +143,7 @@ describe("Float16Array", () => {
         assert( float16_2.byteOffset === 2 );
         assert( float16_2.byteLength === 4 );
         assert( float16_2.length === 2 );
-        assert.deepEqual( float16_2, [1.099609375, 1.19921875] );
+        deepEqualArray( float16_2, [1.099609375, 1.19921875] );
     });
 
     it("iterate", () => {
@@ -165,12 +178,12 @@ describe("Float16Array", () => {
             const float16_1 = Float16Array.from(array);
 
             assert( float16_1 instanceof Float16Array );
-            assert.deepEqual( float16_1, checkArray );
+            deepEqualArray( float16_1, checkArray );
 
             const float16_2 = Float16Array.from( new Float32Array(array) );
 
             assert( float16_2 instanceof Float16Array );
-            assert.deepEqual( float16_2, checkArray );
+            deepEqualArray( float16_2, checkArray );
         });
 
         it("input ArrayLike", () => {
@@ -180,7 +193,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.from(arrayLike);
 
             assert( float16 instanceof Float16Array );
-            assert.deepEqual( float16, checkArray );
+            deepEqualArray( float16, checkArray );
         });
 
         it("input Iterator", () => {
@@ -190,7 +203,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.from(iterator);
 
             assert( float16 instanceof Float16Array );
-            assert.deepEqual( float16, checkArray );
+            deepEqualArray( float16, checkArray );
         });
 
         it("input myself (Float16Array)", () => {
@@ -200,7 +213,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.from( new Float16Array(array) );
 
             assert( float16 instanceof Float16Array );        
-            assert.deepEqual( float16, checkArray );
+            deepEqualArray( float16, checkArray );
         });
 
         it("check mapFn callback arguments", () => {
@@ -234,7 +247,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.of(...array);
 
             assert( float16 instanceof Float16Array );
-            assert.deepEqual( float16, checkArray );
+            deepEqualArray( float16, checkArray );
         });
 
     });
@@ -338,7 +351,7 @@ describe("Float16Array", () => {
             const float16_2 = float16_1.map(val => val * 2);
 
             assert( float16_2 instanceof Float16Array );
-            assert.deepEqual( float16_2, [2, 4, 6, 8] );
+            deepEqualArray( float16_2, [2, 4, 6, 8] );
         });
 
     });
@@ -372,7 +385,7 @@ describe("Float16Array", () => {
             const float16_2 = float16_1.filter(val => val % 2 === 0);
 
             assert( float16_2 instanceof Float16Array );
-            assert.deepEqual( float16_2, [2, 4] );
+            deepEqualArray( float16_2, [2, 4] );
         });
 
     });
@@ -640,12 +653,12 @@ describe("Float16Array", () => {
             const array = [10, 11];
 
             assert( float16.set(array, 2) === undefined );
-            assert.deepEqual( float16, [1, 2, 10, 11, 5] );
+            deepEqualArray( float16, [1, 2, 10, 11, 5] );
 
             const float32 = new Float32Array([20, 21]);
 
             assert( float16.set(float32, 1) === undefined );
-            assert.deepEqual( float16, [1, 20, 21, 11, 5] );
+            deepEqualArray( float16, [1, 20, 21, 11, 5] );
         });
 
         it("set ArrayLike", () => {
@@ -653,7 +666,7 @@ describe("Float16Array", () => {
             const arrayLike = {0: 10, 1: 11, length: 2};
 
             assert( float16.set(arrayLike, 2) === undefined );
-            assert.deepEqual( float16, [1, 2, 10, 11, 5] );
+            deepEqualArray( float16, [1, 2, 10, 11, 5] );
         });
 
         it("set Itetator", () => {
@@ -661,7 +674,7 @@ describe("Float16Array", () => {
             const iterator = [10, 11][Symbol.iterator]();
 
             assert( float16.set(iterator, 2) === undefined );
-            assert.deepEqual( float16, [1, 2, 10, 11, 5] );
+            deepEqualArray( float16, [1, 2, 10, 11, 5] );
         });
 
         it("set myself (Float16Array)", () => {
@@ -669,7 +682,7 @@ describe("Float16Array", () => {
             const array = [10, 11];
 
             assert( float16.set(new Float16Array(array), 2) === undefined );
-            assert.deepEqual( float16, [1, 2, 10, 11, 5] );
+            deepEqualArray( float16, [1, 2, 10, 11, 5] );
         });
 
         it("check out of Range", () => {
@@ -696,7 +709,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3]);
 
             assert( float16.reverse() === float16 );
-            assert.deepEqual( float16, [3, 2, 1] );
+            deepEqualArray( float16, [3, 2, 1] );
         });
 
     });
@@ -715,7 +728,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array(5);
 
             assert( float16.fill(1, 1, 4) === float16 );
-            assert.deepEqual( float16, [0, 1, 1, 1, 0] );
+            deepEqualArray( float16, [0, 1, 1, 1, 0] );
         });
 
     });
@@ -734,7 +747,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 0, 0, 0]);
 
             assert( float16.copyWithin(2, 0, 2) === float16 );
-            assert.deepEqual( float16, [1, 2, 1, 2, 0] );
+            deepEqualArray( float16, [1, 2, 1, 2, 0] );
         });
 
     });
@@ -753,14 +766,20 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, -1, -2, 0, -0, NaN, Infinity, -Infinity]);
             
             assert( float16.sort() === float16 );
-            deepEqualNumber( float16, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
+            deepEqualNumberArray( float16, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
         });
 
-        it("check custom compare", () => {
+        it("check custom compare", function() {
+            const compareFunction = (x, y) => x > y;
+
+            // JavaScriptCore bug (Safari <= 10.2)
+            if( isDeepEqualArray( new Uint16Array([1, 3, 2]).sort(compareFunction), [1, 3, 2] ) )
+                this.skip();
+
             const float16 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
             
-            assert( float16.sort((x, y) => x > y) === float16 );
-            assert.deepEqual( float16, [-Infinity, -2, -1, 1, 2, Infinity] );
+            assert( float16.sort(compareFunction) === float16 );
+            deepEqualArray( float16, [-Infinity, -2, -1, 1, 2, Infinity] );
         });
 
     });
@@ -780,7 +799,7 @@ describe("Float16Array", () => {
 
             const sliced = float16.slice();
             assert( sliced instanceof Float16Array );
-            assert.deepEqual( float16, sliced );
+            deepEqualArray( float16, sliced );
             assert( float16.buffer !== sliced.buffer );
         });
 
@@ -789,7 +808,7 @@ describe("Float16Array", () => {
 
             const sliced = float16.slice(1, 3);
             assert( sliced.byteOffset === 0 );
-            assert.deepEqual( sliced, [2, 3] );
+            deepEqualArray( sliced, [2, 3] );
         });
 
     });
@@ -809,7 +828,7 @@ describe("Float16Array", () => {
 
             const subarray = float16.subarray();
             assert( subarray instanceof Float16Array );
-            assert.deepEqual( float16, subarray );
+            deepEqualArray( float16, subarray );
             assert( float16.buffer === subarray.buffer );
         });
 
@@ -818,7 +837,7 @@ describe("Float16Array", () => {
 
             const subarray = float16.subarray(1, 3);
             assert( subarray.byteOffset === 2 );
-            assert.deepEqual( subarray, [2, 3] );
+            deepEqualArray( subarray, [2, 3] );
         });
 
     });
@@ -945,3 +964,5 @@ describe("Float16Array", () => {
     });
 
 });
+
+})();

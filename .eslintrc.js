@@ -8,6 +8,13 @@ module.exports = {
     "es6": true,
     "mocha": true
   },
+  globals: {
+    "assert": false,
+    "Float16Array": false,
+    "getFloat16": false,
+    "setFloat16": false,
+    "hfround": false
+  },
   rules: {
     "quotes": [2, "double", "avoid-escape"],
     "no-console": [0],

@@ -1,1 +1,1 @@
---require intelli-espower-loader
+--require intelli-espower-loader --require ./test/lib/setup

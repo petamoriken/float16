@@ -1,8 +1,3 @@
-const assert = require("power-assert");
-
-const hfround = require("../lib/hfround");
-
-
 const maxFloat16 = 65504;
 const minFloat16 = 2 ** -24;
 
