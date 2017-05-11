@@ -989,6 +989,18 @@ describe("Float16Array", () => {
             assert( float16.toString() === "1,2,3" );
         });
 
+        it("call Array#toString by Float16Array", () => {
+            const float16 = new Float16Array([1, 2, 3]);
+
+            assert( Array.prototype.toString.call(float16) === "1,2,3" );
+        });
+
+        it("call Float16Array#toString by Array", () => {
+            const array = [1, 2, 3];
+
+            assert( Float16Array.prototype.toString.call(array) === "1,2,3" );
+        });
+
     });
 
 });

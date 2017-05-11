@@ -550,6 +550,9 @@ export default class Float16Array extends Uint16Array {
     }
 
     toString() {
+        if(!isFloat16Array(this))
+            return super.toString();
+
         const array = copyToArray(this);
 
         return array.toString();
