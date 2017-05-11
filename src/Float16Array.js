@@ -24,6 +24,11 @@ function assertFloat16Array(target) {
     }
 }
 
+function isDefaultFloat16ArrayMethods(target) {
+    return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
+}
+
+
 function copyToArray(float16bits) {
     const length = float16bits.length;
 
@@ -60,11 +65,11 @@ const handler = {
             if(proxy === undefined) {
                 proxy = _(ret).proxy = new Proxy(ret, {
                     apply(func, thisArg, args) {
-                        if(!isFloat16Array(thisArg))
-                            return Reflect.apply(func, thisArg, args);
+                        // peel off proxy                        
+                        if(isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func))
+                            return Reflect.apply(func, _(thisArg).target, args);
 
-                        // peel off proxy
-                        return Reflect.apply(func, _(thisArg).target, args);
+                        return Reflect.apply(func, thisArg, args);
                     }
                 });
             }
@@ -204,7 +209,9 @@ export default class Float16Array extends Uint16Array {
         }
     }
 
-    // keys
+    keys() {
+        return super.keys();
+    }
 
     * values() {
         for(const val of super.values()) {
@@ -553,4 +560,13 @@ export default class Float16Array extends Uint16Array {
             return "Float16Array";
     }
 
+}
+
+const Float16Array$prototype = Float16Array.prototype;
+
+const defaultFloat16ArrayMethods = new WeakSet();
+for(const key of Reflect.ownKeys(Float16Array$prototype)) {
+    const val = Float16Array$prototype[key];
+    if(typeof val === "function")
+        defaultFloat16ArrayMethods.add(val);
 }

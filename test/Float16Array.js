@@ -175,6 +175,20 @@ describe("Float16Array", () => {
         assert( typeof float16.map === "function" );
     });
 
+    it("append custom methods (not using `super`)", () => {
+        const float16 = new Float16Array([1, 2, 3]);
+
+        float16.sum = function() {
+            let ret = 0;
+            for(let i = 0, l = this.length; i < l; ++i) {
+                ret += this[i];
+            }
+            return ret;
+        };
+
+        assert( float16.sum() === 6 );
+    });
+
     it("prototype methods are as same as themselves", () => {
         const float16 = new Float16Array();
 
