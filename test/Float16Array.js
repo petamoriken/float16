@@ -770,15 +770,9 @@ describe("Float16Array", () => {
         });
 
         it("check custom compare", function() {
-            const compareFunction = (x, y) => x > y;
-
-            // JavaScriptCore bug (Safari <= 10.2)
-            if( isDeepEqualArray( new Uint16Array([1, 3, 2]).sort(compareFunction), [1, 3, 2] ) )
-                this.skip();
-
             const float16 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
             
-            assert( float16.sort(compareFunction) === float16 );
+            assert( float16.sort( (x, y) => x - y ) === float16 );
             deepEqualArray( float16, [-Infinity, -2, -1, 1, 2, Infinity] );
         });
 
