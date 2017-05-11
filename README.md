@@ -68,7 +68,7 @@ view.setFloat16(0, Math.PI);
 view.getFloat16(0); // 3.140625
 ```
 
-* hfround
+* `hfround(x: number)`
 
 This API is similar to `Math.frond` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).  
 This function returns nearest half precision float representation of a number.
