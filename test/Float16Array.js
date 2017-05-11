@@ -8,18 +8,6 @@ function isMinusZero(num) {
     return num === 0 && 1 / num === -Infinity;
 }
 
-function isDeepEqualArray(x, y) {
-    if(!(x.length === y.length))
-        return false;
-
-    for(let i = 0, l = x.length; i < l; ++i) {
-        if(x[i] !== y[i])
-            return false;
-    }
-
-    return true;
-}
-
 function deepEqualArray(x, y) {
     assert(x.length === y.length);
 

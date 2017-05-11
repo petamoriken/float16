@@ -5,13 +5,29 @@
   "jsnext:main": "src/index.js",
   "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.kimamass.com)",
   "license": "MIT",
+  "files": [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "rollup.config.js",
+    ".babelrc",
+    ".eslintignore",
+    ".eslintrc.js",
+    "yarn.lock",
+    "src",
+    "lib",
+    "browser",
+    "test"
+  ],
   "scripts": {
     "build": "yarn run build:lib && yarn run build:browser",
     "build:lib": "babel src -d lib",
     "build:browser": "rollup -c",
+    "lint": "eslint src",
+    "test": "yarn run lint && yarn run test:lib",
+    "test:lib": "mocha",
     "clean": "rm -rf lib browser",
-    "test": "yarn run test:lib",
-    "test:lib": "mocha"
+    "prepublish": "yarn run clean && yarn run build && yarn test"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -22,7 +38,6 @@
     "babel-preset-env": "^1.4.0",
     "eslint": "^3.19.0",
     "intelli-espower-loader": "^1.0.1",
-    "lodash-es": "^4.17.4",
     "mocha": "^3.3.0",
     "power-assert": "^1.4.2",
     "rollup": "^0.41.6",
@@ -30,6 +45,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.23.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "lodash-es": "^4.17.4"
   }
 }
