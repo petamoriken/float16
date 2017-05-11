@@ -1,5 +1,7 @@
 (function() {
 
+const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
+
 function isPlusZero(num) {
     return num === 0 && 1 / num === Infinity;
 }
@@ -143,7 +145,37 @@ describe("Float16Array", () => {
         }
     });
 
-    it("prototype methods are same as themselves", () => {
+    it("can't be frozen with elements", function() {
+        assert.doesNotThrow(() => Object.freeze( new Float16Array() ));
+
+        if(!isTypedArrayIndexedPropertyWritable)
+            this.skip();
+
+        assert.throws(() => Object.freeze( new Float16Array(10) ), TypeError);
+    });
+
+    it("can't change property & prototype property if it frozen", function() {
+        // "use strict";
+
+        const float16 = new Float16Array();
+
+        float16.hoge = "hoge";
+        assert( float16.hoge === "hoge" );
+
+        Object.freeze( float16 );
+
+        // JavaScriptCore bug
+        // assert.throws(() => float16.fuga = "fuga", TypeError);
+        // assert.throws(() => float16.map = "map", TypeError);
+
+        float16.fuga = "fuga";
+        assert( float16.fuga === undefined );
+
+        float16.map = "map";
+        assert( typeof float16.map === "function" );
+    });
+
+    it("prototype methods are as same as themselves", () => {
         const float16 = new Float16Array();
 
         assert( float16.map === float16.map );

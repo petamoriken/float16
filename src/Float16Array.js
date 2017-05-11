@@ -39,15 +39,17 @@ function copyToArray(float16bits) {
 const handler = {
     get(target, key) {
         // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
+        let wrapper = null;
         if(!isTypedArrayIndexedPropertyWritable) {
-            target = _(target).target;
+            wrapper = target;
+            target = _(wrapper).target;
         }
 
         if(isNumberKey(key)) {
             return convertNumber( Reflect.get(target, key) );
 
         } else {
-            const ret = Reflect.get(target, key);
+            const ret = wrapper && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
 
             if(typeof ret !== "function")
                 return ret;
@@ -72,25 +74,48 @@ const handler = {
     },
 
     set(target, key, value) {
+        // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
+        let wrapper = null;
+        if(!isTypedArrayIndexedPropertyWritable) {
+            wrapper = target;
+            target = _(wrapper).target;
+        }
+
         if(isNumberKey(key)) {
-            Reflect.set(target, key, roundToFloat16Bits(value));
+            return Reflect.set(target, key, roundToFloat16Bits(value));
 
         } else {
-            Reflect.set(target, key, value);
+            // frozen object can't change prototype property
+            if(wrapper && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
+                return Reflect.set(wrapper, key, value);
+            
+            } else {
+                return Reflect.set(target, key, value);
+            }
         }
     }
 };
 
 if(!isTypedArrayIndexedPropertyWritable) {
-    handler.getPrototypeOf = target => Reflect.getPrototypeOf( _(target).target );
-    handler.setPrototypeOf = (target, prototype) => Reflect.setPrototypeOf( _(target).target, prototype );
-    handler.isExtensible = target => Reflect.isExtensible( _(target).target );
-    handler.preventExtensions = target => Reflect.preventExtensions( _(target).target );
-    handler.getOwnPropertyDescriptor = (target, key) => Reflect.getOwnPropertyDescriptor( _(target).target, key );
-    handler.defineProperty = (target, key, descriptor) => Reflect.defineProperty( _(target).target, key, descriptor );
-    handler.deleteProperty = (target, key) => Reflect.deleteProperty( _(target).target, key );
-    handler.has = (target, key) => Reflect.has( _(target).target, key );
-    handler.ownKeys = target => Reflect.ownKeys( _(target).target );
+    handler.getPrototypeOf = wrapper => Reflect.getPrototypeOf( _(wrapper).target );
+    handler.setPrototypeOf = (wrapper, prototype) => Reflect.setPrototypeOf( _(wrapper).target, prototype );
+
+    handler.defineProperty = (wrapper, key, descriptor) => {
+        const target = _(wrapper).target;
+        return !Reflect.has(target, key) || Object.isFrozen(wrapper) ? Reflect.defineProperty( wrapper, key, descriptor ) : Reflect.defineProperty( target, key, descriptor );
+    };
+    handler.deleteProperty = (wrapper, key) => {
+        const target = _(wrapper).target;
+        return Reflect.has(wrapper, key) ? Reflect.deleteProperty( wrapper, key ) : Reflect.deleteProperty( target, key );
+    };
+    
+    handler.has = (wrapper, key) => Reflect.has( wrapper, key ) || Reflect.has( _(wrapper).target, key );
+
+    handler.isExtensible = wrapper => Reflect.isExtensible( wrapper );
+    handler.preventExtensions = wrapper => Reflect.preventExtensions( wrapper );
+
+    handler.getOwnPropertyDescriptor = (wrapper, key) => Reflect.getOwnPropertyDescriptor( wrapper, key );  
+    handler.ownKeys = wrapper => Reflect.ownKeys( wrapper );
 }
 
 
