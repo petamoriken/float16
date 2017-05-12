@@ -54,7 +54,7 @@ const handler = {
             return convertNumber( Reflect.get(target, key) );
 
         } else {
-            const ret = wrapper && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
+            const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
 
             if(typeof ret !== "function")
                 return ret;
@@ -91,7 +91,7 @@ const handler = {
 
         } else {
             // frozen object can't change prototype property
-            if(wrapper && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
+            if(wrapper !== null && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
                 return Reflect.set(wrapper, key, value);
             
             } else {
