@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>float16 test</title>
+
+    <link rel="stylesheet" href="mocha.css">
+</head>
+<body>
+    <div id="mocha"></div>
+
+    <script src="mocha.js"></script>
+    <script src="power-assert.js"></script>
+    <script src="float16.js"></script>
+    <script>
+        Object.assign(window, float16);
+    </script>
+    
+    <script>
+        mocha.setup({
+            ui: "bdd"
+        });
+    </script>
+
+    <script src="Float16Array.js"></script>
+    <script src="dataView.js"></script>
+    <script src="hfround.js"></script>
+
+    <script>
+        mocha.checkLeaks();
+        mocha.run();
+  </script>
+</body>
+</html>

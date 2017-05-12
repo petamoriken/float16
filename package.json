@@ -23,11 +23,16 @@
     "build": "yarn run build:lib && yarn run build:browser",
     "build:lib": "babel src -d lib",
     "build:browser": "rollup -c",
+    "docs": "yarn run docs:test",
+    "docs:test": "cp browser/float16.js docs/test/float16.js && yarn run docs:test:unit && yarn run docs:test:dependencies",
+    "docs:test:unit": "find test/*.js -execdir bash -c \"eval espower test/{} | exorcist docs/test/{}.map > docs/test/{}\" \\;",
+    "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js docs/test/mocha.js && cp $(npm root)/mocha/mocha.css docs/test/mocha.css && cp $(npm root)/power-assert/build/power-assert.js docs/test/power-assert.js",
     "lint": "eslint src",
     "test": "yarn run lint && yarn run test:lib",
     "test:lib": "mocha",
-    "clean": "rm -rf lib browser",
-    "prepublish": "yarn run clean && yarn run build && yarn test"
+    "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js",
+    "rebuild": "yarn run clean && yarn run build && yarn run docs",
+    "prepublish": "in-publish && yarn run clean && yarn run build && yarn test"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -37,6 +42,9 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.4.0",
     "eslint": "^3.19.0",
+    "espower-cli": "^1.1.0",
+    "exorcist": "^0.4.0",
+    "in-publish": "^2.0.0",
     "intelli-espower-loader": "^1.0.1",
     "mocha": "^3.3.0",
     "power-assert": "^1.4.2",
