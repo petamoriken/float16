@@ -25,13 +25,14 @@
     "build:browser": "rollup -c",
     "docs": "yarn run docs:test",
     "docs:test": "cp browser/float16.js docs/test/float16.js && yarn run docs:test:unit && yarn run docs:test:dependencies",
-    "docs:test:unit": "find test/*.js -execdir bash -c \"eval espower test/{} | exorcist docs/test/{}.map > docs/test/{}\" \\;",
-    "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js docs/test/mocha.js && cp $(npm root)/mocha/mocha.css docs/test/mocha.css && cp $(npm root)/power-assert/build/power-assert.js docs/test/power-assert.js",
+    "docs:test:unit": "cp test/*.js docs/test && yarn run docs:test:unit:power",
+    "docs:test:unit:power": "find test/*.js -execdir bash -c \"eval espower test/{} | exorcist docs/test/power.{}.map > docs/test/power.{}\" \\;",
+    "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js $(npm root)/mocha/mocha.css $(npm root)/power-assert/build/power-assert.js docs/test",
     "lint": "eslint src",
     "test": "yarn run lint && yarn run test:lib",
     "test:lib": "mocha",
-    "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js",
-    "rebuild": "yarn run clean && yarn run build && yarn run docs",
+    "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js docs/test/*.map",
+    "refresh": "yarn run clean && yarn run build && yarn run docs",
     "prepublish": "in-publish && yarn run clean && yarn run build && yarn test"
   },
   "devDependencies": {
