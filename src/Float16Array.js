@@ -549,15 +549,6 @@ export default class Float16Array extends Uint16Array {
         return array.toLocaleString(...opts);        
     }
 
-    toString() {
-        if(!isFloat16Array(this))
-            return super.toString();
-
-        const array = copyToArray(this);
-
-        return array.toString();
-    }
-
     get [Symbol.toStringTag]() {
         if(isFloat16Array(this))
             return "Float16Array";
