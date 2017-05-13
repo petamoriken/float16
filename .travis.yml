@@ -2,6 +2,10 @@ language: node_js
 node_js:
   - "7"
 
+dist: trusty
+sudo: false
+cache: yarn
+
 before_script:
   - yarn run build
 
