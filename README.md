@@ -2,12 +2,29 @@
 
 half precision floating point for JavaScript
 
-## support
+[![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/issues)
+[![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
+[![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)  
+[![Travis](https://img.shields.io/travis/petamoriken/float16.svg?style=flat-square)](https://travis-ci.org/petamoriken/float16)
+[![dependencies Status](https://david-dm.org/petamoriken/float16/status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16)
+[![devDependencies Status](https://david-dm.org/petamoriken/float16/dev-status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16?type=dev)
+
+
+
+## Supports (at least)
 
 Last 2 versions of modern browser (Chrome, Firefox) and latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
+
+* Chrome: Last 2 versions
+* Firefox: Last 2 versions and ESR
+* Edge: Latest version
+* Safari: Latest version
+* Node.js: Latest version
+
 This library's `Float16Array` uses `Proxy`, so IE11 is never supported.
 
-## install
+## Install
 
 ```bash
 yarn add @petamoriken/float16
@@ -19,7 +36,7 @@ or
 npm install @petamoriken/float16 --save
 ```
 
-## require
+## Require
 
 ```js
 // ES6 Modules
