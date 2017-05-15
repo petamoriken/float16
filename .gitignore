@@ -4,3 +4,4 @@ node_modules
 
 /browser
 /lib
+/test_report

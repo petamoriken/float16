@@ -4,7 +4,7 @@ half precision floating point for JavaScript
 
 ## support
 
-Last 2 versions of modern browser (Chrome, Firefox, Safari, Edge, Opera) and Node latest.  
+Last 2 versions of modern browser (Chrome, Firefox) and latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
 This library's `Float16Array` uses `Proxy`, so IE11 is never supported.
 
 ## install

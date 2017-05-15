@@ -29,8 +29,9 @@
     "docs:test:unit:power": "find test/*.js -execdir bash -c \"eval espower test/{} | exorcist docs/test/power.{}.map > docs/test/power.{}\" \\;",
     "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js $(npm root)/mocha/mocha.css $(npm root)/power-assert/build/power-assert.js docs/test",
     "lint": "eslint src",
-    "test": "yarn run lint && yarn run test:lib",
+    "test": "yarn run lint && yarn run test:lib && yarn run test:browser",
     "test:lib": "mocha",
+    "test:browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,safari,safari_el",
     "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js docs/test/*.map",
     "refresh": "yarn run clean && yarn run build && yarn run docs",
     "prepublish": "in-publish && yarn run clean && yarn run build && yarn test || not-in-publish"
@@ -48,9 +49,11 @@
     "in-publish": "^2.0.0",
     "intelli-espower-loader": "^1.0.1",
     "mocha": "^3.3.0",
+    "nightwatch": "^0.9.15",
     "power-assert": "^1.4.2",
     "rollup": "^0.41.6",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "saucelabs": "^1.4.0"
   },
   "dependencies": {
     "babel-runtime": "^6.23.0",
