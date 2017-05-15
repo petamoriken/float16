@@ -1479,8 +1479,10 @@ class Float16Array extends Uint16Array {
     }
 
     // change element methods
-    set(input, offset = 0) {
+    set(input, ...opts) {
         assertFloat16Array(this);
+
+        const offset = opts[0];
 
         let float16bits;
 

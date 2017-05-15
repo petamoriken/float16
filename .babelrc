@@ -3,8 +3,7 @@
         "targets": {
             "browsers": ["last 2 versions", "not ie >= 10", "Firefox ESR"]
         },
-        "exclude": ["transform-regenerator"],
-        "debug": true
+        "exclude": ["transform-regenerator"]
     }]],
     "plugins": [
         ["transform-runtime", {

@@ -28,10 +28,6 @@
 
     <script>
         mocha.checkLeaks();
-
-        if(Mocha.utils.parseQuery(location.search || "").uncaught)
-            mocha.allowUncaught();
-        
         mocha.run();
   </script>
 </body>
