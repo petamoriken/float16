@@ -180,7 +180,7 @@ describe("Float16Array", () => {
     });
 
     it("check ownKeys", function() {
-        if(!isProxyEnableToBeWeakMapKey)
+        if(!isTypedArrayIndexedPropertyWritable || !isProxyEnableToBeWeakMapKey)
             this.skip();
 
         const float16 = new Float16Array([1, 2]);
@@ -203,7 +203,6 @@ describe("Float16Array", () => {
 
     it("prototype methods are as same as themselves", () => {
         const float16 = new Float16Array();
-
         assert( float16.map === float16.map );
     });
 
@@ -302,7 +301,6 @@ describe("Float16Array", () => {
 
         it("return 'Float16Array' when access by instance", () => {
             const float16 = new Float16Array();
-
             assert( float16[Symbol.toStringTag] === "Float16Array" );
         });
 
@@ -473,7 +471,6 @@ describe("Float16Array", () => {
         it("add as string", () => {
             const float16 = new Float16Array([1, 2, 3]);
             const val = float16.reduce((prev, current) => prev + current, "");
-
             assert( val === "123" );
         });
 
@@ -516,7 +513,6 @@ describe("Float16Array", () => {
         it("add as string", () => {
             const float16 = new Float16Array([1, 2, 3]);
             const val = float16.reduceRight((prev, current) => prev + current, "");
-
             assert( val === "321" );
         });
 
@@ -979,7 +975,6 @@ describe("Float16Array", () => {
 
         it("same as Array", () => {
             const float16 = new Float16Array([1, 2, 3]);
-
             assert( float16.toLocaleString() === [1, 2, 3].toLocaleString() );            
         });
 
@@ -997,19 +992,16 @@ describe("Float16Array", () => {
 
         it("check toString", () => {
             const float16 = new Float16Array([1, 2, 3]);
-
             assert( float16.toString() === "1,2,3" );
         });
 
         it("call Array#toString by Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3]);
-
             assert( Array.prototype.toString.call(float16) === "1,2,3" );
         });
 
         it("call Float16Array#toString by Array", () => {
             const array = [1, 2, 3];
-
             assert( Float16Array.prototype.toString.call(array) === "1,2,3" );
         });
 
