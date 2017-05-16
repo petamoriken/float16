@@ -8,7 +8,7 @@ import memoize from "lodash-es/memoize";
 
 import { roundToFloat16Bits, convertNumber } from "./lib";
 
-import { isTypedArrayIndexedPropertyWritable, isProxyEnableToBeWeakMapKey } from "./bug";
+import { isTypedArrayIndexedPropertyWritable, isProxyAbleToBeWeakMapKey } from "./bug";
 
 
 const _ = createPrivateStorage();
@@ -69,7 +69,7 @@ const handler = {
                         
                         // peel off proxy                        
                         if(isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func))
-                            return Reflect.apply(func, isProxyEnableToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
+                            return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
 
                         return Reflect.apply(func, thisArg, args);
                     }
@@ -131,7 +131,7 @@ export default class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            super(isProxyEnableToBeWeakMapKey ? _(input).target : input[__target__]);
+            super(isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__]);
 
         // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if(input !== null && typeof input === "object" && !isArrayBuffer(input)) {
@@ -177,7 +177,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         // proxy private storage
-        if(isProxyEnableToBeWeakMapKey) {
+        if(isProxyAbleToBeWeakMapKey) {
             _(proxy).target = this;
         } else {
             this[__target__] = this;
@@ -369,7 +369,7 @@ export default class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            float16bits = isProxyEnableToBeWeakMapKey ? _(input).target : input[__target__];
+            float16bits = isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__];
         
         // input others
         } else {

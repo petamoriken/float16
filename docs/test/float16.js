@@ -1137,7 +1137,7 @@ const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new 
 
 // Chakra bug: https://github.com/Microsoft/ChakraCore/issues/1662
 const proxy = new Proxy({}, {});
-const isProxyEnableToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;
+const isProxyAbleToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;
 
 const _ = createPrivateStorage();
 
@@ -1197,7 +1197,7 @@ const handler = {
                         
                         // peel off proxy                        
                         if(isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func))
-                            return Reflect.apply(func, isProxyEnableToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
+                            return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
 
                         return Reflect.apply(func, thisArg, args);
                     }
@@ -1259,7 +1259,7 @@ class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            super(isProxyEnableToBeWeakMapKey ? _(input).target : input[__target__]);
+            super(isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__]);
 
         // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if(input !== null && typeof input === "object" && !isArrayBuffer(input)) {
@@ -1305,7 +1305,7 @@ class Float16Array extends Uint16Array {
         }
 
         // proxy private storage
-        if(isProxyEnableToBeWeakMapKey) {
+        if(isProxyAbleToBeWeakMapKey) {
             _(proxy).target = this;
         } else {
             this[__target__] = this;
@@ -1497,7 +1497,7 @@ class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            float16bits = isProxyEnableToBeWeakMapKey ? _(input).target : input[__target__];
+            float16bits = isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__];
         
         // input others
         } else {

@@ -3,4 +3,4 @@ export const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescript
 
 // Chakra bug: https://github.com/Microsoft/ChakraCore/issues/1662
 const proxy = new Proxy({}, {});
-export const isProxyEnableToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;
+export const isProxyAbleToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;

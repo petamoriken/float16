@@ -24,7 +24,7 @@ var _PowerAssertRecorder1 = function () {
 }();
 (function () {
     const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
-    const isProxyEnableToBeWeakMapKey = function () {
+    const isProxyAbleToBeWeakMapKey = function () {
         const proxy = new Proxy({}, {});
         return new WeakMap().set(proxy, 1).get(proxy) === 1;
     }();
@@ -431,7 +431,7 @@ var _PowerAssertRecorder1 = function () {
             }));
         });
         it('check ownKeys', function () {
-            if (!isTypedArrayIndexedPropertyWritable || !isProxyEnableToBeWeakMapKey)
+            if (!isTypedArrayIndexedPropertyWritable || !isProxyAbleToBeWeakMapKey)
                 this.skip();
             const float16 = new Float16Array([
                 1,
