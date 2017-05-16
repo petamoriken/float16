@@ -1,6 +1,7 @@
 {
   "name": "@petamoriken/float16",
-  "version": "0.0.2",
+  "description": "half precision floating point for JavaScript",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
   "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.kimamass.com)",
@@ -32,6 +33,8 @@
     "half-precision",
     "Float16Array",
     "TypedArray",
+    "getFloat16",
+    "setFloat16",
     "DataView",
     "hfround"
   ],
