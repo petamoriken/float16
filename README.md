@@ -26,13 +26,13 @@ This library's `Float16Array` uses `Proxy`, so IE11 is never supported.
 
 ## Install
 
-```bash
+```console
 yarn add @petamoriken/float16
 ```
 
 or
 
-```bash
+```console
 npm install @petamoriken/float16 --save
 ```
 
@@ -96,3 +96,32 @@ const { Float16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/
     Math.fround(1.337); // 1.3370000123977661
     hfround(1.337); // 1.3369140625
     ```
+
+## Test
+
+First, download devDependencies.
+
+```console
+yarn
+```
+
+### Node.js Test
+
+```console
+yarn test
+```
+
+### Browser Test
+
+Export your Sauce Labs environment variable.
+
+```console
+export SAUCE_USERNAME=<your Sauce Labs username>
+export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
+```
+
+Finally, exec below.
+
+```console
+yarn run test:browser
+```
