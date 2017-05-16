@@ -8,10 +8,12 @@ import memoize from "lodash-es/memoize";
 
 import { roundToFloat16Bits, convertNumber } from "./lib";
 
+import { isTypedArrayIndexedPropertyWritable, isProxyEnableToBeWeakMapKey } from "./bug";
 
-const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
 
 const _ = createPrivateStorage();
+
+const __target__ = Symbol("target");
 
 
 function isFloat16Array(target) {
@@ -43,7 +45,6 @@ function copyToArray(float16bits) {
 // proxy handler
 const handler = {
     get(target, key) {
-        // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
         let wrapper = null;
         if(!isTypedArrayIndexedPropertyWritable) {
             wrapper = target;
@@ -58,16 +59,17 @@ const handler = {
 
             if(typeof ret !== "function")
                 return ret;
-            
+
             // TypedArray methods can't be called by Proxy
             let proxy = _(ret).proxy;
 
             if(proxy === undefined) {
                 proxy = _(ret).proxy = new Proxy(ret, {
                     apply(func, thisArg, args) {
+                        
                         // peel off proxy                        
                         if(isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func))
-                            return Reflect.apply(func, _(thisArg).target, args);
+                            return Reflect.apply(func, isProxyEnableToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
 
                         return Reflect.apply(func, thisArg, args);
                     }
@@ -79,7 +81,6 @@ const handler = {
     },
 
     set(target, key, value) {
-        // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
         let wrapper = null;
         if(!isTypedArrayIndexedPropertyWritable) {
             wrapper = target;
@@ -130,7 +131,7 @@ export default class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            super(_(input).target);
+            super(isProxyEnableToBeWeakMapKey ? _(input).target : input[__target__]);
 
         // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if(input !== null && typeof input === "object" && !isArrayBuffer(input)) {
@@ -167,7 +168,6 @@ export default class Float16Array extends Uint16Array {
         
         let proxy;
 
-        // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
         if(isTypedArrayIndexedPropertyWritable) {
             proxy = new Proxy(this, handler);
         } else {
@@ -177,7 +177,11 @@ export default class Float16Array extends Uint16Array {
         }
 
         // proxy private storage
-        _(proxy).target = this;
+        if(isProxyEnableToBeWeakMapKey) {
+            _(proxy).target = this;
+        } else {
+            this[__target__] = this;
+        }
 
         // this private storage
         _(this).proxy = proxy;
@@ -365,7 +369,7 @@ export default class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            float16bits = _(input).target;
+            float16bits = isProxyEnableToBeWeakMapKey ? _(input).target : input[__target__];
         
         // input others
         } else {

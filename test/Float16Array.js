@@ -1,6 +1,10 @@
 (function() {
 
 const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
+const isProxyEnableToBeWeakMapKey = (function() {
+    const proxy = new Proxy({}, {}); 
+    return new WeakMap().set(proxy, 1).get(proxy) === 1;
+})();
 
 function isPlusZero(num) {
     return num === 0 && 1 / num === Infinity;
@@ -173,6 +177,14 @@ describe("Float16Array", () => {
 
         float16.map = "map";
         assert( typeof float16.map === "function" );
+    });
+
+    it("check ownKeys", function() {
+        if(!isProxyEnableToBeWeakMapKey)
+            this.skip();
+
+        const float16 = new Float16Array([1, 2]);
+        deepEqualArray( Reflect.ownKeys(float16), ["0", "1"] );
     });
 
     it("append custom methods (not using `super`)", () => {
@@ -723,8 +735,8 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3, 4, 5]);
             const array = [10, 11];
 
-            assert.throws(() => float16.set(array, -1), Error); // V8 bug: RangeError by spec but throws TypeError
-            assert.throws(() => float16.set(array, 4), RangeError);
+            assert.throws(() => float16.set(array, -1), Error); // RangeError, V8 bug: throws TypeError
+            assert.throws(() => float16.set(array, 4), Error); // RangeError, Chakra bug: throws TypeError
         });
 
     });

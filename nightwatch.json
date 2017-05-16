@@ -61,6 +61,14 @@
             }
         },
 
+        "edge": {
+            "desiredCapabilities": {
+                "platform": "Windows 10",
+                "browserName": "MicrosoftEdge",
+                "version": "14.14393"
+            }
+        },
+
         "safari": {
             "desiredCapabilities": {
                 "platform": "macOS 10.12",
