@@ -14,7 +14,7 @@ function asyncElementIdText(client, element) {
 
 module.exports = {
     ["browser test"](client) {
-        client.url("https://petamoriken.github.io/float16/test/power")
+        client.url(process.env.SAUCE_URL || "https://petamoriken.github.io/float16/test/power")
             .pause(1000);
         
         client.elements("css selector", "#mocha-report .fail .error", async e => {

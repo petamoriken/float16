@@ -113,11 +113,17 @@ yarn test
 
 ### Browser Test
 
-Export your Sauce Labs environment variable.
+Export your Sauce Labs environment variables.
 
 ```console
 export SAUCE_USERNAME=<your Sauce Labs username>
 export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
+```
+
+Export a test page URL.
+
+```console
+export SAUCE_URL=<browser test url> # default: https://petamoriken.github.io/float16/test/power
 ```
 
 Finally, exec below.

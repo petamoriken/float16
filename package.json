@@ -26,7 +26,8 @@
     "src",
     "lib",
     "browser",
-    "test"
+    "test",
+    "nightwatch_custom"
   ],
   "keywords": [
     "float16",
