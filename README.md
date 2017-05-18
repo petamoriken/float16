@@ -1,6 +1,7 @@
 # float16
 
-half precision floating point for JavaScript
+half precision floating point for JavaScript.  
+see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array).
 
 [![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/issues)
@@ -113,17 +114,19 @@ yarn test
 
 ### Browser Test
 
-Export your Sauce Labs environment variables.
+Access [test page](https://petamoriken.github.io/float16/test) ([PowerAssert version](https://petamoriken.github.io/float16/test/power)).
+
+If you want to test in [Sauce Labs](https://saucelabs.com/), export environment variables.
 
 ```console
 export SAUCE_USERNAME=<your Sauce Labs username>
 export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
 ```
 
-Export a test page URL.
+(optional) Export a test page URL (default: https://petamoriken.github.io/float16/test/power).
 
 ```console
-export SAUCE_URL=<browser test url> # default: https://petamoriken.github.io/float16/test/power
+export SAUCE_URL=<browser test url>
 ```
 
 Finally, exec below.
