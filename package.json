@@ -51,7 +51,7 @@
     "lint": "eslint src",
     "test": "yarn run lint && yarn run test:lib",
     "test:lib": "mocha",
-    "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,edge,safari,safari_el",
+    "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,safari,safari_el",
     "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js docs/test/*.map",
     "refresh": "yarn run clean && yarn run build && yarn run docs",
     "prepublish": "in-publish && yarn run clean && yarn run build && yarn test || not-in-publish"

@@ -61,6 +61,14 @@
             }
         },
 
+        "firefox_esr": {
+            "desiredCapabilities": {
+                "platform": "Windows 10",
+                "browserName": "firefox",
+                "version": "45"
+            }
+        },
+
         "edge": {
             "desiredCapabilities": {
                 "platform": "Windows 10",
