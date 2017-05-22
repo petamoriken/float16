@@ -1,7 +1,7 @@
 {
     "presets": [["env", {
         "targets": {
-            "browsers": ["last 2 versions", "not ie >= 10", "Firefox ESR"]
+            "browsers": ["last 2 versions", "not ie >= 10", "not android >= 4.4.3", "Firefox ESR"]
         },
         "exclude": ["transform-regenerator"]
     }]],
