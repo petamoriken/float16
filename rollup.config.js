@@ -1,5 +1,6 @@
-import nodeResolve from "rollup-plugin-node-resolve";
-import license from "rollup-plugin-license";
+import loadPlugins from "rollup-load-plugins";
+
+const $ = loadPlugins();
 
 const banner =
 `<%= pkg.name %> <%= pkg.version %> - https://github.com/petamoriken/float16
@@ -13,8 +14,18 @@ export default {
     entry: "src/index.js",
     dest: "browser/float16.js",
     plugins: [
-        nodeResolve({ browser: true }),
-        license({ banner })
+        $.nodeResolve({ browser: true }),
+        $.babel({
+            babelrc: false,
+            presets: [["env", {
+                targets: {
+                    browsers: ["last 2 versions", "not ie >= 10", "not android >= 4.4.3", "Firefox ESR"]
+                },
+                modules: false,
+                exclude: ["transform-regenerator"]
+            }]]
+        }),
+        $.license({ banner })
     ],
     moduleName: "float16",
     format: "iife"
