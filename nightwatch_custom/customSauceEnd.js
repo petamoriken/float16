@@ -17,7 +17,6 @@ exports.command = function() {
     }, noop);
 
     console.log("SauceOnDemandSessionID: ", sessionId);
-    console.log("jobName: ", jobName);
     
     this.end();
 };

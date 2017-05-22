@@ -33,7 +33,7 @@
             "desiredCapabilities": {
                 "platform": "Windows 10",
                 "browserName": "chrome",
-                "version": "58"
+                "version": "latest"
             }
         },
 
@@ -41,7 +41,7 @@
             "desiredCapabilities": {
                 "platform": "Windows 10",
                 "browserName": "chrome",
-                "version": "57"
+                "version": "latest-1"
             }
         },
 
@@ -49,7 +49,7 @@
             "desiredCapabilities": {
                 "platform": "Windows 10",
                 "browserName": "firefox",
-                "version": "53"
+                "version": "latest"
             }
         },
 
@@ -57,7 +57,7 @@
             "desiredCapabilities": {
                 "platform": "Windows 10",
                 "browserName": "firefox",
-                "version": "52"
+                "version": "latest-1"
             }
         },
 
@@ -65,7 +65,7 @@
             "desiredCapabilities": {
                 "platform": "Windows 10",
                 "browserName": "MicrosoftEdge",
-                "version": "14.14393"
+                "version": "latest"
             }
         },
 
@@ -73,7 +73,7 @@
             "desiredCapabilities": {
                 "platform": "macOS 10.12",
                 "browserName": "safari",
-                "version": "10.0"
+                "version": "latest"
             }
         },
 
@@ -81,7 +81,7 @@
             "desiredCapabilities": {
                 "platform": "OS X 10.11",
                 "browserName": "safari",
-                "version": "10.0"
+                "version": "latest"
             }
         }
     }
