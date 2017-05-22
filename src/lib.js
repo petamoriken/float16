@@ -1,3 +1,5 @@
+// ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
+
 "use strict";
 
 const buffer = new ArrayBuffer(4);
@@ -51,7 +53,6 @@ for(let i = 0; i < 256; ++i) {
 /**
  * round a number to a half float number bits.
  * @param {number} num
- * @see {@link ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf}
  */
 export function roundToFloat16Bits(num) {
     floatView[0] = num;
@@ -112,7 +113,6 @@ for(let i = 1; i < 64; ++i) {
 /**
  * convert a half float number bits to a number.
  * @param {number} h - half float number bits
- * @see {@link ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf}
  */
 export function convertNumber(h) {
     const m = h >> 10;

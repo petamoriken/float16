@@ -1,6 +1,8 @@
 (function (exports) {
 'use strict';
 
+// ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
+
 const buffer = new ArrayBuffer(4);
 const floatView = new Float32Array(buffer);
 const uint32View = new Uint32Array(buffer);
@@ -52,7 +54,6 @@ for(let i = 0; i < 256; ++i) {
 /**
  * round a number to a half float number bits.
  * @param {number} num
- * @see {@link ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf}
  */
 function roundToFloat16Bits(num) {
     floatView[0] = num;
@@ -113,7 +114,6 @@ for(let i = 1; i < 64; ++i) {
 /**
  * convert a half float number bits to a number.
  * @param {number} h - half float number bits
- * @see {@link ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf}
  */
 function convertNumber(h) {
     const m = h >> 10;
@@ -1135,7 +1135,7 @@ memoize.Cache = MapCache;
 // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
 const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
 
-// Chakra bug: https://github.com/Microsoft/ChakraCore/issues/1662
+// Chakra (Edge <= 14) bug: https://github.com/Microsoft/ChakraCore/issues/1662
 const proxy = new Proxy({}, {});
 const isProxyAbleToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;
 

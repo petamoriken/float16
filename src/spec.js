@@ -1,3 +1,5 @@
+"use strict";
+
 import { isPlusZero } from "./is";
 
 export function ToInteger(num) {
