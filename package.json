@@ -72,6 +72,7 @@
     "nightwatch": "^0.9.15",
     "power-assert": "^1.4.2",
     "rollup": "^0.41.6",
+    "rollup-plugin-license": "^0.4.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "saucelabs": "^1.4.0"
   },

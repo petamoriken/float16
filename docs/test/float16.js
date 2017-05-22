@@ -1,3 +1,11 @@
+/**
+ * @petamoriken/float16 1.0.1 - https://github.com/petamoriken/float16
+ * generated at 2017-05-23 02:32 +09:00
+ *
+ * ---
+ * lodash-es 4.17.4
+ */
+
 (function (exports) {
 'use strict';
 
