@@ -132,5 +132,5 @@ export SAUCE_URL=<browser test url>
 Finally, exec below.
 
 ```console
-yarn run test:browser
+yarn run test-browser
 ```

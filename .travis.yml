@@ -14,4 +14,4 @@ before_script:
 
 script:
   - yarn test
-  - yarn run test:browser
+  - yarn run test-browser
