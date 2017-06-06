@@ -15,13 +15,13 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array).
 
 ## Supports (at least)
 
-Last 2 versions of modern browser (Chrome, Firefox) and latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
+Last 2 versions of modern browsers (Chrome, Firefox) and the latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
 
-* Chrome: Last 2 versions
-* Firefox: Last 2 versions and ESR
-* Edge: Latest version
-* Safari: Latest version
-* Node.js: Latest version
+* Chrome: last 2 versions
+* Firefox: last 2 versions and ESR
+* Edge: the latest version
+* Safari: the latest version
+* Node.js: the latest version
 
 This library's `Float16Array` uses `Proxy`, so IE11 is never supported.
 
