@@ -11,14 +11,16 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 [![dependencies Status](https://david-dm.org/petamoriken/float16/status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16)
 [![devDependencies Status](https://david-dm.org/petamoriken/float16/dev-status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16?type=dev)
 
+[![Sauce Labs browser matrix](https://saucelabs.com/browser-matrix/petamoriken.svg)](https://saucelabs.com/u/petamoriken)
+
 
 
 ## Supports (at least)
 
 The last 2 versions of modern browsers (Chrome, Firefox) and the latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
 
-* Chrome: last 2 versions
 * Firefox: last 2 versions and ESR
+* Chrome: last 2 versions
 * Edge: latest version
 * Safari: latest version
 * Node.js: latest version
@@ -39,6 +41,8 @@ npm install @petamoriken/float16 --save
 
 ## Require
 
+### npm, yarn package
+
 ```js
 // ES6 Modules
 import { Float16Array, getFloat16, setFloat16, hfround } from "@petamoriken/float16";
@@ -49,6 +53,17 @@ or
 ```js
 // CommonJS
 const { Float16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/float16");
+```
+
+### Browser
+
+Copy [the build file for browsers](browser/float16.js) to your project directory.
+
+```html
+<script src="DEST/TO/float16.js"></script>
+<script>
+    const { Float16Array, getFloat16, setFloat16, hfround } = float16;
+</script>
 ```
 
 ## API
@@ -97,6 +112,10 @@ const { Float16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/
     Math.fround(1.337); // 1.3370000123977661
     hfround(1.337); // 1.3369140625
     ```
+
+## Bug
+
+Some browsers have JavaScript bugs. Please see [Float16Array test code](test/Float16Array.js) and search `this.skip()`.
 
 ## Test
 
