@@ -1,7 +1,7 @@
 # float16
 
-half precision floating point for JavaScript.  
-see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array).
+half precision floating point for JavaScript  
+see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 [![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/issues)
@@ -15,13 +15,13 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array).
 
 ## Supports (at least)
 
-Last 2 versions of modern browsers (Chrome, Firefox) and the latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
+The last 2 versions of modern browsers (Chrome, Firefox) and the latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
 
 * Chrome: last 2 versions
 * Firefox: last 2 versions and ESR
-* Edge: the latest version
-* Safari: the latest version
-* Node.js: the latest version
+* Edge: latest version
+* Safari: latest version
+* Node.js: latest version
 
 This library's `Float16Array` uses `Proxy`, so IE11 is never supported.
 
