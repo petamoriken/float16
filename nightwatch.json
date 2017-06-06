@@ -1,7 +1,7 @@
 {
     "src_folders": "test/browser",
     "output_folder": "test_report",
-    "custom_commands_path" : "nightwatch_custom",
+    "custom_commands_path" : "test/nightwatch_custom",
 
     "selenium": {
         "start_process": false,
