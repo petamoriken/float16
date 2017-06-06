@@ -18,6 +18,8 @@
     "package.json",
     "README.md",
     "LICENSE",
+    "nightwatch.json",
+    "nightwatch.conf.js",
     "rollup.config.js",
     ".babelrc",
     ".eslintignore",
