@@ -81,7 +81,7 @@
             "desiredCapabilities": {
                 "platform": "Windows 10",
                 "browserName": "MicrosoftEdge",
-                "version": "latest-1"
+                "version": "14.14393"
             }
         },
 
