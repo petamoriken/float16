@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 1.0.3 - https://github.com/petamoriken/float16
- * generated at 2017-06-06 19:20 +09:00
+ * generated at 2017-06-21 17:01 +09:00
  *
  * ---
  * lodash-es 4.17.4
@@ -11,39 +11,39 @@
 
 // ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
 
-var buffer = new ArrayBuffer(4);
-var floatView = new Float32Array(buffer);
-var uint32View = new Uint32Array(buffer);
+const buffer = new ArrayBuffer(4);
+const floatView = new Float32Array(buffer);
+const uint32View = new Uint32Array(buffer);
 
-var baseTable = new Uint32Array(512);
-var shiftTable = new Uint32Array(512);
+const baseTable = new Uint32Array(512);
+const shiftTable = new Uint32Array(512);
 
-for (var i = 0; i < 256; ++i) {
-    var e$1 = i - 127;
+for (let i = 0; i < 256; ++i) {
+    const e = i - 127;
 
     // very small number (0, -0)
-    if (e$1 < -27) {
+    if (e < -27) {
         baseTable[i | 0x000] = 0x0000;
         baseTable[i | 0x100] = 0x8000;
         shiftTable[i | 0x000] = 24;
         shiftTable[i | 0x100] = 24;
 
         // small number (denorm)
-    } else if (e$1 < -14) {
-        baseTable[i | 0x000] = 0x0400 >> -e$1 - 14;
-        baseTable[i | 0x100] = 0x0400 >> -e$1 - 14 | 0x8000;
-        shiftTable[i | 0x000] = -e$1 - 1;
-        shiftTable[i | 0x100] = -e$1 - 1;
+    } else if (e < -14) {
+        baseTable[i | 0x000] = 0x0400 >> -e - 14;
+        baseTable[i | 0x100] = 0x0400 >> -e - 14 | 0x8000;
+        shiftTable[i | 0x000] = -e - 1;
+        shiftTable[i | 0x100] = -e - 1;
 
         // normal number
-    } else if (e$1 <= 15) {
-        baseTable[i | 0x000] = e$1 + 15 << 10;
-        baseTable[i | 0x100] = e$1 + 15 << 10 | 0x8000;
+    } else if (e <= 15) {
+        baseTable[i | 0x000] = e + 15 << 10;
+        baseTable[i | 0x100] = e + 15 << 10 | 0x8000;
         shiftTable[i | 0x000] = 13;
         shiftTable[i | 0x100] = 13;
 
         // large number (Infinity, -Infinity)
-    } else if (e$1 < 128) {
+    } else if (e < 128) {
         baseTable[i | 0x000] = 0x7c00;
         baseTable[i | 0x100] = 0xfc00;
         shiftTable[i | 0x000] = 24;
@@ -65,55 +65,55 @@ for (var i = 0; i < 256; ++i) {
 function roundToFloat16Bits(num) {
     floatView[0] = num;
 
-    var f = uint32View[0];
-    var e = f >> 23 & 0x1ff;
+    const f = uint32View[0];
+    const e = f >> 23 & 0x1ff;
     return baseTable[e] + ((f & 0x007fffff) >> shiftTable[e]);
 }
 
-var mantissaTable = new Uint32Array(2048);
-var exponentTable = new Uint32Array(64);
-var offsetTable = new Uint32Array(64);
+const mantissaTable = new Uint32Array(2048);
+const exponentTable = new Uint32Array(64);
+const offsetTable = new Uint32Array(64);
 
 // mantissa
 mantissaTable[0] = 0;
-for (var _i = 1; _i < 1024; ++_i) {
-    var m = _i << 13; // zero pad mantissa bits
-    var _e = 0; // zero exponent
+for (let i = 1; i < 1024; ++i) {
+    let m = i << 13; // zero pad mantissa bits
+    let e = 0; // zero exponent
 
     // normalized
     while ((m & 0x00800000) === 0) {
-        _e -= 0x00800000; // decrement exponent
+        e -= 0x00800000; // decrement exponent
         m <<= 1;
     }
 
     m &= ~0x00800000; // clear leading 1 bit
-    _e += 0x38800000; // adjust bias
+    e += 0x38800000; // adjust bias
 
-    mantissaTable[_i] = m | _e;
+    mantissaTable[i] = m | e;
 }
-for (var _i2 = 1024; _i2 < 2048; ++_i2) {
-    mantissaTable[_i2] = 0x38000000 + (_i2 - 1024 << 13);
+for (let i = 1024; i < 2048; ++i) {
+    mantissaTable[i] = 0x38000000 + (i - 1024 << 13);
 }
 
 // exponent
 exponentTable[0] = 0;
-for (var _i3 = 1; _i3 < 31; ++_i3) {
-    exponentTable[_i3] = _i3 << 23;
+for (let i = 1; i < 31; ++i) {
+    exponentTable[i] = i << 23;
 }
 exponentTable[31] = 0x47800000;
 exponentTable[32] = 0x80000000;
-for (var _i4 = 33; _i4 < 63; ++_i4) {
-    exponentTable[_i4] = 0x80000000 + (_i4 - 32 << 23);
+for (let i = 33; i < 63; ++i) {
+    exponentTable[i] = 0x80000000 + (i - 32 << 23);
 }
 exponentTable[63] = 0xc7800000;
 
 // offset
 offsetTable[0] = 0;
-for (var _i5 = 1; _i5 < 64; ++_i5) {
-    if (_i5 === 32) {
-        offsetTable[_i5] = 0;
+for (let i = 1; i < 64; ++i) {
+    if (i === 32) {
+        offsetTable[i] = 0;
     } else {
-        offsetTable[_i5] = 1024;
+        offsetTable[i] = 1024;
     }
 }
 
@@ -122,7 +122,7 @@ for (var _i5 = 1; _i5 < 64; ++_i5) {
  * @param {number} h - half float number bits
  */
 function convertNumber(h) {
-    var m = h >> 10;
+    const m = h >> 10;
     uint32View[0] = mantissaTable[offsetTable[m] + (h & 0x3ff)] + exponentTable[m];
     return floatView[0];
 }
@@ -139,7 +139,7 @@ function hfround(num) {
         return num;
     }
 
-    var x16 = roundToFloat16Bits(num);
+    const x16 = roundToFloat16Bits(num);
     return convertNumber(x16);
 }
 
@@ -479,9 +479,9 @@ function ToInteger(num) {
 }
 
 function defaultCompareFunction(x, y) {
-    var _ref = [Number.isNaN(x), Number.isNaN(y)],
-        isNaN_x = _ref[0],
-        isNaN_y = _ref[1];
+    var _ref = [Number.isNaN(x), Number.isNaN(y)];
+    const isNaN_x = _ref[0],
+          isNaN_y = _ref[1];
 
 
     if (isNaN_x && isNaN_y) return 0;
@@ -495,9 +495,9 @@ function defaultCompareFunction(x, y) {
     if (x > y) return 1;
 
     if (x === 0 && y === 0) {
-        var _ref2 = [isPlusZero(x), isPlusZero(y)],
-            isPlusZero_x = _ref2[0],
-            isPlusZero_y = _ref2[1];
+        var _ref2 = [isPlusZero(x), isPlusZero(y)];
+        const isPlusZero_x = _ref2[0],
+              isPlusZero_y = _ref2[1];
 
 
         if (!isPlusZero_x && isPlusZero_y) return -1;
@@ -509,9 +509,9 @@ function defaultCompareFunction(x, y) {
 }
 
 function createPrivateStorage() {
-	var wm = new WeakMap();
+	const wm = new WeakMap();
 	return self => {
-		var obj = wm.get(self);
+		let obj = wm.get(self);
 		if (obj) {
 			return obj;
 		} else {
@@ -1129,17 +1129,17 @@ memoize.Cache = MapCache;
 
 // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
 
-var isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
+const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
 
 // Chakra (Edge <= 14) bug: https://github.com/Microsoft/ChakraCore/issues/1662
-var proxy = new Proxy({}, {});
-var isProxyAbleToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;
+const proxy = new Proxy({}, {});
+const isProxyAbleToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _ = createPrivateStorage();
+const _ = createPrivateStorage();
 
-var __target__ = Symbol("target");
+const __target__ = Symbol("target");
 
 function isFloat16Array(target) {
     return target instanceof Float16Array;
@@ -1156,10 +1156,10 @@ function isDefaultFloat16ArrayMethods(target) {
 }
 
 function copyToArray(float16bits) {
-    var length = float16bits.length;
+    const length = float16bits.length;
 
-    var array = new Array(length);
-    for (var i = 0; i < length; ++i) {
+    const array = new Array(length);
+    for (let i = 0; i < length; ++i) {
         array[i] = convertNumber(float16bits[i]);
     }
 
@@ -1167,9 +1167,9 @@ function copyToArray(float16bits) {
 }
 
 // proxy handler
-var handler = {
+const handler = {
     get(target, key) {
-        var wrapper = null;
+        let wrapper = null;
         if (!isTypedArrayIndexedPropertyWritable) {
             wrapper = target;
             target = _(wrapper).target;
@@ -1178,12 +1178,12 @@ var handler = {
         if (isNumberKey(key)) {
             return convertNumber(Reflect.get(target, key));
         } else {
-            var ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
+            const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
 
             if (typeof ret !== "function") return ret;
 
             // TypedArray methods can't be called by Proxy
-            var proxy = _(ret).proxy;
+            let proxy = _(ret).proxy;
 
             if (proxy === undefined) {
                 proxy = _(ret).proxy = new Proxy(ret, {
@@ -1202,7 +1202,7 @@ var handler = {
     },
 
     set(target, key, value) {
-        var wrapper = null;
+        let wrapper = null;
         if (!isTypedArrayIndexedPropertyWritable) {
             wrapper = target;
             target = _(wrapper).target;
@@ -1226,11 +1226,11 @@ if (!isTypedArrayIndexedPropertyWritable) {
     handler.setPrototypeOf = (wrapper, prototype) => Reflect.setPrototypeOf(_(wrapper).target, prototype);
 
     handler.defineProperty = (wrapper, key, descriptor) => {
-        var target = _(wrapper).target;
+        const target = _(wrapper).target;
         return !Reflect.has(target, key) || Object.isFrozen(wrapper) ? Reflect.defineProperty(wrapper, key, descriptor) : Reflect.defineProperty(target, key, descriptor);
     };
     handler.deleteProperty = (wrapper, key) => {
-        var target = _(wrapper).target;
+        const target = _(wrapper).target;
         return Reflect.has(wrapper, key) ? Reflect.deleteProperty(wrapper, key) : Reflect.deleteProperty(target, key);
     };
 
@@ -1254,12 +1254,12 @@ class Float16Array extends Uint16Array {
             // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if (input !== null && typeof input === "object" && !isArrayBuffer(input)) {
             // if input is Iterable, get Array
-            var array = isArrayLike(input) ? input : [...input];
+            const array = isArrayLike(input) ? input : [...input];
 
-            var _length = array.length;
-            super(_length);
+            const length = array.length;
+            super(length);
 
-            for (var i = 0; i < _length; ++i) {
+            for (let i = 0; i < length; ++i) {
                 // super (Uint16Array)
                 this[i] = roundToFloat16Bits(array[i]);
             }
@@ -1284,12 +1284,12 @@ class Float16Array extends Uint16Array {
             }
         }
 
-        var proxy = void 0;
+        let proxy;
 
         if (isTypedArrayIndexedPropertyWritable) {
             proxy = new Proxy(this, handler);
         } else {
-            var wrapper = Object.create(null);
+            const wrapper = Object.create(null);
             _(wrapper).target = this;
             proxy = new Proxy(wrapper, handler);
         }
@@ -1311,8 +1311,8 @@ class Float16Array extends Uint16Array {
     static from(src) {
         if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
 
-        var mapFunc = arguments.length <= 1 ? undefined : arguments[1];
-        var thisArg = arguments.length <= 2 ? undefined : arguments[2];
+        const mapFunc = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 2 ? undefined : arguments[2];
 
         return new Float16Array(Uint16Array.from(src, function (val) {
             for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -1339,7 +1339,7 @@ class Float16Array extends Uint16Array {
 
         try {
             for (var _iterator = super[Symbol.iterator]()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var val = _step.value;
+                const val = _step.value;
 
                 yield convertNumber(val);
             }
@@ -1370,7 +1370,7 @@ class Float16Array extends Uint16Array {
 
         try {
             for (var _iterator2 = super.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var val = _step2.value;
+                const val = _step2.value;
 
                 yield convertNumber(val);
             }
@@ -1397,12 +1397,12 @@ class Float16Array extends Uint16Array {
 
         try {
             for (var _iterator3 = super.entries()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                var _ref = _step3.value;
+                const _ref = _step3.value;
 
                 var _ref2 = _slicedToArray(_ref, 2);
 
-                var i = _ref2[0];
-                var val = _ref2[1];
+                const i = _ref2[0];
+                const val = _ref2[1];
 
                 yield [i, convertNumber(val)];
             }
@@ -1426,11 +1426,11 @@ class Float16Array extends Uint16Array {
     map(callback) {
         assertFloat16Array(this);
 
-        var thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
-        var array = [];
-        for (var i = 0, l = this.length; i < l; ++i) {
-            var val = convertNumber(this[i]);
+        const array = [];
+        for (let i = 0, l = this.length; i < l; ++i) {
+            const val = convertNumber(this[i]);
             array.push(callback.call(thisArg, val, i, _(this).proxy));
         }
 
@@ -1440,11 +1440,11 @@ class Float16Array extends Uint16Array {
     filter(callback) {
         assertFloat16Array(this);
 
-        var thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
-        var array = [];
-        for (var i = 0, l = this.length; i < l; ++i) {
-            var val = convertNumber(this[i]);
+        const array = [];
+        for (let i = 0, l = this.length; i < l; ++i) {
+            const val = convertNumber(this[i]);
 
             if (callback.call(thisArg, val, i, _(this).proxy)) array.push(val);
         }
@@ -1455,8 +1455,7 @@ class Float16Array extends Uint16Array {
     reduce(callback) {
         assertFloat16Array(this);
 
-        var val = void 0,
-            start = void 0;
+        let val, start;
 
         if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) {
             val = convertNumber(this[0]);
@@ -1466,7 +1465,7 @@ class Float16Array extends Uint16Array {
             start = 0;
         }
 
-        for (var i = start, l = this.length; i < l; ++i) {
+        for (let i = start, l = this.length; i < l; ++i) {
             val = callback(val, convertNumber(this[i]), i, _(this).proxy);
         }
 
@@ -1476,10 +1475,9 @@ class Float16Array extends Uint16Array {
     reduceRight(callback) {
         assertFloat16Array(this);
 
-        var val = void 0,
-            start = void 0;
+        let val, start;
 
-        var length = this.length;
+        const length = this.length;
         if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) {
             val = convertNumber(this[length - 1]);
             start = length - 1;
@@ -1488,7 +1486,7 @@ class Float16Array extends Uint16Array {
             start = length;
         }
 
-        for (var i = start; i--;) {
+        for (let i = start; i--;) {
             val = callback(val, convertNumber(this[i]), i, _(this).proxy);
         }
 
@@ -1498,9 +1496,9 @@ class Float16Array extends Uint16Array {
     forEach(callback) {
         assertFloat16Array(this);
 
-        var thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
-        for (var i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             callback.call(thisArg, convertNumber(this[i]), i, _(this).proxy);
         }
     }
@@ -1508,10 +1506,10 @@ class Float16Array extends Uint16Array {
     find(callback) {
         assertFloat16Array(this);
 
-        var thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
-        for (var i = 0, l = this.length; i < l; ++i) {
-            var value = convertNumber(this[i]);
+        for (let i = 0, l = this.length; i < l; ++i) {
+            const value = convertNumber(this[i]);
             if (callback.call(thisArg, value, i, _(this).proxy)) return value;
         }
     }
@@ -1519,10 +1517,10 @@ class Float16Array extends Uint16Array {
     findIndex(callback) {
         assertFloat16Array(this);
 
-        var thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
-        for (var i = 0, l = this.length; i < l; ++i) {
-            var value = convertNumber(this[i]);
+        for (let i = 0, l = this.length; i < l; ++i) {
+            const value = convertNumber(this[i]);
             if (callback.call(thisArg, value, i, _(this).proxy)) return i;
         }
 
@@ -1532,9 +1530,9 @@ class Float16Array extends Uint16Array {
     every(callback) {
         assertFloat16Array(this);
 
-        var thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
-        for (var i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             if (!callback.call(thisArg, convertNumber(this[i]), i, _(this).proxy)) return false;
         }
 
@@ -1544,9 +1542,9 @@ class Float16Array extends Uint16Array {
     some(callback) {
         assertFloat16Array(this);
 
-        var thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
-        for (var i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             if (callback.call(thisArg, convertNumber(this[i]), i, _(this).proxy)) return true;
         }
 
@@ -1557,9 +1555,9 @@ class Float16Array extends Uint16Array {
     set(input) {
         assertFloat16Array(this);
 
-        var offset = arguments.length <= 1 ? undefined : arguments[1];
+        const offset = arguments.length <= 1 ? undefined : arguments[1];
 
-        var float16bits = void 0;
+        let float16bits;
 
         // input Float16Array
         if (isFloat16Array(input)) {
@@ -1567,11 +1565,11 @@ class Float16Array extends Uint16Array {
 
             // input others
         } else {
-            var array = isArrayLike(input) ? input : [...input];
-            var length = array.length;
+            const array = isArrayLike(input) ? input : [...input];
+            const length = array.length;
 
             float16bits = new Uint16Array(length);
-            for (var i = 0, l = array.length; i < l; ++i) {
+            for (let i = 0, l = array.length; i < l; ++i) {
                 float16bits[i] = roundToFloat16Bits(array[i]);
             }
         }
@@ -1614,13 +1612,13 @@ class Float16Array extends Uint16Array {
     sort() {
         assertFloat16Array(this);
 
-        var compareFunction = arguments.length <= 0 ? undefined : arguments[0];
+        let compareFunction = arguments.length <= 0 ? undefined : arguments[0];
 
         if (compareFunction === undefined) {
             compareFunction = defaultCompareFunction;
         }
 
-        var _convertNumber = memoize(convertNumber);
+        const _convertNumber = memoize(convertNumber);
 
         super.sort((x, y) => compareFunction(_convertNumber(x), _convertNumber(y)));
 
@@ -1631,14 +1629,14 @@ class Float16Array extends Uint16Array {
     slice() {
         assertFloat16Array(this);
 
-        var float16bits = void 0;
+        let float16bits;
 
         // V8, SpiderMonkey, JavaScriptCore throw TypeError
         try {
             float16bits = super.slice(...arguments);
         } catch (e) {
             if (e instanceof TypeError) {
-                var uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+                const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
                 float16bits = uint16.slice(...arguments);
             } else {
                 throw e;
@@ -1651,14 +1649,14 @@ class Float16Array extends Uint16Array {
     subarray() {
         assertFloat16Array(this);
 
-        var float16bits = void 0;
+        let float16bits;
 
         // SpiderMonkey, JavaScriptCore throw TypeError
         try {
             float16bits = super.subarray(...arguments);
         } catch (e) {
             if (e instanceof TypeError) {
-                var uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+                const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
                 float16bits = uint16.subarray(...arguments);
             } else {
                 throw e;
@@ -1672,16 +1670,16 @@ class Float16Array extends Uint16Array {
     indexOf(element) {
         assertFloat16Array(this);
 
-        var length = this.length;
+        const length = this.length;
 
-        var from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
+        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
 
         if (from < 0) {
             from += length;
             if (from < 0) from = 0;
         }
 
-        for (var i = from, l = length; i < l; ++i) {
+        for (let i = from, l = length; i < l; ++i) {
             if (convertNumber(this[i]) === element) return i;
         }
 
@@ -1691,9 +1689,9 @@ class Float16Array extends Uint16Array {
     lastIndexOf(element) {
         assertFloat16Array(this);
 
-        var length = this.length;
+        const length = this.length;
 
-        var from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
+        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
 
         from = from === 0 ? length : from + 1;
 
@@ -1703,7 +1701,7 @@ class Float16Array extends Uint16Array {
             from += length;
         }
 
-        for (var i = from; i--;) {
+        for (let i = from; i--;) {
             if (convertNumber(this[i]) === element) return i;
         }
 
@@ -1713,18 +1711,18 @@ class Float16Array extends Uint16Array {
     includes(element) {
         assertFloat16Array(this);
 
-        var length = this.length;
+        const length = this.length;
 
-        var from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
+        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
 
         if (from < 0) {
             from += length;
             if (from < 0) from = 0;
         }
 
-        var isNaN = Number.isNaN(element);
-        for (var i = from, l = length; i < l; ++i) {
-            var value = convertNumber(this[i]);
+        const isNaN = Number.isNaN(element);
+        for (let i = from, l = length; i < l; ++i) {
+            const value = convertNumber(this[i]);
 
             if (isNaN && Number.isNaN(value)) return true;
 
@@ -1738,7 +1736,7 @@ class Float16Array extends Uint16Array {
     join() {
         assertFloat16Array(this);
 
-        var array = copyToArray(this);
+        const array = copyToArray(this);
 
         return array.join(...arguments);
     }
@@ -1746,7 +1744,7 @@ class Float16Array extends Uint16Array {
     toLocaleString() {
         assertFloat16Array(this);
 
-        var array = copyToArray(this);
+        const array = copyToArray(this);
 
         return array.toLocaleString(...arguments);
     }
@@ -1757,18 +1755,18 @@ class Float16Array extends Uint16Array {
 
 }
 
-var Float16Array$prototype = Float16Array.prototype;
+const Float16Array$prototype = Float16Array.prototype;
 
-var defaultFloat16ArrayMethods = new WeakSet();
+const defaultFloat16ArrayMethods = new WeakSet();
 var _iteratorNormalCompletion4 = true;
 var _didIteratorError4 = false;
 var _iteratorError4 = undefined;
 
 try {
     for (var _iterator4 = Reflect.ownKeys(Float16Array$prototype)[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-        var key = _step4.value;
+        const key = _step4.value;
 
-        var val = Float16Array$prototype[key];
+        const val = Float16Array$prototype[key];
         if (typeof val === "function") defaultFloat16ArrayMethods.add(val);
     }
 } catch (err) {

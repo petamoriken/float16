@@ -1,6 +1,9 @@
 module.exports = {
   // To give you an idea how to override rule options:
   parser: "babel-eslint",
+  parserOptions: {
+    sourceType: "module"
+  },
   extends: ["eslint:recommended"],
   env: {
     "browser": true,
