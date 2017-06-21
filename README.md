@@ -17,11 +17,9 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 ## Supports (at least)
 
-The last 2 versions of modern browsers (Chrome, Firefox) and the latest version of default browser on Windows 10 or macOS (Edge, Safari) and Node latest.  
-
 * Firefox: last 2 versions and ESR
 * Chrome: last 2 versions
-* Edge: latest version
+* Edge: last 2 versions
 * Safari: latest version
 * Node.js: latest version
 

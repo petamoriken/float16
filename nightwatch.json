@@ -65,7 +65,7 @@
             "desiredCapabilities": {
                 "platform": "Windows 10",
                 "browserName": "firefox",
-                "version": "45"
+                "version": "52.0"
             }
         },
 
@@ -74,6 +74,14 @@
                 "platform": "Windows 10",
                 "browserName": "MicrosoftEdge",
                 "version": "latest"
+            }
+        },
+
+        "edge_old": {
+            "desiredCapabilities": {
+                "platform": "Windows 10",
+                "browserName": "MicrosoftEdge",
+                "version": "latest-1"
             }
         },
 
