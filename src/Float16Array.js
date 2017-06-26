@@ -1,5 +1,3 @@
-"use strict";
-
 import { ToInteger, defaultCompareFunction } from "./spec";
 import { isNumberKey, isArrayBuffer, isArrayLike } from "./is";
 import { createPrivateStorage } from "./private";

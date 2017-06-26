@@ -1,6 +1,4 @@
-// ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
-
-"use strict";
+// algorithm: ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
 
 const buffer = new ArrayBuffer(4);
 const floatView = new Float32Array(buffer);

@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 1.0.3 - https://github.com/petamoriken/float16
- * generated at 2017-06-27 00:26 +09:00
+ * generated at 2017-06-27 00:32 +09:00
  *
  * ---
  * lodash-es 4.17.4
@@ -9,7 +9,7 @@
 (function (exports) {
 'use strict';
 
-// ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
+// algorithm: ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
 
 const buffer = new ArrayBuffer(4);
 const floatView = new Float32Array(buffer);
@@ -1128,7 +1128,6 @@ function memoize(func, resolver) {
 memoize.Cache = MapCache;
 
 // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
-
 const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
 
 // Chakra (Edge <= 14) bug: https://github.com/Microsoft/ChakraCore/issues/1662

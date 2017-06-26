@@ -1,7 +1,4 @@
-"use strict";
-
 import { isDataView } from "./is";
-
 import { roundToFloat16Bits, convertNumber } from "./lib";
 
 /**

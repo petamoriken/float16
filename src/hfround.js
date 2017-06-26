@@ -1,7 +1,4 @@
-"use strict";
-
 import { roundToFloat16Bits, convertNumber } from "./lib";
-
 
 /**
  * returns the nearest half precision float representation of a number.

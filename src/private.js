@@ -1,5 +1,3 @@
-"use strict";
-
 export function createPrivateStorage() {
 	const wm = new WeakMap();
 	return self => {
