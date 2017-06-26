@@ -1,11 +1,13 @@
 "use strict";
 
-import { isPlusZero } from "./is";
-
 export function ToInteger(num) {
     if(typeof num !== "number") num = Number(num);
     if(Number.isNaN(num)) num = 0;
     return Math.trunc(num);
+}
+
+function isPlusZero(val) {
+    return val === 0 && 1 / val === Infinity;
 }
 
 export function defaultCompareFunction(x, y) {

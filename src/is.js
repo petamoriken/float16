@@ -13,7 +13,3 @@ export function isDataView(view) {
 export function isNumberKey(key) {
     return typeof key === "string" && key === ToInteger(key) + "";
 }
-
-export function isPlusZero(val) {
-    return val === 0 && 1 / val === Infinity;
-}

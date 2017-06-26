@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 1.0.3 - https://github.com/petamoriken/float16
- * generated at 2017-06-21 17:01 +09:00
+ * generated at 2017-06-27 00:26 +09:00
  *
  * ---
  * lodash-es 4.17.4
@@ -141,6 +141,46 @@ function hfround(num) {
 
     const x16 = roundToFloat16Bits(num);
     return convertNumber(x16);
+}
+
+function ToInteger(num) {
+    if (typeof num !== "number") num = Number(num);
+    if (Number.isNaN(num)) num = 0;
+    return Math.trunc(num);
+}
+
+function isPlusZero(val) {
+    return val === 0 && 1 / val === Infinity;
+}
+
+function defaultCompareFunction(x, y) {
+    var _ref = [Number.isNaN(x), Number.isNaN(y)];
+    const isNaN_x = _ref[0],
+          isNaN_y = _ref[1];
+
+
+    if (isNaN_x && isNaN_y) return 0;
+
+    if (isNaN_x) return 1;
+
+    if (isNaN_y) return -1;
+
+    if (x < y) return -1;
+
+    if (x > y) return 1;
+
+    if (x === 0 && y === 0) {
+        var _ref2 = [isPlusZero(x), isPlusZero(y)];
+        const isPlusZero_x = _ref2[0],
+              isPlusZero_y = _ref2[1];
+
+
+        if (!isPlusZero_x && isPlusZero_y) return -1;
+
+        if (isPlusZero_x && !isPlusZero_y) return 1;
+    }
+
+    return 0;
 }
 
 /** Detect free variable `global` from Node.js. */
@@ -466,46 +506,6 @@ function isDataView(view) {
 
 function isNumberKey(key) {
     return typeof key === "string" && key === ToInteger(key) + "";
-}
-
-function isPlusZero(val) {
-    return val === 0 && 1 / val === Infinity;
-}
-
-function ToInteger(num) {
-    if (typeof num !== "number") num = Number(num);
-    if (Number.isNaN(num)) num = 0;
-    return Math.trunc(num);
-}
-
-function defaultCompareFunction(x, y) {
-    var _ref = [Number.isNaN(x), Number.isNaN(y)];
-    const isNaN_x = _ref[0],
-          isNaN_y = _ref[1];
-
-
-    if (isNaN_x && isNaN_y) return 0;
-
-    if (isNaN_x) return 1;
-
-    if (isNaN_y) return -1;
-
-    if (x < y) return -1;
-
-    if (x > y) return 1;
-
-    if (x === 0 && y === 0) {
-        var _ref2 = [isPlusZero(x), isPlusZero(y)];
-        const isPlusZero_x = _ref2[0],
-              isPlusZero_y = _ref2[1];
-
-
-        if (!isPlusZero_x && isPlusZero_y) return -1;
-
-        if (isPlusZero_x && !isPlusZero_y) return 1;
-    }
-
-    return 0;
 }
 
 function createPrivateStorage() {
