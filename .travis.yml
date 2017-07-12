@@ -9,9 +9,16 @@ dist: trusty
 sudo: false
 cache: yarn
 
+before_install:
+  - yarn global add greenkeeper-lockfile@1
+
 before_script:
+  - greenkeeper-lockfile-update
   - yarn run build
 
 script:
   - yarn test
   - yarn run test-browser
+
+after_script:
+  - greenkeeper-lockfile-upload
