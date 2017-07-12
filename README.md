@@ -1,5 +1,7 @@
 # float16
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/petamoriken/float16.svg)](https://greenkeeper.io/)
+
 half precision floating point for JavaScript  
 see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
