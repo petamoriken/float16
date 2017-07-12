@@ -1,12 +1,12 @@
 /**
  * @petamoriken/float16 1.0.3 - https://github.com/petamoriken/float16
- * generated at 2017-06-27 00:32 +09:00
+ * generated at 2017-07-13 02:44 +09:00
  *
  * ---
  * lodash-es 4.17.4
  */
 
-(function (exports) {
+var float16 = (function (exports) {
 'use strict';
 
 // algorithm: ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
@@ -375,6 +375,28 @@ var nodeIsArrayBuffer = nodeUtil && nodeUtil.isArrayBuffer;
  */
 var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
 
+function isDataView(view) {
+    return view instanceof DataView;
+}
+
+function isNumberKey(key) {
+    return typeof key === "string" && key === ToInteger(key) + "";
+}
+
+function createPrivateStorage() {
+	const wm = new WeakMap();
+	return self => {
+		let obj = wm.get(self);
+		if (obj) {
+			return obj;
+		} else {
+			obj = Object.create(null);
+			wm.set(self, obj);
+			return obj;
+		}
+	};
+}
+
 /**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -436,90 +458,6 @@ function isFunction(value) {
   // in Safari 9 which returns 'object' for typed arrays and other constructors.
   var tag = baseGetTag(value);
   return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
-}
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This method is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(value.length) && !isFunction(value);
-}
-
-function isDataView(view) {
-    return view instanceof DataView;
-}
-
-function isNumberKey(key) {
-    return typeof key === "string" && key === ToInteger(key) + "";
-}
-
-function createPrivateStorage() {
-	const wm = new WeakMap();
-	return self => {
-		let obj = wm.get(self);
-		if (obj) {
-			return obj;
-		} else {
-			obj = Object.create(null);
-			wm.set(self, obj);
-			return obj;
-		}
-	};
 }
 
 /** Used to detect overreaching core-js shims. */
@@ -1253,7 +1191,7 @@ class Float16Array extends Uint16Array {
             // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if (input !== null && typeof input === "object" && !isArrayBuffer(input)) {
             // if input is Iterable, get Array
-            const array = isArrayLike(input) ? input : [...input];
+            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
 
             const length = array.length;
             super(length);
@@ -1564,7 +1502,7 @@ class Float16Array extends Uint16Array {
 
             // input others
         } else {
-            const array = isArrayLike(input) ? input : [...input];
+            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
             const length = array.length;
 
             float16bits = new Uint16Array(length);
@@ -1821,4 +1759,6 @@ exports.Float16Array = Float16Array;
 exports.getFloat16 = getFloat16;
 exports.setFloat16 = setFloat16;
 
-}((this.float16 = this.float16 || {})));
+return exports;
+
+}({}));

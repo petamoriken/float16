@@ -1,5 +1,5 @@
 import { ToInteger, defaultCompareFunction } from "./spec";
-import { isNumberKey, isArrayBuffer, isArrayLike } from "./is";
+import { isNumberKey, isArrayBuffer } from "./is";
 import { createPrivateStorage } from "./private";
 
 import memoize from "lodash-es/memoize";
@@ -134,7 +134,7 @@ export default class Float16Array extends Uint16Array {
         // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if(input !== null && typeof input === "object" && !isArrayBuffer(input)) {
             // if input is Iterable, get Array
-            const array = isArrayLike(input) ? input : [...input];
+            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
             
             const length = array.length;
             super(length);
@@ -371,7 +371,7 @@ export default class Float16Array extends Uint16Array {
         
         // input others
         } else {
-            const array = isArrayLike(input) ? input : [...input];
+            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
             const length = array.length;
 
             float16bits = new Uint16Array(length);
