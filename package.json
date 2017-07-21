@@ -28,6 +28,8 @@
     "src",
     "lib",
     "browser",
+    "tools",
+    "docs",
     "test"
   ],
   "keywords": [
@@ -44,7 +46,7 @@
     "build": "yarn run build:lib && yarn run build:browser",
     "build:lib": "babel src -d lib",
     "build:browser": "rollup -c",
-    "docs": "yarn run docs:test",
+    "docs": "cp README.md docs/index.md && yarn run docs:test",
     "docs:test": "cp browser/float16.js docs/test/float16.js && yarn run docs:test:unit && yarn run docs:test:dependencies",
     "docs:test:unit": "cp test/*.js docs/test && yarn run docs:test:unit:power",
     "docs:test:unit:power": "tools/power",
