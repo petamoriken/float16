@@ -1,4 +1,4 @@
-# float16
+# float16 <a href="https://github.com/petamoriken/float16" target="_blank"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="24" height="24"></a>
 
 half precision floating point for JavaScript  
 see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
