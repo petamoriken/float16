@@ -13,8 +13,10 @@ before_install:
   - yarn global add greenkeeper-lockfile@1
 
 before_script:
-  - greenkeeper-lockfile-update
-  - yarn run build
+  - greenkeeper-lockfile-update 
+  - yarn run refresh
+  - python -m SimpleHTTPServer &> /dev/null &
+  - sleep 2
 
 script:
   - yarn test
@@ -22,3 +24,4 @@ script:
 
 after_script:
   - greenkeeper-lockfile-upload
+  - pkill python

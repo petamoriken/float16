@@ -4,6 +4,9 @@
 const red = "\u001b[31m";
 const reset = "\u001b[0m";
 
+// environment
+const { TARGET_URL } = process.env;
+
 function asyncElementIdText(client, element) {
     return new Promise(resolve => {
         client.elementIdText(element, e => {
@@ -14,8 +17,7 @@ function asyncElementIdText(client, element) {
 
 module.exports = {
     ["browser test"](client) {
-        client.url(process.env.SAUCE_URL || "https://petamoriken.github.io/float16/test/power")
-            .pause(1000);
+        client.url(TARGET_URL || "http://localhost:8000/docs/test/power.html").pause(1000);
         
         client.elements("css selector", "#mocha-report .fail .error", async e => {
             const elements = e.value;
@@ -40,6 +42,6 @@ module.exports = {
 
     afterEach(client, done) {
         client.customSauceEnd();
-        setTimeout(done, 1000);
+        setTimeout(done, 500);
     }
 };

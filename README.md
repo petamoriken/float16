@@ -113,6 +113,26 @@ Copy [the build file for browsers](browser/float16.js) to your project directory
     hfround(1.337); // 1.3369140625
     ```
 
+## Build
+
+First, download devDependencies.
+
+```console
+yarn
+```
+
+Build lib, browser files.
+
+```console
+yarn run build
+```
+
+Build docs files (for browser test).
+
+```console
+yarn run docs
+```
+
 ## Bug
 
 Some browsers have JavaScript bugs. Please see [Float16Array test code](test/Float16Array.js) and search `this.skip()`.
@@ -133,19 +153,27 @@ yarn test
 
 ### Browser Test
 
-Access [test page](https://petamoriken.github.io/float16/test) ([PowerAssert version](https://petamoriken.github.io/float16/test/power)).
+Access [test page](https://petamoriken.github.io/float16/test) ([power-assert version](https://petamoriken.github.io/float16/test/power)).
 
-If you want to test in [Sauce Labs](https://saucelabs.com/), export environment variables.
+#### Sauce Labs Browser Test
+
+When you want to test in [Sauce Labs](https://saucelabs.com/), export environment variables.
 
 ```console
 export SAUCE_USERNAME=<your Sauce Labs username>
 export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
 ```
 
-(optional) Export a test page URL (default: https://petamoriken.github.io/float16/test/power).
+(optional) Export a test page URL (default: `http://localhost:8000/docs/test/power.html`).
 
 ```console
-export SAUCE_URL=<browser test url>
+export TARGET_URL=<browser test url>
+```
+
+If you want to set localhost to `TARGET_URL`, please use [sauce-connect](https://wiki.saucelabs.com/display/DOCS/Sauce+Connect+Proxy).
+
+```console
+brew cask install sauce-connect
 ```
 
 Finally, exec below.
