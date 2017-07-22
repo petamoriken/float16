@@ -13,6 +13,7 @@ const exec = util.promisify(require("child_process").exec);
     const files = (await readdir("test")).filter(name => path.extname(name) === ".js");
     
     for(const file of files) {
-        await exec(`npx espower test/${ file } | npx exorcist docs/test/power.${ file }.map > docs/test/power.${ file }`);
+        const base = path.basename(file, ".js");
+        exec(`npx espower test/${ base }.js | npx exorcist docs/test/${ base }.power.js.map > docs/test/${ base }.power.js`);
     }
 })();
