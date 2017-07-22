@@ -58,7 +58,7 @@
     "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,edge_old,safari,safari_el",
     "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js docs/test/*.map",
     "refresh": "yarn run clean && yarn run build && yarn run docs",
-    "prepublish": "in-publish && yarn run refresh && yarn test || not-in-publish"
+    "prepublishOnly": "yarn run refresh && yarn test"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -70,7 +70,6 @@
     "eslint": "^4.0.0",
     "espower-cli": "^1.1.0",
     "exorcist": "^0.4.0",
-    "in-publish": "^2.0.0",
     "intelli-espower-loader": "^1.0.1",
     "mocha": "^3.3.0",
     "nightwatch": "^0.9.15",
