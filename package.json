@@ -1,7 +1,7 @@
 {
   "name": "@petamoriken/float16",
   "description": "half precision floating point for JavaScript",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
   "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.kimamass.com)",
