@@ -58,6 +58,7 @@
     "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,edge_old,safari,safari_el",
     "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js docs/test/*.map",
     "refresh": "yarn run clean && yarn run build && yarn run docs",
+    "version": "yarn run refresh && git add -A",
     "prepublishOnly": "yarn run refresh && yarn test"
   },
   "devDependencies": {
