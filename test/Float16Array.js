@@ -149,6 +149,13 @@ describe("Float16Array", () => {
         }
     });
 
+    it("return undefined when access out of range number key", () => {
+        const float16 = new Float16Array(4);
+        float16[10] = 42;
+
+        assert(float16[10] === undefined);
+    });
+
     it("can't be frozen with elements", function() {
         assert.doesNotThrow(() => Object.freeze( new Float16Array() ));
 

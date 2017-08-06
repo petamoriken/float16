@@ -7,6 +7,6 @@ export function isDataView(view) {
     return view instanceof DataView;
 }
 
-export function isNumberKey(key) {
+export function isStringNumberKey(key) {
     return typeof key === "string" && key === ToInteger(key) + "";
 }

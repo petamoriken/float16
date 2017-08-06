@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 1.0.4 - https://github.com/petamoriken/float16
- * generated at 2017-07-22 19:17 +09:00
+ * generated at 2017-08-07 04:47 +09:00
  *
  * ---
  * lodash-es 4.17.4
@@ -379,7 +379,7 @@ function isDataView(view) {
     return view instanceof DataView;
 }
 
-function isNumberKey(key) {
+function isStringNumberKey(key) {
     return typeof key === "string" && key === ToInteger(key) + "";
 }
 
@@ -1112,14 +1112,14 @@ const handler = {
             target = _(wrapper).target;
         }
 
-        if (isNumberKey(key)) {
-            return convertNumber(Reflect.get(target, key));
+        if (isStringNumberKey(key)) {
+            return Reflect.has(target, key) ? convertNumber(Reflect.get(target, key)) : undefined;
         } else {
             const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
 
             if (typeof ret !== "function") return ret;
 
-            // TypedArray methods can't be called by Proxy
+            // TypedArray methods can't be called by Proxy Object
             let proxy = _(ret).proxy;
 
             if (proxy === undefined) {
@@ -1145,7 +1145,7 @@ const handler = {
             target = _(wrapper).target;
         }
 
-        if (isNumberKey(key)) {
+        if (isStringNumberKey(key)) {
             return Reflect.set(target, key, roundToFloat16Bits(value));
         } else {
             // frozen object can't change prototype property

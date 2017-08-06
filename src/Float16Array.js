@@ -1,5 +1,5 @@
 import { ToInteger, defaultCompareFunction } from "./spec";
-import { isNumberKey, isArrayBuffer } from "./is";
+import { isStringNumberKey, isArrayBuffer } from "./is";
 import { createPrivateStorage } from "./private";
 
 import memoize from "lodash-es/memoize";
@@ -49,8 +49,8 @@ const handler = {
             target = _(wrapper).target;
         }
 
-        if(isNumberKey(key)) {
-            return convertNumber( Reflect.get(target, key) );
+        if(isStringNumberKey(key)) {
+            return Reflect.has(target, key) ? convertNumber(Reflect.get(target, key)) : undefined;
 
         } else {
             const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
@@ -58,7 +58,7 @@ const handler = {
             if(typeof ret !== "function")
                 return ret;
 
-            // TypedArray methods can't be called by Proxy
+            // TypedArray methods can't be called by Proxy Object
             let proxy = _(ret).proxy;
 
             if(proxy === undefined) {
@@ -85,7 +85,7 @@ const handler = {
             target = _(wrapper).target;
         }
 
-        if(isNumberKey(key)) {
+        if(isStringNumberKey(key)) {
             return Reflect.set(target, key, roundToFloat16Bits(value));
 
         } else {
