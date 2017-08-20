@@ -11,8 +11,11 @@ generated at <%= moment().format('YYYY-MM-DD HH:mm Z') %>
 <% }) %>`;
 
 export default {
-    entry: "src/index.js",
-    dest: "browser/float16.js",
+    input: "src/index.js",
+    output: {
+        file: "browser/float16.js",
+        format: "iife"
+    },
     plugins: [
         $.nodeResolve({ browser: true }),
         $.babel({
@@ -27,6 +30,5 @@ export default {
         }),
         $.license({ banner })
     ],
-    moduleName: "float16",
-    format: "iife"
+    name: "float16"
 };
