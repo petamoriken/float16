@@ -2974,9 +2974,9 @@ rollup-load-plugins@^0.3.0:
     read-pkg-up "^1.0.1"
     resolve "^1.1.7"
 
-rollup-plugin-babel@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-babel/-/rollup-plugin-babel-3.0.0.tgz#b309df407eed78890006cede35b601ea11b773f9"
+rollup-plugin-babel@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-babel/-/rollup-plugin-babel-3.0.2.tgz#a2765dea0eaa8aece351c983573300d17497495b"
   dependencies:
     rollup-pluginutils "^1.5.0"
 
