@@ -78,7 +78,7 @@
     "rollup": "^0.48.2",
     "rollup-load-plugins": "^0.3.0",
     "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-license": "^0.4.0",
+    "rollup-plugin-license": "^0.5.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "saucelabs": "^1.4.0"
   },
