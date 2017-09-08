@@ -1224,8 +1224,8 @@ eslint-scope@^3.7.1:
     estraverse "^4.1.1"
 
 eslint@^4.0.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.5.0.tgz#bb75d3b8bde97fb5e13efcd539744677feb019c3"
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.6.1.tgz#ddc7fc7fd70bf93205b0b3449bb16a1e9e7d4950"
   dependencies:
     ajv "^5.2.0"
     babel-code-frame "^6.22.0"
@@ -3011,7 +3011,7 @@ rollup-pluginutils@^1.5.0:
     estree-walker "^0.2.1"
     minimatch "^3.0.2"
 
-rollup@0.49.3:
+rollup@^0.49.3:
   version "0.49.3"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.49.3.tgz#4cce32643dd8cf2154c69ff0e43470067db0adbf"
 
