@@ -22,7 +22,24 @@ export default {
             babelrc: false,
             presets: [["env", {
                 targets: {
-                    browsers: ["last 2 versions", "not ie >= 10", "not android >= 4.4.3", "Firefox ESR"]
+                    browsers: [
+                        "last 2 versions",
+
+                        "not IE >= 10",
+                        "not IE_mob >= 10",
+                        "Firefox ESR",
+
+                        "not OperaMini all",
+                        "not OperaMobile >= 12.1",
+
+                        "not Android >= 4.4.3",
+                        "not QQAndroid >= 1.2",
+                        "not UCAndroid >= 11.4",
+
+                        "not BlackBerry >= 7",
+                        "not Baidu >= 7.12",
+                        "not Samsung >= 4"
+                    ]
                 },
                 modules: false,
                 exclude: ["transform-regenerator"]
