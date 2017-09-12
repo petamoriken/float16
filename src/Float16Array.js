@@ -64,8 +64,8 @@ const handler = {
             if(proxy === undefined) {
                 proxy = _(ret).proxy = new Proxy(ret, {
                     apply(func, thisArg, args) {
-                        
-                        // peel off proxy                        
+
+                        // peel off proxy
                         if(isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func))
                             return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
 
@@ -92,7 +92,7 @@ const handler = {
             // frozen object can't change prototype property
             if(wrapper !== null && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
                 return Reflect.set(wrapper, key, value);
-            
+
             } else {
                 return Reflect.set(target, key, value);
             }
@@ -112,13 +112,13 @@ if(!isTypedArrayIndexedPropertyWritable) {
         const target = _(wrapper).target;
         return Reflect.has(wrapper, key) ? Reflect.deleteProperty( wrapper, key ) : Reflect.deleteProperty( target, key );
     };
-    
+
     handler.has = (wrapper, key) => Reflect.has( wrapper, key ) || Reflect.has( _(wrapper).target, key );
 
     handler.isExtensible = wrapper => Reflect.isExtensible( wrapper );
     handler.preventExtensions = wrapper => Reflect.preventExtensions( wrapper );
 
-    handler.getOwnPropertyDescriptor = (wrapper, key) => Reflect.getOwnPropertyDescriptor( wrapper, key );  
+    handler.getOwnPropertyDescriptor = (wrapper, key) => Reflect.getOwnPropertyDescriptor( wrapper, key );
     handler.ownKeys = wrapper => Reflect.ownKeys( wrapper );
 }
 
@@ -133,15 +133,15 @@ export default class Float16Array extends Uint16Array {
 
         // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if(input !== null && typeof input === "object" && !isArrayBuffer(input)) {
-            // if input is Iterable, get Array
-            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
-            
-            const length = array.length;
+            // if input is not ArrayLike and Iterable, get Array
+            const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
+
+            const length = arrayLike.length;
             super(length);
 
             for(let i = 0; i < length; ++i) {
                 // super (Uint16Array)
-                this[i] = roundToFloat16Bits( array[i] );
+                this[i] = roundToFloat16Bits( arrayLike[i] );
             }
 
         // 22.2.1.2, 22.2.1.5 primitive, ArrayBuffer
@@ -150,20 +150,24 @@ export default class Float16Array extends Uint16Array {
                 case 0:
                     super();
                     break;
-                
+
                 case 1:
                     super(input);
                     break;
-                
+
                 case 2:
                     super(input, byteOffset);
                     break;
-                
-                default:
+
+                case 3:
                     super(input, byteOffset, length);
+                    break;
+
+                default:
+                    super(...arguments);
             }
         }
-        
+
         let proxy;
 
         if(isTypedArrayIndexedPropertyWritable) {
@@ -349,7 +353,7 @@ export default class Float16Array extends Uint16Array {
         assertFloat16Array(this);
 
         const thisArg = opts[0];
-        
+
         for(let i = 0, l = this.length; i < l; ++i) {
             if( callback.call(thisArg, convertNumber(this[i]), i, _(this).proxy) ) return true;
         }
@@ -368,15 +372,15 @@ export default class Float16Array extends Uint16Array {
         // input Float16Array
         if(isFloat16Array(input)) {
             float16bits = isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__];
-        
+
         // input others
         } else {
-            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
-            const length = array.length;
+            const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
+            const length = arrayLike.length;
 
             float16bits = new Uint16Array(length);
-            for(let i = 0, l = array.length; i < l; ++i) {
-                float16bits[i] = roundToFloat16Bits(array[i]);
+            for(let i = 0, l = arrayLike.length; i < l; ++i) {
+                float16bits[i] = roundToFloat16Bits(arrayLike[i]);
             }
         }
 
@@ -419,7 +423,7 @@ export default class Float16Array extends Uint16Array {
         const _convertNumber = memoize(convertNumber);
 
         super.sort((x, y) => compareFunction(_convertNumber(x), _convertNumber(y)));
-        
+
         return _(this).proxy;
     }
 
@@ -460,8 +464,8 @@ export default class Float16Array extends Uint16Array {
                 throw e;
             }
         }
-        
-        return new Float16Array( float16bits.buffer, float16bits.byteOffset, float16bits.length );        
+
+        return new Float16Array( float16bits.buffer, float16bits.byteOffset, float16bits.length );
     }
 
     // contains methods
@@ -492,7 +496,7 @@ export default class Float16Array extends Uint16Array {
         const length = this.length;
 
         let from = ToInteger(opts[0]);
-        
+
         from = from === 0 ? length : from + 1;
 
         if(from >= 0) {
@@ -528,7 +532,7 @@ export default class Float16Array extends Uint16Array {
 
             if(isNaN && Number.isNaN(value))
                 return true;
-            
+
             if(value === element)
                 return true;
         }
@@ -550,7 +554,7 @@ export default class Float16Array extends Uint16Array {
 
         const array = copyToArray(this);
 
-        return array.toLocaleString(...opts);        
+        return array.toLocaleString(...opts);
     }
 
     get [Symbol.toStringTag]() {

@@ -17,7 +17,7 @@ for(let i = 0; i < 256; ++i) {
         baseTable[i | 0x100] = 0x8000;
         shiftTable[i | 0x000] = 24;
         shiftTable[i | 0x100] = 24;
-    
+
     // small number (denorm)
     } else if(e < -14) {
         baseTable[i | 0x000] =  0x0400 >> (-e - 14);
@@ -39,7 +39,7 @@ for(let i = 0; i < 256; ++i) {
         shiftTable[i | 0x000] = 24;
         shiftTable[i | 0x100] = 24;
 
-    // stay (NaN, Infinity, -Infinity)        
+    // stay (NaN, Infinity, -Infinity)
     } else {
         baseTable[i | 0x000] = 0x7c00;
         baseTable[i | 0x100] = 0xfc00;
@@ -104,7 +104,7 @@ for(let i = 1; i < 64; ++i) {
     if(i === 32) {
         offsetTable[i] = 0;
     } else {
-        offsetTable[i] = 1024;  
+        offsetTable[i] = 1024;
     }
 }
 

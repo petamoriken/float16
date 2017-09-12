@@ -25,13 +25,13 @@ export function defaultCompareFunction(x, y) {
 
     if(x > y)
         return 1;
-    
+
     if(x === 0 && y === 0) {
         const [isPlusZero_x, isPlusZero_y] = [isPlusZero(x), isPlusZero(y)];
 
         if(!isPlusZero_x && isPlusZero_y)
             return -1;
-        
+
         if(isPlusZero_x && !isPlusZero_y)
             return 1;
     }

@@ -18,7 +18,7 @@ function asyncElementIdText(client, element) {
 module.exports = {
     ["browser test"](client) {
         client.url(TARGET_URL || "http://localhost:8000/docs/test/power.html").pause(1000);
-        
+
         client.elements("css selector", "#mocha-report .fail .error", async e => {
             const elements = e.value;
 

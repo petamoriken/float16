@@ -3,9 +3,9 @@ import { roundToFloat16Bits, convertNumber } from "./lib";
 
 /**
  * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView.
- * @param {DataView} dataView 
- * @param {nunmber} byteOffset 
- * @param {*} opts 
+ * @param {DataView} dataView
+ * @param {nunmber} byteOffset
+ * @param {*} opts
  */
 export function getFloat16(dataView, byteOffset, ...opts) {
     if(!isDataView(dataView))
@@ -16,10 +16,10 @@ export function getFloat16(dataView, byteOffset, ...opts) {
 
 /**
  * stores an unsigned 16-bit float value at the specified byte offset from the start of the DataView.
- * @param {DataView} dataView 
- * @param {number} byteOffset 
- * @param {number} value 
- * @param {*} opts 
+ * @param {DataView} dataView
+ * @param {number} byteOffset
+ * @param {number} value
+ * @param {*} opts
  */
 export function setFloat16(dataView, byteOffset, value, ...opts) {
     if(!isDataView(dataView))

@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 1.0.5 - https://github.com/petamoriken/float16
- * generated at 2017-09-10 20:57 +09:00
+ * generated at 2017-09-12 21:43 +09:00
  *
  * ---
  * lodash-es 4.17.4
@@ -49,7 +49,7 @@ for (let i = 0; i < 256; ++i) {
         shiftTable[i | 0x000] = 24;
         shiftTable[i | 0x100] = 24;
 
-        // stay (NaN, Infinity, -Infinity)        
+        // stay (NaN, Infinity, -Infinity)
     } else {
         baseTable[i | 0x000] = 0x7c00;
         baseTable[i | 0x100] = 0xfc00;
@@ -129,7 +129,7 @@ function convertNumber(h) {
 
 /**
  * returns the nearest half precision float representation of a number.
- * @param {number} num 
+ * @param {number} num
  */
 function hfround(num) {
     num = Number(num);
@@ -1126,7 +1126,7 @@ const handler = {
                 proxy = _(ret).proxy = new Proxy(ret, {
                     apply(func, thisArg, args) {
 
-                        // peel off proxy                        
+                        // peel off proxy
                         if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
 
                         return Reflect.apply(func, thisArg, args);
@@ -1190,15 +1190,15 @@ class Float16Array extends Uint16Array {
 
             // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if (input !== null && typeof input === "object" && !isArrayBuffer(input)) {
-            // if input is Iterable, get Array
-            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
+            // if input is not ArrayLike and Iterable, get Array
+            const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
 
-            const length = array.length;
+            const length = arrayLike.length;
             super(length);
 
             for (let i = 0; i < length; ++i) {
                 // super (Uint16Array)
-                this[i] = roundToFloat16Bits(array[i]);
+                this[i] = roundToFloat16Bits(arrayLike[i]);
             }
 
             // 22.2.1.2, 22.2.1.5 primitive, ArrayBuffer
@@ -1216,8 +1216,12 @@ class Float16Array extends Uint16Array {
                     super(input, byteOffset);
                     break;
 
-                default:
+                case 3:
                     super(input, byteOffset, length);
+                    break;
+
+                default:
+                    super(...arguments);
             }
         }
 
@@ -1502,12 +1506,12 @@ class Float16Array extends Uint16Array {
 
             // input others
         } else {
-            const array = input[Symbol.iterator] !== undefined ? [...input] : input;
-            const length = array.length;
+            const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
+            const length = arrayLike.length;
 
             float16bits = new Uint16Array(length);
-            for (let i = 0, l = array.length; i < l; ++i) {
-                float16bits[i] = roundToFloat16Bits(array[i]);
+            for (let i = 0, l = arrayLike.length; i < l; ++i) {
+                float16bits[i] = roundToFloat16Bits(arrayLike[i]);
             }
         }
 
@@ -1723,9 +1727,9 @@ try {
 
 /**
  * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView.
- * @param {DataView} dataView 
- * @param {nunmber} byteOffset 
- * @param {*} opts 
+ * @param {DataView} dataView
+ * @param {nunmber} byteOffset
+ * @param {*} opts
  */
 function getFloat16(dataView, byteOffset) {
     if (!isDataView(dataView)) throw new TypeError("First argument to getFloat16 function must be a DataView");
@@ -1739,10 +1743,10 @@ function getFloat16(dataView, byteOffset) {
 
 /**
  * stores an unsigned 16-bit float value at the specified byte offset from the start of the DataView.
- * @param {DataView} dataView 
- * @param {number} byteOffset 
- * @param {number} value 
- * @param {*} opts 
+ * @param {DataView} dataView
+ * @param {number} byteOffset
+ * @param {number} value
+ * @param {*} opts
  */
 function setFloat16(dataView, byteOffset, value) {
     if (!isDataView(dataView)) throw new TypeError("First argument to setFloat16 function must be a DataView");

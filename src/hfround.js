@@ -2,7 +2,7 @@ import { roundToFloat16Bits, convertNumber } from "./lib";
 
 /**
  * returns the nearest half precision float representation of a number.
- * @param {number} num 
+ * @param {number} num
  */
 export default function hfround(num) {
     num = Number(num);
