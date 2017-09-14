@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 v1.0.5 | MIT License - https://git.io/float16
- * generated at 2017-09-15 00:34 +09:00
+ * generated at 2017-09-15 01:33 +09:00
  *
  * @license
  * lodash-es v4.17.4 | MIT License - https://lodash.com/custom-builds
@@ -1104,6 +1104,16 @@ function copyToArray(float16bits) {
 }
 
 // proxy handler
+const applyHandler = {
+    apply(func, thisArg, args) {
+
+        // peel off proxy
+        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
+
+        return Reflect.apply(func, thisArg, args);
+    }
+};
+
 const handler = {
     get(target, key) {
         let wrapper = null;
@@ -1123,15 +1133,7 @@ const handler = {
             let proxy = _(ret).proxy;
 
             if (proxy === undefined) {
-                proxy = _(ret).proxy = new Proxy(ret, {
-                    apply(func, thisArg, args) {
-
-                        // peel off proxy
-                        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
-
-                        return Reflect.apply(func, thisArg, args);
-                    }
-                });
+                proxy = _(ret).proxy = new Proxy(ret, applyHandler);
             }
 
             return proxy;
@@ -1572,7 +1574,7 @@ class Float16Array extends Uint16Array {
 
         let float16bits;
 
-        // V8, SpiderMonkey, JavaScriptCore throw TypeError
+        // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
         try {
             float16bits = super.slice(...arguments);
         } catch (e) {
@@ -1592,7 +1594,7 @@ class Float16Array extends Uint16Array {
 
         let float16bits;
 
-        // SpiderMonkey, JavaScriptCore throw TypeError
+        // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
         try {
             float16bits = super.subarray(...arguments);
         } catch (e) {
@@ -1693,7 +1695,6 @@ class Float16Array extends Uint16Array {
     get [Symbol.toStringTag]() {
         if (isFloat16Array(this)) return "Float16Array";
     }
-
 }
 
 const Float16Array$prototype = Float16Array.prototype;
