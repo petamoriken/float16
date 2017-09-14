@@ -3,11 +3,11 @@ import loadPlugins from "rollup-load-plugins";
 const $ = loadPlugins();
 
 const banner =
-`<%= pkg.name %> <%= pkg.version %> - https://github.com/petamoriken/float16
+`<%= pkg.name %> v<%= pkg.version %> | <%= pkg.license %> License - <%= pkg.homepage %>
 generated at <%= moment().format('YYYY-MM-DD HH:mm Z') %>
 
----<% _.forEach(dependencies, function (dependency) { %>
-  <%= dependency.name %> <%= dependency.version %>
+@license<% _.forEach(dependencies, function (dependency) { %>
+  <%= dependency.name %> v<%= dependency.version %> | <%= dependency.license %> License - <%= dependency.homepage %>
 <% }) %>`;
 
 export default {
@@ -24,10 +24,10 @@ export default {
                 targets: {
                     browsers: [
                         "last 2 versions",
+                        "Firefox ESR",
 
                         "not IE >= 10",
                         "not IE_mob >= 10",
-                        "Firefox ESR",
 
                         "not OperaMini all",
                         "not OperaMobile >= 12.1",

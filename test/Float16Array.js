@@ -2,7 +2,7 @@
 
 const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
 const isProxyAbleToBeWeakMapKey = (function() {
-    const proxy = new Proxy({}, {}); 
+    const proxy = new Proxy({}, {});
     return new WeakMap().set(proxy, 1).get(proxy) === 1;
 })();
 
@@ -51,7 +51,7 @@ describe("Float16Array", () => {
 
     it("input empty or primitive", () => {
         assert.doesNotThrow(() => new Float16Array());
-        assert.doesNotThrow(() => new Float16Array(0));          
+        assert.doesNotThrow(() => new Float16Array(0));
         assert.doesNotThrow(() => new Float16Array(4));
 
         assert.throws(() => new Float16Array(-1), Error);
@@ -63,7 +63,7 @@ describe("Float16Array", () => {
         const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
         const float16_1 = new Float16Array(array);
-        
+
         assert( float16_1.BYTES_PER_ELEMENT === 2 );
         assert( float16_1.byteOffset === 0 );
         assert( float16_1.byteLength === 8 );
@@ -264,13 +264,13 @@ describe("Float16Array", () => {
 
             const float16 = Float16Array.from( new Float16Array(array) );
 
-            assert( float16 instanceof Float16Array );        
+            assert( float16 instanceof Float16Array );
             deepEqualArray( float16, checkArray );
         });
 
         it("check mapFn callback arguments", () => {
             const thisArg = {};
-            
+
             Float16Array.from([1], function(val, key) {
 
                 assert( val === 1 );
@@ -386,7 +386,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
-            
+
             float16.map(function(val, key, f16) {
 
                 assert( val === 1 );
@@ -420,7 +420,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
-            
+
             float16.filter(function(val, key, f16) {
 
                 assert( val === 1 );
@@ -453,7 +453,7 @@ describe("Float16Array", () => {
 
         it("check callback arguments", () => {
             const float16_1 = new Float16Array([1, 2]);
-            
+
             float16_1.reduce(function(prev, current, key, f16) {
 
                 assert( prev === 1 );
@@ -464,7 +464,7 @@ describe("Float16Array", () => {
             });
 
             const float16_2 = new Float16Array([2]);
-            
+
             float16_2.reduce(function(prev, current, key, f16) {
 
                 assert( prev === 1 );
@@ -495,7 +495,7 @@ describe("Float16Array", () => {
 
         it("check callback arguments", () => {
             const float16_1 = new Float16Array([1, 2]);
-            
+
             float16_1.reduceRight(function(prev, current, key, f16) {
 
                 assert( prev === 2 );
@@ -506,7 +506,7 @@ describe("Float16Array", () => {
             });
 
             const float16_2 = new Float16Array([2]);
-            
+
             float16_2.reduceRight(function(prev, current, key, f16) {
 
                 assert( prev === 1 );
@@ -538,7 +538,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
-            
+
             float16.forEach(function(val, key, f16) {
 
                 assert( val === 1 );
@@ -550,7 +550,7 @@ describe("Float16Array", () => {
         });
 
     });
-    
+
     describe("#find()", () => {
 
         it("property `name` is 'find'", () => {
@@ -564,7 +564,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
-            
+
             float16.find(function(val, key, f16) {
 
                 assert( val === 1 );
@@ -598,7 +598,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
-            
+
             float16.findIndex(function(val, key, f16) {
 
                 assert( val === 1 );
@@ -632,7 +632,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
-            
+
             float16.every(function(val, key, f16) {
 
                 assert( val === 1 );
@@ -666,7 +666,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
-            
+
             float16.some(function(val, key, f16) {
 
                 assert( val === 1 );
@@ -813,14 +813,14 @@ describe("Float16Array", () => {
 
         it("check default compare", () => {
             const float16 = new Float16Array([1, 2, -1, -2, 0, -0, NaN, Infinity, -Infinity]);
-            
+
             assert( float16.sort() === float16 );
             deepEqualNumberArray( float16, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
         });
 
         it("check custom compare", function() {
             const float16 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
-            
+
             assert( float16.sort( (x, y) => x - y ) === float16 );
             deepEqualArray( float16, [-Infinity, -2, -1, 1, 2, Infinity] );
         });
@@ -982,7 +982,7 @@ describe("Float16Array", () => {
 
         it("same as Array", () => {
             const float16 = new Float16Array([1, 2, 3]);
-            assert( float16.toLocaleString() === [1, 2, 3].toLocaleString() );            
+            assert( float16.toLocaleString() === [1, 2, 3].toLocaleString() );
         });
 
     });

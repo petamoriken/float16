@@ -3,10 +3,10 @@
         "targets": {
             "browsers": [
                 "last 2 versions",
+                "Firefox ESR",
 
                 "not IE >= 10",
                 "not IE_mob >= 10",
-                "Firefox ESR",
 
                 "not OperaMini all",
                 "not OperaMobile >= 12.1",

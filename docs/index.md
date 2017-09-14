@@ -1,12 +1,12 @@
 # float16 <a href="https://github.com/petamoriken/float16" target="_blank"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="24" height="24"></a>
 
-half precision floating point for JavaScript  
+half precision floating point for JavaScript
 see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 [![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/issues)
 [![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
-[![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)  
+[![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![Travis](https://img.shields.io/travis/petamoriken/float16/master.svg?style=flat-square)](https://travis-ci.org/petamoriken/float16)
 [![Greenkeeper badge](https://badges.greenkeeper.io/petamoriken/float16.svg?flat-square)](https://greenkeeper.io/)
 [![dependencies Status](https://david-dm.org/petamoriken/float16/status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16)
@@ -105,7 +105,7 @@ Copy [the build file for browsers](https://github.com/petamoriken/float16/blob/m
 
 * `hfround(x: number)`
 
-    This API is similar to `Math.fround` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).  
+    This API is similar to `Math.fround` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
     This function returns nearest half precision float representation of a number.
 
     ```js
