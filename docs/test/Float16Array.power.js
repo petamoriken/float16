@@ -880,7 +880,7 @@ var _PowerAssertRecorder1 = function () {
             });
         });
         describe('#filter()', () => {
-            it('property `name` is \'fillter\'', () => {
+            it('property `name` is \'filter\'', () => {
                 var _rec80 = new _PowerAssertRecorder1();
                 assert(_rec80._expr(_rec80._capt(_rec80._capt(_rec80._capt(_rec80._capt(_rec80._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').filter, 'arguments/0/left/object').name, 'arguments/0/left') === 'filter', 'arguments/0'), {
                     content: 'assert(Float16Array.prototype.filter.name === "filter")',

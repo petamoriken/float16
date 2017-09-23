@@ -409,7 +409,7 @@ describe("Float16Array", () => {
 
     describe("#filter()", () => {
 
-        it("property `name` is 'fillter'", () => {
+        it("property `name` is 'filter'", () => {
             assert( Float16Array.prototype.filter.name === "filter" );
         });
 
