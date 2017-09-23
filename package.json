@@ -58,7 +58,6 @@
     "clean": "rm -rf lib browser docs/test/*.css docs/test/*.js docs/test/*.map",
     "refresh": "yarn run clean && yarn run build && yarn run docs",
     "version": "yarn run refresh && git add -A",
-    "prepare": "yarn run refresh",
     "prepublishOnly": "yarn run lint && yarn test"
   },
   "devDependencies": {
