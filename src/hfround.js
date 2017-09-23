@@ -1,4 +1,4 @@
-import { roundToFloat16Bits, convertNumber } from "./lib";
+import { roundToFloat16Bits, convertToNumber } from "./lib";
 
 /**
  * returns the nearest half precision float representation of a number.
@@ -13,5 +13,5 @@ export default function hfround(num) {
     }
 
     const x16 = roundToFloat16Bits(num);
-    return convertNumber(x16);
+    return convertToNumber(x16);
 }
