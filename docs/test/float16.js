@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 v1.0.6 | MIT License - https://git.io/float16
- * generated at 2017-09-24 01:39 +09:00
+ * generated at 2017-09-24 02:01 +09:00
  *
  * @license
  * lodash-es v4.17.4 | MIT License - https://lodash.com/custom-builds
@@ -146,10 +146,6 @@ function ToInteger(num) {
     return Math.trunc(num);
 }
 
-function isPlusZero(val) {
-    return val === 0 && 1 / val === Infinity;
-}
-
 function defaultCompareFunction(x, y) {
     var _ref = [Number.isNaN(x), Number.isNaN(y)];
     const isNaN_x = _ref[0],
@@ -167,7 +163,7 @@ function defaultCompareFunction(x, y) {
     if (x > y) return 1;
 
     if (x === 0 && y === 0) {
-        var _ref2 = [isPlusZero(x), isPlusZero(y)];
+        var _ref2 = [Object.is(x, 0), Object.is(y, 0)];
         const isPlusZero_x = _ref2[0],
               isPlusZero_y = _ref2[1];
 

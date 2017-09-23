@@ -6,14 +6,6 @@ const isProxyAbleToBeWeakMapKey = (function() {
     return new WeakMap().set(proxy, 1).get(proxy) === 1;
 })();
 
-function isPlusZero(num) {
-    return num === 0 && 1 / num === Infinity;
-}
-
-function isMinusZero(num) {
-    return num === 0 && 1 / num === -Infinity;
-}
-
 function deepEqualArray(x, y) {
     assert(x.length === y.length);
 
@@ -30,7 +22,7 @@ function deepEqualNumberArray(x, y) {
         assert( val_x === val_y || Number.isNaN(val_x) && Number.isNaN(val_y) );
 
         if(val_x === 0 && val_y === 0) {
-            assert(isPlusZero(val_x) && isPlusZero(val_y) || isMinusZero(val_x) && isMinusZero(val_y));
+            assert(Object.is(val_x, 0) && Object.is(val_y, 0) || Object.is(val_x, -0) && Object.is(val_y, -0));
         }
     }
 }

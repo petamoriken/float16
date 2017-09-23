@@ -4,10 +4,6 @@ export function ToInteger(num) {
     return Math.trunc(num);
 }
 
-function isPlusZero(val) {
-    return val === 0 && 1 / val === Infinity;
-}
-
 export function defaultCompareFunction(x, y) {
     const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
 
@@ -27,7 +23,7 @@ export function defaultCompareFunction(x, y) {
         return 1;
 
     if(x === 0 && y === 0) {
-        const [isPlusZero_x, isPlusZero_y] = [isPlusZero(x), isPlusZero(y)];
+        const [isPlusZero_x, isPlusZero_y] = [Object.is(x, 0), Object.is(y, 0)];
 
         if(!isPlusZero_x && isPlusZero_y)
             return -1;
