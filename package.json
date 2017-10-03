@@ -71,7 +71,7 @@
     "espower-cli": "^1.1.0",
     "exorcist": "^1.0.0",
     "intelli-espower-loader": "^1.0.1",
-    "mocha": "^3.3.0",
+    "mocha": "^4.0.0",
     "nightwatch": "^0.9.15",
     "power-assert": "^1.4.2",
     "rollup": "^0.50.0",
