@@ -256,8 +256,9 @@ export default class Float16Array extends Uint16Array {
         const array = [];
         for(let i = 0, l = this.length; i < l; ++i) {
             const val = convertToNumber(this[i]);
-
-            if(callback.call(thisArg, val, i, _(this).proxy)) array.push(val);
+            if(callback.call(thisArg, val, i, _(this).proxy)) {
+                array.push(val);
+            }
         }
 
         return new Float16Array(array);

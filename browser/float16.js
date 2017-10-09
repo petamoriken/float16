@@ -1,6 +1,6 @@
 /**
  * @petamoriken/float16 v1.0.6 | MIT License - https://git.io/float16
- * generated at 2017-09-24 02:01 +09:00
+ * generated at 2017-10-10 04:37 +09:00
  *
  * @license
  * lodash-es v4.17.4 | MIT License - https://lodash.com/custom-builds
@@ -1381,8 +1381,9 @@ class Float16Array extends Uint16Array {
         const array = [];
         for (let i = 0, l = this.length; i < l; ++i) {
             const val = convertToNumber(this[i]);
-
-            if (callback.call(thisArg, val, i, _(this).proxy)) array.push(val);
+            if (callback.call(thisArg, val, i, _(this).proxy)) {
+                array.push(val);
+            }
         }
 
         return new Float16Array(array);

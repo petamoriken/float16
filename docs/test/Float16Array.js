@@ -18,12 +18,7 @@ function deepEqualNumberArray(x, y) {
     assert(x.length === y.length);
 
     for(let i = 0, l = x.length; i < l; ++i) {
-        const [val_x, val_y] = [x[i], y[i]];
-        assert( val_x === val_y || Number.isNaN(val_x) && Number.isNaN(val_y) );
-
-        if(val_x === 0 && val_y === 0) {
-            assert(Object.is(val_x, 0) && Object.is(val_y, 0) || Object.is(val_x, -0) && Object.is(val_y, -0));
-        }
+        assert( Object.is(x[i], y[i]) );
     }
 }
 
