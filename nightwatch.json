@@ -93,11 +93,11 @@
             }
         },
 
-        "safari_el": {
+        "safari_old": {
             "desiredCapabilities": {
-                "platform": "OS X 10.11",
+                "platform": "macOS 10.12",
                 "browserName": "safari",
-                "version": "latest"
+                "version": "latest-1"
             }
         }
     }
