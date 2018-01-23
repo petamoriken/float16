@@ -81,7 +81,6 @@
     "saucelabs": "^1.4.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.23.0",
     "lodash": "^4.17.4",
     "lodash-es": "^4.17.4"
   }
