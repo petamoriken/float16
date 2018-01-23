@@ -22,7 +22,7 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 * Firefox: last 2 versions and ESR
 * Chrome: last 2 versions
 * Edge: last 2 versions
-* Safari: latest version
+* Safari: last 2 versions
 * Node.js: latest version
 
 This library's `Float16Array` uses `Proxy`, so IE11 is never supported.
@@ -154,30 +154,3 @@ yarn test
 ### Browser Test
 
 Access [test page](https://petamoriken.github.io/float16/test) ([power-assert version](https://petamoriken.github.io/float16/test/power)).
-
-#### Sauce Labs Browser Test
-
-When you want to test in [Sauce Labs](https://saucelabs.com/), export environment variables.
-
-```console
-export SAUCE_USERNAME=<your Sauce Labs username>
-export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
-```
-
-(optional) Export a test page URL (default: `http://localhost:8000/docs/test/power.html`).
-
-```console
-export TARGET_URL=<browser test url>
-```
-
-If you want to set localhost to `TARGET_URL`, please use [sauce-connect](https://wiki.saucelabs.com/display/DOCS/Sauce+Connect+Proxy).
-
-```console
-brew cask install sauce-connect
-```
-
-Finally, exec below.
-
-```console
-yarn run test-browser
-```
