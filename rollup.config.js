@@ -13,6 +13,7 @@ generated at <%= moment().format('YYYY-MM-DD HH:mm Z') %>
 export default {
     input: "src/index.js",
     output: {
+        name: "float16",
         file: "browser/float16.js",
         format: "iife"
     },
@@ -23,22 +24,11 @@ export default {
             presets: [["env", {
                 targets: {
                     browsers: [
-                        "last 2 versions",
-                        "Firefox ESR",
-
-                        "not IE >= 10",
-                        "not IE_mob >= 10",
-
-                        "not OperaMini all",
-                        "not OperaMobile >= 12.1",
-
-                        "not Android >= 4.4.3",
-                        "not QQAndroid >= 1.2",
-                        "not UCAndroid >= 11.4",
-
-                        "not BlackBerry >= 7",
-                        "not Baidu >= 7.12",
-                        "not Samsung >= 4"
+                        "last 2 Firefox major versions",
+                        "last 2 Chrome major versions",
+                        "last 2 Edge major versions",
+                        "last 2 Safari major versions",
+                        "Firefox ESR"
                     ]
                 },
                 modules: false,
@@ -46,6 +36,5 @@ export default {
             }]]
         }),
         $.license({ banner })
-    ],
-    name: "float16"
+    ]
 };
