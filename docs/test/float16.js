@@ -1,8 +1,8 @@
 /**
- * @petamoriken/float16 ca28bfa | MIT License - https://git.io/float16
+ * @petamoriken/float16 608cde0 | MIT License - https://git.io/float16
  *
  * @license
- * lodash-es v4.17.4 | MIT License - https://lodash.com/custom-builds
+ * lodash-es v4.17.5 | MIT License - https://lodash.com/custom-builds
  */
 
 var float16 = (function (exports) {
@@ -252,8 +252,8 @@ function objectToString(value) {
 }
 
 /** `Object#toString` result references. */
-var nullTag = '[object Null]';
-var undefinedTag = '[object Undefined]';
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
 
 /** Built-in value references. */
 var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
@@ -420,10 +420,10 @@ function isObject(value) {
 }
 
 /** `Object#toString` result references. */
-var asyncTag = '[object AsyncFunction]';
-var funcTag = '[object Function]';
-var genTag = '[object GeneratorFunction]';
-var proxyTag = '[object Proxy]';
+var asyncTag = '[object AsyncFunction]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
 
 /**
  * Checks if `value` is classified as a `Function` object.
@@ -507,8 +507,8 @@ var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
 
 /** Used for built-in method references. */
-var funcProto$1 = Function.prototype;
-var objectProto$2 = Object.prototype;
+var funcProto$1 = Function.prototype,
+    objectProto$2 = Object.prototype;
 
 /** Used to resolve the decompiled source of functions. */
 var funcToString$1 = funcProto$1.toString;
