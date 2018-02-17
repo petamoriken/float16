@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 f3d10f1 | MIT License - https://git.io/float16
+ * @petamoriken/float16 ca28bfa | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.4 | MIT License - https://lodash.com/custom-builds
@@ -1060,15 +1060,9 @@ memoize.Cache = MapCache;
 // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
 const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
 
-// Chakra (Edge <= 14) bug: https://github.com/Microsoft/ChakraCore/issues/1662
-const proxy = new Proxy({}, {});
-const isProxyAbleToBeWeakMapKey = new WeakMap().set(proxy, 1).get(proxy) === 1;
-
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 const _ = createPrivateStorage();
-
-const __target__ = Symbol("target");
 
 function isFloat16Array(target) {
     return target instanceof Float16Array;
@@ -1098,9 +1092,8 @@ function copyToArray(float16bits) {
 // proxy handler
 const applyHandler = {
     apply(func, thisArg, args) {
-
         // peel off proxy
-        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
+        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) return Reflect.apply(func, _(thisArg).target, args);
 
         return Reflect.apply(func, thisArg, args);
     }
@@ -1180,7 +1173,7 @@ class Float16Array extends Uint16Array {
 
         // input Float16Array
         if (isFloat16Array(input)) {
-            super(isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__]);
+            super(_(input).target);
 
             // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if (input !== null && typeof input === "object" && !isArrayBuffer(input)) {
@@ -1230,11 +1223,7 @@ class Float16Array extends Uint16Array {
         }
 
         // proxy private storage
-        if (isProxyAbleToBeWeakMapKey) {
-            _(proxy).target = this;
-        } else {
-            this[__target__] = this;
-        }
+        _(proxy).target = this;
 
         // this private storage
         _(this).proxy = proxy;
@@ -1497,7 +1486,7 @@ class Float16Array extends Uint16Array {
 
         // input Float16Array
         if (isFloat16Array(input)) {
-            float16bits = isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__];
+            float16bits = _(input).target;
 
             // input others
         } else {

@@ -6,12 +6,10 @@ import memoize from "lodash-es/memoize";
 
 import { roundToFloat16Bits, convertToNumber } from "./lib";
 
-import { isTypedArrayIndexedPropertyWritable, isProxyAbleToBeWeakMapKey } from "./bug";
+import { isTypedArrayIndexedPropertyWritable } from "./bug";
 
 
 const _ = createPrivateStorage();
-
-const __target__ = Symbol("target");
 
 
 function isFloat16Array(target) {
@@ -43,10 +41,9 @@ function copyToArray(float16bits) {
 // proxy handler
 const applyHandler = {
     apply(func, thisArg, args) {
-
         // peel off proxy
         if(isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func))
-            return Reflect.apply(func, isProxyAbleToBeWeakMapKey ? _(thisArg).target : thisArg[__target__], args);
+            return Reflect.apply(func, _(thisArg).target ,args);
 
         return Reflect.apply(func, thisArg, args);
     }
@@ -131,7 +128,7 @@ export default class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            super(isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__]);
+            super(_(input).target);
 
         // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
         } else if(input !== null && typeof input === "object" && !isArrayBuffer(input)) {
@@ -181,11 +178,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         // proxy private storage
-        if(isProxyAbleToBeWeakMapKey) {
-            _(proxy).target = this;
-        } else {
-            this[__target__] = this;
-        }
+        _(proxy).target = this;
 
         // this private storage
         _(this).proxy = proxy;
@@ -373,7 +366,7 @@ export default class Float16Array extends Uint16Array {
 
         // input Float16Array
         if(isFloat16Array(input)) {
-            float16bits = isProxyAbleToBeWeakMapKey ? _(input).target : input[__target__];
+            float16bits = _(input).target;
 
         // input others
         } else {

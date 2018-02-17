@@ -1,10 +1,6 @@
 (function() {
 
 const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
-const isProxyAbleToBeWeakMapKey = (function() {
-    const proxy = new Proxy({}, {});
-    return new WeakMap().set(proxy, 1).get(proxy) === 1;
-})();
 
 function deepEqualArray(x, y) {
     assert(x.length === y.length);
@@ -174,7 +170,7 @@ describe("Float16Array", () => {
     });
 
     it("check ownKeys", function() {
-        if(!isTypedArrayIndexedPropertyWritable || !isProxyAbleToBeWeakMapKey)
+        if(!isTypedArrayIndexedPropertyWritable)
             this.skip();
 
         const float16 = new Float16Array([1, 2]);
