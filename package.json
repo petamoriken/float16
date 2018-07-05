@@ -66,7 +66,7 @@
     "babel-plugin-add-module-exports": "^0.3.0",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-preset-env": "^1.4.0",
-    "eslint": "^4.0.0",
+    "eslint": "^5.0.0",
     "espower-cli": "^1.1.0",
     "exorcist": "^1.0.0",
     "intelli-espower-loader": "^1.0.1",
