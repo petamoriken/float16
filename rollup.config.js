@@ -24,7 +24,7 @@ export default {
         $.nodeResolve({ browser: true }),
         $.babel({
             babelrc: false,
-            presets: [["env", {
+            presets: [["@babel/preset-env", {
                 targets: {
                     browsers: [
                         "last 2 Firefox major versions",

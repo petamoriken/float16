@@ -1,22 +1,32 @@
 {
-    "presets": [["env", {
-        "targets": {
-            "browsers": [
-                "last 2 Firefox major versions",
-                "last 2 Chrome major versions",
-                "last 2 Edge major versions",
-                "last 2 Safari major versions",
-                "Firefox ESR"
-            ]
-        },
-        "exclude": ["transform-regenerator"]
-    }]],
-    "plugins": [
-        ["module-resolver", {
-            "alias": {
-                "lodash-es": "lodash"
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "browsers": [
+                        "last 2 Firefox major versions",
+                        "last 2 Chrome major versions",
+                        "last 2 Edge major versions",
+                        "last 2 Safari major versions",
+                        "Firefox ESR"
+                    ]
+                },
+                "exclude": [
+                    "transform-regenerator"
+                ]
             }
-        }],
+        ]
+    ],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "lodash-es": "lodash"
+                }
+            }
+        ],
         "add-module-exports"
     ]
 }
