@@ -25,6 +25,7 @@ module.exports = {
     "no-return-await": [1],
     "eol-last": [0],
     "no-mixed-requires": [0],
-    "no-underscore-dangle": [0]
+    "no-underscore-dangle": [0],
+    "getter-return": [0]
   }
 };
