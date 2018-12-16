@@ -1,23 +1,17 @@
 {
     "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "exclude": [
-                    "transform-regenerator"
-                ]
-            }
-        ]
+        ["@babel/preset-env", {
+            "exclude": [
+                "transform-regenerator"
+            ]
+        }]
     ],
     "plugins": [
-        [
-            "module-resolver",
-            {
-                "alias": {
-                    "lodash-es": "lodash"
-                }
+        ["module-resolver", {
+            "alias": {
+                "lodash-es": "lodash"
             }
-        ],
+        }],
         "add-module-exports"
     ]
 }

@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 c1bef73 | MIT License - https://git.io/float16
+ * @petamoriken/float16 9d9f9b4 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.11 | MIT License - https://lodash.com/custom-builds
@@ -1309,16 +1309,24 @@ var float16 = (function (exports) {
       } // static methods
 
 
-      static from(src, ...opts) {
-        if (opts.length === 0) return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
-        const mapFunc = opts[0];
-        const thisArg = opts[1];
-        return new Float16Array(Uint16Array.from(src, function (val, ...args) {
+      static from(src) {
+        if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
+        const mapFunc = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = arguments.length <= 2 ? undefined : arguments[2];
+        return new Float16Array(Uint16Array.from(src, function (val) {
+          for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+            args[_key - 1] = arguments[_key];
+          }
+
           return roundToFloat16Bits(mapFunc.call(this, val, ...args));
         }, thisArg).buffer);
       }
 
-      static of(...args) {
+      static of() {
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
         return new Float16Array(args);
       } // iterate methods
 
@@ -1350,9 +1358,9 @@ var float16 = (function (exports) {
       } // functional methods
 
 
-      map(callback, ...opts) {
+      map(callback) {
         assertFloat16Array(this);
-        const thisArg = opts[0];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
         const array = [];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1363,9 +1371,9 @@ var float16 = (function (exports) {
         return new Float16Array(array);
       }
 
-      filter(callback, ...opts) {
+      filter(callback) {
         assertFloat16Array(this);
-        const thisArg = opts[0];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
         const array = [];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1379,15 +1387,15 @@ var float16 = (function (exports) {
         return new Float16Array(array);
       }
 
-      reduce(callback, ...opts) {
+      reduce(callback) {
         assertFloat16Array(this);
         let val, start;
 
-        if (opts.length === 0) {
+        if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) {
           val = convertToNumber(this[0]);
           start = 1;
         } else {
-          val = opts[0];
+          val = arguments.length <= 1 ? undefined : arguments[1];
           start = 0;
         }
 
@@ -1398,16 +1406,16 @@ var float16 = (function (exports) {
         return val;
       }
 
-      reduceRight(callback, ...opts) {
+      reduceRight(callback) {
         assertFloat16Array(this);
         let val, start;
         const length = this.length;
 
-        if (opts.length === 0) {
+        if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) {
           val = convertToNumber(this[length - 1]);
           start = length - 1;
         } else {
-          val = opts[0];
+          val = arguments.length <= 1 ? undefined : arguments[1];
           start = length;
         }
 
@@ -1418,18 +1426,18 @@ var float16 = (function (exports) {
         return val;
       }
 
-      forEach(callback, ...opts) {
+      forEach(callback) {
         assertFloat16Array(this);
-        const thisArg = opts[0];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy);
         }
       }
 
-      find(callback, ...opts) {
+      find(callback) {
         assertFloat16Array(this);
-        const thisArg = opts[0];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           const value = convertToNumber(this[i]);
@@ -1437,9 +1445,9 @@ var float16 = (function (exports) {
         }
       }
 
-      findIndex(callback, ...opts) {
+      findIndex(callback) {
         assertFloat16Array(this);
-        const thisArg = opts[0];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           const value = convertToNumber(this[i]);
@@ -1449,9 +1457,9 @@ var float16 = (function (exports) {
         return -1;
       }
 
-      every(callback, ...opts) {
+      every(callback) {
         assertFloat16Array(this);
-        const thisArg = opts[0];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           if (!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) return false;
@@ -1460,9 +1468,9 @@ var float16 = (function (exports) {
         return true;
       }
 
-      some(callback, ...opts) {
+      some(callback) {
         assertFloat16Array(this);
-        const thisArg = opts[0];
+        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           if (callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) return true;
@@ -1472,9 +1480,9 @@ var float16 = (function (exports) {
       } // change element methods
 
 
-      set(input, ...opts) {
+      set(input) {
         assertFloat16Array(this);
-        const offset = opts[0];
+        const offset = arguments.length <= 1 ? undefined : arguments[1];
         let float16bits; // input Float16Array
 
         if (isFloat16Array(input)) {
@@ -1498,21 +1506,31 @@ var float16 = (function (exports) {
         return _(this).proxy;
       }
 
-      fill(value, ...opts) {
+      fill(value) {
         assertFloat16Array(this);
+
+        for (var _len3 = arguments.length, opts = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+          opts[_key3 - 1] = arguments[_key3];
+        }
+
         super.fill(roundToFloat16Bits(value), ...opts);
         return _(this).proxy;
       }
 
-      copyWithin(target, start, ...opts) {
+      copyWithin(target, start) {
         assertFloat16Array(this);
+
+        for (var _len4 = arguments.length, opts = new Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
+          opts[_key4 - 2] = arguments[_key4];
+        }
+
         super.copyWithin(target, start, ...opts);
         return _(this).proxy;
       }
 
-      sort(...opts) {
+      sort() {
         assertFloat16Array(this);
-        let compareFunction = opts[0];
+        let compareFunction = arguments.length <= 0 ? undefined : arguments[0];
 
         if (compareFunction === undefined) {
           compareFunction = defaultCompareFunction;
@@ -1525,16 +1543,16 @@ var float16 = (function (exports) {
       } // copy element methods
 
 
-      slice(...opts) {
+      slice() {
         assertFloat16Array(this);
         let float16bits; // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
 
         try {
-          float16bits = super.slice(...opts);
+          float16bits = super.slice(...arguments);
         } catch (e) {
           if (e instanceof TypeError) {
             const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-            float16bits = uint16.slice(...opts);
+            float16bits = uint16.slice(...arguments);
           } else {
             throw e;
           }
@@ -1543,16 +1561,16 @@ var float16 = (function (exports) {
         return new Float16Array(float16bits.buffer);
       }
 
-      subarray(...opts) {
+      subarray() {
         assertFloat16Array(this);
         let float16bits; // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
 
         try {
-          float16bits = super.subarray(...opts);
+          float16bits = super.subarray(...arguments);
         } catch (e) {
           if (e instanceof TypeError) {
             const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-            float16bits = uint16.subarray(...opts);
+            float16bits = uint16.subarray(...arguments);
           } else {
             throw e;
           }
@@ -1562,10 +1580,10 @@ var float16 = (function (exports) {
       } // contains methods
 
 
-      indexOf(element, ...opts) {
+      indexOf(element) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(opts[0]);
+        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
 
         if (from < 0) {
           from += length;
@@ -1579,10 +1597,10 @@ var float16 = (function (exports) {
         return -1;
       }
 
-      lastIndexOf(element, ...opts) {
+      lastIndexOf(element) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(opts[0]);
+        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
         from = from === 0 ? length : from + 1;
 
         if (from >= 0) {
@@ -1598,10 +1616,10 @@ var float16 = (function (exports) {
         return -1;
       }
 
-      includes(element, ...opts) {
+      includes(element) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(opts[0]);
+        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
 
         if (from < 0) {
           from += length;
@@ -1620,16 +1638,16 @@ var float16 = (function (exports) {
       } // string methods
 
 
-      join(...opts) {
+      join() {
         assertFloat16Array(this);
         const array = copyToArray(this);
-        return array.join(...opts);
+        return array.join(...arguments);
       }
 
-      toLocaleString(...opts) {
+      toLocaleString() {
         assertFloat16Array(this);
         const array = copyToArray(this);
-        return array.toLocaleString(...opts);
+        return array.toLocaleString(...arguments);
       }
 
       get [Symbol.toStringTag]() {
@@ -1652,8 +1670,13 @@ var float16 = (function (exports) {
      * @param {*} opts
      */
 
-    function getFloat16(dataView, byteOffset, ...opts) {
+    function getFloat16(dataView, byteOffset) {
       if (!isDataView(dataView)) throw new TypeError("First argument to getFloat16 function must be a DataView");
+
+      for (var _len = arguments.length, opts = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        opts[_key - 2] = arguments[_key];
+      }
+
       return convertToNumber(dataView.getUint16(byteOffset, ...opts));
     }
     /**
@@ -1664,8 +1687,13 @@ var float16 = (function (exports) {
      * @param {*} opts
      */
 
-    function setFloat16(dataView, byteOffset, value, ...opts) {
+    function setFloat16(dataView, byteOffset, value) {
       if (!isDataView(dataView)) throw new TypeError("First argument to setFloat16 function must be a DataView");
+
+      for (var _len2 = arguments.length, opts = new Array(_len2 > 3 ? _len2 - 3 : 0), _key2 = 3; _key2 < _len2; _key2++) {
+        opts[_key2 - 3] = arguments[_key2];
+      }
+
       dataView.setUint16(byteOffset, roundToFloat16Bits(value), ...opts);
     }
 
