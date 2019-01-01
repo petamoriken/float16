@@ -23,6 +23,7 @@ const settings = {
             webdriver: {
                 username: "${SAUCE_USERNAME}",
                 access_key: "${SAUCE_ACCESS_KEY}",
+                default_path_prefix: "/wd/hub",
             },
 
             desiredCapabilities: {
