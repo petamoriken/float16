@@ -1,13 +1,9 @@
-const settings = {
+const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, TRAVIS_JOB_NUMBER, TRAVIS_BRANCH, TRAVIS_PULL_REQUEST } = process.env;
+
+module.exports = {
     src_folders: "test/browser",
     output_folder: "test_report",
     custom_commands_path: "test/nightwatch_custom",
-
-    selenium: {
-        start_process: true,
-        host: "127.0.0.1",
-        port: 4444,
-    },
 
     test_workers: {
         enabled: true,
@@ -21,14 +17,18 @@ const settings = {
             selenium_port: 80,
 
             webdriver: {
-                username: "${SAUCE_USERNAME}",
-                access_key: "${SAUCE_ACCESS_KEY}",
+                username: SAUCE_USERNAME,
+                access_key: SAUCE_ACCESS_KEY,
                 default_path_prefix: "/wd/hub",
             },
 
             desiredCapabilities: {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
+                "tunnel-identifier": TRAVIS_JOB_NUMBER,
+                ...(TRAVIS_BRANCH === "master" && TRAVIS_PULL_REQUEST === "false" ? {
+                    build: `build-${ TRAVIS_JOB_NUMBER }`
+                } : {})
             },
         },
 
@@ -105,15 +105,3 @@ const settings = {
         },
     },
 };
-
-const { TRAVIS_JOB_NUMBER, TRAVIS_BRANCH, TRAVIS_PULL_REQUEST } = process.env;
-
-if (TRAVIS_JOB_NUMBER) {
-    const desiredCapabilities = settings.test_settings.default.desiredCapabilities;
-    if (TRAVIS_BRANCH === "master" && TRAVIS_PULL_REQUEST === "false") {
-        desiredCapabilities.build = `build-${ TRAVIS_JOB_NUMBER }`;
-    }
-    desiredCapabilities["tunnel-identifier"] = TRAVIS_JOB_NUMBER;
-}
-
-module.exports = settings;
