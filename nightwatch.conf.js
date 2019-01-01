@@ -68,7 +68,7 @@ module.exports = {
             desiredCapabilities: {
                 platform: "Windows 10",
                 browserName: "firefox",
-                version: "52.0",
+                version: "60.0",
             },
         },
 
@@ -100,7 +100,7 @@ module.exports = {
             desiredCapabilities: {
                 platform: "macOS 10.12",
                 browserName: "safari",
-                version: "latest-1",
+                version: "latest",
             },
         },
     },
