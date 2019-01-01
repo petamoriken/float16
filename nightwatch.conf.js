@@ -4,7 +4,7 @@ const settings = {
     custom_commands_path: "test/nightwatch_custom",
 
     selenium: {
-        start_process: false,
+        start_process: true,
         host: "127.0.0.1",
         port: 4444,
     },
