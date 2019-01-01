@@ -6,8 +6,7 @@ const $ = loadPlugins();
 const gitTag = execSync("git tag -l --points-at HEAD").toString().trim();
 const gitCommitHash = execSync("git rev-parse --short HEAD").toString().trim();
 
-const banner =
-`<%= pkg.name %> ${ gitTag || gitCommitHash } | <%= pkg.license %> License - <%= pkg.homepage %>
+const banner = `<%= pkg.name %> ${ gitTag || gitCommitHash } | <%= pkg.license %> License - <%= pkg.homepage %>
 
 @license<% _.forEach(dependencies, function (dependency) { %>
   <%= dependency.name %> v<%= dependency.version %> | <%= dependency.license %> License - <%= dependency.homepage %>

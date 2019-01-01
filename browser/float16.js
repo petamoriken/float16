@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 9d9f9b4 | MIT License - https://git.io/float16
+ * @petamoriken/float16 a643493 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.11 | MIT License - https://lodash.com/custom-builds
@@ -244,11 +244,12 @@ var float16 = (function (exports) {
 
       try {
         value[symToStringTag] = undefined;
+        var unmasked = true;
       } catch (e) {}
 
       var result = nativeObjectToString.call(value);
 
-      {
+      if (unmasked) {
         if (isOwn) {
           value[symToStringTag] = tag;
         } else {
