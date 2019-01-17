@@ -2742,12 +2742,7 @@ lodash.merge@^4.6.1:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
   integrity sha512-AOYza4+Hf5z1/0Hztxpm2/xiPZgi/cjMqdnKTUWTBSKchJlxXXuUSxCCl8rJlf4g6yww/j6mA8nC8Hw/EZWxKQ==
 
-lodash@4.17.9:
-  version "4.17.9"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.9.tgz#9c056579af0bdbb4322e23c836df13ef2b271cb7"
-  integrity sha512-vuRLquvot5sKUldMBumG0YqLvX6m/RGBBOmqb3CWR/MC/QvvD1cTH1fOqxz2FJAQeoExeUdX5Gu9vP2EP6ik+Q==
-
-"lodash@>=4.17.5 <5.0.0", lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5:
+lodash@4.17.11, "lodash@>=4.17.5 <5.0.0", lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -2772,10 +2767,10 @@ lru-cache@^4.1.2:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-magic-string@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.0.tgz#1f3696f9931ff0a1ed4c132250529e19cad6759b"
-  integrity sha512-Msbwa9oNYNPjwVh9ury5X2BHbTFWoirTlzuf4X+pIoSOQVKNRJHXTx1WmKYuXzRM4QZFv8dGXyZvhDMmWhGLPw==
+magic-string@0.25.1:
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.1.tgz#b1c248b399cd7485da0fe7385c2fc7011843266e"
+  integrity sha512-sCuTz6pYom8Rlt4ISPFn6wuFodbKMIHUMv4Qko9P17dpxb7s52KJTmRuZZqHdGmLCK9AOcDare039nRIcfdkEg==
   dependencies:
     sourcemap-codec "^1.4.1"
 
@@ -2968,10 +2963,10 @@ mold-source-map@~0.4.0:
     convert-source-map "^1.1.0"
     through "~2.2.7"
 
-moment@2.22.2:
-  version "2.22.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
-  integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
+moment@2.23.0:
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
+  integrity sha512-3IE39bHVqFbWWaPOMHZF98Q9c3LDKGTmypMiTM2QygGXXElkFWIH7GxfmlwmY2vwa+wmNsoYZmG2iusf1ZjJoA==
 
 ms@2.0.0:
   version "2.0.0"
@@ -3827,16 +3822,16 @@ rollup-plugin-babel@^4.0.1:
     "@babel/helper-module-imports" "^7.0.0"
     rollup-pluginutils "^2.3.0"
 
-rollup-plugin-license@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-0.7.0.tgz#908101f56d2c1e6311aa2d422eb41732063d5389"
-  integrity sha512-KoZxV+UxBUaubo3mu7IHjMFryCuZIU8Q9tm8GLUl/lz6DQCEJUEgcp+urItEuux8xa7M0Qx7Fjoe4g3s9hsUFg==
+rollup-plugin-license@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-0.8.1.tgz#cdcfee2a32f27790e5019a2a7abd9234476ac589"
+  integrity sha512-UeDVawklIv/rb4/M8AqHHtt03L+gDNfCVjQJqgUaQKiNTmUk+peAzkaLYeC6kfQm7i77kGYEzkbPZ0Dd9NEbCQ==
   dependencies:
     commenting "1.0.5"
-    lodash "4.17.9"
-    magic-string "0.25.0"
+    lodash "4.17.11"
+    magic-string "0.25.1"
     mkdirp "0.5.1"
-    moment "2.22.2"
+    moment "2.23.0"
 
 rollup-plugin-node-resolve@^4.0.0:
   version "4.0.0"
