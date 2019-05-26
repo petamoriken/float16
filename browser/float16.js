@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 0983c82 | MIT License - https://git.io/float16
+ * @petamoriken/float16 b377fda | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.11 | MIT License - https://lodash.com/custom-builds
@@ -136,53 +136,13 @@ var float16 = (function (exports) {
       return convertToNumber(x16);
     }
 
-    function _slicedToArray(arr, i) {
-      return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
-    }
-
-    function _arrayWithHoles(arr) {
-      if (Array.isArray(arr)) return arr;
-    }
-
-    function _iterableToArrayLimit(arr, i) {
-      var _arr = [];
-      var _n = true;
-      var _d = false;
-      var _e = undefined;
-
-      try {
-        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-          _arr.push(_s.value);
-
-          if (i && _arr.length === i) break;
-        }
-      } catch (err) {
-        _d = true;
-        _e = err;
-      } finally {
-        try {
-          if (!_n && _i["return"] != null) _i["return"]();
-        } finally {
-          if (_d) throw _e;
-        }
-      }
-
-      return _arr;
-    }
-
-    function _nonIterableRest() {
-      throw new TypeError("Invalid attempt to destructure non-iterable instance");
-    }
-
     function ToInteger(num) {
       if (typeof num !== "number") num = Number(num);
       if (Number.isNaN(num)) num = 0;
       return Math.trunc(num);
     }
     function defaultCompareFunction(x, y) {
-      const _ref = [Number.isNaN(x), Number.isNaN(y)],
-            isNaN_x = _ref[0],
-            isNaN_y = _ref[1];
+      const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
       if (isNaN_x && isNaN_y) return 0;
       if (isNaN_x) return 1;
       if (isNaN_y) return -1;
@@ -190,9 +150,7 @@ var float16 = (function (exports) {
       if (x > y) return 1;
 
       if (x === 0 && y === 0) {
-        const _ref2 = [Object.is(x, 0), Object.is(y, 0)],
-              isPlusZero_x = _ref2[0],
-              isPlusZero_y = _ref2[1];
+        const [isPlusZero_x, isPlusZero_y] = [Object.is(x, 0), Object.is(y, 0)];
         if (!isPlusZero_x && isPlusZero_y) return -1;
         if (isPlusZero_x && !isPlusZero_y) return 1;
       }
@@ -931,7 +889,7 @@ var float16 = (function (exports) {
 
     /* Built-in method references that are verified to be native. */
 
-    var Map$1 = getNative(root, 'Map');
+    var Map = getNative(root, 'Map');
 
     /**
      * Removes all key-value entries from the map.
@@ -945,7 +903,7 @@ var float16 = (function (exports) {
       this.size = 0;
       this.__data__ = {
         'hash': new Hash(),
-        'map': new (Map$1 || ListCache)(),
+        'map': new (Map || ListCache)(),
         'string': new Hash()
       };
     }
@@ -1349,11 +1307,7 @@ var float16 = (function (exports) {
       }
 
       *entries() {
-        for (const _ref of super.entries()) {
-          var _ref2 = _slicedToArray(_ref, 2);
-
-          const i = _ref2[0];
-          const val = _ref2[1];
+        for (const [i, val] of super.entries()) {
           yield [i, convertToNumber(val)];
         }
       } // functional methods
@@ -1698,9 +1652,9 @@ var float16 = (function (exports) {
       dataView.setUint16(byteOffset, roundToFloat16Bits(value), ...opts);
     }
 
-    exports.hfround = hfround;
     exports.Float16Array = Float16Array;
     exports.getFloat16 = getFloat16;
+    exports.hfround = hfround;
     exports.setFloat16 = setFloat16;
 
     return exports;
