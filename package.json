@@ -3,8 +3,9 @@
   "description": "half precision floating point for JavaScript",
   "version": "1.0.8",
   "main": "lib/index.js",
-  "jsnext:main": "src/index.js",
-  "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.kimamass.com)",
+  "module": "src/index.js",
+  "sideEffects": false,
+  "author": "Kenta Moriuchi <moriken@kimamass.com> (http://moriken.dev)",
   "bugs": {
     "url": "https://github.com/petamoriken/float16/issues"
   },

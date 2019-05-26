@@ -1,6 +1,6 @@
-# float16 <a href="https://github.com/petamoriken/float16" target="_blank"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="24" height="24"></a>
+# <a href="https://git.io/float16" target="_blank">@petamoriken/float16</a>
 
-half precision floating point for JavaScript
+half precision floating point for JavaScript  
 see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 [![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
@@ -19,13 +19,17 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 ## Supports (at least)
 
+This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
+
+`/lib` and `/browser` directories in the npm package have JavaScript files already built, whose target are
+
 * Firefox: last 2 versions and ESR
 * Chrome: last 2 versions
 * Edge: last 2 versions
 * Safari: last 2 versions
 * Node.js: latest version
 
-This library's `Float16Array` uses `Proxy`, so IE11 is never supported.
+When you build by yourself using webpack or rollup.js, please transpile JavaScript files in `/src` directory.
 
 ## Install
 
@@ -73,7 +77,7 @@ Copy [the build file for browsers](https://github.com/petamoriken/float16/blob/m
     This API is similar to `TypedArray` such as `Float32Array`.
 
     ```js
-    let float16 = new Float16Array([1.0, 1.1, 1.2]);
+    const float16 = new Float16Array([1.0, 1.1, 1.2]);
     for(const val of float16) {
         console.log(val); // => 1, 1.099609375, 1.19921875
     }
@@ -87,15 +91,15 @@ Copy [the build file for browsers](https://github.com/petamoriken/float16/blob/m
     These APIs are similar to `DataView` methods such as `DataView#getFloat32` and `DataView#setFloat32`.
 
     ```js
-    let buffer = new ArrayBuffer(10);
-    let view = new DataView(buffer);
+    const buffer = new ArrayBuffer(10);
+    const view = new DataView(buffer);
 
     view.setUint16(0, 0x1234);
     getFloat16(view, 0); // 0.0007572174072265625
 
     // You can append to DataView instance
-    view.getFloat16 = getFloat16.bind(null, view);
-    view.setFloat16 = setFloat16.bind(null, view);
+    view.getFloat16 = (...args) => getFloat16(view, ...args);
+    view.setFloat16 = (...args) => setFloat16(view, ...args);
 
     view.getFloat16(0); // 0.0007572174072265625
 
