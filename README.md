@@ -21,7 +21,7 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 
-`/lib` and `/browser` directories in the npm package have JavaScript files already built, whose target are
+`lib/` and `browser/` directories in the npm package have JavaScript files already built, whose target are
 
 * Firefox: last 2 versions and ESR
 * Chrome: last 2 versions
@@ -29,7 +29,7 @@ This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 * Safari: last 2 versions
 * Node.js: latest version
 
-When you build by yourself using webpack or rollup.js, please transpile JavaScript files in `/src` directory.
+When you build by yourself using webpack or rollup.js, please transpile JavaScript files in `src/` directory.
 
 ## Install
 
