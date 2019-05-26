@@ -3,22 +3,16 @@
 const SauceLabs = require("saucelabs");
 
 // environment
-const { SAUCE_USERNAME, SAUCE_ACCESS_KEY } = process.env;
+const { SAUCE_USERNAME: user, SAUCE_ACCESS_KEY: key } = process.env;
 
-exports.command = function() {
-    const { sessionId, currentTest: { name: jobName } } = this;
+exports.command = async function() {
+    const { sessionId, currentTest: { name } } = this;
 
-    console.log("SauceOnDemandSessionID: ", sessionId);
-
-    const saucelabs = new SauceLabs({
-        username: SAUCE_USERNAME,
-        password: SAUCE_ACCESS_KEY
-    });
-
-    saucelabs.updateJob(sessionId, {
+    const saucelabs = new SauceLabs({ user, key });
+    await saucelabs.updateJob(user, sessionId, {
+        name,
         passed: this.currentTest.results.failed === 0,
-        name: jobName
-    }, () => {
-        this.end();
     });
+
+    this.end();
 };
