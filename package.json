@@ -78,8 +78,8 @@
     "rollup-load-plugins": "^0.4.0",
     "rollup-plugin-babel": "^4.0.1",
     "rollup-plugin-license": "^0.8.1",
-    "rollup-plugin-node-resolve": "^4.0.0",
-    "saucelabs": "^1.4.0"
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "saucelabs": "^2.1.9"
   },
   "dependencies": {
     "lodash": ">=4.17.5 <5.0.0",
