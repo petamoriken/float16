@@ -4154,9 +4154,9 @@ safe-regex@^1.1.0:
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
 saucelabs@^2.1.9:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-2.1.9.tgz#47b95bbcfe85185eca5b4f4fef2cf571a608597f"
-  integrity sha512-GsxNNxaAQypFtxO/1SYKY4hZOtFj/ENwCq/MB4EciNoqQHCWGhD5D/9nePPakgIMRT3+IA80CXDPAPwyZSNquw==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-2.3.0.tgz#ac17a4ff7a6d63a5a5f7a990ba235768c4fbe189"
+  integrity sha512-8KPepEH8GcmEk/XQH6w1nsS4sZTuiS6+v3jKC5o/Wvi952Sm7GFqAECVY7c7uvEwxSS1nqyfOCQq+fW99pl3ew==
   dependencies:
     change-case "^3.1.0"
     hash.js "^1.1.7"
