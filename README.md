@@ -8,7 +8,6 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 [![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![Travis](https://img.shields.io/travis/petamoriken/float16/master.svg?style=flat-square)](https://travis-ci.org/petamoriken/float16)
-[![Greenkeeper badge](https://badges.greenkeeper.io/petamoriken/float16.svg?flat-square)](https://greenkeeper.io/)
 [![dependencies Status](https://david-dm.org/petamoriken/float16/status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16)
 [![devDependencies Status](https://david-dm.org/petamoriken/float16/dev-status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16?type=dev)
 
