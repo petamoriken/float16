@@ -1,8 +1,8 @@
 /**
- * @petamoriken/float16 e1e236d | MIT License - https://git.io/float16
+ * @petamoriken/float16 aa4af43 | MIT License - https://git.io/float16
  *
  * @license
- * lodash-es v4.17.11 | MIT License - https://lodash.com/custom-builds
+ * lodash-es v4.17.15 | MIT License - https://lodash.com/custom-builds
  */
 
 var float16 = (function (exports) {

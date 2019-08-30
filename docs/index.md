@@ -8,7 +8,6 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 [![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![Travis](https://img.shields.io/travis/petamoriken/float16/master.svg?style=flat-square)](https://travis-ci.org/petamoriken/float16)
-[![Greenkeeper badge](https://badges.greenkeeper.io/petamoriken/float16.svg?flat-square)](https://greenkeeper.io/)
 [![dependencies Status](https://david-dm.org/petamoriken/float16/status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16)
 [![devDependencies Status](https://david-dm.org/petamoriken/float16/dev-status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16?type=dev)
 
@@ -21,7 +20,7 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 
-`/lib` and `/browser` directories in the npm package have JavaScript files already built, whose target are
+`lib/` and `browser/` directories in the npm package have JavaScript files already built, whose target are
 
 * Firefox: last 2 versions and ESR
 * Chrome: last 2 versions
@@ -29,7 +28,7 @@ This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 * Safari: last 2 versions
 * Node.js: latest version
 
-When you build by yourself using webpack or rollup.js, please transpile JavaScript files in `/src` directory.
+When you build by yourself using webpack or rollup.js, please transpile JavaScript files in `src/` directory.
 
 ## Install
 
