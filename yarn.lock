@@ -4225,10 +4225,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-saucelabs@^2.1.9:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-2.3.0.tgz#ac17a4ff7a6d63a5a5f7a990ba235768c4fbe189"
-  integrity sha512-8KPepEH8GcmEk/XQH6w1nsS4sZTuiS6+v3jKC5o/Wvi952Sm7GFqAECVY7c7uvEwxSS1nqyfOCQq+fW99pl3ew==
+saucelabs@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-3.0.0.tgz#cee6435716750f37a7aa39e4266cdf1d88eb7fe7"
+  integrity sha512-JlfCcIjXbthtodnCVfjHAMBxSdFIoZWsBMs5J0tBkx1yxOKWZd/7fePUXu688Yj8Z4GpCxNDUQFJEKJmKrttBQ==
   dependencies:
     change-case "^3.1.0"
     hash.js "^1.1.7"
