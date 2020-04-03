@@ -4471,13 +4471,14 @@ safe-regex@^1.1.0:
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
 saucelabs@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-4.0.0.tgz#d6213fd1c4986cc29d1e3bb2ba20085d55658402"
-  integrity sha512-q7sq9xH0P+pFNfs1ROnjKbSof70vuomjqTLZa9mDo354RNgjEjDOvtDUtdtiu6m2H4DftjXF3J1z35QAfHGN3w==
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-4.0.2.tgz#2eb4988b1c144fa703f7ed3019cd7bd5fe5df3bd"
+  integrity sha512-kdU7vAFIlGp/22lIgWrdE+9ySJzdbeWE7qb2V2/w0zB/Edz/vEkYYFMWkGobVJr+mmQhex58zuvCXRcjxTlFcA==
   dependencies:
     change-case "^4.1.1"
     got "^10.6.0"
     hash.js "^1.1.7"
+    tunnel "0.0.6"
     yargs "^15.3.1"
 
 "semver@2 || 3 || 4 || 5", semver@^5.4.1, semver@^5.5.0, semver@^5.6.0, semver@^5.7.0:
@@ -4988,6 +4989,11 @@ tunnel-agent@^0.6.0:
   integrity sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=
   dependencies:
     safe-buffer "^5.0.1"
+
+tunnel@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.6.tgz#72f1314b34a5b192db012324df2cc587ca47f92c"
+  integrity sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
