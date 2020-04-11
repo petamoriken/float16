@@ -75,7 +75,7 @@
     "mocha": "^7.0.1",
     "nightwatch": "^1.0.18",
     "power-assert": "^1.4.2",
-    "rollup": "^1.10.0",
+    "rollup": "^2.6.0",
     "rollup-load-plugins": "^0.4.0",
     "rollup-plugin-babel": "^4.0.1",
     "rollup-plugin-license": "^2.0.0",
