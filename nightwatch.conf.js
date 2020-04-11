@@ -5,11 +5,6 @@ module.exports = {
     output_folder: "test_report",
     custom_commands_path: "test/nightwatch_custom",
 
-    test_workers: {
-        enabled: true,
-        workers: "auto",
-    },
-
     test_settings: {
         default: {
             launch_url: "http://localhost",
@@ -90,7 +85,7 @@ module.exports = {
 
         safari: {
             desiredCapabilities: {
-                platform: "macOS 10.14",
+                platform: "macOS 10.15",
                 browserName: "safari",
                 version: "latest",
             },
@@ -98,7 +93,7 @@ module.exports = {
 
         safari_old: {
             desiredCapabilities: {
-                platform: "macOS 10.13",
+                platform: "macOS 10.14",
                 browserName: "safari",
                 version: "latest",
             },
