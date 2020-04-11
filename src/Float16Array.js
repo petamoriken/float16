@@ -49,13 +49,12 @@ const applyHandler = {
 
 const handler = {
     get(target, key) {
-        let wrapper = null;
 
         if(isStringNumberKey(key)) {
             return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
 
         } else {
-            const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
+            const ret = Reflect.get(target, key);
 
             if(typeof ret !== "function")
                 return ret;
@@ -72,19 +71,10 @@ const handler = {
     },
 
     set(target, key, value) {
-        let wrapper = null;
-
         if(isStringNumberKey(key)) {
             return Reflect.set(target, key, roundToFloat16Bits(value));
-
         } else {
-            // frozen object can't change prototype property
-            if(wrapper !== null && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
-                return Reflect.set(wrapper, key, value);
-
-            } else {
-                return Reflect.set(target, key, value);
-            }
+            return Reflect.set(target, key, value);
         }
     }
 };
@@ -135,11 +125,7 @@ export default class Float16Array extends Uint16Array {
             }
         }
 
-        let proxy;
-
-        const wrapper = Object.create(null);
-        _(wrapper).target = this;
-        proxy = new Proxy(wrapper, handler);
+        const proxy = new Proxy(this, handler)
 
         // proxy private storage
         _(proxy).target = this;
