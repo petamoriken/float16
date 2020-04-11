@@ -1,5 +1,7 @@
 (function() {
 
+const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
+
 function deepEqualArray(x, y) {
     assert(x.length === y.length);
 
@@ -139,6 +141,10 @@ describe("Float16Array", () => {
 
     it("can't be frozen with elements", function() {
         assert.doesNotThrow(() => Object.freeze( new Float16Array() ));
+
+        if(!isTypedArrayIndexedPropertyWritable)
+            this.skip();
+
         assert.throws(() => Object.freeze( new Float16Array(10) ), TypeError);
     });
 
@@ -164,6 +170,9 @@ describe("Float16Array", () => {
     });
 
     it("check ownKeys", function() {
+        if(!isTypedArrayIndexedPropertyWritable)
+            this.skip();
+
         const float16 = new Float16Array([1, 2]);
         deepEqualArray( Reflect.ownKeys(float16), ["0", "1"] );
     });
