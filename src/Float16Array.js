@@ -1,32 +1,42 @@
-import { ToInteger, defaultCompareFunction } from "./spec";
-import { isStringNumberKey, isArrayBuffer } from "./is";
-import { createPrivateStorage } from "./private";
-
 import memoize from "lodash-es/memoize";
-
-import { roundToFloat16Bits, convertToNumber } from "./lib";
-
 import { isTypedArrayIndexedPropertyWritable } from "./bug";
-
+import { isArrayBuffer, isStringNumberKey } from "./is";
+import { convertToNumber, roundToFloat16Bits } from "./lib";
+import { createPrivateStorage } from "./private";
+import { ToInteger, defaultCompareFunction } from "./spec";
 
 const _ = createPrivateStorage();
 
-
+/**
+ * @param {unknown} target
+ * @returns {boolean}
+ */
 function isFloat16Array(target) {
     return target instanceof Float16Array;
 }
 
+/**
+ * @param {unknown} target
+ * @throws {TypeError}
+ */
 function assertFloat16Array(target) {
-    if(!isFloat16Array(target)) {
+    if (!isFloat16Array(target)) {
         throw new TypeError("This is not a Float16Array");
     }
 }
 
+/**
+ * @param {unknown} target
+ * @returns {boolean}
+ */
 function isDefaultFloat16ArrayMethods(target) {
     return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
 }
 
-
+/**
+ * @param {Float16Array} float16bits
+ * @return {number[]}
+ */
 function copyToArray(float16bits) {
     const length = float16bits.length;
 
@@ -38,38 +48,40 @@ function copyToArray(float16bits) {
     return array;
 }
 
-// proxy handler
+/** @type {ProxyHandler<Function>} */
 const applyHandler = {
     apply(func, thisArg, args) {
         // peel off proxy
-        if(isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func))
+        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) {
             return Reflect.apply(func, _(thisArg).target ,args);
+        }
 
         return Reflect.apply(func, thisArg, args);
-    }
+    },
 };
 
+/** @type {ProxyHandler<Float16Array>} */
 const handler = {
     get(target, key) {
         let wrapper = null;
-        if(!isTypedArrayIndexedPropertyWritable) {
+        if (!isTypedArrayIndexedPropertyWritable) {
             wrapper = target;
             target = _(wrapper).target;
         }
 
-        if(isStringNumberKey(key)) {
+        if (isStringNumberKey(key)) {
             return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
-
         } else {
             const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
 
-            if(typeof ret !== "function")
+            if (typeof ret !== "function") {
                 return ret;
+            }
 
             // TypedArray methods can't be called by Proxy Object
             let proxy = _(ret).proxy;
 
-            if(proxy === undefined) {
+            if (proxy === undefined) {
                 proxy = _(ret).proxy = new Proxy(ret, applyHandler);
             }
 
@@ -79,29 +91,27 @@ const handler = {
 
     set(target, key, value) {
         let wrapper = null;
-        if(!isTypedArrayIndexedPropertyWritable) {
+        if (!isTypedArrayIndexedPropertyWritable) {
             wrapper = target;
             target = _(wrapper).target;
         }
 
-        if(isStringNumberKey(key)) {
+        if (isStringNumberKey(key)) {
             return Reflect.set(target, key, roundToFloat16Bits(value));
-
         } else {
             // frozen object can't change prototype property
-            if(wrapper !== null && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
+            if (wrapper !== null && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
                 return Reflect.set(wrapper, key, value);
-
             } else {
                 return Reflect.set(target, key, value);
             }
         }
-    }
+    },
 };
 
-if(!isTypedArrayIndexedPropertyWritable) {
-    handler.getPrototypeOf = wrapper => Reflect.getPrototypeOf(_(wrapper).target);
-    handler.setPrototypeOf = (wrapper, prototype) => Reflect.setPrototypeOf(_(wrapper).target, prototype);
+if (!isTypedArrayIndexedPropertyWritable) {
+    handler.getPrototypeOf = (wrapper) => { return Reflect.getPrototypeOf(_(wrapper).target); };
+    handler.setPrototypeOf = (wrapper, prototype) => { return Reflect.setPrototypeOf(_(wrapper).target, prototype); };
 
     handler.defineProperty = (wrapper, key, descriptor) => {
         const target = _(wrapper).target;
@@ -112,26 +122,24 @@ if(!isTypedArrayIndexedPropertyWritable) {
         return Reflect.has(wrapper, key) ? Reflect.deleteProperty(wrapper, key) : Reflect.deleteProperty(target, key);
     };
 
-    handler.has = (wrapper, key) => Reflect.has(wrapper, key) || Reflect.has(_(wrapper).target, key);
+    handler.has = (wrapper, key) => { return Reflect.has(wrapper, key) || Reflect.has(_(wrapper).target, key); };
 
-    handler.isExtensible = wrapper => Reflect.isExtensible(wrapper);
-    handler.preventExtensions = wrapper => Reflect.preventExtensions(wrapper);
+    handler.isExtensible = (wrapper) => { return Reflect.isExtensible(wrapper); };
+    handler.preventExtensions = (wrapper) => { return Reflect.preventExtensions(wrapper); };
 
-    handler.getOwnPropertyDescriptor = (wrapper, key) => Reflect.getOwnPropertyDescriptor(wrapper, key);
-    handler.ownKeys = wrapper => Reflect.ownKeys(wrapper);
+    handler.getOwnPropertyDescriptor = (wrapper, key) => { return Reflect.getOwnPropertyDescriptor(wrapper, key); };
+    handler.ownKeys = (wrapper) => { return Reflect.ownKeys(wrapper); };
 }
-
 
 export default class Float16Array extends Uint16Array {
 
     constructor(input, byteOffset, length) {
-
         // input Float16Array
-        if(isFloat16Array(input)) {
+        if (isFloat16Array(input)) {
             super(_(input).target);
 
         // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
-        } else if(input !== null && typeof input === "object" && !isArrayBuffer(input)) {
+        } else if (input !== null && typeof input === "object" && !isArrayBuffer(input)) {
             // if input is not ArrayLike and Iterable, get Array
             const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
 
@@ -163,13 +171,14 @@ export default class Float16Array extends Uint16Array {
                     break;
 
                 default:
+                    // @ts-ignore
                     super(...arguments);
             }
         }
 
         let proxy;
 
-        if(isTypedArrayIndexedPropertyWritable) {
+        if (isTypedArrayIndexedPropertyWritable) {
             proxy = new Proxy(this, handler);
         } else {
             const wrapper = Object.create(null);
@@ -188,13 +197,14 @@ export default class Float16Array extends Uint16Array {
 
     // static methods
     static from(src, ...opts) {
-        if(opts.length === 0)
+        if (opts.length === 0) {
             return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
+        }
 
         const mapFunc = opts[0];
         const thisArg = opts[1];
 
-        return new Float16Array(Uint16Array.from(src, function(val, ...args) {
+        return new Float16Array(Uint16Array.from(src, function (val, ...args) {
             return roundToFloat16Bits(mapFunc.call(this, val, ...args));
         }, thisArg).buffer);
     }
@@ -220,6 +230,7 @@ export default class Float16Array extends Uint16Array {
         }
     }
 
+    // @ts-ignore
     * entries() {
         for(const [i, val] of super.entries()) {
             yield [i, convertToNumber(val)];
@@ -227,6 +238,7 @@ export default class Float16Array extends Uint16Array {
     }
 
     // functional methods
+    // @ts-ignore
     map(callback, ...opts) {
         assertFloat16Array(this);
 
@@ -241,6 +253,7 @@ export default class Float16Array extends Uint16Array {
         return new Float16Array(array);
     }
 
+    // @ts-ignore
     filter(callback, ...opts) {
         assertFloat16Array(this);
 
@@ -249,7 +262,7 @@ export default class Float16Array extends Uint16Array {
         const array = [];
         for(let i = 0, l = this.length; i < l; ++i) {
             const val = convertToNumber(this[i]);
-            if(callback.call(thisArg, val, i, _(this).proxy)) {
+            if (callback.call(thisArg, val, i, _(this).proxy)) {
                 array.push(val);
             }
         }
@@ -262,7 +275,7 @@ export default class Float16Array extends Uint16Array {
 
         let val, start;
 
-        if(opts.length === 0) {
+        if (opts.length === 0) {
             val = convertToNumber(this[0]);
             start = 1;
         } else {
@@ -283,7 +296,7 @@ export default class Float16Array extends Uint16Array {
         let val, start;
 
         const length = this.length;
-        if(opts.length === 0) {
+        if (opts.length === 0) {
             val = convertToNumber(this[length - 1]);
             start = length - 1;
         } else {
@@ -315,7 +328,9 @@ export default class Float16Array extends Uint16Array {
 
         for(let i = 0, l = this.length; i < l; ++i) {
             const value = convertToNumber(this[i]);
-            if(callback.call(thisArg, value, i, _(this).proxy)) return value;
+            if (callback.call(thisArg, value, i, _(this).proxy)) {
+                return value;
+            }
         }
     }
 
@@ -326,7 +341,9 @@ export default class Float16Array extends Uint16Array {
 
         for(let i = 0, l = this.length; i < l; ++i) {
             const value = convertToNumber(this[i]);
-            if(callback.call(thisArg, value, i, _(this).proxy)) return i;
+            if (callback.call(thisArg, value, i, _(this).proxy)) {
+                return i;
+            }
         }
 
         return -1;
@@ -338,7 +355,9 @@ export default class Float16Array extends Uint16Array {
         const thisArg = opts[0];
 
         for(let i = 0, l = this.length; i < l; ++i) {
-            if(!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) return false;
+            if (!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
+                return false;
+            }
         }
 
         return true;
@@ -350,7 +369,9 @@ export default class Float16Array extends Uint16Array {
         const thisArg = opts[0];
 
         for(let i = 0, l = this.length; i < l; ++i) {
-            if(callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) return true;
+            if (callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
+                return true;
+            }
         }
 
         return false;
@@ -365,7 +386,7 @@ export default class Float16Array extends Uint16Array {
         let float16bits;
 
         // input Float16Array
-        if(isFloat16Array(input)) {
+        if (isFloat16Array(input)) {
             float16bits = _(input).target;
 
         // input others
@@ -411,18 +432,19 @@ export default class Float16Array extends Uint16Array {
 
         let compareFunction = opts[0];
 
-        if(compareFunction === undefined) {
+        if (compareFunction === undefined) {
             compareFunction = defaultCompareFunction;
         }
 
         const _convertToNumber = memoize(convertToNumber);
 
-        super.sort((x, y) => compareFunction(_convertToNumber(x), _convertToNumber(y)));
+        super.sort((x, y) => { return compareFunction(_convertToNumber(x), _convertToNumber(y)); });
 
         return _(this).proxy;
     }
 
     // copy element methods
+    // @ts-ignore
     slice(...opts) {
         assertFloat16Array(this);
 
@@ -432,7 +454,7 @@ export default class Float16Array extends Uint16Array {
         try {
             float16bits = super.slice(...opts);
         } catch(e) {
-            if(e instanceof TypeError) {
+            if (e instanceof TypeError) {
                 const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
                 float16bits = uint16.slice(...opts);
             } else {
@@ -443,6 +465,7 @@ export default class Float16Array extends Uint16Array {
         return new Float16Array(float16bits.buffer);
     }
 
+    // @ts-ignore
     subarray(...opts) {
         assertFloat16Array(this);
 
@@ -452,7 +475,7 @@ export default class Float16Array extends Uint16Array {
         try {
             float16bits = super.subarray(...opts);
         } catch(e) {
-            if(e instanceof TypeError) {
+            if (e instanceof TypeError) {
                 const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
                 float16bits = uint16.subarray(...opts);
             } else {
@@ -471,15 +494,17 @@ export default class Float16Array extends Uint16Array {
 
         let from = ToInteger(opts[0]);
 
-        if(from < 0) {
+        if (from < 0) {
             from += length;
-            if(from < 0)
+            if (from < 0) {
                 from = 0;
+            }
         }
 
         for(let i = from, l = length; i < l; ++i) {
-            if(convertToNumber(this[i]) === element)
+            if (convertToNumber(this[i]) === element) {
                 return i;
+            }
         }
 
         return -1;
@@ -494,15 +519,16 @@ export default class Float16Array extends Uint16Array {
 
         from = from === 0 ? length : from + 1;
 
-        if(from >= 0) {
+        if (from >= 0) {
             from = from < length ? from : length;
         } else {
             from += length;
         }
 
         for(let i = from; i--;) {
-            if(convertToNumber(this[i]) === element)
+            if (convertToNumber(this[i]) === element) {
                 return i;
+            }
         }
 
         return -1;
@@ -515,21 +541,24 @@ export default class Float16Array extends Uint16Array {
 
         let from = ToInteger(opts[0]);
 
-        if(from < 0) {
+        if (from < 0) {
             from += length;
-            if(from < 0)
+            if (from < 0) {
                 from = 0;
+            }
         }
 
         const isNaN = Number.isNaN(element);
         for(let i = from, l = length; i < l; ++i) {
             const value = convertToNumber(this[i]);
 
-            if(isNaN && Number.isNaN(value))
+            if (isNaN && Number.isNaN(value)) {
                 return true;
+            }
 
-            if(value === element)
+            if (value === element) {
                 return true;
+            }
         }
 
         return false;
@@ -549,12 +578,15 @@ export default class Float16Array extends Uint16Array {
 
         const array = copyToArray(this);
 
+        // @ts-ignore
         return array.toLocaleString(...opts);
     }
 
+    // @ts-ignore
     get [Symbol.toStringTag]() {
-        if(isFloat16Array(this))
+        if (isFloat16Array(this)) {
             return "Float16Array";
+        }
     }
 }
 
@@ -563,6 +595,7 @@ const Float16Array$prototype = Float16Array.prototype;
 const defaultFloat16ArrayMethods = new WeakSet();
 for(const key of Reflect.ownKeys(Float16Array$prototype)) {
     const val = Float16Array$prototype[key];
-    if(typeof val === "function")
+    if (typeof val === "function") {
         defaultFloat16ArrayMethods.add(val);
+    }
 }
