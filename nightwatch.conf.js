@@ -21,9 +21,7 @@ module.exports = {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
                 "tunnel-identifier": TRAVIS_JOB_NUMBER,
-                ...(TRAVIS_BRANCH === "master" && TRAVIS_PULL_REQUEST === "false" ? {
-                    build: `build-${ TRAVIS_JOB_NUMBER }`
-                } : {})
+                ...(TRAVIS_BRANCH === "master" && TRAVIS_PULL_REQUEST === "false" ? { build: `build-${ TRAVIS_JOB_NUMBER }` } : {}),
             },
         },
 
