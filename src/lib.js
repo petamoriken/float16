@@ -12,28 +12,28 @@ for(let i = 0; i < 256; ++i) {
     const e = i - 127;
 
     // very small number (0, -0)
-    if(e < -27) {
+    if (e < -27) {
         baseTable[i | 0x000] = 0x0000;
         baseTable[i | 0x100] = 0x8000;
         shiftTable[i | 0x000] = 24;
         shiftTable[i | 0x100] = 24;
 
     // small number (denorm)
-    } else if(e < -14) {
+    } else if (e < -14) {
         baseTable[i | 0x000] =  0x0400 >> (-e - 14);
         baseTable[i | 0x100] = (0x0400 >> (-e - 14)) | 0x8000;
         shiftTable[i | 0x000] = -e - 1;
         shiftTable[i | 0x100] = -e - 1;
 
     // normal number
-    } else if(e <= 15) {
+    } else if (e <= 15) {
         baseTable[i | 0x000] =  (e + 15) << 10;
         baseTable[i | 0x100] = ((e + 15) << 10) | 0x8000;
         shiftTable[i | 0x000] = 13;
         shiftTable[i | 0x100] = 13;
 
     // large number (Infinity, -Infinity)
-    } else if(e < 128) {
+    } else if (e < 128) {
         baseTable[i | 0x000] = 0x7c00;
         baseTable[i | 0x100] = 0xfc00;
         shiftTable[i | 0x000] = 24;
@@ -50,7 +50,8 @@ for(let i = 0; i < 256; ++i) {
 
 /**
  * round a number to a half float number bits.
- * @param {number} num
+ * @param {number} num - double float
+ * @returns {number} half float number bits
  */
 export function roundToFloat16Bits(num) {
     floatView[0] = num;
@@ -98,7 +99,7 @@ exponentTable[63] = 0xc7800000;
 
 offsetTable[0] = 0;
 for(let i = 1; i < 64; ++i) {
-    if(i === 32) {
+    if (i === 32) {
         offsetTable[i] = 0;
     } else {
         offsetTable[i] = 1024;
@@ -108,6 +109,7 @@ for(let i = 1; i < 64; ++i) {
 /**
  * convert a half float number bits to a number.
  * @param {number} float16bits - half float number bits
+ * @returns {number} double float
  */
 export function convertToNumber(float16bits) {
     const m = float16bits >> 10;

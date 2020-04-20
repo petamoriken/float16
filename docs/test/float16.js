@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 aa4af43 | MIT License - https://git.io/float16
+ * @petamoriken/float16 2a826ea | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.15 | MIT License - https://lodash.com/custom-builds
@@ -47,7 +47,8 @@ var float16 = (function (exports) {
     }
     /**
      * round a number to a half float number bits.
-     * @param {number} num
+     * @param {number} num - double float
+     * @returns {number} half float number bits
      */
 
 
@@ -111,6 +112,7 @@ var float16 = (function (exports) {
     /**
      * convert a half float number bits to a number.
      * @param {number} float16bits - half float number bits
+     * @returns {number} double float
      */
 
 
@@ -123,6 +125,7 @@ var float16 = (function (exports) {
     /**
      * returns the nearest half precision float representation of a number.
      * @param {number} num
+     * @returns {number}
      */
 
     function hfround(num) {
@@ -134,28 +137,6 @@ var float16 = (function (exports) {
 
       const x16 = roundToFloat16Bits(num);
       return convertToNumber(x16);
-    }
-
-    function ToInteger(num) {
-      if (typeof num !== "number") num = Number(num);
-      if (Number.isNaN(num)) num = 0;
-      return Math.trunc(num);
-    }
-    function defaultCompareFunction(x, y) {
-      const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
-      if (isNaN_x && isNaN_y) return 0;
-      if (isNaN_x) return 1;
-      if (isNaN_y) return -1;
-      if (x < y) return -1;
-      if (x > y) return 1;
-
-      if (x === 0 && y === 0) {
-        const [isPlusZero_x, isPlusZero_y] = [Object.is(x, 0), Object.is(y, 0)];
-        if (!isPlusZero_x && isPlusZero_y) return -1;
-        if (isPlusZero_x && !isPlusZero_y) return 1;
-      }
-
-      return 0;
     }
 
     /** Detect free variable `global` from Node.js. */
@@ -260,133 +241,6 @@ var float16 = (function (exports) {
       }
 
       return symToStringTag$1 && symToStringTag$1 in Object(value) ? getRawTag(value) : objectToString(value);
-    }
-
-    /**
-     * Checks if `value` is object-like. A value is object-like if it's not `null`
-     * and has a `typeof` result of "object".
-     *
-     * @static
-     * @memberOf _
-     * @since 4.0.0
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-     * @example
-     *
-     * _.isObjectLike({});
-     * // => true
-     *
-     * _.isObjectLike([1, 2, 3]);
-     * // => true
-     *
-     * _.isObjectLike(_.noop);
-     * // => false
-     *
-     * _.isObjectLike(null);
-     * // => false
-     */
-    function isObjectLike(value) {
-      return value != null && typeof value == 'object';
-    }
-
-    var arrayBufferTag = '[object ArrayBuffer]';
-    /**
-     * The base implementation of `_.isArrayBuffer` without Node.js optimizations.
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is an array buffer, else `false`.
-     */
-
-    function baseIsArrayBuffer(value) {
-      return isObjectLike(value) && baseGetTag(value) == arrayBufferTag;
-    }
-
-    /**
-     * The base implementation of `_.unary` without support for storing metadata.
-     *
-     * @private
-     * @param {Function} func The function to cap arguments for.
-     * @returns {Function} Returns the new capped function.
-     */
-    function baseUnary(func) {
-      return function (value) {
-        return func(value);
-      };
-    }
-
-    /** Detect free variable `exports`. */
-
-    var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
-    /** Detect free variable `module`. */
-
-    var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
-    /** Detect the popular CommonJS extension `module.exports`. */
-
-    var moduleExports = freeModule && freeModule.exports === freeExports;
-    /** Detect free variable `process` from Node.js. */
-
-    var freeProcess = moduleExports && freeGlobal.process;
-    /** Used to access faster Node.js helpers. */
-
-    var nodeUtil = function () {
-      try {
-        // Use `util.types` for Node.js 10+.
-        var types = freeModule && freeModule.require && freeModule.require('util').types;
-
-        if (types) {
-          return types;
-        } // Legacy `process.binding('util')` for Node.js < 10.
-
-
-        return freeProcess && freeProcess.binding && freeProcess.binding('util');
-      } catch (e) {}
-    }();
-
-    /* Node.js helper references. */
-
-    var nodeIsArrayBuffer = nodeUtil && nodeUtil.isArrayBuffer;
-    /**
-     * Checks if `value` is classified as an `ArrayBuffer` object.
-     *
-     * @static
-     * @memberOf _
-     * @since 4.3.0
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is an array buffer, else `false`.
-     * @example
-     *
-     * _.isArrayBuffer(new ArrayBuffer(2));
-     * // => true
-     *
-     * _.isArrayBuffer(new Array(2));
-     * // => false
-     */
-
-    var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
-
-    function isDataView(view) {
-      return view instanceof DataView;
-    }
-    function isStringNumberKey(key) {
-      return typeof key === "string" && key === ToInteger(key) + "";
-    }
-
-    function createPrivateStorage() {
-      const wm = new WeakMap();
-      return self => {
-        let obj = wm.get(self);
-
-        if (obj) {
-          return obj;
-        } else {
-          obj = Object.create(null);
-          wm.set(self, obj);
-          return obj;
-        }
-      };
     }
 
     /**
@@ -1076,7 +930,7 @@ var float16 = (function (exports) {
         throw new TypeError(FUNC_ERROR_TEXT);
       }
 
-      var memoized = function memoized() {
+      var memoized = function () {
         var args = arguments,
             key = resolver ? resolver.apply(this, args) : args[0],
             cache = memoized.cache;
@@ -1097,24 +951,244 @@ var float16 = (function (exports) {
 
     memoize.Cache = MapCache;
 
-    // JavaScriptCore bug: https://bugs.webkit.org/show_bug.cgi?id=171606
+    /**
+     * JavaScriptCore <= 12 bug
+     * @see https://bugs.webkit.org/show_bug.cgi?id=171606
+     */
     const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
 
+    /**
+     * @param {unknown} target
+     * @returns {number}
+     */
+    function ToInteger(target) {
+      let number = typeof target !== "number" ? Number(target) : target;
+
+      if (Number.isNaN(number)) {
+        number = 0;
+      }
+
+      return Math.trunc(number);
+    }
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @returns {-1 | 0 | 1}
+     */
+
+    function defaultCompareFunction(x, y) {
+      const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
+
+      if (isNaN_x && isNaN_y) {
+        return 0;
+      }
+
+      if (isNaN_x) {
+        return 1;
+      }
+
+      if (isNaN_y) {
+        return -1;
+      }
+
+      if (x < y) {
+        return -1;
+      }
+
+      if (x > y) {
+        return 1;
+      }
+
+      if (x === 0 && y === 0) {
+        const [isPlusZero_x, isPlusZero_y] = [Object.is(x, 0), Object.is(y, 0)];
+
+        if (!isPlusZero_x && isPlusZero_y) {
+          return -1;
+        }
+
+        if (isPlusZero_x && !isPlusZero_y) {
+          return 1;
+        }
+      }
+
+      return 0;
+    }
+
+    /**
+     * Checks if `value` is object-like. A value is object-like if it's not `null`
+     * and has a `typeof` result of "object".
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+     * @example
+     *
+     * _.isObjectLike({});
+     * // => true
+     *
+     * _.isObjectLike([1, 2, 3]);
+     * // => true
+     *
+     * _.isObjectLike(_.noop);
+     * // => false
+     *
+     * _.isObjectLike(null);
+     * // => false
+     */
+    function isObjectLike(value) {
+      return value != null && typeof value == 'object';
+    }
+
+    var arrayBufferTag = '[object ArrayBuffer]';
+    /**
+     * The base implementation of `_.isArrayBuffer` without Node.js optimizations.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an array buffer, else `false`.
+     */
+
+    function baseIsArrayBuffer(value) {
+      return isObjectLike(value) && baseGetTag(value) == arrayBufferTag;
+    }
+
+    /**
+     * The base implementation of `_.unary` without support for storing metadata.
+     *
+     * @private
+     * @param {Function} func The function to cap arguments for.
+     * @returns {Function} Returns the new capped function.
+     */
+    function baseUnary(func) {
+      return function (value) {
+        return func(value);
+      };
+    }
+
+    /** Detect free variable `exports`. */
+
+    var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+    /** Detect free variable `module`. */
+
+    var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+    /** Detect the popular CommonJS extension `module.exports`. */
+
+    var moduleExports = freeModule && freeModule.exports === freeExports;
+    /** Detect free variable `process` from Node.js. */
+
+    var freeProcess = moduleExports && freeGlobal.process;
+    /** Used to access faster Node.js helpers. */
+
+    var nodeUtil = function () {
+      try {
+        // Use `util.types` for Node.js 10+.
+        var types = freeModule && freeModule.require && freeModule.require('util').types;
+
+        if (types) {
+          return types;
+        } // Legacy `process.binding('util')` for Node.js < 10.
+
+
+        return freeProcess && freeProcess.binding && freeProcess.binding('util');
+      } catch (e) {}
+    }();
+
+    /* Node.js helper references. */
+
+    var nodeIsArrayBuffer = nodeUtil && nodeUtil.isArrayBuffer;
+    /**
+     * Checks if `value` is classified as an `ArrayBuffer` object.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.3.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an array buffer, else `false`.
+     * @example
+     *
+     * _.isArrayBuffer(new ArrayBuffer(2));
+     * // => true
+     *
+     * _.isArrayBuffer(new Array(2));
+     * // => false
+     */
+
+    var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
+
+    /**
+     * @param {unknown} view
+     * @returns {boolean}
+     */
+
+    function isDataView(view) {
+      return view instanceof DataView;
+    }
+    /**
+     * @param {unknown} key
+     * @returns {boolean}
+     */
+
+    function isStringNumberKey(key) {
+      return typeof key === "string" && key === ToInteger(key) + "";
+    }
+
+    /**
+     * @returns {(self:object) => object}
+     */
+    function createPrivateStorage() {
+      const wm = new WeakMap();
+      return self => {
+        let obj = wm.get(self);
+
+        if (obj) {
+          return obj;
+        } else {
+          obj = Object.create(null);
+          wm.set(self, obj);
+          return obj;
+        }
+      };
+    }
+
     const _ = createPrivateStorage();
+    /**
+     * @param {unknown} target
+     * @returns {boolean}
+     */
+
 
     function isFloat16Array(target) {
       return target instanceof Float16Array;
     }
+    /**
+     * @param {unknown} target
+     * @throws {TypeError}
+     */
+
 
     function assertFloat16Array(target) {
       if (!isFloat16Array(target)) {
         throw new TypeError("This is not a Float16Array");
       }
     }
+    /**
+     * @param {unknown} target
+     * @returns {boolean}
+     */
+
 
     function isDefaultFloat16ArrayMethods(target) {
       return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
     }
+    /**
+     * @param {Float16Array} float16bits
+     * @return {number[]}
+     */
+
 
     function copyToArray(float16bits) {
       const length = float16bits.length;
@@ -1125,17 +1199,23 @@ var float16 = (function (exports) {
       }
 
       return array;
-    } // proxy handler
+    }
+    /** @type {ProxyHandler<Function>} */
 
 
     const applyHandler = {
       apply(func, thisArg, args) {
         // peel off proxy
-        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) return Reflect.apply(func, _(thisArg).target, args);
+        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) {
+          return Reflect.apply(func, _(thisArg).target, args);
+        }
+
         return Reflect.apply(func, thisArg, args);
       }
 
     };
+    /** @type {ProxyHandler<Float16Array>} */
+
     const handler = {
       get(target, key) {
         let wrapper = null;
@@ -1149,7 +1229,11 @@ var float16 = (function (exports) {
           return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
         } else {
           const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
-          if (typeof ret !== "function") return ret; // TypedArray methods can't be called by Proxy Object
+
+          if (typeof ret !== "function") {
+            return ret;
+          } // TypedArray methods can't be called by Proxy Object
+
 
           let proxy = _(ret).proxy;
 
@@ -1184,9 +1268,13 @@ var float16 = (function (exports) {
     };
 
     if (!isTypedArrayIndexedPropertyWritable) {
-      handler.getPrototypeOf = wrapper => Reflect.getPrototypeOf(_(wrapper).target);
+      handler.getPrototypeOf = wrapper => {
+        return Reflect.getPrototypeOf(_(wrapper).target);
+      };
 
-      handler.setPrototypeOf = (wrapper, prototype) => Reflect.setPrototypeOf(_(wrapper).target, prototype);
+      handler.setPrototypeOf = (wrapper, prototype) => {
+        return Reflect.setPrototypeOf(_(wrapper).target, prototype);
+      };
 
       handler.defineProperty = (wrapper, key, descriptor) => {
         const target = _(wrapper).target;
@@ -1200,15 +1288,25 @@ var float16 = (function (exports) {
         return Reflect.has(wrapper, key) ? Reflect.deleteProperty(wrapper, key) : Reflect.deleteProperty(target, key);
       };
 
-      handler.has = (wrapper, key) => Reflect.has(wrapper, key) || Reflect.has(_(wrapper).target, key);
+      handler.has = (wrapper, key) => {
+        return Reflect.has(wrapper, key) || Reflect.has(_(wrapper).target, key);
+      };
 
-      handler.isExtensible = wrapper => Reflect.isExtensible(wrapper);
+      handler.isExtensible = wrapper => {
+        return Reflect.isExtensible(wrapper);
+      };
 
-      handler.preventExtensions = wrapper => Reflect.preventExtensions(wrapper);
+      handler.preventExtensions = wrapper => {
+        return Reflect.preventExtensions(wrapper);
+      };
 
-      handler.getOwnPropertyDescriptor = (wrapper, key) => Reflect.getOwnPropertyDescriptor(wrapper, key);
+      handler.getOwnPropertyDescriptor = (wrapper, key) => {
+        return Reflect.getOwnPropertyDescriptor(wrapper, key);
+      };
 
-      handler.ownKeys = wrapper => Reflect.ownKeys(wrapper);
+      handler.ownKeys = wrapper => {
+        return Reflect.ownKeys(wrapper);
+      };
     }
 
     class Float16Array extends Uint16Array {
@@ -1246,6 +1344,7 @@ var float16 = (function (exports) {
               break;
 
             default:
+              // @ts-ignore
               super(...arguments);
           }
         }
@@ -1268,24 +1367,19 @@ var float16 = (function (exports) {
       } // static methods
 
 
-      static from(src) {
-        if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
-        const mapFunc = arguments.length <= 1 ? undefined : arguments[1];
-        const thisArg = arguments.length <= 2 ? undefined : arguments[2];
-        return new Float16Array(Uint16Array.from(src, function (val) {
-          for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-            args[_key - 1] = arguments[_key];
-          }
+      static from(src, ...opts) {
+        if (opts.length === 0) {
+          return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
+        }
 
+        const mapFunc = opts[0];
+        const thisArg = opts[1];
+        return new Float16Array(Uint16Array.from(src, function (val, ...args) {
           return roundToFloat16Bits(mapFunc.call(this, val, ...args));
         }, thisArg).buffer);
       }
 
-      static of() {
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
+      static of(...args) {
         return new Float16Array(args);
       } // iterate methods
 
@@ -1304,18 +1398,20 @@ var float16 = (function (exports) {
         for (const val of super.values()) {
           yield convertToNumber(val);
         }
-      }
+      } // @ts-ignore
+
 
       *entries() {
         for (const [i, val] of super.entries()) {
           yield [i, convertToNumber(val)];
         }
       } // functional methods
+      // @ts-ignore
 
 
-      map(callback) {
+      map(callback, ...opts) {
         assertFloat16Array(this);
-        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = opts[0];
         const array = [];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1324,11 +1420,12 @@ var float16 = (function (exports) {
         }
 
         return new Float16Array(array);
-      }
+      } // @ts-ignore
 
-      filter(callback) {
+
+      filter(callback, ...opts) {
         assertFloat16Array(this);
-        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = opts[0];
         const array = [];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1342,15 +1439,15 @@ var float16 = (function (exports) {
         return new Float16Array(array);
       }
 
-      reduce(callback) {
+      reduce(callback, ...opts) {
         assertFloat16Array(this);
         let val, start;
 
-        if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) {
+        if (opts.length === 0) {
           val = convertToNumber(this[0]);
           start = 1;
         } else {
-          val = arguments.length <= 1 ? undefined : arguments[1];
+          val = opts[0];
           start = 0;
         }
 
@@ -1361,16 +1458,16 @@ var float16 = (function (exports) {
         return val;
       }
 
-      reduceRight(callback) {
+      reduceRight(callback, ...opts) {
         assertFloat16Array(this);
         let val, start;
         const length = this.length;
 
-        if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 0) {
+        if (opts.length === 0) {
           val = convertToNumber(this[length - 1]);
           start = length - 1;
         } else {
-          val = arguments.length <= 1 ? undefined : arguments[1];
+          val = opts[0];
           start = length;
         }
 
@@ -1381,63 +1478,73 @@ var float16 = (function (exports) {
         return val;
       }
 
-      forEach(callback) {
+      forEach(callback, ...opts) {
         assertFloat16Array(this);
-        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy);
         }
       }
 
-      find(callback) {
+      find(callback, ...opts) {
         assertFloat16Array(this);
-        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           const value = convertToNumber(this[i]);
-          if (callback.call(thisArg, value, i, _(this).proxy)) return value;
+
+          if (callback.call(thisArg, value, i, _(this).proxy)) {
+            return value;
+          }
         }
       }
 
-      findIndex(callback) {
+      findIndex(callback, ...opts) {
         assertFloat16Array(this);
-        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           const value = convertToNumber(this[i]);
-          if (callback.call(thisArg, value, i, _(this).proxy)) return i;
+
+          if (callback.call(thisArg, value, i, _(this).proxy)) {
+            return i;
+          }
         }
 
         return -1;
       }
 
-      every(callback) {
+      every(callback, ...opts) {
         assertFloat16Array(this);
-        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
-          if (!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) return false;
+          if (!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
+            return false;
+          }
         }
 
         return true;
       }
 
-      some(callback) {
+      some(callback, ...opts) {
         assertFloat16Array(this);
-        const thisArg = arguments.length <= 1 ? undefined : arguments[1];
+        const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
-          if (callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) return true;
+          if (callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
+            return true;
+          }
         }
 
         return false;
       } // change element methods
 
 
-      set(input) {
+      set(input, ...opts) {
         assertFloat16Array(this);
-        const offset = arguments.length <= 1 ? undefined : arguments[1];
+        const offset = opts[0];
         let float16bits; // input Float16Array
 
         if (isFloat16Array(input)) {
@@ -1461,31 +1568,21 @@ var float16 = (function (exports) {
         return _(this).proxy;
       }
 
-      fill(value) {
+      fill(value, ...opts) {
         assertFloat16Array(this);
-
-        for (var _len3 = arguments.length, opts = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-          opts[_key3 - 1] = arguments[_key3];
-        }
-
         super.fill(roundToFloat16Bits(value), ...opts);
         return _(this).proxy;
       }
 
-      copyWithin(target, start) {
+      copyWithin(target, start, ...opts) {
         assertFloat16Array(this);
-
-        for (var _len4 = arguments.length, opts = new Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
-          opts[_key4 - 2] = arguments[_key4];
-        }
-
         super.copyWithin(target, start, ...opts);
         return _(this).proxy;
       }
 
-      sort() {
+      sort(...opts) {
         assertFloat16Array(this);
-        let compareFunction = arguments.length <= 0 ? undefined : arguments[0];
+        let compareFunction = opts[0];
 
         if (compareFunction === undefined) {
           compareFunction = defaultCompareFunction;
@@ -1493,39 +1590,43 @@ var float16 = (function (exports) {
 
         const _convertToNumber = memoize(convertToNumber);
 
-        super.sort((x, y) => compareFunction(_convertToNumber(x), _convertToNumber(y)));
+        super.sort((x, y) => {
+          return compareFunction(_convertToNumber(x), _convertToNumber(y));
+        });
         return _(this).proxy;
       } // copy element methods
+      // @ts-ignore
 
 
-      slice() {
+      slice(...opts) {
         assertFloat16Array(this);
         let float16bits; // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
 
         try {
-          float16bits = super.slice(...arguments);
+          float16bits = super.slice(...opts);
         } catch (e) {
           if (e instanceof TypeError) {
             const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-            float16bits = uint16.slice(...arguments);
+            float16bits = uint16.slice(...opts);
           } else {
             throw e;
           }
         }
 
         return new Float16Array(float16bits.buffer);
-      }
+      } // @ts-ignore
 
-      subarray() {
+
+      subarray(...opts) {
         assertFloat16Array(this);
         let float16bits; // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
 
         try {
-          float16bits = super.subarray(...arguments);
+          float16bits = super.subarray(...opts);
         } catch (e) {
           if (e instanceof TypeError) {
             const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-            float16bits = uint16.subarray(...arguments);
+            float16bits = uint16.subarray(...opts);
           } else {
             throw e;
           }
@@ -1535,27 +1636,32 @@ var float16 = (function (exports) {
       } // contains methods
 
 
-      indexOf(element) {
+      indexOf(element, ...opts) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
+        let from = ToInteger(opts[0]);
 
         if (from < 0) {
           from += length;
-          if (from < 0) from = 0;
+
+          if (from < 0) {
+            from = 0;
+          }
         }
 
         for (let i = from, l = length; i < l; ++i) {
-          if (convertToNumber(this[i]) === element) return i;
+          if (convertToNumber(this[i]) === element) {
+            return i;
+          }
         }
 
         return -1;
       }
 
-      lastIndexOf(element) {
+      lastIndexOf(element, ...opts) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
+        let from = ToInteger(opts[0]);
         from = from === 0 ? length : from + 1;
 
         if (from >= 0) {
@@ -1565,48 +1671,63 @@ var float16 = (function (exports) {
         }
 
         for (let i = from; i--;) {
-          if (convertToNumber(this[i]) === element) return i;
+          if (convertToNumber(this[i]) === element) {
+            return i;
+          }
         }
 
         return -1;
       }
 
-      includes(element) {
+      includes(element, ...opts) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(arguments.length <= 1 ? undefined : arguments[1]);
+        let from = ToInteger(opts[0]);
 
         if (from < 0) {
           from += length;
-          if (from < 0) from = 0;
+
+          if (from < 0) {
+            from = 0;
+          }
         }
 
         const isNaN = Number.isNaN(element);
 
         for (let i = from, l = length; i < l; ++i) {
           const value = convertToNumber(this[i]);
-          if (isNaN && Number.isNaN(value)) return true;
-          if (value === element) return true;
+
+          if (isNaN && Number.isNaN(value)) {
+            return true;
+          }
+
+          if (value === element) {
+            return true;
+          }
         }
 
         return false;
       } // string methods
 
 
-      join() {
+      join(...opts) {
         assertFloat16Array(this);
         const array = copyToArray(this);
-        return array.join(...arguments);
+        return array.join(...opts);
       }
 
-      toLocaleString() {
+      toLocaleString(...opts) {
         assertFloat16Array(this);
-        const array = copyToArray(this);
-        return array.toLocaleString(...arguments);
-      }
+        const array = copyToArray(this); // @ts-ignore
+
+        return array.toLocaleString(...opts);
+      } // @ts-ignore
+
 
       get [Symbol.toStringTag]() {
-        if (isFloat16Array(this)) return "Float16Array";
+        if (isFloat16Array(this)) {
+          return "Float16Array";
+        }
       }
 
     }
@@ -1615,21 +1736,23 @@ var float16 = (function (exports) {
 
     for (const key of Reflect.ownKeys(Float16Array$prototype)) {
       const val = Float16Array$prototype[key];
-      if (typeof val === "function") defaultFloat16ArrayMethods.add(val);
+
+      if (typeof val === "function") {
+        defaultFloat16ArrayMethods.add(val);
+      }
     }
 
     /**
      * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView.
      * @param {DataView} dataView
-     * @param {nunmber} byteOffset
-     * @param {*} opts
+     * @param {number} byteOffset
+     * @param {[boolean]} opts
+     * @returns {number}
      */
 
-    function getFloat16(dataView, byteOffset) {
-      if (!isDataView(dataView)) throw new TypeError("First argument to getFloat16 function must be a DataView");
-
-      for (var _len = arguments.length, opts = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        opts[_key - 2] = arguments[_key];
+    function getFloat16(dataView, byteOffset, ...opts) {
+      if (!isDataView(dataView)) {
+        throw new TypeError("First argument to getFloat16 function must be a DataView");
       }
 
       return convertToNumber(dataView.getUint16(byteOffset, ...opts));
@@ -1639,14 +1762,12 @@ var float16 = (function (exports) {
      * @param {DataView} dataView
      * @param {number} byteOffset
      * @param {number} value
-     * @param {*} opts
+     * @param {[boolean]} opts
      */
 
-    function setFloat16(dataView, byteOffset, value) {
-      if (!isDataView(dataView)) throw new TypeError("First argument to setFloat16 function must be a DataView");
-
-      for (var _len2 = arguments.length, opts = new Array(_len2 > 3 ? _len2 - 3 : 0), _key2 = 3; _key2 < _len2; _key2++) {
-        opts[_key2 - 3] = arguments[_key2];
+    function setFloat16(dataView, byteOffset, value, ...opts) {
+      if (!isDataView(dataView)) {
+        throw new TypeError("First argument to setFloat16 function must be a DataView");
       }
 
       dataView.setUint16(byteOffset, roundToFloat16Bits(value), ...opts);

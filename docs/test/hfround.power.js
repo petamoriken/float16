@@ -161,7 +161,7 @@ var _PowerAssertRecorder1 = function () {
         it('return same value when value is float16 max value + a bit number', () => {
             var _rec19 = new _PowerAssertRecorder1();
             assert(_rec19._expr(_rec19._capt(_rec19._capt(hfround(_rec19._capt(_rec19._capt(maxFloat16, 'arguments/0/left/arguments/0/left') + _rec19._capt(2 ** _rec19._capt(_rec19._capt(_rec19._capt(_rec19._capt(2 ** _rec19._capt(5 - 1, 'arguments/0/left/arguments/0/right/right/left/left/left/right'), 'arguments/0/left/arguments/0/right/right/left/left/left') - 1, 'arguments/0/left/arguments/0/right/right/left/left') - 10, 'arguments/0/left/arguments/0/right/right/left') - 2, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec19._capt(maxFloat16, 'arguments/0/right'), 'arguments/0'), {
-                content: 'assert(hfround(maxFloat16 + 2 ** 2 ** 5 - 1 - 1 - 10 - 2) === maxFloat16)',
+                content: 'assert(hfround(maxFloat16 + 2 ** (2 ** (5 - 1) - 1 - 10 - 2)) === maxFloat16)',
                 filepath: 'test/hfround.js',
                 line: 63
             }));

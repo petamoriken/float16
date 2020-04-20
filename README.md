@@ -11,10 +11,7 @@ see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 [![dependencies Status](https://david-dm.org/petamoriken/float16/status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16)
 [![devDependencies Status](https://david-dm.org/petamoriken/float16/dev-status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16?type=dev)
 
-
 [![Sauce Labs browser matrix](https://saucelabs.com/browser-matrix/petamoriken.svg)](https://saucelabs.com/u/petamoriken)
-
-
 
 ## Supports (at least)
 
@@ -28,7 +25,7 @@ This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 * Safari: last 2 versions
 * Node.js: latest version
 
-When you build by yourself using webpack or rollup.js, please transpile JavaScript files in `src/` directory.
+When you build by yourself using webpack or rollup.js for old browsers support, please transpile JavaScript files in `src/` directory.
 
 ## Install
 
@@ -44,10 +41,10 @@ npm install @petamoriken/float16 --save
 
 ## Require
 
-### npm, yarn package
+### Node.js or Bundler (webpack, rollup.js)
 
 ```js
-// ES6 Modules
+// ES Modules
 import { Float16Array, getFloat16, setFloat16, hfround } from "@petamoriken/float16";
 ```
 
@@ -60,7 +57,7 @@ const { Float16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/
 
 ### Browser
 
-Copy [the build file for browsers](https://github.com/petamoriken/float16/blob/master/browser/float16.js) to your project directory.
+Copy `browser/float16.js` file to your project directory.
 
 ```html
 <script src="DEST/TO/float16.js"></script>
@@ -84,8 +81,8 @@ Copy [the build file for browsers](https://github.com/petamoriken/float16/blob/m
     float16.reduce((prev, current) => prev + current); // 3.298828125
     ```
 
-* `getFloat16(view: DataView, byteOffset: number [, littleEndian: boolean])`
-* `setFloat16(view: DataView, byteOffset: number, value: number [, littleEndian: boolean])`
+* `getFloat16(view: DataView, byteOffset: number, littleEndian?: boolean): number`
+* `setFloat16(view: DataView, byteOffset: number, value: number, littleEndian?: boolean): void`
 
     These APIs are similar to `DataView` methods such as `DataView#getFloat32` and `DataView#setFloat32`.
 
@@ -96,7 +93,7 @@ Copy [the build file for browsers](https://github.com/petamoriken/float16/blob/m
     view.setUint16(0, 0x1234);
     getFloat16(view, 0); // 0.0007572174072265625
 
-    // You can append to DataView instance
+    // You can append methods to DataView instance
     view.getFloat16 = (...args) => getFloat16(view, ...args);
     view.setFloat16 = (...args) => setFloat16(view, ...args);
 
@@ -106,7 +103,7 @@ Copy [the build file for browsers](https://github.com/petamoriken/float16/blob/m
     view.getFloat16(0, true); // 3.140625
     ```
 
-* `hfround(x: number)`
+* `hfround(x: number): number`
 
     This API is similar to `Math.fround` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
     This function returns nearest half precision float representation of a number.
@@ -124,13 +121,13 @@ First, download devDependencies.
 yarn
 ```
 
-Build lib, browser files.
+Build `lib/`, `browser/` files.
 
 ```console
 yarn run build
 ```
 
-Build docs files (for browser test).
+Build `docs/` files (for browser test).
 
 ```console
 yarn run docs
