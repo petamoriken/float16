@@ -230,7 +230,7 @@ export default class Float16Array extends Uint16Array {
         }
     }
 
-    // @ts-ignore
+    /** @type {() => IterableIterator<[number, number]>} */
     * entries() {
         for(const [i, val] of super.entries()) {
             yield [i, convertToNumber(val)];
