@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 2a826ea | MIT License - https://git.io/float16
+ * @petamoriken/float16 e52b20a | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.15 | MIT License - https://lodash.com/custom-builds
@@ -1398,7 +1398,8 @@ var float16 = (function (exports) {
         for (const val of super.values()) {
           yield convertToNumber(val);
         }
-      } // @ts-ignore
+      }
+      /** @type {() => IterableIterator<[number, number]>} */
 
 
       *entries() {
