@@ -1565,7 +1565,7 @@ color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-combined-stream@^1.0.6, combined-stream@~1.0.6:
+combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f"
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
@@ -2711,6 +2711,15 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
   integrity sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=
+
+form-data@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.0.tgz#31b7e39c85f1355b7139ee0c647cf0de7f83c682"
+  integrity sha512-CKMFDglpbMi6PyN+brwB9Q/GOw0eAnsrEZDgcsH5Krhz5Od/haKHAX0NmQfha2zPPz0JpWzA7GJHGSnvCRLWsg==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
 
 form-data@~2.3.2:
   version "2.3.3"
@@ -5237,12 +5246,13 @@ safe-regex@^1.1.0:
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
 saucelabs@^4.0.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-4.3.0.tgz#0758f04965717a0476133bbd767d28fd46cceec3"
-  integrity sha512-+F1g4i5bxttmtA3tAWzt6O1NScI6am13wglcz2Kbz50BWG0ZpIOThm9Afu/xYn6adLVW4aUF5wX2YEyHH/cCWA==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-4.4.0.tgz#364237bf194a2416efc182ee55334f4600ce7f9f"
+  integrity sha512-qSIIi1uSt++aaqhehLNmVbmSzjEsZj+pNlua6YpK0UChKLlyXSXNCMsmSSA9hfzD+PrAWQMNYGrikOQvGUrtrw==
   dependencies:
     bin-wrapper "^4.1.0"
     change-case "^4.1.1"
+    form-data "^3.0.0"
     got "^11.1.4"
     hash.js "^1.1.7"
     tunnel "0.0.6"
