@@ -4265,9 +4265,9 @@ nice-try@^1.0.4:
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
 nightwatch@^1.0.18:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.4.2.tgz#9bdbab8a9994ce0d20c6509a7b6591d1c9f02d9b"
-  integrity sha512-qbd8rCFrUjzLPvxZKHB3qRfwn7TbG8LABIJNf2GGNzfUetG83vY83iPWyWnOoZwOLfRAbJ9WWCssvH6nAl2oMw==
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.4.3.tgz#764e02fcd2180344b71aecf84632a364c17dc6ce"
+  integrity sha512-n57K99jt3rFruQ5Drjg1bxHeorjHrfyNhNhehL5Gg/p+PT+A5LKZVZkoF73owKc3y7KGhCTvjcLxPAyLvS6J8Q==
   dependencies:
     assertion-error "^1.1.0"
     chai-nightwatch "^0.4.0"
