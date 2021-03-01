@@ -5284,9 +5284,9 @@ safe-regex@^1.1.0:
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
 saucelabs@^4.0.0:
-  version "4.6.5"
-  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-4.6.5.tgz#ece65fc55b9569c0e6b988133bf5bb0ff4f7e8d6"
-  integrity sha512-0vofPHnZOR4EsvDpByOC+LNHD1niPB+4QN1b9/zLlzuwFdOzWtjvucf8Qk/0ib2xlWrLF1i6T6aTeZmxJLLhUQ==
+  version "4.6.6"
+  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-4.6.6.tgz#605aa85c0e8925bb2c54d70f642b44647f6ec2e2"
+  integrity sha512-sTVjbdO4OWGy5s611DzWYYaXZb1oOF1Xkx63gcxiV6TYN2rtwxEmtNn8Y9koKTal5flzMicg4YSJKrhLN+sdAA==
   dependencies:
     bin-wrapper "^4.1.0"
     change-case "^4.1.1"
