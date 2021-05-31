@@ -5631,10 +5631,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-saucelabs@^4.0.0:
-  version "4.7.5"
-  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-4.7.5.tgz#14f3cff1b86c8ed35b50f24583beefc844d6a04b"
-  integrity sha512-d1x884KwZdGL1sNcAd1WJ8qABQAvyJrJiAWm1wMsxL3UqioHw06cFcTwIeBMRlOovl6TCtZEj0+X4PK3PnASzQ==
+saucelabs@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/saucelabs/-/saucelabs-5.0.3.tgz#4647d600f14799ebc07e029f6a63c97df176b1dc"
+  integrity sha512-IGQETaMP7GMeWdMvnDHa3qCg3CF3jjBWw8UvbL0zhvf18b6R6SJVgrcprIvY8obt31FiGLlVvKtuIw0fzlMAfA==
   dependencies:
     bin-wrapper "^4.1.0"
     change-case "^4.1.1"
