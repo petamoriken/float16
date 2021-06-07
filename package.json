@@ -73,7 +73,7 @@
     "rollup-plugin-babel": "^4.0.1",
     "rollup-plugin-license": "^2.0.0",
     "rollup-plugin-node-resolve": "^5.0.0",
-    "saucelabs": "^4.0.0"
+    "saucelabs": "^5.1.0"
   },
   "dependencies": {
     "lodash": ">=4.17.5 <5.0.0",
