@@ -2158,6 +2158,11 @@ depd@~1.1.2:
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
 
+didyoumean@^1.2.1:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/didyoumean/-/didyoumean-1.2.2.tgz#989346ffe9e839b4555ecf5666edea0d3e8ad037"
+  integrity sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==
+
 diff-match-patch@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/diff-match-patch/-/diff-match-patch-1.0.4.tgz#6ac4b55237463761c4daf0dc603eb869124744b1"
@@ -4493,13 +4498,14 @@ nice-try@^1.0.4:
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
 nightwatch@^1.0.18:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.6.2.tgz#2da3183b4818e7d9545ed2c86d6bd145b6088df6"
-  integrity sha512-iItgPKmYynGtlCqfnCK/3tJrthyyXvyEURuDAVnGvrWq5phQu9rtKUaju0UHNQEwyrd8smITv2mHV/cSrRwPAg==
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.7.7.tgz#0061a98258b131f9b38730ab1ffb80d47ab816cf"
+  integrity sha512-yKMiIQCRCqGcMbULENSbQt1fX3SRoKlswt7EuMphTUkODkFGFtasba9eGoWnLyiHl5ZAA9JFhO1DVn+IanbGYA==
   dependencies:
     assertion-error "^1.1.0"
     chai-nightwatch "^0.4.0"
     ci-info "^2.0.0"
+    didyoumean "^1.2.1"
     dotenv "7.0.0"
     ejs "^3.1.6"
     envinfo "^7.5.1"
