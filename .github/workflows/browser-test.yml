@@ -20,9 +20,8 @@ jobs:
       - run: yarn refresh
       - uses: saucelabs/sauce-connect-action@v1
         with:
-          username: ${{ env.SAUCE_USERNAME }}
-          accessKey: ${{ env.SAUCE_ACCESS_KEY }}
-          scVersion: 4.6.4
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
       - name: Start Server
         run: |
           python -m SimpleHTTPServer &> /dev/null &
