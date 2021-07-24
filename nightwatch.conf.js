@@ -1,4 +1,4 @@
-const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, TRAVIS_JOB_NUMBER, TRAVIS_BRANCH, TRAVIS_PULL_REQUEST } = process.env;
+const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, GITHUB_RUN_NUMBER, GITHUB_REF, GITHUB_HEAD_REF } = process.env;
 
 module.exports = {
     src_folders: "test/browser",
@@ -20,8 +20,8 @@ module.exports = {
             desiredCapabilities: {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
-                "tunnel-identifier": TRAVIS_JOB_NUMBER,
-                ...(TRAVIS_BRANCH === "master" && TRAVIS_PULL_REQUEST === "false" ? { build: `build-${ TRAVIS_JOB_NUMBER }` } : {}),
+                "tunnel-identifier": GITHUB_RUN_NUMBER,
+                ...(GITHUB_REF === "refs/heads/master" && GITHUB_HEAD_REF === undefined ? { build: `build-${ GITHUB_RUN_NUMBER }` } : {}),
             },
         },
 
