@@ -22,6 +22,7 @@ jobs:
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: ${{ github.run_number }}
       - name: Start Server
         run: |
           python -m SimpleHTTPServer &> /dev/null &
