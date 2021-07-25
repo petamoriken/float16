@@ -20,7 +20,7 @@ module.exports = {
             desiredCapabilities: {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
-                "tunnel-identifier": GITHUB_RUN_NUMBER,
+                "tunnel-identifier": "github-action-tunnel",
                 build: GITHUB_EVENT_NAME === "push" ? `build-${ GITHUB_RUN_NUMBER }` : undefined,
             },
         },

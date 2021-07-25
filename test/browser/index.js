@@ -8,8 +8,8 @@ const reset = "\u001b[0m";
 const { TARGET_URL } = process.env;
 
 function asyncElementIdText(client, element) {
-    return new Promise(resolve => {
-        client.elementIdText(element, e => {
+    return new Promise((resolve) => {
+        client.elementIdText(element, (e) => {
             resolve(e.value);
         });
     });
@@ -17,9 +17,10 @@ function asyncElementIdText(client, element) {
 
 module.exports = {
     ["@petamoriken/float16 test"](client) {
-        client.url(TARGET_URL || "http://localhost:8000/docs/test/power.html").pause(1000);
+        client.url(TARGET_URL || "http://172.0.0.1:8000/power.html")
+              .waitForElementPresent("#mocha-report");
 
-        client.elements("css selector", "#mocha-report .fail .error", async e => {
+        client.elements("css selector", "#mocha-report .fail .error", async (e) => {
             const elements = e.value;
 
             // assert
@@ -43,5 +44,5 @@ module.exports = {
     afterEach(client, done) {
         client.customSauceEnd();
         setTimeout(done, 500);
-    }
+    },
 };

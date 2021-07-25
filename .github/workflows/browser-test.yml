@@ -19,13 +19,13 @@ jobs:
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-          tunnelIdentifier: ${{ github.run_number }}
+          tunnelIdentifier: github-action-tunnel
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run: yarn refresh
       - name: Start Server
         run: |
-          python -m SimpleHTTPServer &> /dev/null &
+          yarn setup-test-browser
           sleep 2
       - run: yarn test-browser
         env:
