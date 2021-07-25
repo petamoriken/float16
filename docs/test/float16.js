@@ -1,8 +1,8 @@
 /**
- * @petamoriken/float16 e52b20a | MIT License - https://git.io/float16
+ * @petamoriken/float16 d750082 | MIT License - https://git.io/float16
  *
  * @license
- * lodash-es v4.17.15 | MIT License - https://lodash.com/custom-builds
+ * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
  */
 
 var float16 = (function (exports) {
@@ -155,20 +155,20 @@ var float16 = (function (exports) {
 
     /** Used for built-in method references. */
 
-    var objectProto = Object.prototype;
+    var objectProto$4 = Object.prototype;
     /** Used to check objects for own properties. */
 
-    var hasOwnProperty = objectProto.hasOwnProperty;
+    var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
     /**
      * Used to resolve the
      * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
      * of values.
      */
 
-    var nativeObjectToString = objectProto.toString;
+    var nativeObjectToString$1 = objectProto$4.toString;
     /** Built-in value references. */
 
-    var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
+    var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
     /**
      * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
      *
@@ -178,21 +178,21 @@ var float16 = (function (exports) {
      */
 
     function getRawTag(value) {
-      var isOwn = hasOwnProperty.call(value, symToStringTag),
-          tag = value[symToStringTag];
+      var isOwn = hasOwnProperty$3.call(value, symToStringTag$1),
+          tag = value[symToStringTag$1];
 
       try {
-        value[symToStringTag] = undefined;
+        value[symToStringTag$1] = undefined;
         var unmasked = true;
       } catch (e) {}
 
-      var result = nativeObjectToString.call(value);
+      var result = nativeObjectToString$1.call(value);
 
       if (unmasked) {
         if (isOwn) {
-          value[symToStringTag] = tag;
+          value[symToStringTag$1] = tag;
         } else {
-          delete value[symToStringTag];
+          delete value[symToStringTag$1];
         }
       }
 
@@ -200,14 +200,14 @@ var float16 = (function (exports) {
     }
 
     /** Used for built-in method references. */
-    var objectProto$1 = Object.prototype;
+    var objectProto$3 = Object.prototype;
     /**
      * Used to resolve the
      * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
      * of values.
      */
 
-    var nativeObjectToString$1 = objectProto$1.toString;
+    var nativeObjectToString = objectProto$3.toString;
     /**
      * Converts `value` to a string using `Object.prototype.toString`.
      *
@@ -217,7 +217,7 @@ var float16 = (function (exports) {
      */
 
     function objectToString(value) {
-      return nativeObjectToString$1.call(value);
+      return nativeObjectToString.call(value);
     }
 
     /** `Object#toString` result references. */
@@ -226,7 +226,7 @@ var float16 = (function (exports) {
         undefinedTag = '[object Undefined]';
     /** Built-in value references. */
 
-    var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
+    var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
     /**
      * The base implementation of `getTag` without fallbacks for buggy environments.
      *
@@ -240,7 +240,7 @@ var float16 = (function (exports) {
         return value === undefined ? undefinedTag : nullTag;
       }
 
-      return symToStringTag$1 && symToStringTag$1 in Object(value) ? getRawTag(value) : objectToString(value);
+      return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
     }
 
     /**
@@ -332,10 +332,10 @@ var float16 = (function (exports) {
     }
 
     /** Used for built-in method references. */
-    var funcProto = Function.prototype;
+    var funcProto$1 = Function.prototype;
     /** Used to resolve the decompiled source of functions. */
 
-    var funcToString = funcProto.toString;
+    var funcToString$1 = funcProto$1.toString;
     /**
      * Converts `func` to its source code.
      *
@@ -347,7 +347,7 @@ var float16 = (function (exports) {
     function toSource(func) {
       if (func != null) {
         try {
-          return funcToString.call(func);
+          return funcToString$1.call(func);
         } catch (e) {}
 
         try {
@@ -369,17 +369,17 @@ var float16 = (function (exports) {
     var reIsHostCtor = /^\[object .+?Constructor\]$/;
     /** Used for built-in method references. */
 
-    var funcProto$1 = Function.prototype,
+    var funcProto = Function.prototype,
         objectProto$2 = Object.prototype;
     /** Used to resolve the decompiled source of functions. */
 
-    var funcToString$1 = funcProto$1.toString;
+    var funcToString = funcProto.toString;
     /** Used to check objects for own properties. */
 
-    var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
+    var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
     /** Used to detect if a method is native. */
 
-    var reIsNative = RegExp('^' + funcToString$1.call(hasOwnProperty$1).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
+    var reIsNative = RegExp('^' + funcToString.call(hasOwnProperty$2).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
     /**
      * The base implementation of `_.isNative` without bad shim checks.
      *
@@ -459,13 +459,13 @@ var float16 = (function (exports) {
 
     /** Used to stand-in for `undefined` hash values. */
 
-    var HASH_UNDEFINED = '__lodash_hash_undefined__';
+    var HASH_UNDEFINED$1 = '__lodash_hash_undefined__';
     /** Used for built-in method references. */
 
-    var objectProto$3 = Object.prototype;
+    var objectProto$1 = Object.prototype;
     /** Used to check objects for own properties. */
 
-    var hasOwnProperty$2 = objectProto$3.hasOwnProperty;
+    var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
     /**
      * Gets the hash value for `key`.
      *
@@ -481,18 +481,18 @@ var float16 = (function (exports) {
 
       if (nativeCreate) {
         var result = data[key];
-        return result === HASH_UNDEFINED ? undefined : result;
+        return result === HASH_UNDEFINED$1 ? undefined : result;
       }
 
-      return hasOwnProperty$2.call(data, key) ? data[key] : undefined;
+      return hasOwnProperty$1.call(data, key) ? data[key] : undefined;
     }
 
     /** Used for built-in method references. */
 
-    var objectProto$4 = Object.prototype;
+    var objectProto = Object.prototype;
     /** Used to check objects for own properties. */
 
-    var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
+    var hasOwnProperty = objectProto.hasOwnProperty;
     /**
      * Checks if a hash value for `key` exists.
      *
@@ -505,12 +505,12 @@ var float16 = (function (exports) {
 
     function hashHas(key) {
       var data = this.__data__;
-      return nativeCreate ? data[key] !== undefined : hasOwnProperty$3.call(data, key);
+      return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
     }
 
     /** Used to stand-in for `undefined` hash values. */
 
-    var HASH_UNDEFINED$1 = '__lodash_hash_undefined__';
+    var HASH_UNDEFINED = '__lodash_hash_undefined__';
     /**
      * Sets the hash `key` to `value`.
      *
@@ -525,7 +525,7 @@ var float16 = (function (exports) {
     function hashSet(key, value) {
       var data = this.__data__;
       this.size += this.has(key) ? 0 : 1;
-      data[key] = nativeCreate && value === undefined ? HASH_UNDEFINED$1 : value;
+      data[key] = nativeCreate && value === undefined ? HASH_UNDEFINED : value;
       return this;
     }
 
@@ -1778,6 +1778,8 @@ var float16 = (function (exports) {
     exports.getFloat16 = getFloat16;
     exports.hfround = hfround;
     exports.setFloat16 = setFloat16;
+
+    Object.defineProperty(exports, '__esModule', { value: true });
 
     return exports;
 
