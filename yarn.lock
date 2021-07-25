@@ -4483,10 +4483,10 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-nightwatch@^1.0.18:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.6.2.tgz#2da3183b4818e7d9545ed2c86d6bd145b6088df6"
-  integrity sha512-iItgPKmYynGtlCqfnCK/3tJrthyyXvyEURuDAVnGvrWq5phQu9rtKUaju0UHNQEwyrd8smITv2mHV/cSrRwPAg==
+nightwatch@~1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.6.4.tgz#9d0a92d13e93a7abff7d3a11a944bd5228da8ed7"
+  integrity sha512-3Ivb8TVjM9GHYwN0Ixi0CK+5hznRLsY7iiY1CBmdRi01ofx3a6glVvbrhsfOshwN3ai/tTaJ2D9taQGZ05wy3w==
   dependencies:
     assertion-error "^1.1.0"
     chai-nightwatch "^0.4.0"

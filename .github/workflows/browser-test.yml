@@ -1,0 +1,33 @@
+name: Browser Test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: saucelabs/sauce-connect-action@v1
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: ${{ github.run_number }}
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - run: yarn refresh
+      - name: Start Server
+        run: |
+          python -m SimpleHTTPServer &> /dev/null &
+          sleep 2
+      - run: yarn test-browser
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
