@@ -1,4 +1,4 @@
-const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, GITHUB_RUN_NUMBER, GITHUB_REF, GITHUB_HEAD_REF } = process.env;
+const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, GITHUB_RUN_NUMBER, GITHUB_EVENT_NAME } = process.env;
 
 module.exports = {
     src_folders: "test/browser",
@@ -21,7 +21,7 @@ module.exports = {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
                 "tunnel-identifier": GITHUB_RUN_NUMBER,
-                build: GITHUB_REF === "refs/heads/master" && GITHUB_HEAD_REF === undefined ? `build-${ GITHUB_RUN_NUMBER }` : undefined,
+                build: GITHUB_EVENT_NAME === "push" ? `build-${ GITHUB_RUN_NUMBER }` : undefined,
             },
         },
 
