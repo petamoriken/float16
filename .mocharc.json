@@ -1,0 +1,6 @@
+{
+  "require": [
+    "intelli-espower-loader",
+    "./test/lib/setup"
+  ]
+}
