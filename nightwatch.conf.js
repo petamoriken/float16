@@ -21,7 +21,7 @@ module.exports = {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
                 "tunnel-identifier": GITHUB_RUN_NUMBER,
-                ...(GITHUB_REF === "refs/heads/master" && GITHUB_HEAD_REF === undefined ? { build: `build-${ GITHUB_RUN_NUMBER }` } : {}),
+                build: GITHUB_REF === "refs/heads/master" && GITHUB_HEAD_REF === undefined ? `build-${ GITHUB_RUN_NUMBER }` : undefined,
             },
         },
 

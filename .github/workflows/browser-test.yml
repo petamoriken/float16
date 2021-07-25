@@ -15,11 +15,11 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - uses: saucelabs/sauce-connect-action@v1.1.3
-        with:
-          username: ${{ secrets.SAUCE_USERNAME }}
-          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-          tunnelIdentifier: ${{ github.run_number }}
+      - name: Start Sauce Connect Proxy
+        run: |
+          docker pull saucelabs/sauce-connect
+          docker run -e SAUCE_USERNAME=${{ secrets.SAUCE_USERNAME }} -e SAUCE_ACCESS_KEY=${{ secrets.SAUCE_ACCESS_KEY }} --network="host" -it saucelabs/sauce-connect &
+          sleep 30
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run: yarn refresh
