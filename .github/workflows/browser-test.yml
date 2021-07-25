@@ -15,18 +15,16 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn refresh
-      - uses: saucelabs/sauce-connect-action@v1
+      - uses: saucelabs/sauce-connect-action@v1.1.3
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
           tunnelIdentifier: ${{ github.run_number }}
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - run: yarn refresh
       - name: Start Server
         run: |
           python -m SimpleHTTPServer &> /dev/null &
           sleep 2
       - run: yarn test-browser
-      - name: Close Server
-        run: pkill python
