@@ -64,7 +64,7 @@ module.exports = {
             desiredCapabilities: {
                 platform: "Windows 10",
                 browserName: "firefox",
-                version: "68.0",
+                version: "78.0",
             },
         },
 
@@ -86,7 +86,7 @@ module.exports = {
 
         safari: {
             desiredCapabilities: {
-                platform: "macOS 10.15",
+                platform: "macOS 11",
                 browserName: "safari",
                 version: "latest",
             },
@@ -94,7 +94,7 @@ module.exports = {
 
         safari_old: {
             desiredCapabilities: {
-                platform: "macOS 10.14",
+                platform: "macOS 10.15",
                 browserName: "safari",
                 version: "latest",
             },
