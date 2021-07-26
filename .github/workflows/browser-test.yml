@@ -26,7 +26,7 @@ jobs:
       - name: Start Server
         run: |
           yarn setup-test-browser
-          sleep 2
+          sleep 5
       - run: yarn test-browser
         env:
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}

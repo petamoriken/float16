@@ -16,8 +16,8 @@ module.exports = {
             silent: true,
 
             request_timeout_options: {
-                timeout: 600000,
-                retry_attempts: 2,
+                timeout: 60000,
+                retry_attempts: 5,
             },
 
             desiredCapabilities: {
