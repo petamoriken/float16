@@ -15,6 +15,11 @@ module.exports = {
             use_ssl: true,
             silent: true,
 
+            request_timeout_options: {
+                timeout: 600000,
+                retry_attempts: 2,
+            },
+
             desiredCapabilities: {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
