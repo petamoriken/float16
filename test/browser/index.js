@@ -17,7 +17,7 @@ function asyncElementIdText(client, element) {
 
 module.exports = {
     ["@petamoriken/float16 test"](client) {
-        client.url(TARGET_URL || "http://172.0.0.1:8000/power.html")
+        client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
               .waitForElementPresent("#mocha-report");
 
         client.elements("css selector", "#mocha-report .fail .error", async (e) => {

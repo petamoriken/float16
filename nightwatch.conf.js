@@ -7,15 +7,13 @@ module.exports = {
 
     test_settings: {
         default: {
-            launch_url: "http://localhost",
+            username: SAUCE_USERNAME,
+            access_key: SAUCE_ACCESS_KEY,
+            sauce_region: "us-west-1",
             selenium_host: "ondemand.saucelabs.com",
-            selenium_port: 80,
-
-            webdriver: {
-                username: SAUCE_USERNAME,
-                access_key: SAUCE_ACCESS_KEY,
-                default_path_prefix: "/wd/hub",
-            },
+            selenium_port: 443,
+            use_ssl: true,
+            silent: true,
 
             desiredCapabilities: {
                 javascriptEnabled: true,
