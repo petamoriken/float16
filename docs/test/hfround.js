@@ -1,4 +1,7 @@
-(function() {
+/* eslint-env mocha */
+/* global assert hfround */
+
+(function () {
 
 const maxFloat16 = 65504;
 const minFloat16 = 2 ** -24;
