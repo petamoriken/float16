@@ -1,4 +1,7 @@
-(function() {
+/* eslint-env mocha */
+/* global assert getFloat16 setFloat16 */
+
+(function () {
 
 const buffer = new ArrayBuffer(2);
 const dataView = new DataView(buffer);

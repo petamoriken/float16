@@ -1,5 +1,4 @@
 import memoize from "lodash-es/memoize";
-import { isTypedArrayIndexedPropertyWritable } from "./bug";
 import { isArrayBuffer, isStringNumberKey } from "./is";
 import { convertToNumber, roundToFloat16Bits } from "./lib";
 import { createPrivateStorage } from "./private";
@@ -63,16 +62,10 @@ const applyHandler = {
 /** @type {ProxyHandler<Float16Array>} */
 const handler = {
     get(target, key) {
-        let wrapper = null;
-        if (!isTypedArrayIndexedPropertyWritable) {
-            wrapper = target;
-            target = _(wrapper).target;
-        }
-
         if (isStringNumberKey(key)) {
             return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
         } else {
-            const ret = wrapper !== null && Reflect.has(wrapper, key) ? Reflect.get(wrapper, key) : Reflect.get(target, key);
+            const ret = Reflect.get(target, key);
 
             if (typeof ret !== "function") {
                 return ret;
@@ -90,46 +83,13 @@ const handler = {
     },
 
     set(target, key, value) {
-        let wrapper = null;
-        if (!isTypedArrayIndexedPropertyWritable) {
-            wrapper = target;
-            target = _(wrapper).target;
-        }
-
         if (isStringNumberKey(key)) {
             return Reflect.set(target, key, roundToFloat16Bits(value));
         } else {
-            // frozen object can't change prototype property
-            if (wrapper !== null && (!Reflect.has(target, key) || Object.isFrozen(wrapper))) {
-                return Reflect.set(wrapper, key, value);
-            } else {
-                return Reflect.set(target, key, value);
-            }
+            return Reflect.set(target, key, value);
         }
     },
 };
-
-if (!isTypedArrayIndexedPropertyWritable) {
-    handler.getPrototypeOf = (wrapper) => { return Reflect.getPrototypeOf(_(wrapper).target); };
-    handler.setPrototypeOf = (wrapper, prototype) => { return Reflect.setPrototypeOf(_(wrapper).target, prototype); };
-
-    handler.defineProperty = (wrapper, key, descriptor) => {
-        const target = _(wrapper).target;
-        return !Reflect.has(target, key) || Object.isFrozen(wrapper) ? Reflect.defineProperty(wrapper, key, descriptor) : Reflect.defineProperty(target, key, descriptor);
-    };
-    handler.deleteProperty = (wrapper, key) => {
-        const target = _(wrapper).target;
-        return Reflect.has(wrapper, key) ? Reflect.deleteProperty(wrapper, key) : Reflect.deleteProperty(target, key);
-    };
-
-    handler.has = (wrapper, key) => { return Reflect.has(wrapper, key) || Reflect.has(_(wrapper).target, key); };
-
-    handler.isExtensible = (wrapper) => { return Reflect.isExtensible(wrapper); };
-    handler.preventExtensions = (wrapper) => { return Reflect.preventExtensions(wrapper); };
-
-    handler.getOwnPropertyDescriptor = (wrapper, key) => { return Reflect.getOwnPropertyDescriptor(wrapper, key); };
-    handler.ownKeys = (wrapper) => { return Reflect.ownKeys(wrapper); };
-}
 
 export default class Float16Array extends Uint16Array {
 
@@ -178,13 +138,7 @@ export default class Float16Array extends Uint16Array {
 
         let proxy;
 
-        if (isTypedArrayIndexedPropertyWritable) {
-            proxy = new Proxy(this, handler);
-        } else {
-            const wrapper = Object.create(null);
-            _(wrapper).target = this;
-            proxy = new Proxy(wrapper, handler);
-        }
+        proxy = new Proxy(this, handler);
 
         // proxy private storage
         _(proxy).target = this;
