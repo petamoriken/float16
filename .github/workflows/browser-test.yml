@@ -4,25 +4,50 @@ on:
   push:
     branches: [master]
   pull_request:
+    branches: [master]
+  pull_request_target:
+    branches: [master]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    if: |
+      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
+      (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
+
     steps:
-      - uses: actions/checkout@v2
+
+      - id: check
+        uses: shogo82148/actions-check-permissions@v1
+      - name: Check permissions
+        if: steps.check.outputs.permission != 'write'
+        run: exit 1
+
+      - name: Checkout
+        if: github.event_name != 'pull_request_target'
+        uses: actions/checkout@v2
+      - name: Checkout PR
+        if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+
       - uses: saucelabs/sauce-connect-action@v1
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
           tunnelIdentifier: github-action-tunnel
+
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run: yarn refresh
+
       - name: Start Server
         run: |
           yarn setup-test-browser
