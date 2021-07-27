@@ -36,7 +36,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec1._expr(_rec1._capt(_rec1._capt(_rec1._capt(getFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'getFloat16', 'arguments/0'), {
                     content: 'assert(getFloat16.name === "getFloat16")',
                     filepath: 'test/dataView.js',
-                    line: 17
+                    line: 20
                 }));
             });
             it('property `length` is 2', () => {
@@ -44,7 +44,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec2._expr(_rec2._capt(_rec2._capt(_rec2._capt(getFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
                     content: 'assert(getFloat16.length === 2)',
                     filepath: 'test/dataView.js',
-                    line: 21
+                    line: 24
                 }));
             });
             it('first argument must be DataView instance', () => {
@@ -64,13 +64,13 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec3._expr(_rec3._capt(_rec3._capt(getFloat16(_rec3._capt(dataView, 'arguments/0/left/arguments/0'), 0), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
                     content: 'assert(getFloat16(dataView, 0) === 0.0007572174072265625)',
                     filepath: 'test/dataView.js',
-                    line: 37
+                    line: 40
                 }));
                 dataView.setUint16(0, 4660, true);
                 assert(_rec4._expr(_rec4._capt(_rec4._capt(getFloat16(_rec4._capt(dataView, 'arguments/0/left/arguments/0'), 0, true), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
                     content: 'assert(getFloat16(dataView, 0, true) === 0.0007572174072265625)',
                     filepath: 'test/dataView.js',
-                    line: 40
+                    line: 43
                 }));
             });
         });
@@ -81,7 +81,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec5._expr(_rec5._capt(_rec5._capt(_rec5._capt(setFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'setFloat16', 'arguments/0'), {
                     content: 'assert(setFloat16.name === "setFloat16")',
                     filepath: 'test/dataView.js',
-                    line: 50
+                    line: 53
                 }));
             });
             it('property `length` is 3', () => {
@@ -89,7 +89,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec6._expr(_rec6._capt(_rec6._capt(_rec6._capt(setFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
                     content: 'assert(setFloat16.length === 3)',
                     filepath: 'test/dataView.js',
-                    line: 54
+                    line: 57
                 }));
             });
             it('first argument must be DataView instance', () => {
@@ -109,13 +109,13 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(dataView, 'arguments/0/left/callee/object').getUint16(0), 'arguments/0/left') === 4660, 'arguments/0'), {
                     content: 'assert(dataView.getUint16(0) === 0x1234)',
                     filepath: 'test/dataView.js',
-                    line: 70
+                    line: 73
                 }));
                 setFloat16(dataView, 0, 0.0007572174072265625, true);
                 assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(dataView, 'arguments/0/left/callee/object').getUint16(0, true), 'arguments/0/left') === 4660, 'arguments/0'), {
                     content: 'assert(dataView.getUint16(0, true) === 0x1234)',
                     filepath: 'test/dataView.js',
-                    line: 73
+                    line: 76
                 }));
             });
         });

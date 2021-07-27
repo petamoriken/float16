@@ -16,7 +16,6 @@
   },
   "plugins": ["import"],
   "rules": {
-    "arrow-body-style": ["error", "always"],
     "arrow-parens": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
     "curly": ["error", "all"],

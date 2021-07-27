@@ -1,6 +1,7 @@
-(function() {
+/* eslint-env mocha */
+/* global assert Float16Array */
 
-const isTypedArrayIndexedPropertyWritable = Object.getOwnPropertyDescriptor(new Uint8Array(1), 0).writable;
+(function () {
 
 function deepEqualArray(x, y) {
     assert(x.length === y.length);
@@ -139,18 +140,12 @@ describe("Float16Array", () => {
         assert(float16[10] === undefined);
     });
 
-    it("can't be frozen with elements", function() {
+    it("can't be frozen with elements", () => {
         assert.doesNotThrow(() => Object.freeze( new Float16Array() ));
-
-        if(!isTypedArrayIndexedPropertyWritable)
-            this.skip();
-
         assert.throws(() => Object.freeze( new Float16Array(10) ), TypeError);
     });
 
-    it("can't change property & prototype property if it frozen", function() {
-        // "use strict";
-
+    it("can't change property & prototype property if it frozen", function () {
         const float16 = new Float16Array();
 
         float16.hoge = "hoge";
@@ -169,10 +164,7 @@ describe("Float16Array", () => {
         assert( typeof float16.map === "function" );
     });
 
-    it("check ownKeys", function() {
-        if(!isTypedArrayIndexedPropertyWritable)
-            this.skip();
-
+    it("check ownKeys", () => {
         const float16 = new Float16Array([1, 2]);
         deepEqualArray( Reflect.ownKeys(float16), ["0", "1"] );
     });
@@ -180,7 +172,7 @@ describe("Float16Array", () => {
     it("append custom methods (not using `super`)", () => {
         const float16 = new Float16Array([1, 2, 3]);
 
-        float16.sum = function() {
+        float16.sum = function () {
             let ret = 0;
             for(let i = 0, l = this.length; i < l; ++i) {
                 ret += this[i];
@@ -254,7 +246,7 @@ describe("Float16Array", () => {
         it("check mapFn callback arguments", () => {
             const thisArg = {};
 
-            Float16Array.from([1], function(val, key) {
+            Float16Array.from([1], function (val, key) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -370,7 +362,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
 
-            float16.map(function(val, key, f16) {
+            float16.map(function (val, key, f16) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -382,7 +374,7 @@ describe("Float16Array", () => {
 
         it("get x2", () => {
             const float16_1 = new Float16Array([1, 2, 3, 4]);
-            const float16_2 = float16_1.map(val => val * 2);
+            const float16_2 = float16_1.map((val) => val * 2);
 
             assert( float16_2 instanceof Float16Array );
             deepEqualArray( float16_2, [2, 4, 6, 8] );
@@ -404,7 +396,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
 
-            float16.filter(function(val, key, f16) {
+            float16.filter(function (val, key, f16) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -416,7 +408,7 @@ describe("Float16Array", () => {
 
         it("filter even value", () => {
             const float16_1 = new Float16Array([1, 2, 3, 4]);
-            const float16_2 = float16_1.filter(val => val % 2 === 0);
+            const float16_2 = float16_1.filter((val) => val % 2 === 0);
 
             assert( float16_2 instanceof Float16Array );
             deepEqualArray( float16_2, [2, 4] );
@@ -437,7 +429,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16_1 = new Float16Array([1, 2]);
 
-            float16_1.reduce(function(prev, current, key, f16) {
+            float16_1.reduce(function (prev, current, key, f16) {
 
                 assert( prev === 1 );
                 assert( current === 2 );
@@ -448,7 +440,7 @@ describe("Float16Array", () => {
 
             const float16_2 = new Float16Array([2]);
 
-            float16_2.reduce(function(prev, current, key, f16) {
+            float16_2.reduce(function (prev, current, key, f16) {
 
                 assert( prev === 1 );
                 assert( current === 2 );
@@ -479,7 +471,7 @@ describe("Float16Array", () => {
         it("check callback arguments", () => {
             const float16_1 = new Float16Array([1, 2]);
 
-            float16_1.reduceRight(function(prev, current, key, f16) {
+            float16_1.reduceRight(function (prev, current, key, f16) {
 
                 assert( prev === 2 );
                 assert( current === 1 );
@@ -490,7 +482,7 @@ describe("Float16Array", () => {
 
             const float16_2 = new Float16Array([2]);
 
-            float16_2.reduceRight(function(prev, current, key, f16) {
+            float16_2.reduceRight(function (prev, current, key, f16) {
 
                 assert( prev === 1 );
                 assert( current === 2 );
@@ -522,7 +514,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
 
-            float16.forEach(function(val, key, f16) {
+            float16.forEach(function (val, key, f16) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -548,7 +540,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
 
-            float16.find(function(val, key, f16) {
+            float16.find(function (val, key, f16) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -560,10 +552,10 @@ describe("Float16Array", () => {
 
         it("find even value", () => {
             const float16_1 = new Float16Array([1, 2, 3]);
-            assert( float16_1.find(val => val % 2 === 0) === 2 );
+            assert( float16_1.find((val) => val % 2 === 0) === 2 );
 
             const float16_2 = new Float16Array([1, 3, 5]);
-            assert( float16_2.find(val => val % 2 === 0) === undefined );
+            assert( float16_2.find((val) => val % 2 === 0) === undefined );
         });
 
     });
@@ -582,7 +574,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
 
-            float16.findIndex(function(val, key, f16) {
+            float16.findIndex(function (val, key, f16) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -594,10 +586,10 @@ describe("Float16Array", () => {
 
         it("find index of even value", () => {
             const float16_1 = new Float16Array([1, 2, 3]);
-            assert( float16_1.findIndex(val => val % 2 === 0) === 1 );
+            assert( float16_1.findIndex((val) => val % 2 === 0) === 1 );
 
             const float16_2 = new Float16Array([1, 3, 5]);
-            assert( float16_2.findIndex(val => val % 2 === 0) === -1 );
+            assert( float16_2.findIndex((val) => val % 2 === 0) === -1 );
         });
 
     });
@@ -616,7 +608,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
 
-            float16.every(function(val, key, f16) {
+            float16.every(function (val, key, f16) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -628,10 +620,10 @@ describe("Float16Array", () => {
 
         it("have all even value", () => {
             const float16_1 = new Float16Array([2, 4, 6]);
-            assert( float16_1.every(val => val % 2 === 0) === true );
+            assert( float16_1.every((val) => val % 2 === 0) === true );
 
             const float16_2 = new Float16Array([2, 4, 7]);
-            assert( float16_2.every(val => val % 2 === 0) === false );
+            assert( float16_2.every((val) => val % 2 === 0) === false );
         });
 
     });
@@ -650,7 +642,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1]);
             const thisArg = {};
 
-            float16.some(function(val, key, f16) {
+            float16.some(function (val, key, f16) {
 
                 assert( val === 1 );
                 assert( key === 0 );
@@ -662,10 +654,10 @@ describe("Float16Array", () => {
 
         it("have some even value", () => {
             const float16_1 = new Float16Array([1, 2, 3]);
-            assert( float16_1.some(val => val % 2 === 0) === true );
+            assert( float16_1.some((val) => val % 2 === 0) === true );
 
             const float16_2 = new Float16Array([1, 3, 5]);
-            assert( float16_2.some(val => val % 2 === 0) === false );
+            assert( float16_2.some((val) => val % 2 === 0) === false );
         });
 
     });
@@ -695,7 +687,7 @@ describe("Float16Array", () => {
 
         it("set ArrayLike", () => {
             const float16 = new Float16Array([1, 2, 3, 4, 5]);
-            const arrayLike = {0: 10, 1: 11, length: 2};
+            const arrayLike = { 0: 10, 1: 11, length: 2 };
 
             assert( float16.set(arrayLike, 2) === undefined );
             deepEqualArray( float16, [1, 2, 10, 11, 5] );
@@ -721,8 +713,8 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3, 4, 5]);
             const array = [10, 11];
 
-            assert.throws(() => float16.set(array, -1), Error); // RangeError, V8 bug: throws TypeError
-            assert.throws(() => float16.set(array, 4), Error); // RangeError, Chakra bug: throws TypeError
+            assert.throws(() => float16.set(array, -1), RangeError);
+            assert.throws(() => float16.set(array, 4), RangeError);
         });
 
     });
@@ -801,7 +793,7 @@ describe("Float16Array", () => {
             deepEqualNumberArray( float16, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
         });
 
-        it("check custom compare", function() {
+        it("check custom compare", () => {
             const float16 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
 
             assert( float16.sort( (x, y) => x - y ) === float16 );
