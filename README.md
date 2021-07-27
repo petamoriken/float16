@@ -133,10 +133,6 @@ Build `docs/` files (for browser test).
 yarn run docs
 ```
 
-## Bug
-
-Some browsers have JavaScript bugs. Please see [Float16Array test code](https://github.com/petamoriken/float16/blob/master/test/Float16Array.js) and search `this.skip()`.
-
 ## Test
 
 First, download devDependencies.
