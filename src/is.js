@@ -7,7 +7,7 @@ export { default as isArrayBuffer } from "lodash-es/isArrayBuffer";
  * @returns {boolean}
  */
 export function isDataView(view) {
-    return view instanceof DataView;
+    return ArrayBuffer.isView(view) && Object.prototype.toString.call(view) === "[object DataView]";
 }
 
 /**
