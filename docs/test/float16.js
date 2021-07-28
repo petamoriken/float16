@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 v3.1.0 | MIT License - https://git.io/float16
+ * @petamoriken/float16 v3.1.0-2-g0cf13d2 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -1638,21 +1638,19 @@ var float16 = (function (exports) {
       lastIndexOf(element, ...opts) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToIntegerOrInfinity(opts[0]);
+        let from = opts.length >= 1 ? ToIntegerOrInfinity(opts[0]) : length - 1;
 
         if (from === -Infinity) {
           return -1;
         }
 
-        from = from === 0 ? length : from + 1;
-
         if (from >= 0) {
-          from = from < length ? from : length;
+          from = from < length - 1 ? from : length - 1;
         } else {
           from += length;
         }
 
-        for (let i = from; i--;) {
+        for (let i = from; i >= 0; --i) {
           if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
             return i;
           }
