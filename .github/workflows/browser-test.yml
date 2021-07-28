@@ -28,11 +28,14 @@ jobs:
       - name: Checkout
         if: github.event_name != 'pull_request_target'
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Checkout PR
         if: github.event_name == 'pull_request_target'
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v2
         with:
