@@ -3,10 +3,10 @@ import loadPlugins from "rollup-load-plugins";
 
 const $ = loadPlugins();
 
-const gitTag = execSync("git tag -l --points-at HEAD").toString().trim();
-const gitCommitHash = execSync("git rev-parse --short HEAD").toString().trim();
+const version = process.env.NPM_VERSION_SCRIPT === "1" ? `v${ process.env.npm_package_version }` :
+    execSync("git describe").toString().trim();
 
-const banner = `<%= pkg.name %> ${ gitTag || gitCommitHash } | <%= pkg.license %> License - <%= pkg.homepage %>
+const banner = `<%= pkg.name %> ${ version } | <%= pkg.license %> License - <%= pkg.homepage %>
 
 @license<% _.forEach(dependencies, function (dependency) { %>
   <%= dependency.name %> v<%= dependency.version %> | <%= dependency.license %> License - <%= dependency.homepage %>
@@ -17,7 +17,7 @@ export default {
     output: {
         name: "float16",
         file: "browser/float16.js",
-        format: "iife"
+        format: "iife",
     },
     plugins: [
         $.nodeResolve({ browser: true }),
@@ -25,9 +25,9 @@ export default {
             babelrc: false,
             presets: [["@babel/preset-env", {
                 modules: false,
-                exclude: ["transform-regenerator"]
-            }]]
+                exclude: ["transform-regenerator"],
+            }]],
         }),
-        $.license({ banner })
-    ]
+        $.license({ banner }),
+    ],
 };
