@@ -41,6 +41,13 @@ export interface Float16Array {
   values(): IterableIterator<number>;
 
   /**
+   * Returns a value in the array
+   * @param index If index is negative, it is treated as length+index where length is the
+   * length of the array.
+   */
+  at(index: number): number;
+
+  /**
    * Returns the this object after copying a section of the array identified by start and end
    * to the same array starting at position target
    * @param target If target is negative, it is treated as length+target where length is the
@@ -101,6 +108,28 @@ export interface Float16Array {
    * predicate. If it is not provided, undefined is used instead.
    */
   findIndex(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number;
+
+  /**
+   * Returns the value of the last element in the array where predicate is true, and undefined
+   * otherwise.
+   * @param predicate find calls predicate once for each element of the array, in descending
+   * order, until it finds one where predicate returns true. If such an element is found, find
+   * immediately returns that element value. Otherwise, find returns undefined.
+   * @param thisArg If provided, it will be used as the this value for each invocation of
+   * predicate. If it is not provided, undefined is used instead.
+   */
+   findLast(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number | undefined;
+
+   /**
+    * Returns the index of the last element in the array where predicate is true, and -1
+    * otherwise.
+    * @param predicate find calls predicate once for each element of the array, in descending
+    * order, until it finds one where predicate returns true. If such an element is found,
+    * findIndex immediately returns that element index. Otherwise, findIndex returns -1.
+    * @param thisArg If provided, it will be used as the this value for each invocation of
+    * predicate. If it is not provided, undefined is used instead.
+    */
+   findLastIndex(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number;
 
   /**
    * Performs the specified action for each element in an array.
