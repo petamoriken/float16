@@ -91,7 +91,7 @@ var _PowerAssertRecorder1 = function () {
                     line: 65
                 }));
             });
-            it('work with anothor realm', () => {
+            it('work with DataView from anothor realm', () => {
                 assert.doesNotThrow(() => getFloat16(realmDataView, 0));
             });
         });
@@ -139,7 +139,7 @@ var _PowerAssertRecorder1 = function () {
                     line: 102
                 }));
             });
-            it('work with anothor realm', () => {
+            it('work with DataView from anothor realm', () => {
                 assert.doesNotThrow(() => setFloat16(realmDataView, 0, 0));
             });
         });

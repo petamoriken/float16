@@ -65,7 +65,7 @@ describe("additional DataView methods", () => {
             assert( getFloat16(dataView, 0, true) === 0.0007572174072265625 );
         });
 
-        it("work with anothor realm", () => {
+        it("work with DataView from anothor realm", () => {
             assert.doesNotThrow(() => getFloat16(realmDataView, 0));
         });
 
@@ -102,7 +102,7 @@ describe("additional DataView methods", () => {
             assert( dataView.getUint16(0, true) === 0x1234 );
         });
 
-        it("work with anothor realm", () => {
+        it("work with DataView from anothor realm", () => {
             assert.doesNotThrow(() => setFloat16(realmDataView, 0, 0));
         });
 
