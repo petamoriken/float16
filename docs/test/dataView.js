@@ -10,6 +10,28 @@ function clear() {
     new Uint16Array(buffer)[0] = 0;
 }
 
+let realmDataView;
+
+if (typeof require !== "undefined") {
+    realmDataView = require("vm").runInNewContext(`
+        const buffer = new ArrayBuffer(2);
+        new DataView(buffer);
+    `);
+} else {
+    const iframe = document.createElement("iframe");
+    iframe.height = iframe.width = 0;
+    document.body.appendChild(iframe);
+
+    const iframeDocument = iframe.contentDocument;
+    iframeDocument.write(`<script>
+        const buffer = new ArrayBuffer(2);
+        window.realmDataView = new DataView(buffer);
+    </script>`);
+    realmDataView = iframe.contentWindow.realmDataView;
+
+    iframeDocument.close();
+}
+
 describe("additional DataView methods", () => {
 
     describe("getFloat16()", () => {
@@ -43,6 +65,10 @@ describe("additional DataView methods", () => {
             assert( getFloat16(dataView, 0, true) === 0.0007572174072265625 );
         });
 
+        it("work with anothor realm", () => {
+            assert.doesNotThrow(() => getFloat16(realmDataView, 0));
+        });
+
     });
 
     describe("setFloat16()", () => {
@@ -74,6 +100,10 @@ describe("additional DataView methods", () => {
 
             setFloat16(dataView, 0, 0.0007572174072265625, true);
             assert( dataView.getUint16(0, true) === 0x1234 );
+        });
+
+        it("work with anothor realm", () => {
+            assert.doesNotThrow(() => setFloat16(realmDataView, 0, 0));
         });
 
     });

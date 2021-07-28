@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 3b3c45d | MIT License - https://git.io/float16
+ * @petamoriken/float16 1f5abd9 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -1119,7 +1119,7 @@ var float16 = (function (exports) {
      */
 
     function isDataView(view) {
-      return view instanceof DataView;
+      return ArrayBuffer.isView(view) && Object.prototype.toString.call(view) === "[object DataView]";
     }
     /**
      * @param {unknown} key

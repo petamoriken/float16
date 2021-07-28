@@ -28,6 +28,24 @@ var _PowerAssertRecorder1 = function () {
     function clear() {
         new Uint16Array(buffer)[0] = 0;
     }
+    let realmDataView;
+    if (typeof require !== 'undefined') {
+        realmDataView = require('vm').runInNewContext(`
+        const buffer = new ArrayBuffer(2);
+        new DataView(buffer);
+    `);
+    } else {
+        const iframe = document.createElement('iframe');
+        iframe.height = iframe.width = 0;
+        document.body.appendChild(iframe);
+        const iframeDocument = iframe.contentDocument;
+        iframeDocument.write(`<script>
+        const buffer = new ArrayBuffer(2);
+        window.realmDataView = new DataView(buffer);
+    </script>`);
+        realmDataView = iframe.contentWindow.realmDataView;
+        iframeDocument.close();
+    }
     describe('additional DataView methods', () => {
         describe('getFloat16()', () => {
             beforeEach(clear);
@@ -36,7 +54,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec1._expr(_rec1._capt(_rec1._capt(_rec1._capt(getFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'getFloat16', 'arguments/0'), {
                     content: 'assert(getFloat16.name === "getFloat16")',
                     filepath: 'test/dataView.js',
-                    line: 20
+                    line: 42
                 }));
             });
             it('property `length` is 2', () => {
@@ -44,7 +62,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec2._expr(_rec2._capt(_rec2._capt(_rec2._capt(getFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
                     content: 'assert(getFloat16.length === 2)',
                     filepath: 'test/dataView.js',
-                    line: 24
+                    line: 46
                 }));
             });
             it('first argument must be DataView instance', () => {
@@ -64,14 +82,17 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec3._expr(_rec3._capt(_rec3._capt(getFloat16(_rec3._capt(dataView, 'arguments/0/left/arguments/0'), 0), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
                     content: 'assert(getFloat16(dataView, 0) === 0.0007572174072265625)',
                     filepath: 'test/dataView.js',
-                    line: 40
+                    line: 62
                 }));
                 dataView.setUint16(0, 4660, true);
                 assert(_rec4._expr(_rec4._capt(_rec4._capt(getFloat16(_rec4._capt(dataView, 'arguments/0/left/arguments/0'), 0, true), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
                     content: 'assert(getFloat16(dataView, 0, true) === 0.0007572174072265625)',
                     filepath: 'test/dataView.js',
-                    line: 43
+                    line: 65
                 }));
+            });
+            it('work with anothor realm', () => {
+                assert.doesNotThrow(() => getFloat16(realmDataView, 0));
             });
         });
         describe('setFloat16()', () => {
@@ -81,7 +102,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec5._expr(_rec5._capt(_rec5._capt(_rec5._capt(setFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'setFloat16', 'arguments/0'), {
                     content: 'assert(setFloat16.name === "setFloat16")',
                     filepath: 'test/dataView.js',
-                    line: 53
+                    line: 79
                 }));
             });
             it('property `length` is 3', () => {
@@ -89,7 +110,7 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec6._expr(_rec6._capt(_rec6._capt(_rec6._capt(setFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
                     content: 'assert(setFloat16.length === 3)',
                     filepath: 'test/dataView.js',
-                    line: 57
+                    line: 83
                 }));
             });
             it('first argument must be DataView instance', () => {
@@ -109,14 +130,17 @@ var _PowerAssertRecorder1 = function () {
                 assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(dataView, 'arguments/0/left/callee/object').getUint16(0), 'arguments/0/left') === 4660, 'arguments/0'), {
                     content: 'assert(dataView.getUint16(0) === 0x1234)',
                     filepath: 'test/dataView.js',
-                    line: 73
+                    line: 99
                 }));
                 setFloat16(dataView, 0, 0.0007572174072265625, true);
                 assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(dataView, 'arguments/0/left/callee/object').getUint16(0, true), 'arguments/0/left') === 4660, 'arguments/0'), {
                     content: 'assert(dataView.getUint16(0, true) === 0x1234)',
                     filepath: 'test/dataView.js',
-                    line: 76
+                    line: 102
                 }));
+            });
+            it('work with anothor realm', () => {
+                assert.doesNotThrow(() => setFloat16(realmDataView, 0, 0));
             });
         });
     });
