@@ -10,10 +10,14 @@ module.exports = {
             username: SAUCE_USERNAME,
             access_key: SAUCE_ACCESS_KEY,
             sauce_region: "us-west-1",
-            selenium_host: "ondemand.saucelabs.com",
-            selenium_port: 443,
             use_ssl: true,
             silent: true,
+
+            selenium: {
+                host: "ondemand.saucelabs.com",
+                port: 443,
+                start_process: false,
+            },
 
             request_timeout_options: {
                 timeout: 60000,
