@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 f625698 | MIT License - https://git.io/float16
+ * @petamoriken/float16 3b3c45d | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -1186,10 +1186,10 @@ var float16 = (function (exports) {
 
     function copyToArray(float16bits) {
       const length = float16bits.length;
-      const array = new Array(length);
+      const array = [];
 
       for (let i = 0; i < length; ++i) {
-        array[i] = convertToNumber(float16bits[i]);
+        array.push(convertToNumber(float16bits[i]));
       }
 
       return array;
@@ -1281,8 +1281,7 @@ var float16 = (function (exports) {
           }
         }
 
-        let proxy;
-        proxy = new Proxy(this, handler); // proxy private storage
+        const proxy = new Proxy(this, handler); // proxy private storage
 
         _(proxy).target = this; // this private storage
 

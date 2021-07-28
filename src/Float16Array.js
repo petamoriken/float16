@@ -39,9 +39,9 @@ function isDefaultFloat16ArrayMethods(target) {
 function copyToArray(float16bits) {
     const length = float16bits.length;
 
-    const array = new Array(length);
+    const array = [];
     for(let i = 0; i < length; ++i) {
-        array[i] = convertToNumber(float16bits[i]);
+        array.push(convertToNumber(float16bits[i]));
     }
 
     return array;
@@ -136,9 +136,7 @@ export default class Float16Array extends Uint16Array {
             }
         }
 
-        let proxy;
-
-        proxy = new Proxy(this, handler);
+        const proxy = new Proxy(this, handler);
 
         // proxy private storage
         _(proxy).target = this;
