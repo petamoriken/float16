@@ -2,11 +2,21 @@
  * @param {unknown} target
  * @returns {number}
  */
-export function ToInteger(target) {
-    let number = typeof target !== "number" ? Number(target) : target;
-    if (Number.isNaN(number)) {
-        number = 0;
+export function ToIntegerOrInfinity(target) {
+    const number = Number(target);
+
+    if (Number.isNaN(number) || number === 0) {
+        return 0;
     }
+
+    if (number === Infinity) {
+        return Infinity;
+    }
+
+    if (number === -Infinity) {
+        return -Infinity;
+    }
+
     return Math.trunc(number);
 }
 

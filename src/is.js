@@ -1,4 +1,4 @@
-import { ToInteger } from "./spec";
+import { ToIntegerOrInfinity } from "./spec";
 
 export { default as isArrayBuffer } from "lodash-es/isArrayBuffer";
 
@@ -14,6 +14,6 @@ export function isDataView(view) {
  * @param {unknown} key
  * @returns {boolean}
  */
-export function isStringNumberKey(key) {
-    return typeof key === "string" && key === ToInteger(key) + "";
+export function isCanonicalIntegerIndexString(key) {
+    return typeof key === "string" && key === ToIntegerOrInfinity(key) + "";
 }

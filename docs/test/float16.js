@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 7d9f74d | MIT License - https://git.io/float16
+ * @petamoriken/float16 1ee53ea | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -955,11 +955,19 @@ var float16 = (function (exports) {
      * @param {unknown} target
      * @returns {number}
      */
-    function ToInteger(target) {
-      let number = typeof target !== "number" ? Number(target) : target;
+    function ToIntegerOrInfinity(target) {
+      const number = Number(target);
 
-      if (Number.isNaN(number)) {
-        number = 0;
+      if (Number.isNaN(number) || number === 0) {
+        return 0;
+      }
+
+      if (number === Infinity) {
+        return Infinity;
+      }
+
+      if (number === -Infinity) {
+        return -Infinity;
       }
 
       return Math.trunc(number);
@@ -1126,8 +1134,8 @@ var float16 = (function (exports) {
      * @returns {boolean}
      */
 
-    function isStringNumberKey(key) {
-      return typeof key === "string" && key === ToInteger(key) + "";
+    function isCanonicalIntegerIndexString(key) {
+      return typeof key === "string" && key === ToIntegerOrInfinity(key) + "";
     }
 
     /**
@@ -1212,7 +1220,7 @@ var float16 = (function (exports) {
 
     const handler = {
       get(target, key) {
-        if (isStringNumberKey(key)) {
+        if (isCanonicalIntegerIndexString(key)) {
           return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
         } else {
           const ret = Reflect.get(target, key);
@@ -1233,7 +1241,7 @@ var float16 = (function (exports) {
       },
 
       set(target, key, value) {
-        if (isStringNumberKey(key)) {
+        if (isCanonicalIntegerIndexString(key)) {
           return Reflect.set(target, key, roundToFloat16Bits(value));
         } else {
           return Reflect.set(target, key, value);
@@ -1563,7 +1571,11 @@ var float16 = (function (exports) {
       indexOf(element, ...opts) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(opts[0]);
+        let from = ToIntegerOrInfinity(opts[0]);
+
+        if (from === Infinity) {
+          return -1;
+        }
 
         if (from < 0) {
           from += length;
@@ -1574,7 +1586,7 @@ var float16 = (function (exports) {
         }
 
         for (let i = from, l = length; i < l; ++i) {
-          if (convertToNumber(this[i]) === element) {
+          if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
             return i;
           }
         }
@@ -1585,7 +1597,12 @@ var float16 = (function (exports) {
       lastIndexOf(element, ...opts) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(opts[0]);
+        let from = ToIntegerOrInfinity(opts[0]);
+
+        if (from === -Infinity) {
+          return -1;
+        }
+
         from = from === 0 ? length : from + 1;
 
         if (from >= 0) {
@@ -1595,7 +1612,7 @@ var float16 = (function (exports) {
         }
 
         for (let i = from; i--;) {
-          if (convertToNumber(this[i]) === element) {
+          if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
             return i;
           }
         }
@@ -1606,7 +1623,7 @@ var float16 = (function (exports) {
       includes(element, ...opts) {
         assertFloat16Array(this);
         const length = this.length;
-        let from = ToInteger(opts[0]);
+        let from = ToIntegerOrInfinity(opts[0]);
 
         if (from < 0) {
           from += length;

@@ -1,8 +1,8 @@
 import memoize from "lodash-es/memoize";
-import { isArrayBuffer, isStringNumberKey } from "./is";
+import { isArrayBuffer, isCanonicalIntegerIndexString } from "./is";
 import { convertToNumber, roundToFloat16Bits } from "./lib";
 import { createPrivateStorage } from "./private";
-import { ToInteger, defaultCompareFunction } from "./spec";
+import { ToIntegerOrInfinity, defaultCompareFunction } from "./spec";
 
 const _ = createPrivateStorage();
 
@@ -52,7 +52,7 @@ const applyHandler = {
     apply(func, thisArg, args) {
         // peel off proxy
         if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) {
-            return Reflect.apply(func, _(thisArg).target ,args);
+            return Reflect.apply(func, _(thisArg).target, args);
         }
 
         return Reflect.apply(func, thisArg, args);
@@ -62,7 +62,7 @@ const applyHandler = {
 /** @type {ProxyHandler<Float16Array>} */
 const handler = {
     get(target, key) {
-        if (isStringNumberKey(key)) {
+        if (isCanonicalIntegerIndexString(key)) {
             return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
         } else {
             const ret = Reflect.get(target, key);
@@ -83,7 +83,7 @@ const handler = {
     },
 
     set(target, key, value) {
-        if (isStringNumberKey(key)) {
+        if (isCanonicalIntegerIndexString(key)) {
             return Reflect.set(target, key, roundToFloat16Bits(value));
         } else {
             return Reflect.set(target, key, value);
@@ -444,7 +444,10 @@ export default class Float16Array extends Uint16Array {
 
         const length = this.length;
 
-        let from = ToInteger(opts[0]);
+        let from = ToIntegerOrInfinity(opts[0]);
+        if (from === Infinity) {
+            return -1;
+        }
 
         if (from < 0) {
             from += length;
@@ -454,7 +457,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         for(let i = from, l = length; i < l; ++i) {
-            if (convertToNumber(this[i]) === element) {
+            if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
                 return i;
             }
         }
@@ -467,7 +470,10 @@ export default class Float16Array extends Uint16Array {
 
         const length = this.length;
 
-        let from = ToInteger(opts[0]);
+        let from = ToIntegerOrInfinity(opts[0]);
+        if (from === -Infinity) {
+            return -1;
+        }
 
         from = from === 0 ? length : from + 1;
 
@@ -478,7 +484,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         for(let i = from; i--;) {
-            if (convertToNumber(this[i]) === element) {
+            if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
                 return i;
             }
         }
@@ -491,7 +497,7 @@ export default class Float16Array extends Uint16Array {
 
         const length = this.length;
 
-        let from = ToInteger(opts[0]);
+        let from = ToIntegerOrInfinity(opts[0]);
 
         if (from < 0) {
             from += length;
