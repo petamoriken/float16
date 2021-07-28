@@ -984,10 +984,11 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3]);
 
             assert( float16.lastIndexOf(1) === 0 );
-            assert( float16.lastIndexOf(3, 1) === -1 );
             assert( float16.lastIndexOf(2, 1) === 1 );
-            assert( float16.lastIndexOf(2, -3) === -1 );
             assert( float16.lastIndexOf(2, -2) === 1 );
+            assert( float16.lastIndexOf(2, -3) === -1 );
+            assert( float16.lastIndexOf(2, -5) === -1 );
+            assert( float16.lastIndexOf(3, 1) === -1 );
         });
 
     });

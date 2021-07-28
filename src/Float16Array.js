@@ -512,20 +512,18 @@ export default class Float16Array extends Uint16Array {
 
         const length = this.length;
 
-        let from = ToIntegerOrInfinity(opts[0]);
+        let from = opts.length >= 1 ? ToIntegerOrInfinity(opts[0]) : length - 1;
         if (from === -Infinity) {
             return -1;
         }
 
-        from = from === 0 ? length : from + 1;
-
         if (from >= 0) {
-            from = from < length ? from : length;
+            from = from < length - 1 ? from : length - 1;
         } else {
             from += length;
         }
 
-        for(let i = from; i--;) {
+        for(let i = from; i >= 0; --i) {
             if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
                 return i;
             }
