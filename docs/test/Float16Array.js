@@ -348,6 +348,26 @@ describe("Float16Array", () => {
 
     });
 
+    describe("#at()", () => {
+
+        it("property `name` is 'at'", () => {
+            assert( Float16Array.prototype.at.name === "at" );
+        });
+
+        it("property `length` is 0", () => {
+            assert( Float16Array.prototype.at.length === 1 );
+        });
+
+        it("get values", () => {
+            const float16 = new Float16Array([1, 2, 3]);
+
+            assert( float16.at(0) === 1 );
+            assert( float16.at(-1) === 3 );
+            assert( float16.at(4) === undefined );
+        });
+
+    });
+
     describe("#map()", () => {
 
         it("property `name` is 'map'", () => {
@@ -551,7 +571,7 @@ describe("Float16Array", () => {
         });
 
         it("find even value", () => {
-            const float16_1 = new Float16Array([1, 2, 3]);
+            const float16_1 = new Float16Array([1, 2, 3, 4]);
             assert( float16_1.find((val) => val % 2 === 0) === 2 );
 
             const float16_2 = new Float16Array([1, 3, 5]);
@@ -585,11 +605,79 @@ describe("Float16Array", () => {
         });
 
         it("find index of even value", () => {
-            const float16_1 = new Float16Array([1, 2, 3]);
+            const float16_1 = new Float16Array([1, 2, 3, 4]);
             assert( float16_1.findIndex((val) => val % 2 === 0) === 1 );
 
             const float16_2 = new Float16Array([1, 3, 5]);
             assert( float16_2.findIndex((val) => val % 2 === 0) === -1 );
+        });
+
+    });
+
+    describe("#findLast()", () => {
+
+        it("property `name` is 'findLast'", () => {
+            assert( Float16Array.prototype.findLast.name === "findLast" );
+        });
+
+        it("property `length` is 1", () => {
+            assert( Float16Array.prototype.findLast.length === 1 );
+        });
+
+        it("check callback arguments", () => {
+            const float16 = new Float16Array([1]);
+            const thisArg = {};
+
+            float16.findLast(function (val, key, f16) {
+
+                assert( val === 1 );
+                assert( key === 0 );
+                assert( f16 === float16 );
+                assert( this === thisArg );
+
+            }, thisArg);
+        });
+
+        it("find even value from last", () => {
+            const float16_1 = new Float16Array([1, 2, 3, 4]);
+            assert( float16_1.findLast((val) => val % 2 === 0) === 4 );
+
+            const float16_2 = new Float16Array([1, 3, 5]);
+            assert( float16_2.findLast((val) => val % 2 === 0) === undefined );
+        });
+
+    });
+
+    describe("#findLastIndex()", () => {
+
+        it("property `name` is 'findLastIndex'", () => {
+            assert( Float16Array.prototype.findLastIndex.name === "findLastIndex" );
+        });
+
+        it("property `length` is 1", () => {
+            assert( Float16Array.prototype.findLastIndex.length === 1 );
+        });
+
+        it("check callback arguments", () => {
+            const float16 = new Float16Array([1]);
+            const thisArg = {};
+
+            float16.findLastIndex(function (val, key, f16) {
+
+                assert( val === 1 );
+                assert( key === 0 );
+                assert( f16 === float16 );
+                assert( this === thisArg );
+
+            }, thisArg);
+        });
+
+        it("find last index of even value", () => {
+            const float16_1 = new Float16Array([1, 2, 3, 4]);
+            assert( float16_1.findLastIndex((val) => val % 2 === 0) === 3 );
+
+            const float16_2 = new Float16Array([1, 3, 5]);
+            assert( float16_2.findLastIndex((val) => val % 2 === 0) === -1 );
         });
 
     });

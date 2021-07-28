@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 1ee53ea | MIT License - https://git.io/float16
+ * @petamoriken/float16 1dfe84d | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -1337,6 +1337,19 @@ var float16 = (function (exports) {
         for (const [i, val] of super.entries()) {
           yield [i, convertToNumber(val)];
         }
+      }
+
+      at(index) {
+        assertFloat16Array(this);
+        const length = this.length;
+        const relativeIndex = ToIntegerOrInfinity(index);
+        const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
+
+        if (k < 0 || k >= length) {
+          return;
+        }
+
+        return convertToNumber(this[k]);
       } // functional methods
       // @ts-ignore
 
@@ -1437,6 +1450,34 @@ var float16 = (function (exports) {
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
+          const value = convertToNumber(this[i]);
+
+          if (callback.call(thisArg, value, i, _(this).proxy)) {
+            return i;
+          }
+        }
+
+        return -1;
+      }
+
+      findLast(callback, ...opts) {
+        assertFloat16Array(this);
+        const thisArg = opts[0];
+
+        for (let i = this.length - 1; i >= 0; --i) {
+          const value = convertToNumber(this[i]);
+
+          if (callback.call(thisArg, value, i, _(this).proxy)) {
+            return value;
+          }
+        }
+      }
+
+      findLastIndex(callback, ...opts) {
+        assertFloat16Array(this);
+        const thisArg = opts[0];
+
+        for (let i = this.length - 1; i >= 0; --i) {
           const value = convertToNumber(this[i]);
 
           if (callback.call(thisArg, value, i, _(this).proxy)) {
