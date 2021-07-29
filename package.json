@@ -50,7 +50,7 @@
     "docs:test:unit": "cp test/*.js docs/test && yarn run docs:test:unit:power",
     "docs:test:unit:power": "tools/power",
     "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js $(npm root)/mocha/mocha.css $(npm root)/power-assert/build/power-assert.js docs/test",
-    "lint": "eslint src",
+    "lint": "eslint src/**",
     "test": "mocha",
     "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,edge_old,safari,safari_old",
     "setup-test-browser": "http-server docs/test -p 8000 > /dev/null 2>&1 &",
