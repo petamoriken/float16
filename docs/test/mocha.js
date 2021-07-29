@@ -1,4 +1,4 @@
-// mocha@9.0.2 transpiled to javascript ES5
+// mocha@9.0.3 transpiled to javascript ES5
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -21866,7 +21866,7 @@
 	/**
 	 * Dynamically creates a plugin-type-specific error based on plugin type
 	 * @param {string} message - Error message
-	 * @param {"reporter"|"interface"} pluginType - Plugin type. Future: expand as needed
+	 * @param {"reporter"|"ui"} pluginType - Plugin type. Future: expand as needed
 	 * @param {string} [pluginId] - Name/path of plugin, if any
 	 * @throws When `pluginType` is not known
 	 * @public
@@ -21880,7 +21880,7 @@
 	    case 'reporter':
 	      return createInvalidReporterError(message, pluginId);
 
-	    case 'interface':
+	    case 'ui':
 	      return createInvalidInterfaceError(message, pluginId);
 
 	    default:
@@ -27544,7 +27544,7 @@
 	});
 
 	var name = "mocha";
-	var version = "9.0.2";
+	var version = "9.0.3";
 	var homepage = "https://mochajs.org/";
 	var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
 	var _package = {

@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 v3.1.1 | MIT License - https://git.io/float16
+ * @petamoriken/float16 v3.2.0 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -141,17 +141,20 @@ var float16 = (function (exports) {
 
     /** Detect free variable `global` from Node.js. */
     var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+    var freeGlobal$1 = freeGlobal;
 
     /** Detect free variable `self`. */
 
     var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
     /** Used as a reference to the global object. */
 
-    var root = freeGlobal || freeSelf || Function('return this')();
+    var root = freeGlobal$1 || freeSelf || Function('return this')();
+    var root$1 = root;
 
     /** Built-in value references. */
 
-    var Symbol$1 = root.Symbol;
+    var Symbol$1 = root$1.Symbol;
+    var Symbol$2 = Symbol$1;
 
     /** Used for built-in method references. */
 
@@ -168,7 +171,7 @@ var float16 = (function (exports) {
     var nativeObjectToString$1 = objectProto$4.toString;
     /** Built-in value references. */
 
-    var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
+    var symToStringTag$1 = Symbol$2 ? Symbol$2.toStringTag : undefined;
     /**
      * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
      *
@@ -226,7 +229,7 @@ var float16 = (function (exports) {
         undefinedTag = '[object Undefined]';
     /** Built-in value references. */
 
-    var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
+    var symToStringTag = Symbol$2 ? Symbol$2.toStringTag : undefined;
     /**
      * The base implementation of `getTag` without fallbacks for buggy environments.
      *
@@ -310,12 +313,13 @@ var float16 = (function (exports) {
 
     /** Used to detect overreaching core-js shims. */
 
-    var coreJsData = root['__core-js_shared__'];
+    var coreJsData = root$1['__core-js_shared__'];
+    var coreJsData$1 = coreJsData;
 
     /** Used to detect methods masquerading as native. */
 
     var maskSrcKey = function () {
-      var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+      var uid = /[^.]+$/.exec(coreJsData$1 && coreJsData$1.keys && coreJsData$1.keys.IE_PROTO || '');
       return uid ? 'Symbol(src)_1.' + uid : '';
     }();
     /**
@@ -427,6 +431,7 @@ var float16 = (function (exports) {
     /* Built-in method references that are verified to be native. */
 
     var nativeCreate = getNative(Object, 'create');
+    var nativeCreate$1 = nativeCreate;
 
     /**
      * Removes all key-value entries from the hash.
@@ -437,7 +442,7 @@ var float16 = (function (exports) {
      */
 
     function hashClear() {
-      this.__data__ = nativeCreate ? nativeCreate(null) : {};
+      this.__data__ = nativeCreate$1 ? nativeCreate$1(null) : {};
       this.size = 0;
     }
 
@@ -479,7 +484,7 @@ var float16 = (function (exports) {
     function hashGet(key) {
       var data = this.__data__;
 
-      if (nativeCreate) {
+      if (nativeCreate$1) {
         var result = data[key];
         return result === HASH_UNDEFINED$1 ? undefined : result;
       }
@@ -505,7 +510,7 @@ var float16 = (function (exports) {
 
     function hashHas(key) {
       var data = this.__data__;
-      return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+      return nativeCreate$1 ? data[key] !== undefined : hasOwnProperty.call(data, key);
     }
 
     /** Used to stand-in for `undefined` hash values. */
@@ -525,7 +530,7 @@ var float16 = (function (exports) {
     function hashSet(key, value) {
       var data = this.__data__;
       this.size += this.has(key) ? 0 : 1;
-      data[key] = nativeCreate && value === undefined ? HASH_UNDEFINED : value;
+      data[key] = nativeCreate$1 && value === undefined ? HASH_UNDEFINED : value;
       return this;
     }
 
@@ -743,7 +748,8 @@ var float16 = (function (exports) {
 
     /* Built-in method references that are verified to be native. */
 
-    var Map = getNative(root, 'Map');
+    var Map = getNative(root$1, 'Map');
+    var Map$1 = Map;
 
     /**
      * Removes all key-value entries from the map.
@@ -757,7 +763,7 @@ var float16 = (function (exports) {
       this.size = 0;
       this.__data__ = {
         'hash': new Hash(),
-        'map': new (Map || ListCache)(),
+        'map': new (Map$1 || ListCache)(),
         'string': new Hash()
       };
     }
@@ -1081,7 +1087,7 @@ var float16 = (function (exports) {
     var moduleExports = freeModule && freeModule.exports === freeExports;
     /** Detect free variable `process` from Node.js. */
 
-    var freeProcess = moduleExports && freeGlobal.process;
+    var freeProcess = moduleExports && freeGlobal$1.process;
     /** Used to access faster Node.js helpers. */
 
     var nodeUtil = function () {
@@ -1098,9 +1104,11 @@ var float16 = (function (exports) {
       } catch (e) {}
     }();
 
+    var nodeUtil$1 = nodeUtil;
+
     /* Node.js helper references. */
 
-    var nodeIsArrayBuffer = nodeUtil && nodeUtil.isArrayBuffer;
+    var nodeIsArrayBuffer = nodeUtil$1 && nodeUtil$1.isArrayBuffer;
     /**
      * Checks if `value` is classified as an `ArrayBuffer` object.
      *
@@ -1120,6 +1128,7 @@ var float16 = (function (exports) {
      */
 
     var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
+    var isArrayBuffer$1 = isArrayBuffer;
 
     /**
      * @param {unknown} view
@@ -1254,7 +1263,7 @@ var float16 = (function (exports) {
         // input Float16Array
         if (isFloat16Array(input)) {
           super(_(input).target); // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
-        } else if (input !== null && typeof input === "object" && !isArrayBuffer(input)) {
+        } else if (input !== null && typeof input === "object" && !isArrayBuffer$1(input)) {
           // if input is not ArrayLike and Iterable, get Array
           const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
           const length = arrayLike.length;
