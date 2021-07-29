@@ -2,8 +2,12 @@
   "name": "@petamoriken/float16",
   "description": "half precision floating point for JavaScript",
   "version": "3.1.1",
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "main": "./lib/index.js",
+  "module": "./src/index.mjs",
+  "exports": {
+    "require": "./lib/index.js",
+    "import": "./src/index.mjs"
+  },
   "types": "index.d.ts",
   "sideEffects": false,
   "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.dev)",
@@ -61,6 +65,7 @@
     "@babel/preset-env": "^7.9.5",
     "babel-plugin-add-module-exports": "^1.0.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-replace-import-extension": "^1.1.1",
     "eslint": "^7.4.0",
     "eslint-plugin-import": "^2.20.2",
     "espower-cli": "^1.1.0",

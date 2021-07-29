@@ -13,7 +13,7 @@ const banner = `<%= pkg.name %> ${ version } | <%= pkg.license %> License - <%= 
 <% }) %>`;
 
 export default {
-    input: "src/index.js",
+    input: "src/index.mjs",
     output: {
         name: "float16",
         file: "browser/float16.js",

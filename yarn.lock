@@ -1314,6 +1314,11 @@ babel-plugin-polyfill-regenerator@^0.2.2:
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.2.2"
 
+babel-plugin-replace-import-extension@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-replace-import-extension/-/babel-plugin-replace-import-extension-1.1.1.tgz#210c92eebe9744d71c51598fe202fda4227c36cc"
+  integrity sha512-iSw8H3OpZGFfz95x/Sq4F1zB87MfhzhTT1C1Xhn1ghLv1ahmGu9aej20BvqLlKxr6+/VN65VHeJG0NI8gi5tWQ==
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"

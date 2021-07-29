@@ -1,6 +1,6 @@
-import { ToIntegerOrInfinity } from "./spec";
+import { ToIntegerOrInfinity } from "./spec.mjs";
 
-export { default as isArrayBuffer } from "lodash-es/isArrayBuffer";
+export { default as isArrayBuffer } from "lodash-es/isArrayBuffer.js";
 
 /**
  * @param {unknown} view

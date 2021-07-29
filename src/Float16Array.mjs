@@ -1,8 +1,8 @@
-import memoize from "lodash-es/memoize";
-import { isArrayBuffer, isCanonicalIntegerIndexString } from "./is";
-import { convertToNumber, roundToFloat16Bits } from "./lib";
-import { createPrivateStorage } from "./private";
-import { ToIntegerOrInfinity, defaultCompareFunction } from "./spec";
+import memoize from "lodash-es/memoize.js";
+import { isArrayBuffer, isCanonicalIntegerIndexString } from "./is.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
+import { createPrivateStorage } from "./private.mjs";
+import { ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
 
 const _ = createPrivateStorage();
 
