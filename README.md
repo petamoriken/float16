@@ -3,14 +3,11 @@
 half precision floating point for JavaScript  
 see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
-[![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/issues)
 [![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
-[![dependencies Status](https://david-dm.org/petamoriken/float16/status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16)
-[![devDependencies Status](https://david-dm.org/petamoriken/float16/dev-status.svg?style=flat-square)](https://david-dm.org/petamoriken/float16?type=dev)
+[![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
 
-[![Sauce Labs browser matrix](https://saucelabs.com/browser-matrix/petamoriken.svg)](https://saucelabs.com/u/petamoriken)
+[![Sauce Labs browser matrix](https://saucelabs.com/browser-matrix/petamoriken.svg?)](https://saucelabs.com/u/petamoriken)
 
 ## Supports (at least)
 
@@ -32,8 +29,6 @@ When you build by yourself using webpack or rollup.js for old browsers support, 
 yarn add @petamoriken/float16
 ```
 
-or
-
 ```console
 npm install @petamoriken/float16 --save
 ```
@@ -46,8 +41,6 @@ npm install @petamoriken/float16 --save
 // ES Modules
 import { Float16Array, getFloat16, setFloat16, hfround } from "@petamoriken/float16";
 ```
-
-or
 
 ```js
 // CommonJS
@@ -63,6 +56,12 @@ Copy `browser/float16.js` file to your project directory.
 <script>
     const { Float16Array, getFloat16, setFloat16, hfround } = float16;
 </script>
+```
+
+### Deno (Skypack CDN)
+
+```ts
+import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?dts";
 ```
 
 ## API
@@ -143,9 +142,17 @@ yarn
 ### Node.js Test
 
 ```console
+yarn build:lib
 yarn test
 ```
 
 ### Browser Test
 
-Access [test page](https://petamoriken.github.io/float16/test) ([power-assert version](https://petamoriken.github.io/float16/test/power)).
+```console
+yarn build:browser
+yarn docs
+```
+
+Access `docs/test/index.html` with browsers.
+
+You can access current [test page](https://petamoriken.github.io/float16/test) ([power-assert version](https://petamoriken.github.io/float16/test/power)) in `master` branch.
