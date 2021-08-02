@@ -161,8 +161,18 @@ export default class Float16Array extends Uint16Array {
         }, thisArg).buffer);
     }
 
-    static of(...args) {
-        return new Float16Array(args);
+    static of(...items) {
+        const length = items.length;
+
+        const proxy = new Float16Array(length);
+        const float16bits = _(proxy).target;
+
+        for(let i = 0; i < length; ++i) {
+            // super (Uint16Array)
+            float16bits[i] = roundToFloat16Bits(items[i]);
+        }
+
+        return proxy;
     }
 
     // iterate methods
