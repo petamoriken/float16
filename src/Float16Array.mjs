@@ -51,7 +51,7 @@ function copyToArray(float16bits) {
 const applyHandler = {
     apply(func, thisArg, args) {
         // peel off proxy
-        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) {
+        if (isFloat16Array(thisArg)) {
             return Reflect.apply(func, _(thisArg).target, args);
         }
 
@@ -67,7 +67,7 @@ const handler = {
         } else {
             const ret = Reflect.get(target, key);
 
-            if (typeof ret !== "function") {
+            if (!isDefaultFloat16ArrayMethods(ret)) {
                 return ret;
             }
 
@@ -131,7 +131,6 @@ export default class Float16Array extends Uint16Array {
                     break;
 
                 default:
-                    // @ts-ignore
                     super(...arguments);
             }
         }
@@ -484,44 +483,20 @@ export default class Float16Array extends Uint16Array {
     }
 
     // copy element methods
-    // @ts-ignore
     slice(...opts) {
         assertFloat16Array(this);
 
-        let float16bits;
-
-        // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
-        try {
-            float16bits = super.slice(...opts);
-        } catch(e) {
-            if (e instanceof TypeError) {
-                const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-                float16bits = uint16.slice(...opts);
-            } else {
-                throw e;
-            }
-        }
+        const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+        const float16bits = uint16.slice(...opts);
 
         return new Float16Array(float16bits.buffer);
     }
 
-    // @ts-ignore
     subarray(...opts) {
         assertFloat16Array(this);
 
-        let float16bits;
-
-        // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
-        try {
-            float16bits = super.subarray(...opts);
-        } catch(e) {
-            if (e instanceof TypeError) {
-                const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-                float16bits = uint16.subarray(...opts);
-            } else {
-                throw e;
-            }
-        }
+        const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+        const float16bits = uint16.subarray(...opts);
 
         return new Float16Array(float16bits.buffer, float16bits.byteOffset, float16bits.length);
     }
@@ -584,6 +559,9 @@ export default class Float16Array extends Uint16Array {
         const length = this.length;
 
         let from = ToIntegerOrInfinity(opts[0]);
+        if (from === Infinity) {
+            return false;
+        }
 
         if (from < 0) {
             from += length;
@@ -622,11 +600,9 @@ export default class Float16Array extends Uint16Array {
 
         const array = copyToArray(this);
 
-        // @ts-ignore
         return array.toLocaleString(...opts);
     }
 
-    // @ts-ignore
     get [Symbol.toStringTag]() {
         if (isFloat16Array(this)) {
             return "Float16Array";
