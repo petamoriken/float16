@@ -520,6 +520,11 @@ describe("Float16Array", () => {
             assert( val === "123" );
         });
 
+        it("throw TypeError on empty array with no initial value", () => {
+            const float16 = new Float16Array();
+            assert.throws(() => float16.reduce(() => {}), TypeError);
+        });
+
     });
 
     describe("#reduceRight()", () => {
@@ -560,6 +565,11 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3]);
             const val = float16.reduceRight((prev, current) => prev + current, "");
             assert( val === "321" );
+        });
+
+        it("throw TypeError on empty array with no initial value", () => {
+            const float16 = new Float16Array();
+            assert.throws(() => float16.reduce(() => {}), TypeError);
         });
 
     });

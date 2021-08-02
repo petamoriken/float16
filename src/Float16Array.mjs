@@ -242,22 +242,23 @@ export default class Float16Array extends Uint16Array {
     }
 
     // functional methods
-    // @ts-ignore
     map(callback, ...opts) {
         assertFloat16Array(this);
 
         const thisArg = opts[0];
 
-        const array = [];
-        for(let i = 0, l = this.length; i < l; ++i) {
+        const length = this.length;
+        const proxy = new Float16Array(length);
+        const float16bits = _(proxy).target;
+
+        for(let i = 0; i < length; ++i) {
             const val = convertToNumber(this[i]);
-            array.push(callback.call(thisArg, val, i, _(this).proxy));
+            float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
         }
 
-        return new Float16Array(array);
+        return proxy;
     }
 
-    // @ts-ignore
     filter(callback, ...opts) {
         assertFloat16Array(this);
 
@@ -277,42 +278,49 @@ export default class Float16Array extends Uint16Array {
     reduce(callback, ...opts) {
         assertFloat16Array(this);
 
-        let val, start;
+        const length = this.length;
+        if (length === 0 && opts.length === 0) {
+            throw TypeError("Reduce of empty array with no initial value");
+        }
 
+        let accumulator, start;
         if (opts.length === 0) {
-            val = convertToNumber(this[0]);
+            accumulator = convertToNumber(this[0]);
             start = 1;
         } else {
-            val = opts[0];
+            accumulator = opts[0];
             start = 0;
         }
 
-        for(let i = start, l = this.length; i < l; ++i) {
-            val = callback(val, convertToNumber(this[i]), i, _(this).proxy);
+        for(let i = start; i < length; ++i) {
+            accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
         }
 
-        return val;
+        return accumulator;
     }
 
     reduceRight(callback, ...opts) {
         assertFloat16Array(this);
 
-        let val, start;
-
         const length = this.length;
+        if (length === 0 && opts.length === 0) {
+            throw TypeError("Reduce of empty array with no initial value");
+        }
+
+        let accumulator, start;
         if (opts.length === 0) {
-            val = convertToNumber(this[length - 1]);
-            start = length - 1;
+            accumulator = convertToNumber(this[length - 1]);
+            start = length - 2;
         } else {
-            val = opts[0];
-            start = length;
+            accumulator = opts[0];
+            start = length - 1;
         }
 
-        for(let i = start; i--;) {
-            val = callback(val, convertToNumber(this[i]), i, _(this).proxy);
+        for(let i = start; i >= 0; --i) {
+            accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
         }
 
-        return val;
+        return accumulator;
     }
 
     forEach(callback, ...opts) {
