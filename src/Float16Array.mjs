@@ -51,7 +51,7 @@ function copyToArray(float16bits) {
 const applyHandler = {
     apply(func, thisArg, args) {
         // peel off proxy
-        if (isFloat16Array(thisArg) && isDefaultFloat16ArrayMethods(func)) {
+        if (isFloat16Array(thisArg)) {
             return Reflect.apply(func, _(thisArg).target, args);
         }
 
@@ -67,7 +67,7 @@ const handler = {
         } else {
             const ret = Reflect.get(target, key);
 
-            if (typeof ret !== "function") {
+            if (!isDefaultFloat16ArrayMethods(ret)) {
                 return ret;
             }
 
@@ -131,7 +131,6 @@ export default class Float16Array extends Uint16Array {
                     break;
 
                 default:
-                    // @ts-ignore
                     super(...arguments);
             }
         }
@@ -161,32 +160,70 @@ export default class Float16Array extends Uint16Array {
         }, thisArg).buffer);
     }
 
-    static of(...args) {
-        return new Float16Array(args);
+    static of(...items) {
+        const length = items.length;
+
+        const proxy = new Float16Array(length);
+        const float16bits = _(proxy).target;
+
+        for(let i = 0; i < length; ++i) {
+            float16bits[i] = roundToFloat16Bits(items[i]);
+        }
+
+        return proxy;
     }
 
     // iterate methods
-    * [Symbol.iterator]() {
-        for(const val of super[Symbol.iterator]()) {
-            yield convertToNumber(val);
-        }
+    [Symbol.iterator]() {
+        const arrayIterator = super[Symbol.iterator]();
+
+        const iterator = (function* () {
+            for(const val of arrayIterator) {
+                yield convertToNumber(val);
+            }
+        })();
+
+        // ArrayIterator doesn't have return and throw method
+        iterator.return = undefined;
+        iterator.throw = undefined;
+
+        return iterator;
     }
 
     keys() {
         return super.keys();
     }
 
-    * values() {
-        for(const val of super.values()) {
-            yield convertToNumber(val);
-        }
+    values() {
+        const arrayIterator = super.values();
+
+        const iterator = (function* () {
+            for(const val of arrayIterator) {
+                yield convertToNumber(val);
+            }
+        })();
+
+        // ArrayIterator doesn't have return and throw method
+        iterator.return = undefined;
+        iterator.throw = undefined;
+
+        return iterator;
     }
 
-    /** @type {() => IterableIterator<[number, number]>} */
-    * entries() {
-        for(const [i, val] of super.entries()) {
-            yield [i, convertToNumber(val)];
-        }
+    entries() {
+        const arrayIterator = super.entries();
+
+        const iterator = (function* () {
+            for(const [i, val] of arrayIterator) {
+                yield [i, convertToNumber(val)];
+            }
+        })();
+
+        // ArrayIterator doesn't have return and throw method
+        iterator.return = undefined;
+        iterator.throw = undefined;
+
+        return iterator;
     }
 
     at(index) {
@@ -204,22 +241,23 @@ export default class Float16Array extends Uint16Array {
     }
 
     // functional methods
-    // @ts-ignore
     map(callback, ...opts) {
         assertFloat16Array(this);
 
         const thisArg = opts[0];
 
-        const array = [];
-        for(let i = 0, l = this.length; i < l; ++i) {
+        const length = this.length;
+        const proxy = new Float16Array(length);
+        const float16bits = _(proxy).target;
+
+        for(let i = 0; i < length; ++i) {
             const val = convertToNumber(this[i]);
-            array.push(callback.call(thisArg, val, i, _(this).proxy));
+            float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
         }
 
-        return new Float16Array(array);
+        return proxy;
     }
 
-    // @ts-ignore
     filter(callback, ...opts) {
         assertFloat16Array(this);
 
@@ -239,42 +277,49 @@ export default class Float16Array extends Uint16Array {
     reduce(callback, ...opts) {
         assertFloat16Array(this);
 
-        let val, start;
+        const length = this.length;
+        if (length === 0 && opts.length === 0) {
+            throw TypeError("Reduce of empty array with no initial value");
+        }
 
+        let accumulator, start;
         if (opts.length === 0) {
-            val = convertToNumber(this[0]);
+            accumulator = convertToNumber(this[0]);
             start = 1;
         } else {
-            val = opts[0];
+            accumulator = opts[0];
             start = 0;
         }
 
-        for(let i = start, l = this.length; i < l; ++i) {
-            val = callback(val, convertToNumber(this[i]), i, _(this).proxy);
+        for(let i = start; i < length; ++i) {
+            accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
         }
 
-        return val;
+        return accumulator;
     }
 
     reduceRight(callback, ...opts) {
         assertFloat16Array(this);
 
-        let val, start;
-
         const length = this.length;
+        if (length === 0 && opts.length === 0) {
+            throw TypeError("Reduce of empty array with no initial value");
+        }
+
+        let accumulator, start;
         if (opts.length === 0) {
-            val = convertToNumber(this[length - 1]);
-            start = length - 1;
+            accumulator = convertToNumber(this[length - 1]);
+            start = length - 2;
         } else {
-            val = opts[0];
-            start = length;
+            accumulator = opts[0];
+            start = length - 1;
         }
 
-        for(let i = start; i--;) {
-            val = callback(val, convertToNumber(this[i]), i, _(this).proxy);
+        for(let i = start; i >= 0; --i) {
+            accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
         }
 
-        return val;
+        return accumulator;
     }
 
     forEach(callback, ...opts) {
@@ -438,44 +483,20 @@ export default class Float16Array extends Uint16Array {
     }
 
     // copy element methods
-    // @ts-ignore
     slice(...opts) {
         assertFloat16Array(this);
 
-        let float16bits;
-
-        // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
-        try {
-            float16bits = super.slice(...opts);
-        } catch(e) {
-            if (e instanceof TypeError) {
-                const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-                float16bits = uint16.slice(...opts);
-            } else {
-                throw e;
-            }
-        }
+        const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+        const float16bits = uint16.slice(...opts);
 
         return new Float16Array(float16bits.buffer);
     }
 
-    // @ts-ignore
     subarray(...opts) {
         assertFloat16Array(this);
 
-        let float16bits;
-
-        // V8, SpiderMonkey, JavaScriptCore, Chakra throw TypeError
-        try {
-            float16bits = super.subarray(...opts);
-        } catch(e) {
-            if (e instanceof TypeError) {
-                const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-                float16bits = uint16.subarray(...opts);
-            } else {
-                throw e;
-            }
-        }
+        const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+        const float16bits = uint16.subarray(...opts);
 
         return new Float16Array(float16bits.buffer, float16bits.byteOffset, float16bits.length);
     }
@@ -538,6 +559,9 @@ export default class Float16Array extends Uint16Array {
         const length = this.length;
 
         let from = ToIntegerOrInfinity(opts[0]);
+        if (from === Infinity) {
+            return false;
+        }
 
         if (from < 0) {
             from += length;
@@ -576,11 +600,9 @@ export default class Float16Array extends Uint16Array {
 
         const array = copyToArray(this);
 
-        // @ts-ignore
         return array.toLocaleString(...opts);
     }
 
-    // @ts-ignore
     get [Symbol.toStringTag]() {
         if (isFloat16Array(this)) {
             return "Float16Array";
