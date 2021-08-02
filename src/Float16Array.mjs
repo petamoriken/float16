@@ -168,7 +168,6 @@ export default class Float16Array extends Uint16Array {
         const float16bits = _(proxy).target;
 
         for(let i = 0; i < length; ++i) {
-            // super (Uint16Array)
             float16bits[i] = roundToFloat16Bits(items[i]);
         }
 
@@ -176,27 +175,56 @@ export default class Float16Array extends Uint16Array {
     }
 
     // iterate methods
-    * [Symbol.iterator]() {
-        for(const val of super[Symbol.iterator]()) {
-            yield convertToNumber(val);
-        }
+    [Symbol.iterator]() {
+        const arrayIterator = super[Symbol.iterator]();
+
+        const iterator = (function* () {
+            for(const val of arrayIterator) {
+                yield convertToNumber(val);
+            }
+        })();
+
+        // ArrayIterator doesn't have return and throw method
+        iterator.return = undefined;
+        iterator.throw = undefined;
+
+        return iterator;
     }
 
     keys() {
         return super.keys();
     }
 
-    * values() {
-        for(const val of super.values()) {
-            yield convertToNumber(val);
-        }
+    values() {
+        const arrayIterator = super.values();
+
+        const iterator = (function* () {
+            for(const val of arrayIterator) {
+                yield convertToNumber(val);
+            }
+        })();
+
+        // ArrayIterator doesn't have return and throw method
+        iterator.return = undefined;
+        iterator.throw = undefined;
+
+        return iterator;
     }
 
-    /** @type {() => IterableIterator<[number, number]>} */
-    * entries() {
-        for(const [i, val] of super.entries()) {
-            yield [i, convertToNumber(val)];
-        }
+    entries() {
+        const arrayIterator = super.entries();
+
+        const iterator = (function* () {
+            for(const [i, val] of arrayIterator) {
+                yield [i, convertToNumber(val)];
+            }
+        })();
+
+        // ArrayIterator doesn't have return and throw method
+        iterator.return = undefined;
+        iterator.throw = undefined;
+
+        return iterator;
     }
 
     at(index) {

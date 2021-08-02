@@ -305,7 +305,22 @@ describe("Float16Array", () => {
         it("get keys", () => {
             const float16 = new Float16Array([1, 2, 3]);
             const array = [...float16.keys()];
+
             assert.deepStrictEqual( array, [0, 1, 2] );
+        });
+
+        it("suspend to iterate keys", () => {
+            const float16 = new Float16Array([1, 2, 3]);
+            const iterator = float16.keys();
+
+            for (const key of iterator) {
+                if (key === 1) {
+                    break;
+                }
+            }
+
+            assert.deepStrictEqual( iterator.next(), { value: 2, done: false } );
+            assert.deepStrictEqual( iterator.next(), { value: undefined, done: true } );
         });
 
     });
@@ -327,6 +342,20 @@ describe("Float16Array", () => {
             assert.deepStrictEqual( array, [1, 2, 3] );
         });
 
+        it("suspend to iterate values", () => {
+            const float16 = new Float16Array([1, 2, 3]);
+            const iterator = float16.values();
+
+            for (const value of iterator) {
+                if (value === 2) {
+                    break;
+                }
+            }
+
+            assert.deepStrictEqual( iterator.next(), { value: 3, done: false } );
+            assert.deepStrictEqual( iterator.next(), { value: undefined, done: true } );
+        });
+
     });
 
     describe("#entries()", () => {
@@ -339,11 +368,26 @@ describe("Float16Array", () => {
             assert( Float16Array.prototype.entries.length === 0 );
         });
 
-        it("get values", () => {
+        it("get entries", () => {
             const float16 = new Float16Array([1, 2, 3]);
             const array = [...float16.entries()];
 
             assert.deepStrictEqual( array, [[0, 1], [1, 2], [2, 3]] );
+        });
+
+        it("suspend to iterate entries", () => {
+            const float16 = new Float16Array([1, 2, 3]);
+            const iterator = float16.entries();
+
+            // eslint-disable-next-line no-unused-vars
+            for (const [_, value] of iterator) {
+                if (value === 2) {
+                    break;
+                }
+            }
+
+            assert.deepStrictEqual( iterator.next(), { value: [2, 3], done: false } );
+            assert.deepStrictEqual( iterator.next(), { value: undefined, done: true } );
         });
 
     });
