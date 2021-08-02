@@ -121,11 +121,11 @@ hfround(1.337); // 1.3369140625
 
 ## Limitations
 
-Built-in `TypedArray` objects uses "internal slots" for built-in methods. Some limitation exists because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
+Built-in `TypedArray` objects uses "internal slots" for built-in methods. Some limitations exist because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
 
 ### Built-in Functions
 
-This library isn't polyfill, in other words, it doesn't change native global functions and staitc/prototype methods.
+This library isn't polyfill, in other words, it doesn't change native global functions and static/prototype methods.
 
 E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the `[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object such as `Float16Array`.
 
