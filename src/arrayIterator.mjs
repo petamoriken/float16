@@ -11,7 +11,7 @@ const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
         },
         writable: true,
         configurable: true,
-  },
+    },
 
     [Symbol.toStringTag]: {
         value: "Array Iterator",
