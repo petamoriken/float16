@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 v3.2.1 | MIT License - https://git.io/float16
+ * @petamoriken/float16 v3.2.2 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -958,9 +958,55 @@ var float16 = (function (exports) {
     memoize.Cache = MapCache;
 
     /**
+     * @returns {(self:object) => object}
+     */
+    function createPrivateStorage() {
+      const wm = new WeakMap();
+      return self => {
+        const storage = wm.get(self);
+
+        if (storage !== undefined) {
+          return storage;
+        }
+
+        const obj = Object.create(null);
+        wm.set(self, obj);
+        return obj;
+      };
+    }
+
+    const _$1 = createPrivateStorage();
+
+    const IteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
+    const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
+      next: {
+        value: function next() {
+          return _$1(this).iterator.next();
+        },
+        writable: true,
+        configurable: true
+      },
+      [Symbol.toStringTag]: {
+        value: "Array Iterator",
+        configurable: true
+      }
+    });
+    /**
+     * @param {Iterator<number>} iterator
+     * @returns {IterableIterator<number>}
+     */
+
+    function wrapInArrayIterator(iterator) {
+      const arrayIterator = Object.create(ArrayIteratorPrototype);
+      _$1(arrayIterator).iterator = iterator;
+      return arrayIterator;
+    }
+
+    /**
      * @param {unknown} target
      * @returns {number}
      */
+
     function ToIntegerOrInfinity(target) {
       const number = Number(target);
 
@@ -977,6 +1023,35 @@ var float16 = (function (exports) {
       }
 
       return Math.trunc(number);
+    }
+    /**
+     * @param {unknown} target
+     * @param {Function} defaultConstructor
+     * @returns {Function}
+     */
+
+    function SpeciesConstructor(target, defaultConstructor) {
+      if (!isObject(target)) {
+        throw TypeError("this is not a object");
+      }
+
+      const constructor = target.constructor;
+
+      if (constructor === undefined) {
+        return defaultConstructor;
+      }
+
+      if (!isObject(constructor)) {
+        throw TypeError("constructor is not a object");
+      }
+
+      const species = constructor[Symbol.species];
+
+      if (species == null) {
+        return defaultConstructor;
+      }
+
+      return species;
     }
     /**
      * @param {number} x
@@ -1145,24 +1220,6 @@ var float16 = (function (exports) {
 
     function isCanonicalIntegerIndexString(key) {
       return typeof key === "string" && key === ToIntegerOrInfinity(key) + "";
-    }
-
-    /**
-     * @returns {(self:object) => object}
-     */
-    function createPrivateStorage() {
-      const wm = new WeakMap();
-      return self => {
-        let obj = wm.get(self);
-
-        if (obj) {
-          return obj;
-        } else {
-          obj = Object.create(null);
-          wm.set(self, obj);
-          return obj;
-        }
-      };
     }
 
     const _ = createPrivateStorage();
@@ -1334,17 +1391,11 @@ var float16 = (function (exports) {
 
       [Symbol.iterator]() {
         const arrayIterator = super[Symbol.iterator]();
-
-        const iterator = function* () {
+        return wrapInArrayIterator(function* () {
           for (const val of arrayIterator) {
             yield convertToNumber(val);
           }
-        }(); // ArrayIterator doesn't have return and throw method
-
-
-        iterator.return = undefined;
-        iterator.throw = undefined;
-        return iterator;
+        }());
       }
 
       keys() {
@@ -1353,32 +1404,20 @@ var float16 = (function (exports) {
 
       values() {
         const arrayIterator = super.values();
-
-        const iterator = function* () {
+        return wrapInArrayIterator(function* () {
           for (const val of arrayIterator) {
             yield convertToNumber(val);
           }
-        }(); // ArrayIterator doesn't have return and throw method
-
-
-        iterator.return = undefined;
-        iterator.throw = undefined;
-        return iterator;
+        }());
       }
 
       entries() {
         const arrayIterator = super.entries();
-
-        const iterator = function* () {
+        return wrapInArrayIterator(function* () {
           for (const [i, val] of arrayIterator) {
             yield [i, convertToNumber(val)];
           }
-        }(); // ArrayIterator doesn't have return and throw method
-
-
-        iterator.return = undefined;
-        iterator.throw = undefined;
-        return iterator;
+        }());
       }
 
       at(index) {
@@ -1399,7 +1438,9 @@ var float16 = (function (exports) {
         assertFloat16Array(this);
         const thisArg = opts[0];
         const length = this.length;
-        const proxy = new Float16Array(length);
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(length);
+        assertFloat16Array(proxy);
 
         const float16bits = _(proxy).target;
 
@@ -1424,7 +1465,10 @@ var float16 = (function (exports) {
           }
         }
 
-        return new Float16Array(array);
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(array);
+        assertFloat16Array(proxy);
+        return proxy;
       }
 
       reduce(callback, ...opts) {
@@ -1628,14 +1672,20 @@ var float16 = (function (exports) {
         assertFloat16Array(this);
         const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
         const float16bits = uint16.slice(...opts);
-        return new Float16Array(float16bits.buffer);
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(float16bits.buffer);
+        assertFloat16Array(proxy);
+        return proxy;
       }
 
       subarray(...opts) {
         assertFloat16Array(this);
         const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
         const float16bits = uint16.subarray(...opts);
-        return new Float16Array(float16bits.buffer, float16bits.byteOffset, float16bits.length);
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
+        assertFloat16Array(proxy);
+        return proxy;
       } // contains methods
 
 

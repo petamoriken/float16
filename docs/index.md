@@ -144,7 +144,7 @@ WebGL requires `Uint16Array` for buffer or texture data whose type are `gl.HALF_
 const vertices = new Float16Array([
     -0.5, -0.5, 0,
      0.5, -0.5, 0,
-     0.5,  0.5, 0
+     0.5,  0.5, 0,
 ]);
 
 const buffer = gl.createBuffer();
