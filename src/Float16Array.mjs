@@ -1,4 +1,5 @@
 import memoize from "lodash-es/memoize.js";
+import { wrapInArrayIterator } from "./arrayIterator.mjs";
 import { isArrayBuffer, isCanonicalIntegerIndexString } from "./is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
 import { createPrivateStorage } from "./private.mjs";
@@ -176,18 +177,11 @@ export default class Float16Array extends Uint16Array {
     // iterate methods
     [Symbol.iterator]() {
         const arrayIterator = super[Symbol.iterator]();
-
-        const iterator = (function* () {
+        return wrapInArrayIterator((function* () {
             for(const val of arrayIterator) {
                 yield convertToNumber(val);
             }
-        })();
-
-        // ArrayIterator doesn't have return and throw method
-        iterator.return = undefined;
-        iterator.throw = undefined;
-
-        return iterator;
+        })());
     }
 
     keys() {
@@ -196,34 +190,20 @@ export default class Float16Array extends Uint16Array {
 
     values() {
         const arrayIterator = super.values();
-
-        const iterator = (function* () {
+        return wrapInArrayIterator((function* () {
             for(const val of arrayIterator) {
                 yield convertToNumber(val);
             }
-        })();
-
-        // ArrayIterator doesn't have return and throw method
-        iterator.return = undefined;
-        iterator.throw = undefined;
-
-        return iterator;
+        })());
     }
 
     entries() {
         const arrayIterator = super.entries();
-
-        const iterator = (function* () {
+        return wrapInArrayIterator((function* () {
             for(const [i, val] of arrayIterator) {
                 yield [i, convertToNumber(val)];
             }
-        })();
-
-        // ArrayIterator doesn't have return and throw method
-        iterator.return = undefined;
-        iterator.throw = undefined;
-
-        return iterator;
+        })());
     }
 
     at(index) {
