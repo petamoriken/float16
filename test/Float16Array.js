@@ -444,6 +444,20 @@ describe("Float16Array", () => {
             deepEqualArray( float16_2, [2, 4, 6, 8] );
         });
 
+        it("respect @@species", () => {
+            class Foo extends Float16Array {}
+            const foo = new Foo([1]);
+            assert( foo.map((val) => val) instanceof Foo );
+            assert( foo[0] === 1 );
+
+            class Bar extends Float16Array {
+                static get [Symbol.species]() { return Float16Array; }
+            }
+            const bar = new Bar([1]);
+            assert( !(bar.map((val) => val) instanceof Bar) );
+            assert( bar[0] === 1 );
+        });
+
     });
 
     describe("#filter()", () => {
@@ -476,6 +490,20 @@ describe("Float16Array", () => {
 
             assert( float16_2 instanceof Float16Array );
             deepEqualArray( float16_2, [2, 4] );
+        });
+
+        it("respect @@species", () => {
+            class Foo extends Float16Array {}
+            const foo = new Foo([1]);
+            assert( foo.filter(() => true) instanceof Foo );
+            assert( foo[0] === 1 );
+
+            class Bar extends Float16Array {
+                static get [Symbol.species]() { return Float16Array; }
+            }
+            const bar = new Bar([1]);
+            assert( !(bar.filter(() => true) instanceof Bar) );
+            assert( bar[0] === 1 );
         });
 
     });
@@ -971,6 +999,20 @@ describe("Float16Array", () => {
             deepEqualArray( sliced, [2, 3] );
         });
 
+        it("respect @@species", () => {
+            class Foo extends Float16Array {}
+            const foo = new Foo([1]);
+            assert( foo.slice() instanceof Foo );
+            assert( foo[0] === 1 );
+
+            class Bar extends Float16Array {
+                static get [Symbol.species]() { return Float16Array; }
+            }
+            const bar = new Bar([1]);
+            assert( !(bar.slice() instanceof Bar) );
+            assert( bar[0] === 1 );
+        });
+
     });
 
     describe("#subarray()", () => {
@@ -998,6 +1040,20 @@ describe("Float16Array", () => {
             const subarray = float16.subarray(1, 3);
             assert( subarray.byteOffset === 2 );
             deepEqualArray( subarray, [2, 3] );
+        });
+
+        it("respect @@species", () => {
+            class Foo extends Float16Array {}
+            const foo = new Foo([1]);
+            assert( foo.subarray() instanceof Foo );
+            assert( foo[0] === 1 );
+
+            class Bar extends Float16Array {
+                static get [Symbol.species]() { return Float16Array; }
+            }
+            const bar = new Bar([1]);
+            assert( !(bar.subarray() instanceof Bar) );
+            assert( bar[0] === 1 );
         });
 
     });

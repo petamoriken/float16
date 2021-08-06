@@ -1,5 +1,6 @@
 import { ToIntegerOrInfinity } from "./spec.mjs";
 
+export { default as isObject } from "lodash-es/isObject.js";
 export { default as isArrayBuffer } from "lodash-es/isArrayBuffer.js";
 
 /**
