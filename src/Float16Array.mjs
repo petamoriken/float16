@@ -3,7 +3,7 @@ import { wrapInArrayIterator } from "./arrayIterator.mjs";
 import { isArrayBuffer, isCanonicalIntegerIndexString } from "./is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
 import { createPrivateStorage } from "./private.mjs";
-import { ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
+import { SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
 
 const _ = createPrivateStorage();
 
@@ -227,7 +227,11 @@ export default class Float16Array extends Uint16Array {
         const thisArg = opts[0];
 
         const length = this.length;
-        const proxy = new Float16Array(length);
+
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(length);
+        assertFloat16Array(proxy);
+
         const float16bits = _(proxy).target;
 
         for(let i = 0; i < length; ++i) {
@@ -251,7 +255,11 @@ export default class Float16Array extends Uint16Array {
             }
         }
 
-        return new Float16Array(array);
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(array);
+        assertFloat16Array(proxy);
+
+        return proxy;
     }
 
     reduce(callback, ...opts) {
@@ -469,7 +477,11 @@ export default class Float16Array extends Uint16Array {
         const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
         const float16bits = uint16.slice(...opts);
 
-        return new Float16Array(float16bits.buffer);
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(float16bits.buffer);
+        assertFloat16Array(proxy);
+
+        return proxy;
     }
 
     subarray(...opts) {
@@ -478,7 +490,11 @@ export default class Float16Array extends Uint16Array {
         const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
         const float16bits = uint16.subarray(...opts);
 
-        return new Float16Array(float16bits.buffer, float16bits.byteOffset, float16bits.length);
+        const Constructor = SpeciesConstructor(this, Float16Array);
+        const proxy = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
+        assertFloat16Array(proxy);
+
+        return proxy;
     }
 
     // contains methods

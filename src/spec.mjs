@@ -1,3 +1,5 @@
+import { isObject } from "./is.mjs";
+
 /**
  * @param {unknown} target
  * @returns {number}
@@ -18,6 +20,32 @@ export function ToIntegerOrInfinity(target) {
     }
 
     return Math.trunc(number);
+}
+
+/**
+ * @param {unknown} target
+ * @param {Function} defaultConstructor
+ * @returns {Function}
+ */
+export function SpeciesConstructor(target, defaultConstructor) {
+    if (!isObject(target)) {
+        throw TypeError("this is not a object");
+    }
+
+    const constructor = target.constructor;
+    if (constructor === undefined) {
+        return defaultConstructor;
+    }
+    if (!isObject(constructor)) {
+        throw TypeError("constructor is not a object");
+    }
+
+    const species = constructor[Symbol.species];
+    if (species == null) {
+        return defaultConstructor;
+    }
+
+    return species;
 }
 
 /**
