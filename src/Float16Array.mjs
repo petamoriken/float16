@@ -99,9 +99,9 @@ export default class Float16Array extends Uint16Array {
         if (isFloat16Array(input)) {
             super(_(input).target);
 
-        // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
+        // TypedArray, Array, ArrayLike, Iterable
         } else if (input !== null && typeof input === "object" && !isArrayBuffer(input)) {
-            // if input is not ArrayLike and Iterable, get Array
+            // TODO: 23.2.5.1 prioritize Iterable over ArrayLike
             const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
 
             const length = arrayLike.length;
@@ -112,7 +112,7 @@ export default class Float16Array extends Uint16Array {
                 this[i] = roundToFloat16Bits(arrayLike[i]);
             }
 
-        // 22.2.1.2, 22.2.1.5 primitive, ArrayBuffer
+        // primitive, ArrayBuffer
         } else {
             switch(arguments.length) {
                 case 0:
@@ -478,6 +478,8 @@ export default class Float16Array extends Uint16Array {
         const float16bits = uint16.slice(...opts);
 
         const Constructor = SpeciesConstructor(this, Float16Array);
+
+        // TODO: 23.2.3.24 requires to give ArrayBuffer byteLength as a argument
         const proxy = new Constructor(float16bits.buffer);
         assertFloat16Array(proxy);
 
