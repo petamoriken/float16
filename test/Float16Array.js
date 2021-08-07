@@ -63,11 +63,24 @@ describe("Float16Array", () => {
         deepEqualArray( float16_2, checkArray );
     });
 
-    it("input ArrayLike", () => {
-        const arrayLike = { "0": 1, "1": 1.1, "2": 1.2, "3": 1.3, length: 4 };
+    it("input TypedArray with CustomArrayBuffer", () => {
+        class FooArrayBuffer extends ArrayBuffer {}
+        const buffer = new FooArrayBuffer(16);
+
+        const float16 = new Float16Array( new Float32Array(buffer) );
+
+        assert( float16.BYTES_PER_ELEMENT === 2 );
+        assert( float16.byteOffset === 0 );
+        assert( float16.byteLength === 8 );
+        assert( float16.length === 4 );
+        assert( float16.buffer instanceof FooArrayBuffer );
+    });
+
+    it("input Iterable", () => {
+        const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
         const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
-        const float16 = new Float16Array(arrayLike);
+        const float16 = new Float16Array(iterable);
 
         assert( float16.BYTES_PER_ELEMENT === 2 );
         assert( float16.byteOffset === 0 );
@@ -76,11 +89,11 @@ describe("Float16Array", () => {
         deepEqualArray( float16, checkArray );
     });
 
-    it("input Iterator", () => {
-        const iterator = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
+    it("input ArrayLike", () => {
+        const arrayLike = { "0": 1, "1": 1.1, "2": 1.2, "3": 1.3, length: 4 };
         const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
-        const float16 = new Float16Array(iterator);
+        const float16 = new Float16Array(arrayLike);
 
         assert( float16.BYTES_PER_ELEMENT === 2 );
         assert( float16.byteOffset === 0 );

@@ -1,9 +1,10 @@
 import memoize from "lodash-es/memoize.js";
 import { wrapInArrayIterator } from "./arrayIterator.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString, isObject } from "./is.mjs";
+import { isArrayBuffer, isCanonicalIntegerIndexString , isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
 import { createPrivateStorage } from "./private.mjs";
-import { SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
+import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
+
 
 const _ = createPrivateStorage();
 
@@ -96,8 +97,6 @@ export default class Float16Array extends Uint16Array {
 
     /**
      * @see https://tc39.es/ecma262/#sec-typedarray
-     * @todo If input is a TypedArray, it should be respected `input[[ViewedArrayBuffer]]`'s `@@species`
-     * @todo It should be prioritized Iterable over ArrayLike
      */
     constructor(input, byteOffset, length) {
         // input Float16Array
@@ -105,18 +104,47 @@ export default class Float16Array extends Uint16Array {
             super(_(input).target);
 
         // TypedArray, Array, ArrayLike, Iterable
-        } else if (isObject(input) && !isArrayBuffer(input)) {
-            const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
+        } else if (isObject(input)) {
+            // TypedArray
+            if (isTypedArray(input)) {
+                const { buffer, length } = input;
 
-            const length = arrayLike.length;
-            super(length);
+                /** @type {ArrayBufferConstructor} */
+                const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
+                const data = new BufferConstructor(length * 2);
+                super(data);
 
-            for(let i = 0; i < length; ++i) {
-                // super (Uint16Array)
-                this[i] = roundToFloat16Bits(arrayLike[i]);
+                for (let i = 0, l = length; i < l; ++i) {
+                    this[i] = roundToFloat16Bits(input[i]);
+                }
+
+            // ArrayBuffer
+            } else if (isArrayBuffer(input)) {
+                super(input, byteOffset, length);
+
+            // Iterable
+            } else if (isIterable(input)) {
+                const list = [...input];
+                const length = list.length;
+                super(length);
+
+                for(let i = 0; i < length; ++i) {
+                    // super (Uint16Array)
+                    this[i] = roundToFloat16Bits(list[i]);
+                }
+
+            // ArrayLike
+            } else {
+                const length = LengthOfArrayLike(input);
+                super(length);
+
+                for(let i = 0; i < length; ++i) {
+                    // super (Uint16Array)
+                    this[i] = roundToFloat16Bits(input[i]);
+                }
             }
 
-        // primitive, ArrayBuffer
+        // primitive
         } else {
             switch(arguments.length) {
                 case 0:
