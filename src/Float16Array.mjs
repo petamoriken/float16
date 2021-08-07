@@ -1,6 +1,6 @@
 import memoize from "lodash-es/memoize.js";
 import { wrapInArrayIterator } from "./arrayIterator.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString ,isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./is.mjs";
+import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
 import { createPrivateStorage } from "./private.mjs";
 import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
@@ -112,39 +112,38 @@ export default class Float16Array extends Uint16Array {
 
         // object without ArrayBuffer
         } else if (isObject(input) && !isArrayBuffer(input)) {
+            let list;
+            let length;
+
             // TypedArray
             if (isTypedArray(input)) {
-                const { buffer, length } = input;
+                const buffer = input.buffer;
+
+                list = input;
+                length = input.length;
 
                 /** @type {ArrayBufferConstructor} */
                 const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
                 const data = new BufferConstructor(length * 2);
                 super(data);
 
-                for (let i = 0, l = length; i < l; ++i) {
-                    this[i] = roundToFloat16Bits(input[i]);
-                }
-
             // Iterable (Array)
             } else if (isIterable(input)) {
-                const list = [...input];
-                const length = list.length;
+                list = [...input];
+                length = list.length;
                 super(length);
-
-                for (let i = 0; i < length; ++i) {
-                    // super (Uint16Array)
-                    this[i] = roundToFloat16Bits(list[i]);
-                }
 
             // ArrayLike
             } else {
-                const length = LengthOfArrayLike(input);
+                list = input;
+                length = LengthOfArrayLike(input);
                 super(length);
+            }
 
-                for (let i = 0; i < length; ++i) {
-                    // super (Uint16Array)
-                    this[i] = roundToFloat16Bits(input[i]);
-                }
+            // set values
+            for (let i = 0; i < length; ++i) {
+                // super (Uint16Array)
+                this[i] = roundToFloat16Bits(list[i]);
             }
 
         // primitive, ArrayBuffer
@@ -564,12 +563,7 @@ export default class Float16Array extends Uint16Array {
     sort(...opts) {
         assertFloat16ArrayBits(this);
 
-        let compareFunction = opts[0];
-
-        if (compareFunction === undefined) {
-            compareFunction = defaultCompareFunction;
-        }
-
+        const compareFunction = opts[0] !== undefined ? opts[0] : defaultCompareFunction;
         const _convertToNumber = memoize(convertToNumber);
 
         super.sort((x, y) => { return compareFunction(_convertToNumber(x), _convertToNumber(y)); });
