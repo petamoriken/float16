@@ -24,6 +24,31 @@ export function ToIntegerOrInfinity(target) {
 
 /**
  * @param {unknown} target
+ * @returns {number}
+ */
+function ToLength(target) {
+    const length = ToIntegerOrInfinity(target);
+    if (length < 0) {
+        return 0;
+    }
+
+    return length < Number.MAX_SAFE_INTEGER ? length : Number.MAX_SAFE_INTEGER;
+}
+
+/**
+ * @param {object} arrayLike
+ * @returns {number}
+ */
+export function LengthOfArrayLike(arrayLike) {
+    if (!isObject(arrayLike)) {
+        throw TypeError("this is not a object");
+    }
+
+    return ToLength(arrayLike.length);
+}
+
+/**
+ * @param {object} target
  * @param {Function} defaultConstructor
  * @returns {Function}
  */

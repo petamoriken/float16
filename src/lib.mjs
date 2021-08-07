@@ -8,12 +8,12 @@ const uint32View = new Uint32Array(buffer);
 const baseTable = new Uint32Array(512);
 const shiftTable = new Uint32Array(512);
 
-for(let i = 0; i < 256; ++i) {
+for (let i = 0; i < 256; ++i) {
     const e = i - 127;
 
     // very small number (0, -0)
     if (e < -27) {
-        baseTable[i | 0x000] = 0x0000;
+        baseTable[i] = 0x0000;
         baseTable[i | 0x100] = 0x8000;
         shiftTable[i | 0x000] = 24;
         shiftTable[i | 0x100] = 24;
@@ -67,7 +67,7 @@ const exponentTable = new Uint32Array(64);
 const offsetTable = new Uint32Array(64);
 
 mantissaTable[0] = 0;
-for(let i = 1; i < 1024; ++i) {
+for (let i = 1; i < 1024; ++i) {
     let m = i << 13;    // zero pad mantissa bits
     let e = 0;          // zero exponent
 
@@ -82,23 +82,23 @@ for(let i = 1; i < 1024; ++i) {
 
     mantissaTable[i] = m | e;
 }
-for(let i = 1024; i < 2048; ++i) {
+for (let i = 1024; i < 2048; ++i) {
     mantissaTable[i] = 0x38000000 + ((i - 1024) << 13);
 }
 
 exponentTable[0] = 0;
-for(let i = 1; i < 31; ++i) {
+for (let i = 1; i < 31; ++i) {
     exponentTable[i] = i << 23;
 }
 exponentTable[31] = 0x47800000;
 exponentTable[32] = 0x80000000;
-for(let i = 33; i < 63; ++i) {
+for (let i = 33; i < 63; ++i) {
     exponentTable[i] = 0x80000000 + ((i - 32) << 23);
 }
 exponentTable[63] = 0xc7800000;
 
 offsetTable[0] = 0;
-for(let i = 1; i < 64; ++i) {
+for (let i = 1; i < 64; ++i) {
     if (i === 32) {
         offsetTable[i] = 0;
     } else {

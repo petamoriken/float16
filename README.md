@@ -72,7 +72,7 @@ This API is similar to `TypedArray` such as `Float32Array`.
 
 ```js
 const array = new Float16Array([1.0, 1.1, 1.2]);
-for(const val of array) {
+for (const val of array) {
     console.log(val); // => 1, 1.099609375, 1.19921875
 }
 
