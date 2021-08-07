@@ -102,8 +102,8 @@ export default class Float16Array extends Uint16Array {
         if (isFloat16Array(input)) {
             super(_(input).target);
 
-        // TypedArray, Array, ArrayLike, Iterable
-        } else if (isObject(input)) {
+        // object without ArrayBuffer
+        } else if (isObject(input) && !isArrayBuffer(input)) {
             // TypedArray
             if (isTypedArray(input)) {
                 const { buffer, length } = input;
@@ -117,11 +117,7 @@ export default class Float16Array extends Uint16Array {
                     this[i] = roundToFloat16Bits(input[i]);
                 }
 
-            // ArrayBuffer
-            } else if (isArrayBuffer(input)) {
-                super(input, byteOffset, length);
-
-            // Iterable
+            // Iterable (Array)
             } else if (isIterable(input)) {
                 const list = [...input];
                 const length = list.length;
@@ -143,7 +139,7 @@ export default class Float16Array extends Uint16Array {
                 }
             }
 
-        // primitive
+        // primitive, ArrayBuffer
         } else {
             switch(arguments.length) {
                 case 0:
