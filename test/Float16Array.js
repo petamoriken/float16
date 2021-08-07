@@ -458,17 +458,30 @@ describe("Float16Array", () => {
         });
 
         it("respect @@species", () => {
-            class Foo extends Float16Array {}
-            const foo = new Foo([1]);
-            assert( foo.map((val) => val) instanceof Foo );
-            assert( foo[0] === 1 );
+            let step = 0;
+            class Foo extends Float16Array {
+                constructor(...args) {
+                    super(...args);
+                    if (step === 0) {
+                        assert( args.length === 1 );
+                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        ++step;
+                    } else {
+                        deepEqualArray( args, [4] );
+                    }
+                }
+            }
+            const foo = new Foo([1, 2, 3, 4]).map((val) => val);
+            assert( foo instanceof Foo );
+            deepEqualArray( foo, [1, 2, 3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
             }
-            const bar = new Bar([1]);
-            assert( !(bar.map((val) => val) instanceof Bar) );
-            assert( bar[0] === 1 );
+            const bar = new Bar([1, 2, 3, 4]).map((val) => val);
+            assert( !(bar instanceof Bar) );
+            assert( bar instanceof Float16Array );
+            deepEqualArray( bar, [1, 2, 3, 4] );
         });
 
     });
@@ -506,17 +519,31 @@ describe("Float16Array", () => {
         });
 
         it("respect @@species", () => {
-            class Foo extends Float16Array {}
-            const foo = new Foo([1]);
-            assert( foo.filter(() => true) instanceof Foo );
-            assert( foo[0] === 1 );
+            let step = 0;
+            class Foo extends Float16Array {
+                constructor(...args) {
+                    super(...args);
+                    if (step === 0) {
+                        assert( args.length === 1 );
+                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        ++step;
+                    } else {
+                        assert( args.length === 1 );
+                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                    }
+                }
+            }
+            const foo = new Foo([1, 2, 3, 4]).filter(() => true);
+            assert( foo instanceof Foo );
+            deepEqualArray( foo, [1, 2, 3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
             }
-            const bar = new Bar([1]);
-            assert( !(bar.filter(() => true) instanceof Bar) );
-            assert( bar[0] === 1 );
+            const bar = new Bar([1, 2, 3, 4]).filter(() => true);
+            assert( !(bar instanceof Bar) );
+            assert( bar instanceof Float16Array );
+            deepEqualArray( bar, [1, 2, 3, 4] );
         });
 
     });
@@ -1013,17 +1040,30 @@ describe("Float16Array", () => {
         });
 
         it("respect @@species", () => {
-            class Foo extends Float16Array {}
-            const foo = new Foo([1]);
-            assert( foo.slice() instanceof Foo );
-            assert( foo[0] === 1 );
+            let step = 0;
+            class Foo extends Float16Array {
+                constructor(...args) {
+                    super(...args);
+                    if (step === 0) {
+                        assert( args.length === 1 );
+                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        ++step;
+                    } else {
+                        deepEqualArray( args, [2] );
+                    }
+                }
+            }
+            const foo = new Foo([1, 2, 3, 4]).slice(2);
+            assert( foo instanceof Foo );
+            deepEqualArray( foo, [3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
             }
-            const bar = new Bar([1]);
-            assert( !(bar.slice() instanceof Bar) );
-            assert( bar[0] === 1 );
+            const bar = new Bar([1, 2, 3, 4]).slice(2);
+            assert( !(bar instanceof Bar) );
+            assert( bar instanceof Float16Array );
+            assert( bar, [3, 4] );
         });
 
     });
@@ -1056,17 +1096,33 @@ describe("Float16Array", () => {
         });
 
         it("respect @@species", () => {
-            class Foo extends Float16Array {}
-            const foo = new Foo([1]);
-            assert( foo.subarray() instanceof Foo );
-            assert( foo[0] === 1 );
+            let step = 0;
+            class Foo extends Float16Array {
+                constructor(...args) {
+                    super(...args);
+                    if (step === 0) {
+                        assert( args.length === 1 );
+                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        ++step;
+                    } else {
+                        assert( args.length === 3 );
+                        assert( args[0] instanceof ArrayBuffer );
+                        assert( args[1] === 4 );
+                        assert( args[2] === 2 );
+                    }
+                }
+            }
+            const foo = new Foo([1, 2, 3, 4]).subarray(2);
+            assert( foo instanceof Foo );
+            deepEqualArray( foo, [3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
             }
-            const bar = new Bar([1]);
-            assert( !(bar.subarray() instanceof Bar) );
-            assert( bar[0] === 1 );
+            const bar = new Bar([1, 2, 3, 4]).subarray(2);
+            assert( !(bar instanceof Bar) );
+            assert( bar instanceof Float16Array );
+            deepEqualArray( bar, [3, 4] );
         });
 
     });

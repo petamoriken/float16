@@ -216,8 +216,8 @@ export default class Float16Array extends Uint16Array {
     }
 
     /**
+     * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
-     * @todo It should return a object whose prototype is `%ArrayIteratorPrototype%`
      */
     values() {
         assertFloat16Array(this);
@@ -231,8 +231,8 @@ export default class Float16Array extends Uint16Array {
     }
 
     /**
+     * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
-     * @todo It should return a object whose prototype is `%ArrayIteratorPrototype%`
      */
     entries() {
         assertFloat16Array(this);
@@ -273,17 +273,28 @@ export default class Float16Array extends Uint16Array {
         const length = this.length;
 
         const Constructor = SpeciesConstructor(this, Float16Array);
-        const proxy = new Constructor(length);
-        assertFloat16Array(proxy);
 
-        const float16bits = _(proxy).target;
+        // for optimization
+        if (Constructor === Float16Array) {
+            const proxy = new Float16Array(length);
+            const float16bits = _(proxy).target;
+
+            for(let i = 0; i < length; ++i) {
+                const val = convertToNumber(this[i]);
+                float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
+            }
+
+            return proxy;
+        }
+
+        const array = new Constructor(length);
 
         for(let i = 0; i < length; ++i) {
             const val = convertToNumber(this[i]);
-            float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
+            array[i] = callback.call(thisArg, val, i, _(this).proxy);
         }
 
-        return proxy;
+        return array;
     }
 
     /**
@@ -294,19 +305,18 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        const array = [];
+        const kept = [];
         for(let i = 0, l = this.length; i < l; ++i) {
             const val = convertToNumber(this[i]);
             if (callback.call(thisArg, val, i, _(this).proxy)) {
-                array.push(val);
+                kept.push(val);
             }
         }
 
         const Constructor = SpeciesConstructor(this, Float16Array);
-        const proxy = new Constructor(array);
-        assertFloat16Array(proxy);
+        const array = new Constructor(kept);
 
-        return proxy;
+        return array;
     }
 
     /**
@@ -561,20 +571,58 @@ export default class Float16Array extends Uint16Array {
 
     /**
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice
-     * @todo It is required to give a TypedArray length as a SpeciesConstructor's argument
      */
     slice(...opts) {
         assertFloat16Array(this);
 
-        const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-        const float16bits = uint16.slice(...opts);
-
         const Constructor = SpeciesConstructor(this, Float16Array);
 
-        const proxy = new Constructor(float16bits.buffer);
-        assertFloat16Array(proxy);
+        // for optimization
+        if (Constructor === Float16Array) {
+            const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+            const float16bits = uint16.slice(...opts);
 
-        return proxy;
+            const proxy = new Float16Array(float16bits.buffer);
+            return proxy;
+        }
+
+        const length = this.length;
+        const start = ToIntegerOrInfinity(opts[0]);
+        const end = opts[1] === undefined ? length : ToIntegerOrInfinity(opts[1]);
+
+        let k;
+        if (start === -Infinity) {
+            k = 0;
+        } else if (start < 0) {
+            k = length + start > 0 ? length + start : 0;
+        } else {
+            k = length < start ? length : start;
+        }
+
+        let final;
+        if (end === -Infinity) {
+            final = 0;
+        } else if (end < 0) {
+            final = length + end > 0 ? length + end : 0;
+        } else {
+            final = length < end ? length : end;
+        }
+
+        const count = final - k > 0 ? final - k : 0;
+        const array = new Constructor(count);
+
+        if (count <= 0) {
+            return array;
+        }
+
+        let n = 0;
+        while (k < final) {
+            array[n] = convertToNumber(this[k]);
+            ++k;
+            ++n;
+        }
+
+        return array;
     }
 
     /**
@@ -587,10 +635,9 @@ export default class Float16Array extends Uint16Array {
         const float16bits = uint16.subarray(...opts);
 
         const Constructor = SpeciesConstructor(this, Float16Array);
-        const proxy = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
-        assertFloat16Array(proxy);
+        const array = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
 
-        return proxy;
+        return array;
     }
 
     /**
