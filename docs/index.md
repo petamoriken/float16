@@ -1,7 +1,7 @@
 # <a href="https://git.io/float16" target="_blank">@petamoriken/float16</a>
 
 half precision floating point for JavaScript  
-see [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
+See [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 
 [![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
@@ -121,9 +121,9 @@ hfround(1.337); // 1.3369140625
 
 ## Limitations
 
-Built-in `TypedArray` objects uses "internal slots" for built-in methods. Some limitations exist because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
+### Built-in functions
 
-### Built-in Functions
+Built-in `TypedArray` objects use "internal slots" for built-in methods. Some limitations exist because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
 
 This library isn't polyfill, in other words, it doesn't change native global functions and static/prototype methods.
 
@@ -134,17 +134,21 @@ ArrayBuffer.isView(new Float32Array(10)); // true
 ArrayBuffer.isView(new Float16Array(10)); // false
 ```
 
+### `Float16Array` prototype methods
+
+Due to implementation reasons, some details of `Float16Array` prototype methods may differ from the ECMAScript specification. See JSDoc comments in `src/Float16Array.mjs`.
+
 ### WebGL
 
-WebGL requires `Uint16Array` for buffer or texture data whose type are `gl.HALF_FLOAT` (WebGL 2) or `ext.HALF_FLOAT_OES` (WebGL 1 extension). Do not apply the `Float16Array` object directly to `gl.bufferData` or `gl.texImage2D` etc.
+WebGL requires `Uint16Array` for buffer or texture data whose types are `gl.HALF_FLOAT` (WebGL 2) or `ext.HALF_FLOAT_OES` (WebGL 1 extension). Do not apply the `Float16Array` object directly to `gl.bufferData` or `gl.texImage2D` etc.
 
 ```js
 // WebGL 2 example
 
 const vertices = new Float16Array([
-    -0.5, -0.5, 0,
-     0.5, -0.5, 0,
-     0.5,  0.5, 0,
+    -0.5, -0.5,  0,
+     0.5, -0.5,  0,
+     0.5,  0.5,  0,
 ]);
 
 const buffer = gl.createBuffer();

@@ -4,11 +4,11 @@ export { default as isObject } from "lodash-es/isObject.js";
 export { default as isArrayBuffer } from "lodash-es/isArrayBuffer.js";
 
 /**
- * @param {unknown} view
+ * @param {unknown} value
  * @returns {boolean}
  */
-export function isDataView(view) {
-    return ArrayBuffer.isView(view) && Object.prototype.toString.call(view) === "[object DataView]";
+export function isDataView(value) {
+    return ArrayBuffer.isView(value) && Object.prototype.toString.call(value) === "[object DataView]";
 }
 
 /**
