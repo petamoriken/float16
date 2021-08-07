@@ -226,21 +226,21 @@ describe("Float16Array", () => {
             deepEqualArray( float16_2, checkArray );
         });
 
-        it("input ArrayLike", () => {
-            const arrayLike = { 0: 1, 1: 1.1, 2: 1.2, 3: 1.3, length: 4 };
+        it("input Iterable", () => {
+            const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
             const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
-            const float16 = Float16Array.from(arrayLike);
+            const float16 = Float16Array.from(iterable);
 
             assert( float16 instanceof Float16Array );
             deepEqualArray( float16, checkArray );
         });
 
-        it("input Iterator", () => {
-            const iterator = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
+        it("input ArrayLike", () => {
+            const arrayLike = { 0: 1, 1: 1.1, 2: 1.2, 3: 1.3, length: 4 };
             const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
-            const float16 = Float16Array.from(iterator);
+            const float16 = Float16Array.from(arrayLike);
 
             assert( float16 instanceof Float16Array );
             deepEqualArray( float16, checkArray );
@@ -876,12 +876,12 @@ describe("Float16Array", () => {
             deepEqualArray( float16, [1, 2, 10, 11, 5] );
         });
 
-        it("set Itetator", () => {
+        it("set Iterable (no effect)", () => {
             const float16 = new Float16Array([1, 2, 3, 4, 5]);
-            const iterator = [10, 11][Symbol.iterator]();
+            const Iterable = [10, 11][Symbol.iterator]();
 
-            assert( float16.set(iterator, 2) === undefined );
-            deepEqualArray( float16, [1, 2, 10, 11, 5] );
+            assert( float16.set(Iterable, 2) === undefined );
+            deepEqualArray( float16, [1, 2, 3, 4, 5] );
         });
 
         it("set myself (Float16Array)", () => {

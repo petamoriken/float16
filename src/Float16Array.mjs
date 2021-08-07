@@ -5,7 +5,6 @@ import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
 import { createPrivateStorage } from "./private.mjs";
 import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
 
-
 const _ = createPrivateStorage();
 
 /**
@@ -502,7 +501,10 @@ export default class Float16Array extends Uint16Array {
     set(input, ...opts) {
         assertFloat16Array(this);
 
-        const offset = opts[0];
+        const offset = ToIntegerOrInfinity(opts[0]);
+        if (offset < 0) {
+            throw RangeError("offset is out of bounds");
+        }
 
         let float16bits;
 
@@ -512,12 +514,10 @@ export default class Float16Array extends Uint16Array {
 
         // input others
         } else {
-            const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
-            const length = arrayLike.length;
-
+            const length = LengthOfArrayLike(input);
             float16bits = new Uint16Array(length);
-            for(let i = 0, l = arrayLike.length; i < l; ++i) {
-                float16bits[i] = roundToFloat16Bits(arrayLike[i]);
+            for(let i = 0; i < length; ++i) {
+                float16bits[i] = roundToFloat16Bits(input[i]);
             }
         }
 
