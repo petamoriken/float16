@@ -6,7 +6,7 @@
 function deepEqualArray(x, y) {
     assert(x.length === y.length);
 
-    for(let i = 0, l = x.length; i < l; ++i) {
+    for (let i = 0, l = x.length; i < l; ++i) {
         assert( x[i] === y[i] );
     }
 }
@@ -14,7 +14,7 @@ function deepEqualArray(x, y) {
 function deepEqualNumberArray(x, y) {
     assert(x.length === y.length);
 
-    for(let i = 0, l = x.length; i < l; ++i) {
+    for (let i = 0, l = x.length; i < l; ++i) {
         assert( Object.is(x[i], y[i]) );
     }
 }
@@ -141,7 +141,7 @@ describe("Float16Array", () => {
         const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
         const float16 = new Float16Array([1, 1.1, 1.2, 1.3]);
-        for(const val of float16) {
+        for (const val of float16) {
             assert( val === checkArray.shift() );
         }
     });
@@ -187,7 +187,7 @@ describe("Float16Array", () => {
 
         float16.sum = function () {
             let ret = 0;
-            for(let i = 0, l = this.length; i < l; ++i) {
+            for (let i = 0, l = this.length; i < l; ++i) {
                 ret += this[i];
             }
             return ret;

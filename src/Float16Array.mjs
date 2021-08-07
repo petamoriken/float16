@@ -1,6 +1,6 @@
 import memoize from "lodash-es/memoize.js";
 import { wrapInArrayIterator } from "./arrayIterator.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString , isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./is.mjs";
+import { isArrayBuffer, isCanonicalIntegerIndexString ,isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
 import { createPrivateStorage } from "./private.mjs";
 import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
@@ -49,7 +49,7 @@ function copyToArray(float16bits) {
     const length = float16bits.length;
 
     const array = [];
-    for(let i = 0; i < length; ++i) {
+    for (let i = 0; i < length; ++i) {
         array.push(convertToNumber(float16bits[i]));
     }
 
@@ -131,7 +131,7 @@ export default class Float16Array extends Uint16Array {
                 const length = list.length;
                 super(length);
 
-                for(let i = 0; i < length; ++i) {
+                for (let i = 0; i < length; ++i) {
                     // super (Uint16Array)
                     this[i] = roundToFloat16Bits(list[i]);
                 }
@@ -141,7 +141,7 @@ export default class Float16Array extends Uint16Array {
                 const length = LengthOfArrayLike(input);
                 super(length);
 
-                for(let i = 0; i < length; ++i) {
+                for (let i = 0; i < length; ++i) {
                     // super (Uint16Array)
                     this[i] = roundToFloat16Bits(input[i]);
                 }
@@ -149,7 +149,7 @@ export default class Float16Array extends Uint16Array {
 
         // primitive, ArrayBuffer
         } else {
-            switch(arguments.length) {
+            switch (arguments.length) {
                 case 0:
                     super();
                     break;
@@ -207,7 +207,7 @@ export default class Float16Array extends Uint16Array {
         const proxy = new Float16Array(length);
         const float16bits = _(proxy).target;
 
-        for(let i = 0; i < length; ++i) {
+        for (let i = 0; i < length; ++i) {
             float16bits[i] = roundToFloat16Bits(items[i]);
         }
 
@@ -232,7 +232,7 @@ export default class Float16Array extends Uint16Array {
 
         const arrayIterator = super.values();
         return wrapInArrayIterator((function* () {
-            for(const val of arrayIterator) {
+            for (const val of arrayIterator) {
                 yield convertToNumber(val);
             }
         })());
@@ -247,7 +247,7 @@ export default class Float16Array extends Uint16Array {
 
         const arrayIterator = super.entries();
         return wrapInArrayIterator((function* () {
-            for(const [i, val] of arrayIterator) {
+            for (const [i, val] of arrayIterator) {
                 yield [i, convertToNumber(val)];
             }
         })());
@@ -287,7 +287,7 @@ export default class Float16Array extends Uint16Array {
             const proxy = new Float16Array(length);
             const float16bits = _(proxy).target;
 
-            for(let i = 0; i < length; ++i) {
+            for (let i = 0; i < length; ++i) {
                 const val = convertToNumber(this[i]);
                 float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
             }
@@ -297,7 +297,7 @@ export default class Float16Array extends Uint16Array {
 
         const array = new Constructor(length);
 
-        for(let i = 0; i < length; ++i) {
+        for (let i = 0; i < length; ++i) {
             const val = convertToNumber(this[i]);
             array[i] = callback.call(thisArg, val, i, _(this).proxy);
         }
@@ -314,7 +314,7 @@ export default class Float16Array extends Uint16Array {
         const thisArg = opts[0];
 
         const kept = [];
-        for(let i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             const val = convertToNumber(this[i]);
             if (callback.call(thisArg, val, i, _(this).proxy)) {
                 kept.push(val);
@@ -347,7 +347,7 @@ export default class Float16Array extends Uint16Array {
             start = 0;
         }
 
-        for(let i = start; i < length; ++i) {
+        for (let i = start; i < length; ++i) {
             accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
         }
 
@@ -374,7 +374,7 @@ export default class Float16Array extends Uint16Array {
             start = length - 1;
         }
 
-        for(let i = start; i >= 0; --i) {
+        for (let i = start; i >= 0; --i) {
             accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
         }
 
@@ -389,7 +389,7 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        for(let i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy);
         }
     }
@@ -402,7 +402,7 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        for(let i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             const value = convertToNumber(this[i]);
             if (callback.call(thisArg, value, i, _(this).proxy)) {
                 return value;
@@ -418,7 +418,7 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        for(let i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             const value = convertToNumber(this[i]);
             if (callback.call(thisArg, value, i, _(this).proxy)) {
                 return i;
@@ -436,7 +436,7 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        for(let i = this.length - 1; i >= 0; --i) {
+        for (let i = this.length - 1; i >= 0; --i) {
             const value = convertToNumber(this[i]);
             if (callback.call(thisArg, value, i, _(this).proxy)) {
                 return value;
@@ -452,7 +452,7 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        for(let i = this.length - 1; i >= 0; --i) {
+        for (let i = this.length - 1; i >= 0; --i) {
             const value = convertToNumber(this[i]);
             if (callback.call(thisArg, value, i, _(this).proxy)) {
                 return i;
@@ -470,7 +470,7 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        for(let i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             if (!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
                 return false;
             }
@@ -487,7 +487,7 @@ export default class Float16Array extends Uint16Array {
 
         const thisArg = opts[0];
 
-        for(let i = 0, l = this.length; i < l; ++i) {
+        for (let i = 0, l = this.length; i < l; ++i) {
             if (callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
                 return true;
             }
@@ -517,7 +517,7 @@ export default class Float16Array extends Uint16Array {
         } else {
             const length = LengthOfArrayLike(input);
             float16bits = new Uint16Array(length);
-            for(let i = 0; i < length; ++i) {
+            for (let i = 0; i < length; ++i) {
                 float16bits[i] = roundToFloat16Bits(input[i]);
             }
         }
@@ -668,7 +668,7 @@ export default class Float16Array extends Uint16Array {
             }
         }
 
-        for(let i = from, l = length; i < l; ++i) {
+        for (let i = from, l = length; i < l; ++i) {
             if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
                 return i;
             }
@@ -696,7 +696,7 @@ export default class Float16Array extends Uint16Array {
             from += length;
         }
 
-        for(let i = from; i >= 0; --i) {
+        for (let i = from; i >= 0; --i) {
             if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
                 return i;
             }
@@ -726,7 +726,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         const isNaN = Number.isNaN(element);
-        for(let i = from, l = length; i < l; ++i) {
+        for (let i = from, l = length; i < l; ++i) {
             const value = convertToNumber(this[i]);
 
             if (isNaN && Number.isNaN(value)) {
@@ -785,7 +785,7 @@ Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
 });
 
 const defaultFloat16ArrayMethods = new WeakSet();
-for(const key of Reflect.ownKeys(Float16ArrayPrototype)) {
+for (const key of Reflect.ownKeys(Float16ArrayPrototype)) {
     const val = Float16ArrayPrototype[key];
     if (typeof val === "function") {
         defaultFloat16ArrayMethods.add(val);

@@ -29,12 +29,12 @@ module.exports = {
             // show error log
             if(elements.length !== 0) {
                 const promises = [];
-                for(const value of elements) {
+                for (const value of elements) {
                     promises.push(asyncElementIdText(client, value.ELEMENT));
                 }
 
                 const errors = await Promise.all(promises);
-                for(const error of errors) {
+                for (const error of errors) {
                     console.error(red + error + "\n" + reset);
                 }
             }
