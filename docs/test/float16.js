@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 v3.2.2 | MIT License - https://git.io/float16
+ * @petamoriken/float16 v3.2.3 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -19,29 +19,29 @@ var float16 = (function (exports) {
       const e = i - 127; // very small number (0, -0)
 
       if (e < -27) {
-        baseTable[i | 0x000] = 0x0000;
+        baseTable[i] = 0x0000;
         baseTable[i | 0x100] = 0x8000;
-        shiftTable[i | 0x000] = 24;
+        shiftTable[i] = 24;
         shiftTable[i | 0x100] = 24; // small number (denorm)
       } else if (e < -14) {
-        baseTable[i | 0x000] = 0x0400 >> -e - 14;
+        baseTable[i] = 0x0400 >> -e - 14;
         baseTable[i | 0x100] = 0x0400 >> -e - 14 | 0x8000;
-        shiftTable[i | 0x000] = -e - 1;
+        shiftTable[i] = -e - 1;
         shiftTable[i | 0x100] = -e - 1; // normal number
       } else if (e <= 15) {
-        baseTable[i | 0x000] = e + 15 << 10;
+        baseTable[i] = e + 15 << 10;
         baseTable[i | 0x100] = e + 15 << 10 | 0x8000;
-        shiftTable[i | 0x000] = 13;
+        shiftTable[i] = 13;
         shiftTable[i | 0x100] = 13; // large number (Infinity, -Infinity)
       } else if (e < 128) {
-        baseTable[i | 0x000] = 0x7c00;
+        baseTable[i] = 0x7c00;
         baseTable[i | 0x100] = 0xfc00;
-        shiftTable[i | 0x000] = 24;
+        shiftTable[i] = 24;
         shiftTable[i | 0x100] = 24; // stay (NaN, Infinity, -Infinity)
       } else {
-        baseTable[i | 0x000] = 0x7c00;
+        baseTable[i] = 0x7c00;
         baseTable[i | 0x100] = 0xfc00;
-        shiftTable[i | 0x000] = 13;
+        shiftTable[i] = 13;
         shiftTable[i | 0x100] = 13;
       }
     }
@@ -279,7 +279,7 @@ var float16 = (function (exports) {
     /** `Object#toString` result references. */
 
     var asyncTag = '[object AsyncFunction]',
-        funcTag = '[object Function]',
+        funcTag$1 = '[object Function]',
         genTag = '[object GeneratorFunction]',
         proxyTag = '[object Proxy]';
     /**
@@ -308,7 +308,7 @@ var float16 = (function (exports) {
 
 
       var tag = baseGetTag(value);
-      return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+      return tag == funcTag$1 || tag == genTag || tag == asyncTag || tag == proxyTag;
     }
 
     /** Used to detect overreaching core-js shims. */
@@ -1026,6 +1026,33 @@ var float16 = (function (exports) {
     }
     /**
      * @param {unknown} target
+     * @returns {number}
+     */
+
+    function ToLength(target) {
+      const length = ToIntegerOrInfinity(target);
+
+      if (length < 0) {
+        return 0;
+      }
+
+      return length < Number.MAX_SAFE_INTEGER ? length : Number.MAX_SAFE_INTEGER;
+    }
+    /**
+     * @param {object} arrayLike
+     * @returns {number}
+     */
+
+
+    function LengthOfArrayLike(arrayLike) {
+      if (!isObject(arrayLike)) {
+        throw TypeError("this is not a object");
+      }
+
+      return ToLength(arrayLike.length);
+    }
+    /**
+     * @param {object} target
      * @param {Function} defaultConstructor
      * @returns {Function}
      */
@@ -1125,7 +1152,7 @@ var float16 = (function (exports) {
       return value != null && typeof value == 'object';
     }
 
-    var arrayBufferTag = '[object ArrayBuffer]';
+    var arrayBufferTag$1 = '[object ArrayBuffer]';
     /**
      * The base implementation of `_.isArrayBuffer` without Node.js optimizations.
      *
@@ -1135,7 +1162,7 @@ var float16 = (function (exports) {
      */
 
     function baseIsArrayBuffer(value) {
-      return isObjectLike(value) && baseGetTag(value) == arrayBufferTag;
+      return isObjectLike(value) && baseGetTag(value) == arrayBufferTag$1;
     }
 
     /**
@@ -1205,13 +1232,129 @@ var float16 = (function (exports) {
     var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
     var isArrayBuffer$1 = isArrayBuffer;
 
+    /** Used as references for various `Number` constants. */
+    var MAX_SAFE_INTEGER = 9007199254740991;
     /**
-     * @param {unknown} view
+     * Checks if `value` is a valid array-like length.
+     *
+     * **Note:** This method is loosely based on
+     * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+     * @example
+     *
+     * _.isLength(3);
+     * // => true
+     *
+     * _.isLength(Number.MIN_VALUE);
+     * // => false
+     *
+     * _.isLength(Infinity);
+     * // => false
+     *
+     * _.isLength('3');
+     * // => false
+     */
+
+    function isLength(value) {
+      return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+    }
+
+    /** `Object#toString` result references. */
+
+    var argsTag = '[object Arguments]',
+        arrayTag = '[object Array]',
+        boolTag = '[object Boolean]',
+        dateTag = '[object Date]',
+        errorTag = '[object Error]',
+        funcTag = '[object Function]',
+        mapTag = '[object Map]',
+        numberTag = '[object Number]',
+        objectTag = '[object Object]',
+        regexpTag = '[object RegExp]',
+        setTag = '[object Set]',
+        stringTag = '[object String]',
+        weakMapTag = '[object WeakMap]';
+    var arrayBufferTag = '[object ArrayBuffer]',
+        dataViewTag = '[object DataView]',
+        float32Tag = '[object Float32Array]',
+        float64Tag = '[object Float64Array]',
+        int8Tag = '[object Int8Array]',
+        int16Tag = '[object Int16Array]',
+        int32Tag = '[object Int32Array]',
+        uint8Tag = '[object Uint8Array]',
+        uint8ClampedTag = '[object Uint8ClampedArray]',
+        uint16Tag = '[object Uint16Array]',
+        uint32Tag = '[object Uint32Array]';
+    /** Used to identify `toStringTag` values of typed arrays. */
+
+    var typedArrayTags = {};
+    typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+    typedArrayTags[argsTag] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+    /**
+     * The base implementation of `_.isTypedArray` without Node.js optimizations.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+     */
+
+    function baseIsTypedArray(value) {
+      return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+    }
+
+    /* Node.js helper references. */
+
+    var nodeIsTypedArray = nodeUtil$1 && nodeUtil$1.isTypedArray;
+    /**
+     * Checks if `value` is classified as a typed array.
+     *
+     * @static
+     * @memberOf _
+     * @since 3.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+     * @example
+     *
+     * _.isTypedArray(new Uint8Array);
+     * // => true
+     *
+     * _.isTypedArray([]);
+     * // => false
+     */
+
+    var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+    var isTypedArray$1 = isTypedArray;
+
+    /**
+     * @param {unknown} value
      * @returns {boolean}
      */
 
-    function isDataView(view) {
-      return ArrayBuffer.isView(view) && Object.prototype.toString.call(view) === "[object DataView]";
+    function isDataView(value) {
+      return ArrayBuffer.isView(value) && Object.prototype.toString.call(value) === "[object DataView]";
+    }
+    /**
+     * @param {unknown} value
+     * @returns {boolean}
+     */
+
+    function isSharedArrayBuffer(value) {
+      return Object.prototype.toString.call(value) === "[object SharedArrayBuffer]";
+    }
+    /**
+     * @param {unknown} value
+     * @returns {boolean}
+     */
+
+    function isIterable(value) {
+      return isObject(value) && typeof value[Symbol.iterator] === "function";
     }
     /**
      * @param {unknown} key
@@ -1229,8 +1372,17 @@ var float16 = (function (exports) {
      */
 
 
-    function isFloat16Array(target) {
-      return target instanceof Float16Array;
+    function isFloat16ArrayProxy(target) {
+      return target instanceof Float16Array && _(target).target !== undefined;
+    }
+    /**
+     * @param {unknown} target
+     * @returns {boolean}
+     */
+
+
+    function isFloat16ArrayBits(target) {
+      return target instanceof Float16Array && _(target).proxy !== undefined;
     }
     /**
      * @param {unknown} target
@@ -1238,8 +1390,8 @@ var float16 = (function (exports) {
      */
 
 
-    function assertFloat16Array(target) {
-      if (!isFloat16Array(target)) {
+    function assertFloat16ArrayBits(target) {
+      if (!isFloat16ArrayBits(target)) {
         throw new TypeError("This is not a Float16Array");
       }
     }
@@ -1274,7 +1426,7 @@ var float16 = (function (exports) {
     const applyHandler = {
       apply(func, thisArg, args) {
         // peel off proxy
-        if (isFloat16Array(thisArg)) {
+        if (isFloat16ArrayProxy(thisArg)) {
           return Reflect.apply(func, _(thisArg).target, args);
         }
 
@@ -1316,20 +1468,41 @@ var float16 = (function (exports) {
 
     };
     class Float16Array extends Uint16Array {
+      /**
+       * @see https://tc39.es/ecma262/#sec-typedarray
+       */
       constructor(input, byteOffset, length) {
         // input Float16Array
-        if (isFloat16Array(input)) {
-          super(_(input).target); // 22.2.1.3, 22.2.1.4 TypedArray, Array, ArrayLike, Iterable
-        } else if (input !== null && typeof input === "object" && !isArrayBuffer$1(input)) {
-          // if input is not ArrayLike and Iterable, get Array
-          const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
-          const length = arrayLike.length;
-          super(length);
+        if (isFloat16ArrayProxy(input)) {
+          super(_(input).target); // object without ArrayBuffer
+        } else if (isObject(input) && !isArrayBuffer$1(input)) {
+          let list;
+          let length; // TypedArray
+
+          if (isTypedArray$1(input)) {
+            const buffer = input.buffer;
+            list = input;
+            length = input.length;
+            /** @type {ArrayBufferConstructor} */
+
+            const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
+            const data = new BufferConstructor(length * 2);
+            super(data); // Iterable (Array)
+          } else if (isIterable(input)) {
+            list = [...input];
+            length = list.length;
+            super(length); // ArrayLike
+          } else {
+            list = input;
+            length = LengthOfArrayLike(input);
+            super(length);
+          } // set values
+
 
           for (let i = 0; i < length; ++i) {
             // super (Uint16Array)
-            this[i] = roundToFloat16Bits(arrayLike[i]);
-          } // 22.2.1.2, 22.2.1.5 primitive, ArrayBuffer
+            this[i] = roundToFloat16Bits(list[i]);
+          } // primitive, ArrayBuffer
 
         } else {
           switch (arguments.length) {
@@ -1360,7 +1533,10 @@ var float16 = (function (exports) {
 
         _(this).proxy = proxy;
         return proxy;
-      } // static methods
+      }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.from
+       */
 
 
       static from(src, ...opts) {
@@ -1374,6 +1550,10 @@ var float16 = (function (exports) {
           return roundToFloat16Bits(mapFunc.call(this, val, ...args));
         }, thisArg).buffer);
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.of
+       */
+
 
       static of(...items) {
         const length = items.length;
@@ -1386,23 +1566,24 @@ var float16 = (function (exports) {
         }
 
         return proxy;
-      } // iterate methods
-
-
-      [Symbol.iterator]() {
-        const arrayIterator = super[Symbol.iterator]();
-        return wrapInArrayIterator(function* () {
-          for (const val of arrayIterator) {
-            yield convertToNumber(val);
-          }
-        }());
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys
+       */
+
 
       keys() {
+        assertFloat16ArrayBits(this);
         return super.keys();
       }
+      /**
+       * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
+       */
+
 
       values() {
+        assertFloat16ArrayBits(this);
         const arrayIterator = super.values();
         return wrapInArrayIterator(function* () {
           for (const val of arrayIterator) {
@@ -1410,8 +1591,14 @@ var float16 = (function (exports) {
           }
         }());
       }
+      /**
+       * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
+       */
+
 
       entries() {
+        assertFloat16ArrayBits(this);
         const arrayIterator = super.entries();
         return wrapInArrayIterator(function* () {
           for (const [i, val] of arrayIterator) {
@@ -1419,9 +1606,13 @@ var float16 = (function (exports) {
           }
         }());
       }
+      /**
+       * @see https://tc39.es/proposal-relative-indexing-method/#sec-%typedarray%.prototype.at
+       */
+
 
       at(index) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const length = this.length;
         const relativeIndex = ToIntegerOrInfinity(index);
         const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
@@ -1431,48 +1622,69 @@ var float16 = (function (exports) {
         }
 
         return convertToNumber(this[k]);
-      } // functional methods
+      }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map
+       */
 
 
       map(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
         const length = this.length;
-        const Constructor = SpeciesConstructor(this, Float16Array);
-        const proxy = new Constructor(length);
-        assertFloat16Array(proxy);
+        const Constructor = SpeciesConstructor(this, Float16Array); // for optimization
 
-        const float16bits = _(proxy).target;
+        if (Constructor === Float16Array) {
+          const proxy = new Float16Array(length);
+
+          const float16bits = _(proxy).target;
+
+          for (let i = 0; i < length; ++i) {
+            const val = convertToNumber(this[i]);
+            float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
+          }
+
+          return proxy;
+        }
+
+        const array = new Constructor(length);
 
         for (let i = 0; i < length; ++i) {
           const val = convertToNumber(this[i]);
-          float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
+          array[i] = callback.call(thisArg, val, i, _(this).proxy);
         }
 
-        return proxy;
+        return array;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.filter
+       */
+
 
       filter(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
-        const array = [];
+        const kept = [];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           const val = convertToNumber(this[i]);
 
           if (callback.call(thisArg, val, i, _(this).proxy)) {
-            array.push(val);
+            kept.push(val);
           }
         }
 
         const Constructor = SpeciesConstructor(this, Float16Array);
-        const proxy = new Constructor(array);
-        assertFloat16Array(proxy);
-        return proxy;
+        const array = new Constructor(kept);
+        return array;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduce
+       */
+
 
       reduce(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const length = this.length;
 
         if (length === 0 && opts.length === 0) {
@@ -1495,9 +1707,13 @@ var float16 = (function (exports) {
 
         return accumulator;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduceright
+       */
+
 
       reduceRight(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const length = this.length;
 
         if (length === 0 && opts.length === 0) {
@@ -1520,18 +1736,26 @@ var float16 = (function (exports) {
 
         return accumulator;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.foreach
+       */
+
 
       forEach(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
           callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy);
         }
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.find
+       */
+
 
       find(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1542,9 +1766,13 @@ var float16 = (function (exports) {
           }
         }
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.findindex
+       */
+
 
       findIndex(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1557,9 +1785,13 @@ var float16 = (function (exports) {
 
         return -1;
       }
+      /**
+       * @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlast
+       */
+
 
       findLast(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
 
         for (let i = this.length - 1; i >= 0; --i) {
@@ -1570,9 +1802,13 @@ var float16 = (function (exports) {
           }
         }
       }
+      /**
+       * @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlastindex
+       */
+
 
       findLastIndex(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
 
         for (let i = this.length - 1; i >= 0; --i) {
@@ -1585,9 +1821,13 @@ var float16 = (function (exports) {
 
         return -1;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.every
+       */
+
 
       every(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1598,9 +1838,13 @@ var float16 = (function (exports) {
 
         return true;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.some
+       */
+
 
       some(callback, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -1610,54 +1854,73 @@ var float16 = (function (exports) {
         }
 
         return false;
-      } // change element methods
+      }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.set
+       */
 
 
       set(input, ...opts) {
-        assertFloat16Array(this);
-        const offset = opts[0];
+        assertFloat16ArrayBits(this);
+        const offset = ToIntegerOrInfinity(opts[0]);
+
+        if (offset < 0) {
+          throw RangeError("offset is out of bounds");
+        }
+
         let float16bits; // input Float16Array
 
-        if (isFloat16Array(input)) {
+        if (isFloat16ArrayProxy(input)) {
           float16bits = _(input).target; // input others
         } else {
-          const arrayLike = !Reflect.has(input, "length") && input[Symbol.iterator] !== undefined ? [...input] : input;
-          const length = arrayLike.length;
+          const length = LengthOfArrayLike(input);
           float16bits = new Uint16Array(length);
 
-          for (let i = 0, l = arrayLike.length; i < l; ++i) {
-            float16bits[i] = roundToFloat16Bits(arrayLike[i]);
+          for (let i = 0; i < length; ++i) {
+            float16bits[i] = roundToFloat16Bits(input[i]);
           }
         }
 
         super.set(float16bits, offset);
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reverse
+       */
+
 
       reverse() {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         super.reverse();
         return _(this).proxy;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill
+       */
+
 
       fill(value, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         super.fill(roundToFloat16Bits(value), ...opts);
         return _(this).proxy;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.copywithin
+       */
+
 
       copyWithin(target, start, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         super.copyWithin(target, start, ...opts);
         return _(this).proxy;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort
+       */
+
 
       sort(...opts) {
-        assertFloat16Array(this);
-        let compareFunction = opts[0];
-
-        if (compareFunction === undefined) {
-          compareFunction = defaultCompareFunction;
-        }
+        assertFloat16ArrayBits(this);
+        const compareFunction = opts[0] !== undefined ? opts[0] : defaultCompareFunction;
 
         const _convertToNumber = memoize(convertToNumber);
 
@@ -1665,32 +1928,83 @@ var float16 = (function (exports) {
           return compareFunction(_convertToNumber(x), _convertToNumber(y));
         });
         return _(this).proxy;
-      } // copy element methods
+      }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice
+       */
 
 
       slice(...opts) {
-        assertFloat16Array(this);
-        const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-        const float16bits = uint16.slice(...opts);
-        const Constructor = SpeciesConstructor(this, Float16Array);
-        const proxy = new Constructor(float16bits.buffer);
-        assertFloat16Array(proxy);
-        return proxy;
+        assertFloat16ArrayBits(this);
+        const Constructor = SpeciesConstructor(this, Float16Array); // for optimization
+
+        if (Constructor === Float16Array) {
+          const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+          const float16bits = uint16.slice(...opts);
+          const proxy = new Float16Array(float16bits.buffer);
+          return proxy;
+        }
+
+        const length = this.length;
+        const start = ToIntegerOrInfinity(opts[0]);
+        const end = opts[1] === undefined ? length : ToIntegerOrInfinity(opts[1]);
+        let k;
+
+        if (start === -Infinity) {
+          k = 0;
+        } else if (start < 0) {
+          k = length + start > 0 ? length + start : 0;
+        } else {
+          k = length < start ? length : start;
+        }
+
+        let final;
+
+        if (end === -Infinity) {
+          final = 0;
+        } else if (end < 0) {
+          final = length + end > 0 ? length + end : 0;
+        } else {
+          final = length < end ? length : end;
+        }
+
+        const count = final - k > 0 ? final - k : 0;
+        const array = new Constructor(count);
+
+        if (count <= 0) {
+          return array;
+        }
+
+        let n = 0;
+
+        while (k < final) {
+          array[n] = convertToNumber(this[k]);
+          ++k;
+          ++n;
+        }
+
+        return array;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray
+       */
+
 
       subarray(...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
         const float16bits = uint16.subarray(...opts);
         const Constructor = SpeciesConstructor(this, Float16Array);
-        const proxy = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
-        assertFloat16Array(proxy);
-        return proxy;
-      } // contains methods
+        const array = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
+        return array;
+      }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.indexof
+       */
 
 
       indexOf(element, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const length = this.length;
         let from = ToIntegerOrInfinity(opts[0]);
 
@@ -1714,9 +2028,13 @@ var float16 = (function (exports) {
 
         return -1;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.lastindexof
+       */
+
 
       lastIndexOf(element, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const length = this.length;
         let from = opts.length >= 1 ? ToIntegerOrInfinity(opts[0]) : length - 1;
 
@@ -1738,9 +2056,13 @@ var float16 = (function (exports) {
 
         return -1;
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.includes
+       */
+
 
       includes(element, ...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const length = this.length;
         let from = ToIntegerOrInfinity(opts[0]);
 
@@ -1771,33 +2093,53 @@ var float16 = (function (exports) {
         }
 
         return false;
-      } // string methods
+      }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.join
+       */
 
 
       join(...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const array = copyToArray(this);
         return array.join(...opts);
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring
+       */
+
 
       toLocaleString(...opts) {
-        assertFloat16Array(this);
+        assertFloat16ArrayBits(this);
         const array = copyToArray(this);
         return array.toLocaleString(...opts);
       }
+      /**
+       * @see https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag
+       */
+
 
       get [Symbol.toStringTag]() {
-        if (isFloat16Array(this)) {
+        if (isFloat16ArrayBits(this)) {
           return "Float16Array";
         }
       }
 
     }
-    const Float16Array$prototype = Float16Array.prototype;
+    const Float16ArrayPrototype = Float16Array.prototype;
+    /**
+     * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator
+     */
+
+    Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
+      value: Float16ArrayPrototype.values,
+      writable: true,
+      configurable: true
+    });
     const defaultFloat16ArrayMethods = new WeakSet();
 
-    for (const key of Reflect.ownKeys(Float16Array$prototype)) {
-      const val = Float16Array$prototype[key];
+    for (const key of Reflect.ownKeys(Float16ArrayPrototype)) {
+      const val = Float16ArrayPrototype[key];
 
       if (typeof val === "function") {
         defaultFloat16ArrayMethods.add(val);
