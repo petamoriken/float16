@@ -207,19 +207,6 @@ export default class Float16Array extends Uint16Array {
     }
 
     /**
-     * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator
-     * @todo It should be same function of `%TypedArray%#values`
-     */
-    [Symbol.iterator]() {
-        const arrayIterator = super[Symbol.iterator]();
-        return wrapInArrayIterator((function* () {
-            for(const val of arrayIterator) {
-                yield convertToNumber(val);
-            }
-        })());
-    }
-
-    /**
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys
      */
     keys() {
@@ -732,6 +719,15 @@ export default class Float16Array extends Uint16Array {
 }
 
 const Float16ArrayPrototype = Float16Array.prototype;
+
+/**
+ * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator
+ */
+Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
+    value: Float16ArrayPrototype.values,
+    writable: true,
+    configurable: true,
+});
 
 const defaultFloat16ArrayMethods = new WeakSet();
 for(const key of Reflect.ownKeys(Float16ArrayPrototype)) {
