@@ -3,21 +3,13 @@
 
 (function () {
 
-function deepEqualArray(x, y) {
-    assert(x.length === y.length);
-
-    for (let i = 0, l = x.length; i < l; ++i) {
-        assert( x[i] === y[i] );
+assert.equalFloat16ArrayValues = function (float16, array) {
+    const obj = { [Symbol.toStringTag]: "Float16Array" };
+    for (const [key, value] of array.entries()) {
+        obj[key] = value;
     }
-}
-
-function deepEqualNumberArray(x, y) {
-    assert(x.length === y.length);
-
-    for (let i = 0, l = x.length; i < l; ++i) {
-        assert( Object.is(x[i], y[i]) );
-    }
-}
+    assert.deepEqual(float16, obj);
+};
 
 describe("Float16Array", () => {
 
@@ -52,7 +44,7 @@ describe("Float16Array", () => {
         assert( float16_1.byteOffset === 0 );
         assert( float16_1.byteLength === 8 );
         assert( float16_1.length === 4 );
-        deepEqualArray( float16_1, checkArray );
+        assert.equalFloat16ArrayValues( float16_1, checkArray );
 
         const float16_2 = new Float16Array( new Float32Array(array) );
 
@@ -60,7 +52,7 @@ describe("Float16Array", () => {
         assert( float16_2.byteOffset === 0 );
         assert( float16_2.byteLength === 8 );
         assert( float16_2.length === 4 );
-        deepEqualArray( float16_2, checkArray );
+        assert.equalFloat16ArrayValues( float16_2, checkArray );
     });
 
     it("input TypedArray with CustomArrayBuffer", () => {
@@ -86,7 +78,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        deepEqualArray( float16, checkArray );
+        assert.equalFloat16ArrayValues( float16, checkArray );
     });
 
     it("input ArrayLike", () => {
@@ -99,7 +91,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        deepEqualArray( float16, checkArray );
+        assert.equalFloat16ArrayValues( float16, checkArray );
     });
 
     it("input myself (Float16Array)", () => {
@@ -112,7 +104,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        deepEqualArray( float16, checkArray );
+        assert.equalFloat16ArrayValues( float16, checkArray );
     });
 
     it("input ArrayBuffer", () => {
@@ -125,7 +117,7 @@ describe("Float16Array", () => {
         assert( float16_1.byteOffset === 0 );
         assert( float16_1.byteLength === 8 );
         assert( float16_1.length === 4 );
-        deepEqualArray( float16_1, [1, 1.099609375, 1.19921875, 1.2998046875] );
+        assert.equalFloat16ArrayValues( float16_1, [1, 1.099609375, 1.19921875, 1.2998046875] );
 
         const float16_2 = new Float16Array(buffer, 2, 2);
 
@@ -134,7 +126,7 @@ describe("Float16Array", () => {
         assert( float16_2.byteOffset === 2 );
         assert( float16_2.byteLength === 4 );
         assert( float16_2.length === 2 );
-        deepEqualArray( float16_2, [1.099609375, 1.19921875] );
+        assert.equalFloat16ArrayValues( float16_2, [1.099609375, 1.19921875] );
     });
 
     it("iterate", () => {
@@ -166,10 +158,6 @@ describe("Float16Array", () => {
 
         Object.freeze( float16 );
 
-        // JavaScriptCore bug
-        // assert.throws(() => float16.fuga = "fuga", TypeError);
-        // assert.throws(() => float16.map = "map", TypeError);
-
         float16.fuga = "fuga";
         assert( float16.fuga === undefined );
 
@@ -179,7 +167,7 @@ describe("Float16Array", () => {
 
     it("check ownKeys", () => {
         const float16 = new Float16Array([1, 2]);
-        deepEqualArray( Reflect.ownKeys(float16), ["0", "1"] );
+        assert.deepStrictEqual( Reflect.ownKeys(float16), ["0", "1"] );
     });
 
     it("append custom methods (not using `super`)", () => {
@@ -218,12 +206,12 @@ describe("Float16Array", () => {
             const float16_1 = Float16Array.from(array);
 
             assert( float16_1 instanceof Float16Array );
-            deepEqualArray( float16_1, checkArray );
+            assert.equalFloat16ArrayValues( float16_1, checkArray );
 
             const float16_2 = Float16Array.from( new Float32Array(array) );
 
             assert( float16_2 instanceof Float16Array );
-            deepEqualArray( float16_2, checkArray );
+            assert.equalFloat16ArrayValues( float16_2, checkArray );
         });
 
         it("input Iterable", () => {
@@ -233,7 +221,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.from(iterable);
 
             assert( float16 instanceof Float16Array );
-            deepEqualArray( float16, checkArray );
+            assert.equalFloat16ArrayValues( float16, checkArray );
         });
 
         it("input ArrayLike", () => {
@@ -243,7 +231,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.from(arrayLike);
 
             assert( float16 instanceof Float16Array );
-            deepEqualArray( float16, checkArray );
+            assert.equalFloat16ArrayValues( float16, checkArray );
         });
 
         it("input myself (Float16Array)", () => {
@@ -253,7 +241,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.from( new Float16Array(array) );
 
             assert( float16 instanceof Float16Array );
-            deepEqualArray( float16, checkArray );
+            assert.equalFloat16ArrayValues( float16, checkArray );
         });
 
         it("check mapFn callback arguments", () => {
@@ -287,7 +275,7 @@ describe("Float16Array", () => {
             const float16 = Float16Array.of(...array);
 
             assert( float16 instanceof Float16Array );
-            deepEqualArray( float16, checkArray );
+            assert.equalFloat16ArrayValues( float16, checkArray );
         });
 
     });
@@ -454,7 +442,7 @@ describe("Float16Array", () => {
             const float16_2 = float16_1.map((val) => val * 2);
 
             assert( float16_2 instanceof Float16Array );
-            deepEqualArray( float16_2, [2, 4, 6, 8] );
+            assert.equalFloat16ArrayValues( float16_2, [2, 4, 6, 8] );
         });
 
         it("respect @@species", () => {
@@ -464,16 +452,16 @@ describe("Float16Array", () => {
                     super(...args);
                     if (step === 0) {
                         assert( args.length === 1 );
-                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        assert.deepStrictEqual( args[0], [1, 2, 3, 4] );
                         ++step;
                     } else {
-                        deepEqualArray( args, [4] );
+                        assert.deepStrictEqual( args, [4] );
                     }
                 }
             }
             const foo = new Foo([1, 2, 3, 4]).map((val) => val);
             assert( foo instanceof Foo );
-            deepEqualArray( foo, [1, 2, 3, 4] );
+            assert.equalFloat16ArrayValues( foo, [1, 2, 3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
@@ -481,7 +469,7 @@ describe("Float16Array", () => {
             const bar = new Bar([1, 2, 3, 4]).map((val) => val);
             assert( !(bar instanceof Bar) );
             assert( bar instanceof Float16Array );
-            deepEqualArray( bar, [1, 2, 3, 4] );
+            assert.equalFloat16ArrayValues( bar, [1, 2, 3, 4] );
         });
 
     });
@@ -515,7 +503,7 @@ describe("Float16Array", () => {
             const float16_2 = float16_1.filter((val) => val % 2 === 0);
 
             assert( float16_2 instanceof Float16Array );
-            deepEqualArray( float16_2, [2, 4] );
+            assert.equalFloat16ArrayValues( float16_2, [2, 4] );
         });
 
         it("respect @@species", () => {
@@ -525,17 +513,17 @@ describe("Float16Array", () => {
                     super(...args);
                     if (step === 0) {
                         assert( args.length === 1 );
-                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        assert.deepStrictEqual( args[0], [1, 2, 3, 4] );
                         ++step;
                     } else {
                         assert( args.length === 1 );
-                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        assert.deepStrictEqual( args[0], [1, 2, 3, 4] );
                     }
                 }
             }
             const foo = new Foo([1, 2, 3, 4]).filter(() => true);
             assert( foo instanceof Foo );
-            deepEqualArray( foo, [1, 2, 3, 4] );
+            assert.equalFloat16ArrayValues( foo, [1, 2, 3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
@@ -543,7 +531,7 @@ describe("Float16Array", () => {
             const bar = new Bar([1, 2, 3, 4]).filter(() => true);
             assert( !(bar instanceof Bar) );
             assert( bar instanceof Float16Array );
-            deepEqualArray( bar, [1, 2, 3, 4] );
+            assert.equalFloat16ArrayValues( bar, [1, 2, 3, 4] );
         });
 
     });
@@ -887,12 +875,12 @@ describe("Float16Array", () => {
             const array = [10, 11];
 
             assert( float16.set(array, 2) === undefined );
-            deepEqualArray( float16, [1, 2, 10, 11, 5] );
+            assert.equalFloat16ArrayValues( float16, [1, 2, 10, 11, 5] );
 
             const float32 = new Float32Array([20, 21]);
 
             assert( float16.set(float32, 1) === undefined );
-            deepEqualArray( float16, [1, 20, 21, 11, 5] );
+            assert.equalFloat16ArrayValues( float16, [1, 20, 21, 11, 5] );
         });
 
         it("set ArrayLike", () => {
@@ -900,7 +888,7 @@ describe("Float16Array", () => {
             const arrayLike = { 0: 10, 1: 11, length: 2 };
 
             assert( float16.set(arrayLike, 2) === undefined );
-            deepEqualArray( float16, [1, 2, 10, 11, 5] );
+            assert.equalFloat16ArrayValues( float16, [1, 2, 10, 11, 5] );
         });
 
         it("set Iterable (no effect)", () => {
@@ -908,7 +896,7 @@ describe("Float16Array", () => {
             const Iterable = [10, 11][Symbol.iterator]();
 
             assert( float16.set(Iterable, 2) === undefined );
-            deepEqualArray( float16, [1, 2, 3, 4, 5] );
+            assert.equalFloat16ArrayValues( float16, [1, 2, 3, 4, 5] );
         });
 
         it("set myself (Float16Array)", () => {
@@ -916,7 +904,7 @@ describe("Float16Array", () => {
             const array = [10, 11];
 
             assert( float16.set(new Float16Array(array), 2) === undefined );
-            deepEqualArray( float16, [1, 2, 10, 11, 5] );
+            assert.equalFloat16ArrayValues( float16, [1, 2, 10, 11, 5] );
         });
 
         it("check out of Range", () => {
@@ -943,7 +931,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3]);
 
             assert( float16.reverse() === float16 );
-            deepEqualArray( float16, [3, 2, 1] );
+            assert.equalFloat16ArrayValues( float16, [3, 2, 1] );
         });
 
     });
@@ -962,7 +950,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array(5);
 
             assert( float16.fill(1, 1, 4) === float16 );
-            deepEqualArray( float16, [0, 1, 1, 1, 0] );
+            assert.equalFloat16ArrayValues( float16, [0, 1, 1, 1, 0] );
         });
 
     });
@@ -981,7 +969,7 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, 0, 0, 0]);
 
             assert( float16.copyWithin(2, 0, 2) === float16 );
-            deepEqualArray( float16, [1, 2, 1, 2, 0] );
+            assert.equalFloat16ArrayValues( float16, [1, 2, 1, 2, 0] );
         });
 
     });
@@ -1000,14 +988,14 @@ describe("Float16Array", () => {
             const float16 = new Float16Array([1, 2, -1, -2, 0, -0, NaN, Infinity, -Infinity]);
 
             assert( float16.sort() === float16 );
-            deepEqualNumberArray( float16, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
+            assert.equalFloat16ArrayValues( float16, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
         });
 
         it("check custom compare", () => {
             const float16 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
 
             assert( float16.sort( (x, y) => x - y ) === float16 );
-            deepEqualArray( float16, [-Infinity, -2, -1, 1, 2, Infinity] );
+            assert.equalFloat16ArrayValues( float16, [-Infinity, -2, -1, 1, 2, Infinity] );
         });
 
     });
@@ -1027,7 +1015,7 @@ describe("Float16Array", () => {
 
             const sliced = float16.slice();
             assert( sliced instanceof Float16Array );
-            deepEqualArray( float16, sliced );
+            assert.equalFloat16ArrayValues( float16, sliced );
             assert( float16.buffer !== sliced.buffer );
         });
 
@@ -1036,7 +1024,7 @@ describe("Float16Array", () => {
 
             const sliced = float16.slice(1, 3);
             assert( sliced.byteOffset === 0 );
-            deepEqualArray( sliced, [2, 3] );
+            assert.equalFloat16ArrayValues( sliced, [2, 3] );
         });
 
         it("respect @@species", () => {
@@ -1046,16 +1034,16 @@ describe("Float16Array", () => {
                     super(...args);
                     if (step === 0) {
                         assert( args.length === 1 );
-                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        assert.deepStrictEqual( args[0], [1, 2, 3, 4] );
                         ++step;
                     } else {
-                        deepEqualArray( args, [2] );
+                        assert.deepStrictEqual( args, [2] );
                     }
                 }
             }
             const foo = new Foo([1, 2, 3, 4]).slice(2);
             assert( foo instanceof Foo );
-            deepEqualArray( foo, [3, 4] );
+            assert.equalFloat16ArrayValues( foo, [3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
@@ -1083,7 +1071,7 @@ describe("Float16Array", () => {
 
             const subarray = float16.subarray();
             assert( subarray instanceof Float16Array );
-            deepEqualArray( float16, subarray );
+            assert.equalFloat16ArrayValues( float16, subarray );
             assert( float16.buffer === subarray.buffer );
         });
 
@@ -1092,7 +1080,7 @@ describe("Float16Array", () => {
 
             const subarray = float16.subarray(1, 3);
             assert( subarray.byteOffset === 2 );
-            deepEqualArray( subarray, [2, 3] );
+            assert.equalFloat16ArrayValues( subarray, [2, 3] );
         });
 
         it("respect @@species", () => {
@@ -1102,7 +1090,7 @@ describe("Float16Array", () => {
                     super(...args);
                     if (step === 0) {
                         assert( args.length === 1 );
-                        deepEqualArray( args[0], [1, 2, 3, 4] );
+                        assert.deepStrictEqual( args[0], [1, 2, 3, 4] );
                         ++step;
                     } else {
                         assert( args.length === 3 );
@@ -1114,7 +1102,7 @@ describe("Float16Array", () => {
             }
             const foo = new Foo([1, 2, 3, 4]).subarray(2);
             assert( foo instanceof Foo );
-            deepEqualArray( foo, [3, 4] );
+            assert.equalFloat16ArrayValues( foo, [3, 4] );
 
             class Bar extends Float16Array {
                 static get [Symbol.species]() { return Float16Array; }
@@ -1122,7 +1110,7 @@ describe("Float16Array", () => {
             const bar = new Bar([1, 2, 3, 4]).subarray(2);
             assert( !(bar instanceof Bar) );
             assert( bar instanceof Float16Array );
-            deepEqualArray( bar, [3, 4] );
+            assert.equalFloat16ArrayValues( bar, [3, 4] );
         });
 
     });
