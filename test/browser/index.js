@@ -42,7 +42,7 @@ module.exports = {
     },
 
     afterEach(client, done) {
-        client.customSauceEnd();
-        setTimeout(done, 500);
+        client.end();
+        client.endSauce(done);
     },
 };

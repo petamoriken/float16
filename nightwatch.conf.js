@@ -3,7 +3,7 @@ const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, GITHUB_RUN_NUMBER, GITHUB_EVENT_NAME }
 module.exports = {
     src_folders: "test/browser",
     output_folder: "test_report",
-    custom_commands_path: "test/nightwatch_custom",
+    custom_commands_path: "./node_modules/nightwatch-saucelabs-endsauce/commands",
 
     test_settings: {
         default: {
