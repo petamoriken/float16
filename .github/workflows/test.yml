@@ -22,10 +22,11 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run: yarn build:lib
+        env:
+          NODE_ENV: test
 
       - run: yarn test
 
       - uses: codecov/codecov-action@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           flags: unittests

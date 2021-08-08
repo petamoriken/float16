@@ -53,7 +53,7 @@
     "test": "nyc --reporter=lcov mocha",
     "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,edge_old,safari,safari_old",
     "setup-test-browser": "http-server docs/test -p 8000 > /dev/null 2>&1 &",
-    "clean": "rm -rf lib browser docs",
+    "clean": "rm -rf lib browser docs coverage .nyc_output",
     "refresh": "yarn run clean && yarn run build && yarn run docs",
     "version": "NPM_VERSION_SCRIPT=1 yarn run refresh && git add -A",
     "prepublishOnly": "yarn run lint && yarn test"
@@ -80,7 +80,8 @@
     "rollup-load-plugins": "^0.4.0",
     "rollup-plugin-babel": "^4.0.1",
     "rollup-plugin-license": "^2.0.0",
-    "rollup-plugin-node-resolve": "^5.0.0"
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "source-map-support": "^0.5.19"
   },
   "dependencies": {
     "lodash": ">=4.17.5 <5.0.0",

@@ -16,5 +16,10 @@
             "extMapping": { ".mjs": ".js" }
         }],
         "add-module-exports"
-    ]
+    ],
+    "env": {
+        "test": {
+            "sourceMaps": "inline"
+        }
+    }
 }

@@ -6212,6 +6212,14 @@ source-map-support@^0.4.0:
   dependencies:
     source-map "^0.5.6"
 
+source-map-support@^0.5.19:
+  version "0.5.19"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
+  integrity sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
 source-map-url@^0.4.0:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.4.1.tgz#0af66605a745a5a2f91cf1bbf8a7afbc283dec56"
@@ -6229,7 +6237,7 @@ source-map@^0.5.0, source-map@^0.5.6:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
 
-source-map@^0.6.1, source-map@~0.6.1:
+source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==

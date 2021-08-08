@@ -1,6 +1,7 @@
 {
   "require": [
     "intelli-espower-loader",
+    "source-map-support/register",
     "./test/lib/setup"
   ]
 }
