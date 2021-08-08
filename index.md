@@ -6,6 +6,7 @@ See [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
 [![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
 [![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
+[![codecov](https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&style=flat-square)](https://codecov.io/gh/petamoriken/float16)
 
 [![Sauce Labs browser matrix](https://saucelabs.com/browser-matrix/petamoriken.svg?)](https://saucelabs.com/u/petamoriken)
 
