@@ -6,15 +6,6 @@
 const maxFloat16 = 65504;
 const minFloat16 = 2 ** -24;
 
-function isPlusZero(num) {
-    return num === 0 && 1 / num === Infinity;
-}
-
-function isMinusZero(num) {
-    return num === 0 && 1 / num === -Infinity;
-}
-
-
 describe("hfround()", () => {
 
     it("property `name` is 'hfround'", () => {
@@ -32,12 +23,12 @@ describe("hfround()", () => {
     });
 
     it("return 0 when value is 0 or null", () => {
-        assert( isPlusZero( hfround(0) ) );
-        assert( isPlusZero( hfround(null) ) );
+        assert( Object.is( hfround(0), 0 ) );
+        assert( Object.is( hfround(null), 0 ) );
     });
 
     it("return -0 when value is -0", () => {
-        assert( isMinusZero( hfround(-0) ) );
+        assert( Object.is( hfround(-0), -0 ) );
     });
 
     it("return ±Infinity when value is ±Infinity", () => {
@@ -51,8 +42,8 @@ describe("hfround()", () => {
     });
 
     it("return ±0 when value is ±Number.MIN_VALUE", () => {
-        assert( isPlusZero( hfround(Number.MIN_VALUE) ) );
-        assert( isMinusZero( hfround(-Number.MIN_VALUE) ) );
+        assert( Object.is( hfround(Number.MIN_VALUE), 0 ) );
+        assert( Object.is( hfround(-Number.MIN_VALUE), -0 ) );
     });
 
     it("return same value when value is ±float16 max/min value", () => {
@@ -67,8 +58,8 @@ describe("hfround()", () => {
     });
 
     it("return 0 when value is ±float16 min value / 2", () => {
-        assert( isPlusZero( hfround(minFloat16 / 2) ) );
-        assert( isMinusZero( hfround(-minFloat16 / 2) ) );
+        assert( Object.is( hfround(minFloat16 / 2), 0 ) );
+        assert( Object.is( hfround(-minFloat16 / 2), -0 ) );
     });
 
     it("return ±float16 min value when value is ±float16 min value / 2 ± a bit number", () => {
