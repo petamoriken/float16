@@ -55,7 +55,7 @@
     "setup-test-browser": "http-server docs/test -p 8000 > /dev/null 2>&1 &",
     "clean": "rm -rf lib browser docs coverage .nyc_output",
     "refresh": "yarn run clean && yarn run build && yarn run docs",
-    "version": "NPM_VERSION_SCRIPT=1 yarn run refresh && git add -A",
+    "version": "NPM_VERSION_SCRIPT=1 yarn run refresh",
     "prepublishOnly": "yarn run lint && yarn test"
   },
   "devDependencies": {
