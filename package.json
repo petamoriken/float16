@@ -45,7 +45,7 @@
     "build": "yarn run build:lib; yarn run build:browser",
     "build:lib": "babel src -d lib",
     "build:browser": "rollup -c",
-    "docs": "mkdir docs && cp README.md docs/index.md; yarn run docs:test",
+    "docs": "mkdir -p docs && cp README.md docs/index.md; yarn run docs:test",
     "docs:test": "mkdir -p docs/test && cp browser/float16.js docs/test/float16.js; yarn run docs:test:assets; yarn run docs:test:dependencies",
     "docs:test:assets": "cp test/*.js docs/test && tools/power; cp test/browser/*.html docs/test",
     "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js $(npm root)/mocha/mocha.css $(npm root)/power-assert/build/power-assert.js docs/test",
