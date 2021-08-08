@@ -7,3 +7,5 @@ node_modules
 /docs
 
 /test_report
+/coverage
+/.nyc_output

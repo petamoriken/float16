@@ -1,4 +1,4 @@
-name: Test
+name: Test & Coverage
 
 on:
   push:
@@ -24,3 +24,8 @@ jobs:
       - run: yarn build:lib
 
       - run: yarn test
+
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
