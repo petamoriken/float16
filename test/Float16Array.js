@@ -4,11 +4,12 @@
 (function () {
 
 assert.equalFloat16ArrayValues = function (float16, array) {
-    const obj = { [Symbol.toStringTag]: "Float16Array" };
+    const prototype = Object.getPrototypeOf(float16);
+    const obj =  Object.create(prototype, { [Symbol.toStringTag]: { value: "Float16Array" } });
     for (const [key, value] of array.entries()) {
         obj[key] = value;
     }
-    assert.deepEqual(float16, obj);
+    assert.deepStrictEqual(float16, obj);
 };
 
 describe("Float16Array", () => {
