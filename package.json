@@ -50,7 +50,7 @@
     "docs:test:assets": "cp test/*.js docs/test && tools/power; cp test/browser/*.html docs/test",
     "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js $(npm root)/mocha/mocha.css $(npm root)/power-assert/build/power-assert.js docs/test",
     "lint": "eslint src/**",
-    "test": "nyc --reporter=lcov mocha",
+    "test": "exit 1",
     "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,edge_old,safari,safari_old",
     "setup-test-browser": "http-server docs/test -p 8000 > /dev/null 2>&1 &",
     "clean": "rm -rf lib browser docs coverage .nyc_output",
