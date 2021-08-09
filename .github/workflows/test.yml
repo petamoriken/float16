@@ -1,4 +1,4 @@
-name: Test & Coverage
+name: Test
 
 on:
   push:
@@ -8,9 +8,10 @@ on:
 
 jobs:
   test:
+    name: Test & Coverage
     runs-on: ubuntu-latest
     if: |
-       github.event_name == 'push' ||
+      github.event_name == 'push' ||
       (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     steps:
@@ -35,9 +36,10 @@ jobs:
           flags: unittests
 
   browser_test:
+    name: Browser Test
     runs-on: ubuntu-latest
     if: |
-       github.event_name == 'push' ||
+      github.event_name == 'push' ||
       (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     steps:

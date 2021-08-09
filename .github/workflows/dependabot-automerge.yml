@@ -6,6 +6,7 @@ on:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
 
@@ -26,6 +27,7 @@ jobs:
       - run: yarn test
 
   browser_test:
+    name: Browser Test
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
 
@@ -60,6 +62,7 @@ jobs:
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
 
   auto_merge:
+    name: Auto-merge
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     needs: [test, browser_test]
