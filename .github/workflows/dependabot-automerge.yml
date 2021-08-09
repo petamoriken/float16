@@ -1,38 +1,36 @@
-name: Browser Test
+name: Dependabot Auto-merge
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
   pull_request_target:
     branches: [master]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
-    if: |
-      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-      (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
+    if: github.actor == 'dependabot[bot]'
 
     steps:
-
-      - id: check
-        uses: shogo82148/actions-check-permissions@v1
-      - name: Check permissions
-        if: steps.check.outputs.permission != 'write'
-        run: exit 1
-
-      - name: Checkout
-        if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-      - name: Checkout PR
-        if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - run: yarn build:lib
+
+      - run: yarn test
+
+  browser_test:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+
+    steps:
+      - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -60,3 +58,13 @@ jobs:
         env:
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+
+  auto_merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    needs: [test, browser_test]
+
+    steps:
+      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          github-token: ${{ secrets.WRITABLE_GITHUB_TOKEN }}

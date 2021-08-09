@@ -7,14 +7,17 @@ on:
     branches: [master]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
+    if: |
+       github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -30,3 +33,44 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           flags: unittests
+
+  browser_test:
+    runs-on: ubuntu-latest
+    if: |
+       github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
+
+    steps:
+      - id: check
+        uses: shogo82148/actions-check-permissions@v1
+      - name: Check permissions
+        if: steps.check.outputs.permission != 'write'
+        run: exit 1
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - uses: saucelabs/sauce-connect-action@v1
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: github-action-tunnel
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - run: yarn build:browser
+      - run: yarn docs
+
+      - name: Start Server
+        run: |
+          yarn setup-test-browser
+          sleep 5
+      - run: yarn test-browser
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
