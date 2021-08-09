@@ -70,4 +70,5 @@ jobs:
     steps:
       - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
+          target: major
           github-token: ${{ secrets.WRITABLE_GITHUB_TOKEN }}
