@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 v3.2.3-16-gdd5b1d8 | MIT License - https://git.io/float16
+ * @petamoriken/float16 v3.2.3-17-gcfade0e | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
