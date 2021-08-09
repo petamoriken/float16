@@ -68,7 +68,6 @@ jobs:
     needs: [test, browser_test]
 
     steps:
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      - uses: ridedott/merge-me-action@v2
         with:
-          target: major
-          github-token: ${{ secrets.WRITABLE_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
