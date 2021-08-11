@@ -1,14 +1,30 @@
 # <a href="https://git.io/float16" target="_blank">@petamoriken/float16</a>
 
-half precision floating point for JavaScript  
-See [ES Discuss Float16Array topic](https://esdiscuss.org/topic/float16array)
+<p align="center">
+    half precision floating point for JavaScript<br>
+    See <a href="https://esdiscuss.org/topic/float16array">ES Discuss Float16Array topic</a>
+</p>
 
-[![npm](https://img.shields.io/npm/v/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
-[![npm downloads](https://img.shields.io/npm/dt/@petamoriken/float16.svg?style=flat-square)](https://www.npmjs.com/package/@petamoriken/float16)
-[![license](https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square)](https://github.com/petamoriken/float16/blob/master/LICENSE)
-[![codecov](https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&style=flat-square)](https://codecov.io/gh/petamoriken/float16)
+<p align="center">
+    <a href="https://www.npmjs.com/package/@petamoriken/float16">
+        <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
+    </a>
+    <a href="https://www.npmjs.com/package/@petamoriken/float16">
+        <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;style=flat-square" alt="npm">
+    </a>
+    <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
+        <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
+    </a>
+    <a href="https://codecov.io/gh/petamoriken/float16">
+        <img src="https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&amp;style=flat-square" alt="codecov">
+    </a>
+</p>
 
-[![Sauce Labs browser matrix](https://saucelabs.com/browser-matrix/petamoriken.svg?)](https://saucelabs.com/u/petamoriken)
+<p align="center">
+    <a href="https://saucelabs.com/u/petamoriken">
+        <img src="https://saucelabs.com/browser-matrix/petamoriken.svg?" alt="Sauce Labs browser matrix" style="background: #eee">
+    </a>
+</p>
 
 ## Install
 
@@ -22,7 +38,7 @@ npm install @petamoriken/float16 --save
 
 ## Require
 
-### Node.js or Bundler (webpack, rollup.js)
+### Node.js or Bundler (webpack, rollup.js, esbuild, etc)
 
 ```js
 // ES Modules
@@ -42,6 +58,23 @@ Copy `browser/float16.js` file to your project directory.
 <script src="DEST/TO/float16.js"></script>
 <script>
     const { Float16Array, getFloat16, setFloat16, hfround } = float16;
+</script>
+```
+
+Or use jsDelivr CDN.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
+<script>
+    const { Float16Array, getFloat16, setFloat16, hfround } = float16;
+</script>
+```
+
+You can use ES Modules with Skypack CDN.
+
+```html
+<script type="module">
+    import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
 </script>
 ```
 
