@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>float16 test (power assert)</title>
-
+    <title>@petamoriken/float16 test (power-assert version)</title>
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="mocha.css">
 </head>
 <body>
-    <h1><a href="https://git.io/float16">float16</a> test (power assert)</h1>
     <div id="mocha"></div>
 
     <script src="mocha.js"></script>
@@ -17,19 +17,19 @@
         Object.assign(window, float16);
     </script>
 
-    <script>
+    <script class="mocha-init">
         mocha.setup({
             ui: "bdd"
         });
+        mocha.checkLeaks();
     </script>
 
     <script src="Float16Array.power.js"></script>
     <script src="dataView.power.js"></script>
     <script src="hfround.power.js"></script>
 
-    <script>
-        mocha.checkLeaks();
+    <script class="mocha-exec">
         mocha.run();
-  </script>
+    </script>
 </body>
 </html>
