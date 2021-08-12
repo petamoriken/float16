@@ -14,11 +14,14 @@ const banner = `<%= pkg.name %> ${ version } | <%= pkg.license %> License - <%= 
 
 export default {
     input: "src/index.mjs",
-    output: {
-        name: "float16",
+    output: [{
         file: "browser/float16.js",
         format: "iife",
-    },
+        name: "float16",
+    }, {
+        file: "browser/float16.mjs",
+        format: "es",
+    }],
     plugins: [
         $.nodeResolve({ browser: true }),
         $.babel({

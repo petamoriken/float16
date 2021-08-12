@@ -52,7 +52,13 @@ const { Float16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/
 
 ### Browser
 
-Copy `browser/float16.js` file to your project directory.
+Serve `browser/float16.mjs` / `browser/float16.js` files from your Web server as JavaScript Content-Type.
+
+```html
+<script type="module">
+    import { Float16Array, getFloat16, setFloat16, hfround } from "DEST/TO/float16.mjs";
+</script>
+```
 
 ```html
 <script src="DEST/TO/float16.js"></script>
@@ -62,6 +68,12 @@ Copy `browser/float16.js` file to your project directory.
 ```
 
 Or use jsDelivr CDN.
+
+```html
+<script type="module">
+    import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.mjs/+esm";
+</script>
+```
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
