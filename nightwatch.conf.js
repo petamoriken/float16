@@ -37,7 +37,6 @@ module.exports = {
 
         chrome: {
             desiredCapabilities: {
-                platform: "Windows 10",
                 browserName: "chrome",
                 version: "latest",
             },
@@ -45,7 +44,6 @@ module.exports = {
 
         chrome_old: {
             desiredCapabilities: {
-                platform: "Windows 10",
                 browserName: "chrome",
                 version: "latest-1",
             },
@@ -53,7 +51,6 @@ module.exports = {
 
         firefox: {
             desiredCapabilities: {
-                platform: "Windows 10",
                 browserName: "firefox",
                 version: "latest",
             },
@@ -61,7 +58,6 @@ module.exports = {
 
         firefox_old: {
             desiredCapabilities: {
-                platform: "Windows 10",
                 browserName: "firefox",
                 version: "latest-1",
             },
@@ -69,7 +65,6 @@ module.exports = {
 
         firefox_esr: {
             desiredCapabilities: {
-                platform: "Windows 10",
                 browserName: "firefox",
                 version: FIREFOX_ESR_VERSION,
             },
@@ -77,7 +72,6 @@ module.exports = {
 
         edge: {
             desiredCapabilities: {
-                platform: "Windows 10",
                 browserName: "MicrosoftEdge",
                 version: "latest",
             },
@@ -85,7 +79,6 @@ module.exports = {
 
         edge_old: {
             desiredCapabilities: {
-                platform: "Windows 10",
                 browserName: "MicrosoftEdge",
                 version: "latest-1",
             },
@@ -93,7 +86,6 @@ module.exports = {
 
         safari: {
             desiredCapabilities: {
-                platform: "macOS 11",
                 browserName: "safari",
                 version: "latest",
             },
@@ -101,9 +93,8 @@ module.exports = {
 
         safari_old: {
             desiredCapabilities: {
-                platform: "macOS 10.15",
                 browserName: "safari",
-                version: "latest",
+                version: "latest-1",
             },
         },
     },
