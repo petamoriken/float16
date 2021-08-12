@@ -1,4 +1,4 @@
-import { isObject } from "./is.mjs";
+import isObject from "lodash-es/isObject.js";
 
 /**
  * @param {unknown} target
