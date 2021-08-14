@@ -2,11 +2,13 @@ name: Unit Tests
 
 on:
   schedule:
-    cron: ['0 17 1 * *']
+    - cron: '0 17 1 * *'
   push:
-    branches: [master]
+    branches:
+      - master
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 permissions:
   contents: read
