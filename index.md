@@ -96,9 +96,9 @@ You can use ES Modules with Skypack CDN.
 import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?dts";
 ```
 
-## Supports (at least)
+## Support
 
-This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
+This package's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 
 `lib/` and `browser/` directories in the npm package have JavaScript files already built, whose target are
 
@@ -106,9 +106,10 @@ This library's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 * Chrome: last 2 versions
 * Edge: last 2 versions
 * Safari: last 2 versions
-* Node.js: latest version
 
-When you build by yourself using webpack or rollup.js for old browsers support, please transpile JavaScript files in `src/` directory.
+However, this package only uses up to the ES2015 features, so you should be able to use it without any problems.
+
+When you build by yourself using bundler for old browsers support, please transpile JavaScript files in `src/` directory.
 
 ## API
 
@@ -171,7 +172,7 @@ hfround(1.337); // 1.3369140625
 
 Built-in `TypedArray` objects use "internal slots" for built-in methods. Some limitations exist because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
 
-This library isn't polyfill, in other words, it doesn't change native global functions and static/prototype methods.
+This package isn't polyfill, in other words, it doesn't change native global functions and static/prototype methods.
 
 E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the `[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object such as `Float16Array`.
 
