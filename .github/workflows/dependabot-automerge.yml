@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   test:
-    name: Test
+    name: Test & Coverage
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
 
@@ -28,6 +28,8 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run: yarn build:lib
+        env:
+          NODE_ENV: test
 
       - run: yarn test
 
