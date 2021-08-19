@@ -1,9 +1,9 @@
 import memoize from "lodash-es/memoize.js";
-import { wrapInArrayIterator } from "./arrayIterator.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./is.mjs";
-import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
-import { createPrivateStorage } from "./private.mjs";
-import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./spec.mjs";
+import { wrapInArrayIterator } from "./helper/arrayIterator.mjs";
+import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./helper/is.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
+import { createPrivateStorage } from "./helper/private.mjs";
+import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./helper/spec.mjs";
 
 const _ = createPrivateStorage();
 

@@ -1,6 +1,7 @@
 {
     "presets": [
         ["@babel/preset-env", {
+            "modules": "commonjs",
             "exclude": [
                 "transform-regenerator"
             ]
@@ -14,8 +15,7 @@
         }],
         ["replace-import-extension", {
             "extMapping": { ".mjs": ".js" }
-        }],
-        "add-module-exports"
+        }]
     ],
     "env": {
         "test": {

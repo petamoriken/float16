@@ -1,5 +1,5 @@
-import { isDataView } from "./is.mjs";
-import { convertToNumber, roundToFloat16Bits } from "./lib.mjs";
+import { isDataView } from "./helper/is.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
 
 /**
  * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView.

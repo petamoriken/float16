@@ -62,7 +62,6 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.9.5",
-    "babel-plugin-add-module-exports": "^1.0.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-replace-import-extension": "^1.1.1",
     "browserslist": "^4.16.7",
