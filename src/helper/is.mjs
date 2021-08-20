@@ -1,16 +1,19 @@
 import isObject from "lodash-es/isObject.js";
+import isObjectLike from "lodash-es/isObjectLike.js";
 import { ToIntegerOrInfinity } from "./spec.mjs";
 
 export { default as isObject } from "lodash-es/isObject.js";
 export { default as isArrayBuffer } from "lodash-es/isArrayBuffer.js";
 export { default as isTypedArray } from "lodash-es/isTypedArray.js";
 
+const toString = Object.prototype.toString;
+
 /**
  * @param {unknown} value
  * @returns {boolean}
  */
 export function isDataView(value) {
-    return ArrayBuffer.isView(value) && Object.prototype.toString.call(value) === "[object DataView]";
+    return ArrayBuffer.isView(value) && toString.call(value) === "[object DataView]";
 }
 
 /**
@@ -18,7 +21,7 @@ export function isDataView(value) {
  * @returns {boolean}
  */
 export function isSharedArrayBuffer(value) {
-    return Object.prototype.toString.call(value) === "[object SharedArrayBuffer]";
+    return isObjectLike(value) && toString.call(value) === "[object SharedArrayBuffer]";
 }
 
 /**
