@@ -1,10 +1,7 @@
 {
     "presets": [
         ["@babel/preset-env", {
-            "modules": "commonjs",
-            "exclude": [
-                "transform-regenerator"
-            ]
+            "modules": "commonjs"
         }]
     ],
     "plugins": [

@@ -26,10 +26,7 @@ export default {
         $.nodeResolve({ browser: true }),
         $.babel({
             babelrc: false,
-            presets: [["@babel/preset-env", {
-                modules: false,
-                exclude: ["transform-regenerator"],
-            }]],
+            presets: ["@babel/preset-env"],
         }),
         $.license({ banner }),
     ],
