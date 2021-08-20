@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 v3.3.0-8-ge70d606 | MIT License - https://git.io/float16
+ * @petamoriken/float16 v3.3.0-9-gc991146 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -1481,9 +1481,9 @@ var float16 = (function (exports) {
           let length; // TypedArray
 
           if (isTypedArray$1(input)) {
-            const buffer = input.buffer;
             list = input;
             length = input.length;
+            const buffer = input.buffer;
             /** @type {ArrayBufferConstructor} */
 
             const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
@@ -1863,26 +1863,31 @@ var float16 = (function (exports) {
 
       set(input, ...opts) {
         assertFloat16ArrayBits(this);
-        const offset = ToIntegerOrInfinity(opts[0]);
+        const targetOffset = ToIntegerOrInfinity(opts[0]);
 
-        if (offset < 0) {
+        if (targetOffset < 0) {
+          throw RangeError("offset is out of bounds");
+        } // for optimization
+
+
+        if (isFloat16ArrayProxy(input)) {
+          const float16bits = _(input).target;
+
+          super.set(float16bits, targetOffset);
+          return;
+        }
+
+        const targetLength = this.length;
+        const src = Object(input);
+        const srcLength = LengthOfArrayLike(src);
+
+        if (targetOffset === Infinity || srcLength + targetOffset > targetLength) {
           throw RangeError("offset is out of bounds");
         }
 
-        let float16bits; // input Float16Array
-
-        if (isFloat16ArrayProxy(input)) {
-          float16bits = _(input).target; // input others
-        } else {
-          const length = LengthOfArrayLike(input);
-          float16bits = new Uint16Array(length);
-
-          for (let i = 0; i < length; ++i) {
-            float16bits[i] = roundToFloat16Bits(input[i]);
-          }
+        for (let i = 0; i < srcLength; ++i) {
+          this[i + targetOffset] = roundToFloat16Bits(src[i]);
         }
-
-        super.set(float16bits, offset);
       }
       /**
        * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reverse
@@ -1972,7 +1977,7 @@ var float16 = (function (exports) {
         const count = final - k > 0 ? final - k : 0;
         const array = new Constructor(count);
 
-        if (count <= 0) {
+        if (count === 0) {
           return array;
         }
 
