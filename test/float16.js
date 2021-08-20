@@ -1,5 +1,5 @@
 /**
- * @petamoriken/float16 v3.3.0-6-geabaa30 | MIT License - https://git.io/float16
+ * @petamoriken/float16 v3.3.0-7-ga8fec86 | MIT License - https://git.io/float16
  *
  * @license
  * lodash-es v4.17.21 | MIT License - https://lodash.com/custom-builds
@@ -1003,6 +1003,34 @@ var float16 = (function (exports) {
     }
 
     /**
+     * Checks if `value` is object-like. A value is object-like if it's not `null`
+     * and has a `typeof` result of "object".
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+     * @example
+     *
+     * _.isObjectLike({});
+     * // => true
+     *
+     * _.isObjectLike([1, 2, 3]);
+     * // => true
+     *
+     * _.isObjectLike(_.noop);
+     * // => false
+     *
+     * _.isObjectLike(null);
+     * // => false
+     */
+    function isObjectLike(value) {
+      return value != null && typeof value == 'object';
+    }
+
+    /**
      * @param {unknown} target
      * @returns {number}
      */
@@ -1122,34 +1150,6 @@ var float16 = (function (exports) {
       }
 
       return 0;
-    }
-
-    /**
-     * Checks if `value` is object-like. A value is object-like if it's not `null`
-     * and has a `typeof` result of "object".
-     *
-     * @static
-     * @memberOf _
-     * @since 4.0.0
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-     * @example
-     *
-     * _.isObjectLike({});
-     * // => true
-     *
-     * _.isObjectLike([1, 2, 3]);
-     * // => true
-     *
-     * _.isObjectLike(_.noop);
-     * // => false
-     *
-     * _.isObjectLike(null);
-     * // => false
-     */
-    function isObjectLike(value) {
-      return value != null && typeof value == 'object';
     }
 
     var arrayBufferTag$1 = '[object ArrayBuffer]';
@@ -1332,13 +1332,14 @@ var float16 = (function (exports) {
     var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
     var isTypedArray$1 = isTypedArray;
 
+    const toString = Object.prototype.toString;
     /**
      * @param {unknown} value
      * @returns {boolean}
      */
 
     function isDataView(value) {
-      return ArrayBuffer.isView(value) && Object.prototype.toString.call(value) === "[object DataView]";
+      return ArrayBuffer.isView(value) && toString.call(value) === "[object DataView]";
     }
     /**
      * @param {unknown} value
@@ -1346,7 +1347,7 @@ var float16 = (function (exports) {
      */
 
     function isSharedArrayBuffer(value) {
-      return Object.prototype.toString.call(value) === "[object SharedArrayBuffer]";
+      return isObjectLike(value) && toString.call(value) === "[object SharedArrayBuffer]";
     }
     /**
      * @param {unknown} value
