@@ -145,6 +145,17 @@ describe("Float16Array", () => {
         assert.equalFloat16ArrayValues( float16_2, [1.099609375, 1.19921875] );
     });
 
+    it("set values", () => {
+        const float16 = new Float16Array(4);
+
+        float16[0] = 1.337;
+        float16[1] = Number.MAX_VALUE;
+        float16[2] = Number.MIN_VALUE;
+        float16[3] = "aaa";
+
+        assert.equalFloat16ArrayValues( float16, [1.3369140625, Infinity, 0, NaN] );
+    });
+
     it("iterate", () => {
         const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
