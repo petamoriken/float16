@@ -415,7 +415,7 @@ describe("Float16Array", () => {
             assert( Float16Array.prototype.at.name === "at" );
         });
 
-        it("property `length` is 0", () => {
+        it("property `length` is 1", () => {
             assert( Float16Array.prototype.at.length === 1 );
         });
 
@@ -905,6 +905,10 @@ describe("Float16Array", () => {
 
             assert( float16.set(arrayLike, 2) === undefined );
             assert.equalFloat16ArrayValues( float16, [1, 2, 10, 11, 5] );
+
+            const str = "89";
+            assert( float16.set(str, 1) === undefined );
+            assert.equalFloat16ArrayValues( float16, [1, 8, 9, 11, 5] );
         });
 
         it("set Iterable (no effect)", () => {
@@ -929,6 +933,7 @@ describe("Float16Array", () => {
 
             assert.throws(() => float16.set(array, -1), RangeError);
             assert.throws(() => float16.set(array, 4), RangeError);
+            assert.throws(() => float16.set(array, Infinity), RangeError);
         });
 
     });

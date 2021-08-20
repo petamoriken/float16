@@ -117,11 +117,10 @@ export default class Float16Array extends Uint16Array {
 
             // TypedArray
             if (isTypedArray(input)) {
-                const buffer = input.buffer;
-
                 list = input;
                 length = input.length;
 
+                const buffer = input.buffer;
                 /** @type {ArrayBufferConstructor} */
                 const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
                 const data = new BufferConstructor(length * 2);
@@ -501,27 +500,30 @@ export default class Float16Array extends Uint16Array {
     set(input, ...opts) {
         assertFloat16ArrayBits(this);
 
-        const offset = ToIntegerOrInfinity(opts[0]);
-        if (offset < 0) {
+        const targetOffset = ToIntegerOrInfinity(opts[0]);
+        if (targetOffset < 0) {
             throw RangeError("offset is out of bounds");
         }
 
-        let float16bits;
-
-        // input Float16Array
+        // for optimization
         if (isFloat16ArrayProxy(input)) {
-            float16bits = _(input).target;
-
-        // input others
-        } else {
-            const length = LengthOfArrayLike(input);
-            float16bits = new Uint16Array(length);
-            for (let i = 0; i < length; ++i) {
-                float16bits[i] = roundToFloat16Bits(input[i]);
-            }
+            const float16bits = _(input).target;
+            super.set(float16bits, targetOffset);
+            return;
         }
 
-        super.set(float16bits, offset);
+        const targetLength = this.length;
+
+        const src = Object(input);
+        const srcLength = LengthOfArrayLike(src);
+
+        if (targetOffset === Infinity || srcLength + targetOffset > targetLength) {
+            throw RangeError("offset is out of bounds");
+        }
+
+        for (let i = 0; i < srcLength; ++i) {
+            this[i + targetOffset] = roundToFloat16Bits(src[i]);
+        }
     }
 
     /**
@@ -613,7 +615,7 @@ export default class Float16Array extends Uint16Array {
         const count = final - k > 0 ? final - k : 0;
         const array = new Constructor(count);
 
-        if (count <= 0) {
+        if (count === 0) {
             return array;
         }
 
