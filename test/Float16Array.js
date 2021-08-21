@@ -1,33 +1,37 @@
 /* eslint-env mocha */
 /* global assert Float16Array */
 
-(function () {
-
-assert.equalFloat16ArrayValues = function (_float16, _array) {
-    const float16 = [];
-    for (let i = 0, l = _float16.length; i < l; ++i) {
-        // old assert.deepStrictEqual (power-assert) cannot compare NaN
-        if (typeof window !== "undefined" && Number.isNaN(_float16[i])) {
-            float16[i] = "NaN";
-        } else {
-            float16[i] = _float16[i];
-        }
-    }
-
-    const array = [];
-    for (let i = 0, l = _array.length; i < l; ++i) {
-        // old assert.deepStrictEqual (power-assert) cannot compare NaN
-        if (typeof window !== "undefined" && Number.isNaN(_array[i])) {
-            array[i] = "NaN";
-        } else {
-            array[i] = _array[i];
-        }
-    }
-
-    assert.deepStrictEqual(float16, array);
-};
-
 describe("Float16Array", () => {
+
+    before(() => {
+        assert.equalFloat16ArrayValues = function (_float16, _array) {
+            const float16 = [];
+            for (let i = 0, l = _float16.length; i < l; ++i) {
+                // old assert.deepStrictEqual (power-assert) cannot compare NaN
+                if (typeof window !== "undefined" && Number.isNaN(_float16[i])) {
+                    float16[i] = "NaN";
+                } else {
+                    float16[i] = _float16[i];
+                }
+            }
+
+            const array = [];
+            for (let i = 0, l = _array.length; i < l; ++i) {
+                // old assert.deepStrictEqual (power-assert) cannot compare NaN
+                if (typeof window !== "undefined" && Number.isNaN(_array[i])) {
+                    array[i] = "NaN";
+                } else {
+                    array[i] = _array[i];
+                }
+            }
+
+            assert.deepStrictEqual(float16, array);
+        };
+    });
+
+    after(() => {
+        assert.equalFloat16ArrayValues = null;
+    });
 
     it("property `name` is 'Float16Array'", () => {
         assert( Float16Array.name === "Float16Array" );
@@ -1278,5 +1282,3 @@ describe("Float16Array", () => {
     });
 
 });
-
-})();

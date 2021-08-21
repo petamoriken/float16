@@ -1,38 +1,39 @@
 /* eslint-env mocha */
 /* global assert getFloat16 setFloat16 */
 
-(function () {
-
-const buffer = new ArrayBuffer(2);
-const dataView = new DataView(buffer);
-
-function clear() {
-    new Uint16Array(buffer)[0] = 0;
-}
-
-let realmDataView;
-
-if (typeof require !== "undefined") {
-    realmDataView = require("vm").runInNewContext(`
-        const buffer = new ArrayBuffer(2);
-        new DataView(buffer);
-    `);
-} else {
-    const iframe = document.createElement("iframe");
-    iframe.height = iframe.width = 0;
-    document.body.appendChild(iframe);
-
-    const iframeDocument = iframe.contentDocument;
-    iframeDocument.write(`<script>
-        const buffer = new ArrayBuffer(2);
-        window.realmDataView = new DataView(buffer);
-    </script>`);
-    realmDataView = iframe.contentWindow.realmDataView;
-
-    iframeDocument.close();
-}
-
 describe("additional DataView methods", () => {
+
+    const buffer = new ArrayBuffer(2);
+    const dataView = new DataView(buffer);
+
+    function clear() {
+        new Uint16Array(buffer)[0] = 0;
+    }
+
+    /** @type {DataView} */
+    let realmDataView;
+
+    before(() => {
+        if (typeof require !== "undefined") {
+            realmDataView = require("vm").runInNewContext(`
+                const buffer = new ArrayBuffer(2);
+                new DataView(buffer);
+            `);
+        } else {
+            const iframe = document.createElement("iframe");
+            iframe.height = iframe.width = 0;
+            document.body.appendChild(iframe);
+
+            const iframeDocument = iframe.contentDocument;
+            iframeDocument.write(`<script>
+                const buffer = new ArrayBuffer(2);
+                window.realmDataView = new DataView(buffer);
+            </script>`);
+            realmDataView = iframe.contentWindow.realmDataView;
+
+            iframeDocument.close();
+        }
+    });
 
     describe("getFloat16()", () => {
 
@@ -109,5 +110,3 @@ describe("additional DataView methods", () => {
     });
 
 });
-
-})();

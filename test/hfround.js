@@ -1,12 +1,10 @@
 /* eslint-env mocha */
 /* global assert hfround */
 
-(function () {
-
-const maxFloat16 = 65504;
-const minFloat16 = 2 ** -24;
-
 describe("hfround()", () => {
+
+    const maxFloat16 = 65504;
+    const minFloat16 = 2 ** -24;
 
     it("property `name` is 'hfround'", () => {
         assert( hfround.name === "hfround" );
@@ -71,5 +69,3 @@ describe("hfround()", () => {
         assert( hfround(1.337) === 1.3369140625 );
     });
 });
-
-})();
