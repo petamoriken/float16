@@ -8,3 +8,6 @@ updates:
       timezone: "Asia/Tokyo"
     labels:
       - "dependencies"
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "all"
