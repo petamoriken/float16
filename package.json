@@ -62,6 +62,8 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.9.5",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-replace-import-extension": "^1.1.1",
     "browserslist": "^4.16.7",
@@ -77,10 +79,7 @@
     "nyc": "^15.1.0",
     "power-assert": "^1.4.2",
     "rollup": "^2.6.0",
-    "rollup-load-plugins": "^0.4.0",
-    "rollup-plugin-babel": "^4.0.1",
     "rollup-plugin-license": "^2.0.0",
-    "rollup-plugin-node-resolve": "^5.0.0",
     "source-map-support": "^0.5.19"
   },
   "dependencies": {

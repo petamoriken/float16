@@ -1,7 +1,7 @@
 import { execSync } from "child_process";
-import loadPlugins from "rollup-load-plugins";
-
-const $ = loadPlugins();
+import babel from "@rollup/plugin-babel";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import license from "rollup-plugin-license";
 
 const version = process.env.NPM_VERSION_SCRIPT === "1" ? `v${ process.env.npm_package_version }` :
     execSync("git describe").toString().trim();
@@ -23,11 +23,12 @@ export default {
         format: "es",
     }],
     plugins: [
-        $.nodeResolve({ browser: true }),
-        $.babel({
+        nodeResolve({ browser: true }),
+        babel({
             babelrc: false,
             presets: ["@babel/preset-env"],
+            babelHelpers: "bundled",
         }),
-        $.license({ banner }),
+        license({ banner }),
     ],
 };
