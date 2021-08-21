@@ -5,11 +5,6 @@
         }]
     ],
     "plugins": [
-        ["module-resolver", {
-            "alias": {
-                "lodash-es": "lodash"
-            }
-        }],
         ["replace-import-extension", {
             "extMapping": { ".mjs": ".js" }
         }]

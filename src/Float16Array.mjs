@@ -1,4 +1,3 @@
-import memoize from "lodash-es/memoize.js";
 import { wrapInArrayIterator } from "./helper/arrayIterator.mjs";
 import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./helper/is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
@@ -566,9 +565,7 @@ export default class Float16Array extends Uint16Array {
         assertFloat16ArrayBits(this);
 
         const compareFunction = opts[0] !== undefined ? opts[0] : defaultCompareFunction;
-        const _convertToNumber = memoize(convertToNumber);
-
-        super.sort((x, y) => { return compareFunction(_convertToNumber(x), _convertToNumber(y)); });
+        super.sort((x, y) => { return compareFunction(convertToNumber(x), convertToNumber(y)); });
 
         return _(this).proxy;
     }

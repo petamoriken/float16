@@ -1,5 +1,10 @@
-import isObject from "lodash-es/isObject.js";
-
+/**
+ * @param {unknown} value
+ * @returns {boolean}
+ */
+function isObject(value) {
+    return (value !== null && typeof value === "object") || typeof value === "function";
+}
 /**
  * @param {unknown} target
  * @returns {number}

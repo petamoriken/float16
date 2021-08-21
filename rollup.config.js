@@ -1,16 +1,13 @@
 import { execSync } from "child_process";
 import babel from "@rollup/plugin-babel";
 import nodeResolve from "@rollup/plugin-node-resolve";
-import license from "rollup-plugin-license";
 
-const version = process.env.NPM_VERSION_SCRIPT === "1" ? `v${ process.env.npm_package_version }` :
-    execSync("git describe").toString().trim();
+const name = process.env.npm_package_name;
+const version = process.env.NPM_VERSION_SCRIPT === "1" ? `v${ process.env.npm_package_version }` : execSync("git describe").toString().trim();
+const license = process.env.npm_package_license;
+const homepage = process.env.npm_package_homepage;
 
-const banner = `<%= pkg.name %> ${ version } | <%= pkg.license %> License - <%= pkg.homepage %>
-
-@license<% _.forEach(dependencies, function (dependency) { %>
-  <%= dependency.name %> v<%= dependency.version %> | <%= dependency.license %> License - <%= dependency.homepage %>
-<% }) %>`;
+const banner = `/*! ${ name } ${ version } | ${ license } License - ${ homepage } */\n`;
 
 export default {
     input: "src/index.mjs",
@@ -18,9 +15,11 @@ export default {
         file: "browser/float16.js",
         format: "iife",
         name: "float16",
+        banner,
     }, {
         file: "browser/float16.mjs",
         format: "es",
+        banner,
     }],
     plugins: [
         nodeResolve({ browser: true }),
@@ -29,6 +28,5 @@ export default {
             presets: ["@babel/preset-env"],
             babelHelpers: "bundled",
         }),
-        license({ banner }),
     ],
 };
