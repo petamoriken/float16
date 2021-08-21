@@ -1,6 +1,5 @@
 import { execSync } from "child_process";
 import babel from "@rollup/plugin-babel";
-import nodeResolve from "@rollup/plugin-node-resolve";
 
 const name = process.env.npm_package_name;
 const version = process.env.NPM_VERSION_SCRIPT === "1" ? `v${ process.env.npm_package_version }` : execSync("git describe").toString().trim();
@@ -22,7 +21,6 @@ export default {
         banner,
     }],
     plugins: [
-        nodeResolve({ browser: true }),
         babel({
             babelrc: false,
             presets: ["@babel/preset-env"],
