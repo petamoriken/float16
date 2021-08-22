@@ -6,23 +6,23 @@
 </p>
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/@petamoriken/float16">
+    <a href="https://www.npmjs.com/package/@petamoriken/float16" target="_blank">
         <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
     </a>
-    <a href="https://www.npmjs.com/package/@petamoriken/float16">
+    <a href="https://www.npmjs.com/package/@petamoriken/float16" target="_blank">
         <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;style=flat-square" alt="npm">
     </a>
-    <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
+    <a href="https://github.com/petamoriken/float16/blob/master/LICENSE" target="_blank">
         <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
     </a>
-    <a href="https://codecov.io/gh/petamoriken/float16">
+    <a href="https://codecov.io/gh/petamoriken/float16" target="_blank">
         <img src="https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&amp;style=flat-square" alt="codecov">
     </a>
 </p>
 
 <p align="center">
-    <a href="https://saucelabs.com/u/petamoriken">
-        <img src="https://saucelabs.com/browser-matrix/petamoriken.svg?" alt="Sauce Labs browser matrix" style="background: #eee">
+    <a href="https://saucelabs.com/u/petamoriken" target="_blank">
+        <img src="https://saucelabs.com/browser-matrix/petamoriken.svg" alt="Sauce Labs browser matrix">
     </a>
 </p>
 
@@ -36,7 +36,7 @@ yarn add @petamoriken/float16
 npm install @petamoriken/float16 --save
 ```
 
-## Require
+## Import
 
 ### Node.js or Bundler (webpack, rollup.js, esbuild, etc)
 
@@ -52,39 +52,44 @@ const { Float16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/
 
 ### Browser
 
-Serve `browser/float16.mjs` / `browser/float16.js` files from your Web server as JavaScript Content-Type.
+Serve `browser/float16.mjs` / `browser/float16.js` files from your Web server as the JavaScript `Content-Type`.
 
 ```html
+<!-- Module Scripts -->
 <script type="module">
     import { Float16Array, getFloat16, setFloat16, hfround } from "DEST/TO/float16.mjs";
 </script>
 ```
 
 ```html
+<!-- Classic Scripts -->
 <script src="DEST/TO/float16.js"></script>
 <script>
     const { Float16Array, getFloat16, setFloat16, hfround } = float16;
 </script>
 ```
 
-Or use jsDelivr CDN.
+Or use [jsDelivr](https://www.jsdelivr.com/) CDN.
 
 ```html
+<!-- Module Scripts -->
 <script type="module">
-    import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.mjs/+esm";
+    import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
 </script>
 ```
 
 ```html
+<!-- Classic Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
 <script>
     const { Float16Array, getFloat16, setFloat16, hfround } = float16;
 </script>
 ```
 
-You can use ES Modules with Skypack CDN.
+ES modules are also available on the [Skypack](https://www.skypack.dev/) CDN.
 
 ```html
+<!-- Module Scripts -->
 <script type="module">
     import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
 </script>
@@ -107,15 +112,15 @@ This package's `Float16Array` uses `Proxy` object, so IE11 is never supported.
 * Edge: last 2 versions
 * Safari: last 2 versions
 
-However, this package only uses up to the ES2015 features, so you should be able to use it without any problems.
+However, **this package only uses up to the ES2015 features**, so you should be able to use it without any problems.
 
-When you build by yourself using bundler for old browsers support, please transpile JavaScript files in `src/` directory.
+If you build it yourself using bundler to support older browsers, transpile the JavaScript files in the `src/` directory.
 
 ## API
 
 ### `Float16Array`
 
-This API is similar to `TypedArray` such as `Float32Array`.
+This API is similar to `TypedArray` such as `Float32Array` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)).
 
 ```js
 const array = new Float16Array([1.0, 1.1, 1.2]);
@@ -133,7 +138,7 @@ declare function getFloat16(view: DataView, byteOffset: number, littleEndian?: b
 declare function setFloat16(view: DataView, byteOffset: number, value: number, littleEndian?: boolean): void;
 ```
 
-These APIs are similar to `DataView` methods such as `DataView#getFloat32` and `DataView#setFloat32`.
+These APIs are similar to `DataView` methods such as `DataView#getFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/getFloat32)) and `DataView#setFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/setFloat32)).
 
 ```js
 const buffer = new ArrayBuffer(10);
@@ -166,7 +171,16 @@ Math.fround(1.337); // 1.3370000123977661
 hfround(1.337); // 1.3369140625
 ```
 
-## Limitations
+## `Float16Array` Limitations
+
+### `instanceof` operator
+
+Since `Float16Array` is made by inheriting from `Uint16Array`, it doesn't work if the instanceof operator is used to detect `Uint16Array`.
+
+```js
+new Float32Array(10) instanceof Uint16Array; // false
+new Float16Array(10) instanceof Uint16Array; // true
+```
 
 ### Built-in functions
 
@@ -181,7 +195,7 @@ ArrayBuffer.isView(new Float32Array(10)); // true
 ArrayBuffer.isView(new Float16Array(10)); // false
 ```
 
-### `Float16Array` prototype methods
+### Prototype methods
 
 Due to implementation reasons, some details of `Float16Array` prototype methods may differ from the ECMAScript specification. See JSDoc comments in `src/Float16Array.mjs`.
 
@@ -191,7 +205,6 @@ WebGL requires `Uint16Array` for buffer or texture data whose types are `gl.HALF
 
 ```js
 // WebGL 2 example
-
 const vertices = new Float16Array([
     -0.5, -0.5,  0,
      0.5, -0.5,  0,
@@ -200,10 +213,13 @@ const vertices = new Float16Array([
 
 const buffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-gl.bufferData(gl.ARRAY_BUFFER, new Uint16Array( vertices.buffer ), gl.STATIC_DRAW); // wrap in Uint16Array
-gl.enableVertexAttribArray(location);
+
+// wrap in Uint16Array
+gl.bufferData(gl.ARRAY_BUFFER, new Uint16Array(vertices.buffer), gl.STATIC_DRAW);
 gl.vertexAttribPointer(location, 3, gl.HALF_FLOAT, false, 0, 0);
+
 gl.bindBuffer(gl.ARRAY_BUFFER, null);
+gl.enableVertexAttribArray(location);
 ```
 
 ## Build
