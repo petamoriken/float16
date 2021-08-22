@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.2-5-g5570f79 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.2-7-g961344f | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -271,7 +271,7 @@ var float16 = (function (exports) {
      * @returns {-1 | 0 | 1}
      */
 
-    function defaultCompareFunction(x, y) {
+    function defaultCompare(x, y) {
       const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
 
       if (isNaN_x && isNaN_y) {
@@ -437,7 +437,7 @@ var float16 = (function (exports) {
     /** @type {ProxyHandler<Function>} */
 
 
-    const applyHandler = {
+    const applyHandler = Object.freeze({
       apply(func, thisArg, args) {
         // peel off proxy
         if (isFloat16ArrayProxy(thisArg)) {
@@ -447,10 +447,10 @@ var float16 = (function (exports) {
         return Reflect.apply(func, thisArg, args);
       }
 
-    };
+    });
     /** @type {ProxyHandler<Float16Array>} */
 
-    const handler = {
+    const handler = Object.freeze({
       get(target, key) {
         if (isCanonicalIntegerIndexString(key)) {
           return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
@@ -480,7 +480,7 @@ var float16 = (function (exports) {
         }
       }
 
-    };
+    });
     class Float16Array extends Uint16Array {
       /**
        * @see https://tc39.es/ecma262/#sec-typedarray
@@ -500,7 +500,7 @@ var float16 = (function (exports) {
             /** @type {ArrayBufferConstructor} */
 
             const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
-            const data = new BufferConstructor(length * 2);
+            const data = new BufferConstructor(length * Uint16Array.BYTES_PER_ELEMENT);
             super(data); // Iterable (Array)
           } else if (isIterable(input)) {
             list = [...input];
@@ -939,9 +939,9 @@ var float16 = (function (exports) {
 
       sort(...opts) {
         assertFloat16BitsArray(this);
-        const compareFunction = opts[0] !== undefined ? opts[0] : defaultCompareFunction;
+        const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
         super.sort((x, y) => {
-          return compareFunction(convertToNumber(x), convertToNumber(y));
+          return compare(convertToNumber(x), convertToNumber(y));
         });
         return _(this).proxy;
       }
