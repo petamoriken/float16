@@ -1,7 +1,5 @@
 import { ToIntegerOrInfinity } from "./spec.mjs";
 
-const toString = Object.prototype.toString;
-
 /**
  * @param {unknown} value
  * @returns {boolean}
@@ -18,6 +16,8 @@ function isObjectLike(value) {
     return value !== null && typeof value === "object";
 }
 
+const toString = Object.prototype.toString;
+
 /**
  * @param {unknown} value
  * @returns {boolean}
@@ -26,26 +26,16 @@ export function isDataView(value) {
     return ArrayBuffer.isView(value) && toString.call(value) === "[object DataView]";
 }
 
-const typedArrayTags = new Set([
-    "[object Float32Array]",
-    "[object Float64Array]",
-    "[object Int8Array]",
-    "[object Int16Array]",
-    "[object Int32Array]",
-    "[object Uint8Array]",
-    "[object Uint8ClampedArray]",
-    "[object Uint16Array]",
-    "[object Uint32Array]",
-    "[object BigInt64Array]",
-    "[object BigUint64Array]",
-]);
+// Inspired by util.types implementation of Node.js
+const TypedArrayPrototype = Object.getPrototypeOf(Uint8Array).prototype;
+const getTypedArrayPrototypeSybolToStringTag = Object.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
 
 /**
  * @param {unknown} value
  * @returns {boolean}
  */
 export function isTypedArray(value) {
-    return ArrayBuffer.isView(value) && typedArrayTags.has(toString.call(value));
+    return getTypedArrayPrototypeSybolToStringTag.call(value) !== undefined;
 }
 
 /**
