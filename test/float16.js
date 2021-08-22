@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.2-7-g961344f | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.2-8-g1492375 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -453,7 +453,8 @@ var float16 = (function (exports) {
     const handler = Object.freeze({
       get(target, key) {
         if (isCanonicalIntegerIndexString(key)) {
-          return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
+          const raw = Reflect.get(target, key);
+          return raw !== undefined ? convertToNumber(raw) : undefined;
         } else {
           const ret = Reflect.get(target, key);
 
@@ -481,6 +482,7 @@ var float16 = (function (exports) {
       }
 
     });
+    const hasOwnProperty = Object.prototype.hasOwnProperty;
     class Float16Array extends Uint16Array {
       /**
        * @see https://tc39.es/ecma262/#sec-typedarray
@@ -1037,7 +1039,7 @@ var float16 = (function (exports) {
         }
 
         for (let i = from, l = length; i < l; ++i) {
-          if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
+          if (hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
             return i;
           }
         }
@@ -1065,7 +1067,7 @@ var float16 = (function (exports) {
         }
 
         for (let i = from; i >= 0; --i) {
-          if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
+          if (hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
             return i;
           }
         }

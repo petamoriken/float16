@@ -168,7 +168,7 @@ describe("Float16Array", () => {
         assert.equalFloat16ArrayValues( float16_2, [1.099609375, 1.19921875] );
     });
 
-    it("set values", () => {
+    it("set & get values", () => {
         const float16 = new Float16Array(4);
 
         float16[0] = 1.337;
@@ -177,6 +177,17 @@ describe("Float16Array", () => {
         float16[3] = "aaa";
 
         assert.equalFloat16ArrayValues( float16, [1.3369140625, Infinity, 0, NaN] );
+
+        float16.foo = "foo";
+        assert( float16.foo === "foo" );
+
+        // not integer
+        float16[0.5] = 1.337;
+        assert( float16[0.5] === undefined );
+
+        // out of range
+        float16[10] = 1.337;
+        assert( float16[10] === undefined );
     });
 
     it("iterate", () => {
