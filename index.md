@@ -171,7 +171,7 @@ Math.fround(1.337); // 1.3370000123977661
 hfround(1.337); // 1.3369140625
 ```
 
-## `Float16Array` limitations
+## `Float16Array` limitations (edge cases)
 
 ### The `instanceof` operator
 
