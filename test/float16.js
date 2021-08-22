@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.2-4-g2e3635d | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.2-5-g5570f79 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -309,7 +309,6 @@ var float16 = (function (exports) {
       return 0;
     }
 
-    const toString = Object.prototype.toString;
     /**
      * @param {unknown} value
      * @returns {boolean}
@@ -326,23 +325,26 @@ var float16 = (function (exports) {
     function isObjectLike(value) {
       return value !== null && typeof value === "object";
     }
+
+    const toString = Object.prototype.toString;
     /**
      * @param {unknown} value
      * @returns {boolean}
      */
 
-
     function isDataView(value) {
       return ArrayBuffer.isView(value) && toString.call(value) === "[object DataView]";
-    }
-    const typedArrayTags = new Set(["[object Float32Array]", "[object Float64Array]", "[object Int8Array]", "[object Int16Array]", "[object Int32Array]", "[object Uint8Array]", "[object Uint8ClampedArray]", "[object Uint16Array]", "[object Uint32Array]", "[object BigInt64Array]", "[object BigUint64Array]"]);
+    } // Inspired by util.types implementation of Node.js
+
+    const TypedArrayPrototype = Object.getPrototypeOf(Uint8Array).prototype;
+    const getTypedArrayPrototypeSybolToStringTag = Object.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
     /**
      * @param {unknown} value
      * @returns {boolean}
      */
 
     function isTypedArray(value) {
-      return ArrayBuffer.isView(value) && typedArrayTags.has(toString.call(value));
+      return getTypedArrayPrototypeSybolToStringTag.call(value) !== undefined;
     }
     /**
      * @param {unknown} value
