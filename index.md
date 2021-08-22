@@ -171,16 +171,31 @@ Math.fround(1.337); // 1.3370000123977661
 hfround(1.337); // 1.3369140625
 ```
 
-## `Float16Array` Limitations
+## `Float16Array` limitations
 
-### `instanceof` operator
+### The `instanceof` operator
 
-Since `Float16Array` is made by inheriting from `Uint16Array`, it doesn't work if the instanceof operator is used to detect `Uint16Array`.
+Since `Float16Array` is made by inheriting from `Uint16Array`, it doesn't work if the `instanceof` operator is used to detect a `Uint16Array`.
 
 ```js
-new Float32Array(10) instanceof Uint16Array; // false
+new Uint16Array(10) instanceof Uint16Array; // true
 new Float16Array(10) instanceof Uint16Array; // true
 ```
+
+Actually, I could use `Proxy`'s `getPrototypeOf` handler to trap it, but that would be too complex and have some limitations.
+
+In addition, it is a bad idea to use `instanceof` to detect the type of `TypedArray`, because it can't be used to detect the type of objects from other Realms, such as iframe and vm. It is recommended to use `Object#toString` or `@@toStringTag` for this purpose.
+
+```js
+function isUint16Array(target) {
+    if (target === null || typeof target !== "object") {
+        return false;
+    }
+    return Object.prototype.toString.call(target) === "[object Uint16Array]";
+}
+```
+
+For Node.js, you can use `util.types.isUint16Array` ([document](https://nodejs.org/api/util.html#util_util_types_isuint16array_value)) instead. `@@toStringTag` seems to be used for [its implementation](https://github.com/nodejs/node/blob/v16.x/lib/internal/util/types.js).
 
 ### Built-in functions
 
@@ -197,7 +212,7 @@ ArrayBuffer.isView(new Float16Array(10)); // false
 
 ### Prototype methods
 
-Due to implementation reasons, some details of `Float16Array` prototype methods may differ from the ECMAScript specification. See JSDoc comments in `src/Float16Array.mjs`.
+Due to implementation reasons, some details of `Float16Array` prototype methods may differ from the ECMAScript specification. See JSDoc comments in `src/Float16Array.mjs` for details.
 
 ### WebGL
 
