@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Test
 
 on:
   schedule:
@@ -14,8 +14,42 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Test & Coverage
+  module_test_node:
+    name: ES Modules Test (Node.js)
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'schedule' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+
+      - run: node test/src/index.mjs
+
+  module_test_deno:
+    name: ES Modules Test (Deno)
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'schedule' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - run: deno run test/src/index.mjs
+
+  unit_test:
+    name: Unit Test & Coverage
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'schedule' ||

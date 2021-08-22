@@ -10,8 +10,8 @@ permissions:
   pull-requests: read
 
 jobs:
-  test:
-    name: Test & Coverage
+  unit_test:
+    name: Unit Test & Coverage
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
 
@@ -76,7 +76,7 @@ jobs:
     name: Auto-merge
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
-    needs: [test, browser_test]
+    needs: [unit_test, browser_test]
 
     steps:
       - uses: ridedott/merge-me-action@v2
