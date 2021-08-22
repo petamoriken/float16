@@ -10,30 +10,20 @@ describe("additional DataView methods", () => {
         new Uint16Array(buffer)[0] = 0;
     }
 
-    /** @type {DataView} */
-    let realmDataView;
+    /** @type {DataViewConstructor} */
+    let AnotherRealmDataView;
 
-    before(() => {
-        if (typeof require !== "undefined") {
-            realmDataView = require("vm").runInNewContext(`
-                const buffer = new ArrayBuffer(2);
-                new DataView(buffer);
-            `);
-        } else {
-            const iframe = document.createElement("iframe");
-            iframe.height = iframe.width = 0;
-            document.body.appendChild(iframe);
-
-            const iframeDocument = iframe.contentDocument;
-            iframeDocument.write(`<script>
-                const buffer = new ArrayBuffer(2);
-                window.realmDataView = new DataView(buffer);
-            </script>`);
-            realmDataView = iframe.contentWindow.realmDataView;
-
-            iframeDocument.close();
-        }
-    });
+    if (typeof window !== "undefined") {
+        const iframe = document.createElement("iframe");
+        iframe.height = iframe.width = 0;
+        document.body.appendChild(iframe);
+        AnotherRealmDataView = iframe.contentWindow.DataView;
+        iframe.remove();
+    } else if (typeof global !== "undefined" && typeof require !== "undefined") {
+        AnotherRealmDataView = require("vm").runInNewContext("DataView");
+    } else {
+        throw new Error("Unexpected environment.");
+    }
 
     describe("getFloat16()", () => {
 
@@ -67,7 +57,7 @@ describe("additional DataView methods", () => {
         });
 
         it("work with DataView from anothor realm", () => {
-            assert.doesNotThrow(() => getFloat16(realmDataView, 0));
+            assert.doesNotThrow(() => getFloat16(new AnotherRealmDataView(buffer), 0));
         });
 
     });
@@ -104,7 +94,7 @@ describe("additional DataView methods", () => {
         });
 
         it("work with DataView from anothor realm", () => {
-            assert.doesNotThrow(() => setFloat16(realmDataView, 0, 0));
+            assert.doesNotThrow(() => setFloat16(new AnotherRealmDataView(buffer), 0, 0));
         });
 
     });
