@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-/* global assert Float16Array */
+/* global assert Float16Array SharedArrayBuffer */
 
 describe("Float16Array", () => {
 
@@ -86,6 +86,25 @@ describe("Float16Array", () => {
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
         assert( float16.buffer instanceof FooArrayBuffer );
+        assert( float16.buffer !== buffer );
+    });
+
+    it("input TypedArray with CustomSharedArrayBuffer", function () {
+        if (typeof SharedArrayBuffer === "undefined") {
+            this.skip();
+        }
+
+        class FooSharedArrayBuffer extends SharedArrayBuffer {}
+        const buffer = new FooSharedArrayBuffer(16);
+
+        const float16 = new Float16Array( new Float32Array(buffer) );
+
+        assert( float16.BYTES_PER_ELEMENT === 2 );
+        assert( float16.byteOffset === 0 );
+        assert( float16.byteLength === 8 );
+        assert( float16.length === 4 );
+        assert( !(float16.buffer instanceof FooSharedArrayBuffer) );
+        assert( float16.buffer !== buffer );
     });
 
     it("input Iterable", () => {
