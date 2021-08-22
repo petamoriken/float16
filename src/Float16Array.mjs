@@ -18,7 +18,7 @@ function isFloat16ArrayProxy(target) {
  * @param {unknown} target
  * @returns {boolean}
  */
- function isFloat16ArrayBits(target) {
+function isFloat16BitsArray(target) {
     return target instanceof Float16Array && _(target).proxy !== undefined;
 }
 
@@ -26,8 +26,8 @@ function isFloat16ArrayProxy(target) {
  * @param {unknown} target
  * @throws {TypeError}
  */
-function assertFloat16ArrayBits(target) {
-    if (!isFloat16ArrayBits(target)) {
+function assertFloat16BitsArray(target) {
+    if (!isFloat16BitsArray(target)) {
         throw new TypeError("This is not a Float16Array");
     }
 }
@@ -41,15 +41,15 @@ function isDefaultFloat16ArrayMethods(target) {
 }
 
 /**
- * @param {Float16Array} float16bits
+ * @param {Float16Array} float16bitsArray
  * @return {number[]}
  */
-function copyToArray(float16bits) {
-    const length = float16bits.length;
+function copyToArray(float16bitsArray) {
+    const length = float16bitsArray.length;
 
     const array = [];
     for (let i = 0; i < length; ++i) {
-        array.push(convertToNumber(float16bits[i]));
+        array.push(convertToNumber(float16bitsArray[i]));
     }
 
     return array;
@@ -202,10 +202,10 @@ export default class Float16Array extends Uint16Array {
         const length = items.length;
 
         const proxy = new Float16Array(length);
-        const float16bits = _(proxy).target;
+        const float16bitsArray = _(proxy).target;
 
         for (let i = 0; i < length; ++i) {
-            float16bits[i] = roundToFloat16Bits(items[i]);
+            float16bitsArray[i] = roundToFloat16Bits(items[i]);
         }
 
         return proxy;
@@ -215,7 +215,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys
      */
     keys() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         return super.keys();
     }
@@ -225,7 +225,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
      */
     values() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const arrayIterator = super.values();
         return wrapInArrayIterator((function* () {
@@ -240,7 +240,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
      */
     entries() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const arrayIterator = super.entries();
         return wrapInArrayIterator((function* () {
@@ -254,7 +254,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/proposal-relative-indexing-method/#sec-%typedarray%.prototype.at
      */
     at(index) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const length = this.length;
         const relativeIndex = ToIntegerOrInfinity(index);
@@ -271,7 +271,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map
      */
     map(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -282,11 +282,11 @@ export default class Float16Array extends Uint16Array {
         // for optimization
         if (Constructor === Float16Array) {
             const proxy = new Float16Array(length);
-            const float16bits = _(proxy).target;
+            const float16bitsArray = _(proxy).target;
 
             for (let i = 0; i < length; ++i) {
                 const val = convertToNumber(this[i]);
-                float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
+                float16bitsArray[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
             }
 
             return proxy;
@@ -306,7 +306,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.filter
      */
     filter(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -328,7 +328,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduce
      */
     reduce(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const length = this.length;
         if (length === 0 && opts.length === 0) {
@@ -355,7 +355,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduceright
      */
     reduceRight(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const length = this.length;
         if (length === 0 && opts.length === 0) {
@@ -382,7 +382,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.foreach
      */
     forEach(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -395,7 +395,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.find
      */
     find(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -411,7 +411,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.findindex
      */
     findIndex(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -429,7 +429,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlast
      */
     findLast(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -445,7 +445,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlastindex
      */
     findLastIndex(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -463,7 +463,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.every
      */
     every(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -480,7 +480,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.some
      */
     some(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const thisArg = opts[0];
 
@@ -497,7 +497,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.set
      */
     set(input, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const targetOffset = ToIntegerOrInfinity(opts[0]);
         if (targetOffset < 0) {
@@ -506,8 +506,8 @@ export default class Float16Array extends Uint16Array {
 
         // for optimization
         if (isFloat16ArrayProxy(input)) {
-            const float16bits = _(input).target;
-            super.set(float16bits, targetOffset);
+            const float16bitsArray = _(input).target;
+            super.set(float16bitsArray, targetOffset);
             return;
         }
 
@@ -529,7 +529,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reverse
      */
     reverse() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         super.reverse();
 
@@ -540,7 +540,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill
      */
     fill(value, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         super.fill(roundToFloat16Bits(value), ...opts);
 
@@ -551,7 +551,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.copywithin
      */
     copyWithin(target, start, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         super.copyWithin(target, start, ...opts);
 
@@ -562,7 +562,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort
      */
     sort(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const compareFunction = opts[0] !== undefined ? opts[0] : defaultCompareFunction;
         super.sort((x, y) => { return compareFunction(convertToNumber(x), convertToNumber(y)); });
@@ -574,16 +574,16 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice
      */
     slice(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const Constructor = SpeciesConstructor(this, Float16Array);
 
         // for optimization
         if (Constructor === Float16Array) {
             const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-            const float16bits = uint16.slice(...opts);
+            const float16bitsArray = uint16.slice(...opts);
 
-            const proxy = new Float16Array(float16bits.buffer);
+            const proxy = new Float16Array(float16bitsArray.buffer);
             return proxy;
         }
 
@@ -630,13 +630,13 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray
      */
     subarray(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-        const float16bits = uint16.subarray(...opts);
+        const float16bitsArray = uint16.subarray(...opts);
 
         const Constructor = SpeciesConstructor(this, Float16Array);
-        const array = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
+        const array = new Constructor(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
 
         return array;
     }
@@ -645,7 +645,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.indexof
      */
     indexOf(element, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const length = this.length;
 
@@ -674,7 +674,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.lastindexof
      */
     lastIndexOf(element, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const length = this.length;
 
@@ -702,7 +702,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.includes
      */
     includes(element, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const length = this.length;
 
@@ -738,7 +738,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.join
      */
     join(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const array = copyToArray(this);
 
@@ -749,7 +749,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring
      */
     toLocaleString(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
 
         const array = copyToArray(this);
 
@@ -760,7 +760,7 @@ export default class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag
      */
     get [Symbol.toStringTag]() {
-        if (isFloat16ArrayBits(this)) {
+        if (isFloat16BitsArray(this)) {
             return "Float16Array";
         }
     }
