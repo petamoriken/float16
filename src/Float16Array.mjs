@@ -71,7 +71,8 @@ const applyHandler = Object.freeze({
 const handler = Object.freeze({
     get(target, key) {
         if (isCanonicalIntegerIndexString(key)) {
-            return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
+            const raw = Reflect.get(target, key);
+            return raw !== undefined ? convertToNumber(raw) : undefined;
         } else {
             const ret = Reflect.get(target, key);
 
@@ -98,6 +99,8 @@ const handler = Object.freeze({
         }
     },
 });
+
+const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 export default class Float16Array extends Uint16Array {
 
@@ -662,7 +665,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         for (let i = from, l = length; i < l; ++i) {
-            if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
+            if (hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
                 return i;
             }
         }
@@ -690,7 +693,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         for (let i = from; i >= 0; --i) {
-            if (Object.prototype.hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
+            if (hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
                 return i;
             }
         }
