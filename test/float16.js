@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.2-2-g7634740 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.2-3-g2b5cace | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -393,7 +393,7 @@ var float16 = (function (exports) {
      */
 
 
-    function isFloat16ArrayBits(target) {
+    function isFloat16BitsArray(target) {
       return target instanceof Float16Array && _(target).proxy !== undefined;
     }
     /**
@@ -402,8 +402,8 @@ var float16 = (function (exports) {
      */
 
 
-    function assertFloat16ArrayBits(target) {
-      if (!isFloat16ArrayBits(target)) {
+    function assertFloat16BitsArray(target) {
+      if (!isFloat16BitsArray(target)) {
         throw new TypeError("This is not a Float16Array");
       }
     }
@@ -417,17 +417,17 @@ var float16 = (function (exports) {
       return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
     }
     /**
-     * @param {Float16Array} float16bits
+     * @param {Float16Array} float16bitsArray
      * @return {number[]}
      */
 
 
-    function copyToArray(float16bits) {
-      const length = float16bits.length;
+    function copyToArray(float16bitsArray) {
+      const length = float16bitsArray.length;
       const array = [];
 
       for (let i = 0; i < length; ++i) {
-        array.push(convertToNumber(float16bits[i]));
+        array.push(convertToNumber(float16bitsArray[i]));
       }
 
       return array;
@@ -571,10 +571,10 @@ var float16 = (function (exports) {
         const length = items.length;
         const proxy = new Float16Array(length);
 
-        const float16bits = _(proxy).target;
+        const float16bitsArray = _(proxy).target;
 
         for (let i = 0; i < length; ++i) {
-          float16bits[i] = roundToFloat16Bits(items[i]);
+          float16bitsArray[i] = roundToFloat16Bits(items[i]);
         }
 
         return proxy;
@@ -585,7 +585,7 @@ var float16 = (function (exports) {
 
 
       keys() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         return super.keys();
       }
       /**
@@ -595,7 +595,7 @@ var float16 = (function (exports) {
 
 
       values() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const arrayIterator = super.values();
         return wrapInArrayIterator(function* () {
           for (const val of arrayIterator) {
@@ -610,7 +610,7 @@ var float16 = (function (exports) {
 
 
       entries() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const arrayIterator = super.entries();
         return wrapInArrayIterator(function* () {
           for (const [i, val] of arrayIterator) {
@@ -624,7 +624,7 @@ var float16 = (function (exports) {
 
 
       at(index) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const length = this.length;
         const relativeIndex = ToIntegerOrInfinity(index);
         const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
@@ -641,7 +641,7 @@ var float16 = (function (exports) {
 
 
       map(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
         const length = this.length;
         const Constructor = SpeciesConstructor(this, Float16Array); // for optimization
@@ -649,11 +649,11 @@ var float16 = (function (exports) {
         if (Constructor === Float16Array) {
           const proxy = new Float16Array(length);
 
-          const float16bits = _(proxy).target;
+          const float16bitsArray = _(proxy).target;
 
           for (let i = 0; i < length; ++i) {
             const val = convertToNumber(this[i]);
-            float16bits[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
+            float16bitsArray[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
           }
 
           return proxy;
@@ -674,7 +674,7 @@ var float16 = (function (exports) {
 
 
       filter(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
         const kept = [];
 
@@ -696,7 +696,7 @@ var float16 = (function (exports) {
 
 
       reduce(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const length = this.length;
 
         if (length === 0 && opts.length === 0) {
@@ -725,7 +725,7 @@ var float16 = (function (exports) {
 
 
       reduceRight(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const length = this.length;
 
         if (length === 0 && opts.length === 0) {
@@ -754,7 +754,7 @@ var float16 = (function (exports) {
 
 
       forEach(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -767,7 +767,7 @@ var float16 = (function (exports) {
 
 
       find(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -784,7 +784,7 @@ var float16 = (function (exports) {
 
 
       findIndex(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -803,7 +803,7 @@ var float16 = (function (exports) {
 
 
       findLast(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
 
         for (let i = this.length - 1; i >= 0; --i) {
@@ -820,7 +820,7 @@ var float16 = (function (exports) {
 
 
       findLastIndex(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
 
         for (let i = this.length - 1; i >= 0; --i) {
@@ -839,7 +839,7 @@ var float16 = (function (exports) {
 
 
       every(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -856,7 +856,7 @@ var float16 = (function (exports) {
 
 
       some(callback, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const thisArg = opts[0];
 
         for (let i = 0, l = this.length; i < l; ++i) {
@@ -873,7 +873,7 @@ var float16 = (function (exports) {
 
 
       set(input, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const targetOffset = ToIntegerOrInfinity(opts[0]);
 
         if (targetOffset < 0) {
@@ -882,9 +882,9 @@ var float16 = (function (exports) {
 
 
         if (isFloat16ArrayProxy(input)) {
-          const float16bits = _(input).target;
+          const float16bitsArray = _(input).target;
 
-          super.set(float16bits, targetOffset);
+          super.set(float16bitsArray, targetOffset);
           return;
         }
 
@@ -906,7 +906,7 @@ var float16 = (function (exports) {
 
 
       reverse() {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         super.reverse();
         return _(this).proxy;
       }
@@ -916,7 +916,7 @@ var float16 = (function (exports) {
 
 
       fill(value, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         super.fill(roundToFloat16Bits(value), ...opts);
         return _(this).proxy;
       }
@@ -926,7 +926,7 @@ var float16 = (function (exports) {
 
 
       copyWithin(target, start, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         super.copyWithin(target, start, ...opts);
         return _(this).proxy;
       }
@@ -936,7 +936,7 @@ var float16 = (function (exports) {
 
 
       sort(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const compareFunction = opts[0] !== undefined ? opts[0] : defaultCompareFunction;
         super.sort((x, y) => {
           return compareFunction(convertToNumber(x), convertToNumber(y));
@@ -949,13 +949,13 @@ var float16 = (function (exports) {
 
 
       slice(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const Constructor = SpeciesConstructor(this, Float16Array); // for optimization
 
         if (Constructor === Float16Array) {
           const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-          const float16bits = uint16.slice(...opts);
-          const proxy = new Float16Array(float16bits.buffer);
+          const float16bitsArray = uint16.slice(...opts);
+          const proxy = new Float16Array(float16bitsArray.buffer);
           return proxy;
         }
 
@@ -1005,11 +1005,11 @@ var float16 = (function (exports) {
 
 
       subarray(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-        const float16bits = uint16.subarray(...opts);
+        const float16bitsArray = uint16.subarray(...opts);
         const Constructor = SpeciesConstructor(this, Float16Array);
-        const array = new Constructor(float16bits.buffer, float16bits.byteOffset, float16bits.length);
+        const array = new Constructor(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
         return array;
       }
       /**
@@ -1018,7 +1018,7 @@ var float16 = (function (exports) {
 
 
       indexOf(element, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const length = this.length;
         let from = ToIntegerOrInfinity(opts[0]);
 
@@ -1048,7 +1048,7 @@ var float16 = (function (exports) {
 
 
       lastIndexOf(element, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const length = this.length;
         let from = opts.length >= 1 ? ToIntegerOrInfinity(opts[0]) : length - 1;
 
@@ -1076,7 +1076,7 @@ var float16 = (function (exports) {
 
 
       includes(element, ...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const length = this.length;
         let from = ToIntegerOrInfinity(opts[0]);
 
@@ -1114,7 +1114,7 @@ var float16 = (function (exports) {
 
 
       join(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const array = copyToArray(this);
         return array.join(...opts);
       }
@@ -1124,7 +1124,7 @@ var float16 = (function (exports) {
 
 
       toLocaleString(...opts) {
-        assertFloat16ArrayBits(this);
+        assertFloat16BitsArray(this);
         const array = copyToArray(this);
         return array.toLocaleString(...opts);
       }
@@ -1134,7 +1134,7 @@ var float16 = (function (exports) {
 
 
       get [Symbol.toStringTag]() {
-        if (isFloat16ArrayBits(this)) {
+        if (isFloat16BitsArray(this)) {
           return "Float16Array";
         }
       }
