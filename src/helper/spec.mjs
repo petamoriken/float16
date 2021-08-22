@@ -83,7 +83,7 @@ export function SpeciesConstructor(target, defaultConstructor) {
  * @param {number} y
  * @returns {-1 | 0 | 1}
  */
-export function defaultCompareFunction(x, y) {
+export function defaultCompare(x, y) {
     const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
 
     if (isNaN_x && isNaN_y) {

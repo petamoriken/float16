@@ -2,7 +2,7 @@ import { wrapInArrayIterator } from "./helper/arrayIterator.mjs";
 import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./helper/is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
 import { createPrivateStorage } from "./helper/private.mjs";
-import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompareFunction } from "./helper/spec.mjs";
+import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompare } from "./helper/spec.mjs";
 
 const _ = createPrivateStorage();
 
@@ -56,7 +56,7 @@ function copyToArray(float16bitsArray) {
 }
 
 /** @type {ProxyHandler<Function>} */
-const applyHandler = {
+const applyHandler = Object.freeze({
     apply(func, thisArg, args) {
         // peel off proxy
         if (isFloat16ArrayProxy(thisArg)) {
@@ -65,10 +65,10 @@ const applyHandler = {
 
         return Reflect.apply(func, thisArg, args);
     },
-};
+});
 
 /** @type {ProxyHandler<Float16Array>} */
-const handler = {
+const handler = Object.freeze({
     get(target, key) {
         if (isCanonicalIntegerIndexString(key)) {
             return Reflect.has(target, key) ? convertToNumber(Reflect.get(target, key)) : undefined;
@@ -97,7 +97,7 @@ const handler = {
             return Reflect.set(target, key, value);
         }
     },
-};
+});
 
 export default class Float16Array extends Uint16Array {
 
@@ -122,7 +122,7 @@ export default class Float16Array extends Uint16Array {
                 const buffer = input.buffer;
                 /** @type {ArrayBufferConstructor} */
                 const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
-                const data = new BufferConstructor(length * 2);
+                const data = new BufferConstructor(length * Uint16Array.BYTES_PER_ELEMENT);
                 super(data);
 
             // Iterable (Array)
@@ -564,8 +564,8 @@ export default class Float16Array extends Uint16Array {
     sort(...opts) {
         assertFloat16BitsArray(this);
 
-        const compareFunction = opts[0] !== undefined ? opts[0] : defaultCompareFunction;
-        super.sort((x, y) => { return compareFunction(convertToNumber(x), convertToNumber(y)); });
+        const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
+        super.sort((x, y) => { return compare(convertToNumber(x), convertToNumber(y)); });
 
         return _(this).proxy;
     }
