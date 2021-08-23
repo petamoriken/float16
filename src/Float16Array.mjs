@@ -55,6 +55,23 @@ function assertFloat16BitsArray(target) {
 }
 
 /**
+ * peel off Proxy
+ * @param {Float16Array} float16
+ * @return {Float16Array}
+ */
+function getFloat16BitsArrayFromFloat16Array(float16) {
+    let target = _(float16).target;
+
+    // from another realm
+    if (target === undefined) {
+        const clone = new Float16Array(float16.buffer, float16.byteOffset, float16.length);
+        target = _(float16).target = _(clone).target;
+    }
+
+    return target;
+}
+
+/**
  * @param {unknown} target
  * @returns {boolean}
  */
@@ -80,9 +97,10 @@ function copyToArray(float16bitsArray) {
 /** @type {ProxyHandler<Function>} */
 const applyHandler = Object.freeze({
     apply(func, thisArg, args) {
-        // peel off proxy
+        // peel off Proxy
         if (isFloat16Array(thisArg)) {
-            return Reflect.apply(func, _(thisArg).target, args);
+            const target = getFloat16BitsArrayFromFloat16Array(thisArg);
+            return Reflect.apply(func, target, args);
         }
 
         return Reflect.apply(func, thisArg, args);
@@ -135,7 +153,8 @@ export class Float16Array extends Uint16Array {
     constructor(input, byteOffset, length) {
         // input Float16Array
         if (isFloat16Array(input)) {
-            super(_(input).target);
+            // peel off Proxy
+            super(getFloat16BitsArrayFromFloat16Array(input));
 
         // object without ArrayBuffer
         } else if (isObject(input) && !isArrayBuffer(input)) {
@@ -232,7 +251,7 @@ export class Float16Array extends Uint16Array {
         const length = items.length;
 
         const proxy = new Float16Array(length);
-        const float16bitsArray = _(proxy).target;
+        const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
 
         for (let i = 0; i < length; ++i) {
             float16bitsArray[i] = roundToFloat16Bits(items[i]);
@@ -312,7 +331,7 @@ export class Float16Array extends Uint16Array {
         // for optimization
         if (Constructor === Float16Array) {
             const proxy = new Float16Array(length);
-            const float16bitsArray = _(proxy).target;
+            const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
 
             for (let i = 0; i < length; ++i) {
                 const val = convertToNumber(this[i]);
@@ -536,7 +555,8 @@ export class Float16Array extends Uint16Array {
 
         // for optimization
         if (isFloat16Array(input)) {
-            const float16bitsArray = _(input).target;
+            // peel off Proxy
+            const float16bitsArray = getFloat16BitsArrayFromFloat16Array(input);
             super.set(float16bitsArray, targetOffset);
             return;
         }
