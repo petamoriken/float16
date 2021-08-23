@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 import { execSync } from "child_process";
 import babel from "@rollup/plugin-babel";
 
