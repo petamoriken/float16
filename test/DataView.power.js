@@ -29,17 +29,19 @@ describe('additional DataView methods', () => {
         new Uint16Array(buffer)[0] = 0;
     }
     let AnotherRealmDataView;
-    if (typeof window !== 'undefined') {
-        const iframe = document.createElement('iframe');
-        iframe.height = iframe.width = 0;
-        document.body.appendChild(iframe);
-        AnotherRealmDataView = iframe.contentWindow.DataView;
-        iframe.remove();
-    } else if (typeof global !== 'undefined' && typeof require !== 'undefined') {
-        AnotherRealmDataView = require('vm').runInNewContext('DataView');
-    } else {
-        throw new Error('Unexpected environment.');
-    }
+    before(() => {
+        if (typeof window !== 'undefined') {
+            const iframe = document.createElement('iframe');
+            iframe.height = iframe.width = 0;
+            document.body.appendChild(iframe);
+            AnotherRealmDataView = iframe.contentWindow.DataView;
+            iframe.remove();
+        } else if (typeof global !== 'undefined' && typeof require !== 'undefined') {
+            AnotherRealmDataView = require('vm').runInNewContext('DataView');
+        } else {
+            throw new Error('Unexpected environment.');
+        }
+    });
     describe('getFloat16()', () => {
         beforeEach(clear);
         it('property `name` is \'getFloat16\'', () => {
@@ -47,7 +49,7 @@ describe('additional DataView methods', () => {
             assert(_rec1._expr(_rec1._capt(_rec1._capt(_rec1._capt(getFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'getFloat16', 'arguments/0'), {
                 content: 'assert(getFloat16.name === "getFloat16")',
                 filepath: 'test/DataView.js',
-                line: 33
+                line: 35
             }));
         });
         it('property `length` is 2', () => {
@@ -55,7 +57,7 @@ describe('additional DataView methods', () => {
             assert(_rec2._expr(_rec2._capt(_rec2._capt(_rec2._capt(getFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
                 content: 'assert(getFloat16.length === 2)',
                 filepath: 'test/DataView.js',
-                line: 37
+                line: 39
             }));
         });
         it('first argument must be DataView instance', () => {
@@ -75,13 +77,13 @@ describe('additional DataView methods', () => {
             assert(_rec3._expr(_rec3._capt(_rec3._capt(getFloat16(_rec3._capt(dataView, 'arguments/0/left/arguments/0'), 0), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
                 content: 'assert(getFloat16(dataView, 0) === 0.0007572174072265625)',
                 filepath: 'test/DataView.js',
-                line: 53
+                line: 55
             }));
             dataView.setUint16(0, 4660, true);
             assert(_rec4._expr(_rec4._capt(_rec4._capt(getFloat16(_rec4._capt(dataView, 'arguments/0/left/arguments/0'), 0, true), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
                 content: 'assert(getFloat16(dataView, 0, true) === 0.0007572174072265625)',
                 filepath: 'test/DataView.js',
-                line: 56
+                line: 58
             }));
         });
         it('work with DataView from anothor realm', () => {
@@ -95,7 +97,7 @@ describe('additional DataView methods', () => {
             assert(_rec5._expr(_rec5._capt(_rec5._capt(_rec5._capt(setFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'setFloat16', 'arguments/0'), {
                 content: 'assert(setFloat16.name === "setFloat16")',
                 filepath: 'test/DataView.js',
-                line: 70
+                line: 72
             }));
         });
         it('property `length` is 3', () => {
@@ -103,7 +105,7 @@ describe('additional DataView methods', () => {
             assert(_rec6._expr(_rec6._capt(_rec6._capt(_rec6._capt(setFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
                 content: 'assert(setFloat16.length === 3)',
                 filepath: 'test/DataView.js',
-                line: 74
+                line: 76
             }));
         });
         it('first argument must be DataView instance', () => {
@@ -123,13 +125,13 @@ describe('additional DataView methods', () => {
             assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(dataView, 'arguments/0/left/callee/object').getUint16(0), 'arguments/0/left') === 4660, 'arguments/0'), {
                 content: 'assert(dataView.getUint16(0) === 0x1234)',
                 filepath: 'test/DataView.js',
-                line: 90
+                line: 92
             }));
             setFloat16(dataView, 0, 0.0007572174072265625, true);
             assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(dataView, 'arguments/0/left/callee/object').getUint16(0, true), 'arguments/0/left') === 4660, 'arguments/0'), {
                 content: 'assert(dataView.getUint16(0, true) === 0x1234)',
                 filepath: 'test/DataView.js',
-                line: 93
+                line: 95
             }));
         });
         it('work with DataView from anothor realm', () => {

@@ -5,16 +5,30 @@ describe("Float16Array", () => {
 
     let AnotherRealmFloat16Array;
 
-    if (typeof window !== "undefined") {
-        const iframe = document.createElement("iframe");
-        iframe.height = iframe.width = 0;
-        document.body.appendChild(iframe);
-        iframe.contentDocument.write('<script src="float16.js"></script>');
-        AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
-        iframe.remove();
-    }
+    before(async () => {
+        if (typeof window !== "undefined") {
+            const iframe = document.createElement("iframe");
+            iframe.height = iframe.width = 0;
+            document.body.appendChild(iframe);
+            try {
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement("script");
+                    script.src = "float16.js";
 
-    before(() => {
+                    const id = setTimeout(reject, 30000);
+                    script.onload = () => { clearTimeout(id); resolve(); };
+                    script.onerror = () => { clearTimeout(id); reject(); };
+
+                    iframe.contentDocument.body.appendChild(script);
+                });
+                AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
+            } catch (e) {
+                // empty
+            } finally {
+                iframe.remove();
+            }
+        }
+
         assert.equalFloat16ArrayValues = function (_float16, _array) {
             const float16 = [];
             for (let i = 0, l = _float16.length; i < l; ++i) {
@@ -96,7 +110,8 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        assert( float16.buffer instanceof FooArrayBuffer );
+        // Safari 13 bug
+        // assert( float16.buffer instanceof FooArrayBuffer );
         assert( float16.buffer !== buffer );
     });
 
@@ -114,7 +129,8 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        assert( !(float16.buffer instanceof FooSharedArrayBuffer) );
+        // Safari 13 bug
+        // assert( !(float16.buffer instanceof FooSharedArrayBuffer) );
         assert( float16.buffer !== buffer );
     });
 
@@ -1387,14 +1403,30 @@ describe("isFloat16Array", () => {
 
     let AnotherRealmFloat16Array;
 
-    if (typeof window !== "undefined") {
-        const iframe = document.createElement("iframe");
-        iframe.height = iframe.width = 0;
-        document.body.appendChild(iframe);
-        iframe.contentDocument.write('<script src="float16.js"></script>');
-        AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
-        iframe.remove();
-    }
+    before(async () => {
+        if (typeof window !== "undefined") {
+            const iframe = document.createElement("iframe");
+            iframe.height = iframe.width = 0;
+            document.body.appendChild(iframe);
+            try {
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement("script");
+                    script.src = "float16.js";
+
+                    const id = setTimeout(reject, 30000);
+                    script.onload = () => { clearTimeout(id); resolve(); };
+                    script.onerror = () => { clearTimeout(id); reject(); };
+
+                    iframe.contentDocument.body.appendChild(script);
+                });
+                AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
+            } catch (e) {
+                // empty
+            } finally {
+                iframe.remove();
+            }
+        }
+    });
 
     it("property `name` is 'isFloat16Array'", () => {
         assert( isFloat16Array.name === "isFloat16Array" );
@@ -1421,8 +1453,12 @@ describe("isFloat16Array", () => {
         assert( isFloat16Array("") === false );
         assert( isFloat16Array("foo") === false );
         assert( isFloat16Array(Symbol()) === false );
-        assert( isFloat16Array(BigInt(0)) === false );
-        assert( isFloat16Array(BigInt(1)) === false );
+
+        // Safari 13 doesn't have BigInt
+        if (typeof BigInt !== "undefined") {
+            assert( isFloat16Array(BigInt(0)) === false );
+            assert( isFloat16Array(BigInt(1)) === false );
+        }
 
         assert( isFloat16Array({}) === false );
         assert( isFloat16Array([]) === false );
