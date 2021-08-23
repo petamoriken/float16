@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.3-7-g67420da | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.3-8-gb98cb03 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -441,6 +441,24 @@ var float16 = (function (exports) {
       }
     }
     /**
+     * peel off Proxy
+     * @param {Float16Array} float16
+     * @return {Float16Array}
+     */
+
+
+    function getFloat16BitsArrayFromFloat16Array(float16) {
+      let target = _(float16).target; // from another realm
+
+
+      if (target === undefined) {
+        const clone = new Float16Array(float16.buffer, float16.byteOffset, float16.length);
+        target = _(float16).target = _(clone).target;
+      }
+
+      return target;
+    }
+    /**
      * @param {unknown} target
      * @returns {boolean}
      */
@@ -470,9 +488,10 @@ var float16 = (function (exports) {
 
     const applyHandler = Object.freeze({
       apply(func, thisArg, args) {
-        // peel off proxy
+        // peel off Proxy
         if (isFloat16Array(thisArg)) {
-          return Reflect.apply(func, _(thisArg).target, args);
+          const target = getFloat16BitsArrayFromFloat16Array(thisArg);
+          return Reflect.apply(func, target, args);
         }
 
         return Reflect.apply(func, thisArg, args);
@@ -525,7 +544,8 @@ var float16 = (function (exports) {
       constructor(input, byteOffset, length) {
         // input Float16Array
         if (isFloat16Array(input)) {
-          super(_(input).target); // object without ArrayBuffer
+          // peel off Proxy
+          super(getFloat16BitsArrayFromFloat16Array(input)); // object without ArrayBuffer
         } else if (isObject(input) && !isArrayBuffer(input)) {
           let list;
           let length; // TypedArray
@@ -611,8 +631,7 @@ var float16 = (function (exports) {
       static of(...items) {
         const length = items.length;
         const proxy = new Float16Array(length);
-
-        const float16bitsArray = _(proxy).target;
+        const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
 
         for (let i = 0; i < length; ++i) {
           float16bitsArray[i] = roundToFloat16Bits(items[i]);
@@ -689,8 +708,7 @@ var float16 = (function (exports) {
 
         if (Constructor === Float16Array) {
           const proxy = new Float16Array(length);
-
-          const float16bitsArray = _(proxy).target;
+          const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
 
           for (let i = 0; i < length; ++i) {
             const val = convertToNumber(this[i]);
@@ -923,8 +941,8 @@ var float16 = (function (exports) {
 
 
         if (isFloat16Array(input)) {
-          const float16bitsArray = _(input).target;
-
+          // peel off Proxy
+          const float16bitsArray = getFloat16BitsArrayFromFloat16Array(input);
           super.set(float16bitsArray, targetOffset);
           return;
         }

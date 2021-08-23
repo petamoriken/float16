@@ -1,7 +1,18 @@
-/* eslint-env mocha, es2020 */
+/* eslint-env mocha, browser, node, es2020 */
 /* global assert Float16Array isFloat16Array */
 
 describe("Float16Array", () => {
+
+    let AnotherRealmFloat16Array;
+
+    if (typeof window !== "undefined") {
+        const iframe = document.createElement("iframe");
+        iframe.height = iframe.width = 0;
+        document.body.appendChild(iframe);
+        iframe.contentDocument.write('<script src="float16.js"></script>');
+        AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
+        iframe.remove();
+    }
 
     before(() => {
         assert.equalFloat16ArrayValues = function (_float16, _array) {
@@ -133,17 +144,58 @@ describe("Float16Array", () => {
         assert.equalFloat16ArrayValues( float16, checkArray );
     });
 
-    it("input myself (Float16Array)", () => {
+    it("input Float16Array", () => {
         const array = [1, 1.1, 1.2, 1.3];
         const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
-        const float16 = new Float16Array( new Float16Array(array) );
+        const float16_1 = new Float16Array( new Float16Array(array) );
 
-        assert( float16.BYTES_PER_ELEMENT === 2 );
-        assert( float16.byteOffset === 0 );
-        assert( float16.byteLength === 8 );
-        assert( float16.length === 4 );
-        assert.equalFloat16ArrayValues( float16, checkArray );
+        assert( float16_1.BYTES_PER_ELEMENT === 2 );
+        assert( float16_1.byteOffset === 0 );
+        assert( float16_1.byteLength === 8 );
+        assert( float16_1.length === 4 );
+        assert.equalFloat16ArrayValues( float16_1, checkArray );
+
+        class FooArrayBuffer extends ArrayBuffer {}
+        const buffer = new FooArrayBuffer(16);
+
+        const float16_2 = new Float16Array( new Float16Array(buffer) );
+
+        assert( float16_2.BYTES_PER_ELEMENT === 2 );
+        assert( float16_2.byteOffset === 0 );
+        assert( float16_2.byteLength === 16 );
+        assert( float16_2.length === 8 );
+        assert( float16_2.buffer instanceof FooArrayBuffer );
+        assert( float16_2.buffer !== buffer );
+    });
+
+    it("input Float16Array from another realm", function () {
+        if (AnotherRealmFloat16Array === undefined) {
+            this.skip();
+        }
+
+        const array = [1, 1.1, 1.2, 1.3];
+        const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+        const float16_1 = new Float16Array( new AnotherRealmFloat16Array(array) );
+
+        assert( float16_1.BYTES_PER_ELEMENT === 2 );
+        assert( float16_1.byteOffset === 0 );
+        assert( float16_1.byteLength === 8 );
+        assert( float16_1.length === 4 );
+        assert.equalFloat16ArrayValues( float16_1, checkArray );
+
+        class FooArrayBuffer extends ArrayBuffer {}
+        const buffer = new FooArrayBuffer(16);
+
+        const float16_2 = new Float16Array( new AnotherRealmFloat16Array(buffer) );
+
+        assert( float16_2.BYTES_PER_ELEMENT === 2 );
+        assert( float16_2.byteOffset === 0 );
+        assert( float16_2.byteLength === 16 );
+        assert( float16_2.length === 8 );
+        assert( float16_2.buffer instanceof FooArrayBuffer );
+        assert( float16_2.buffer !== buffer );
     });
 
     it("input ArrayBuffer", () => {
@@ -295,7 +347,7 @@ describe("Float16Array", () => {
             assert.equalFloat16ArrayValues( float16, checkArray );
         });
 
-        it("input myself (Float16Array)", () => {
+        it("input Float16Array", () => {
             const array = [1, 1.1, 1.2, 1.3];
             const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
@@ -307,14 +359,20 @@ describe("Float16Array", () => {
 
         it("check mapFn callback arguments", () => {
             const thisArg = {};
+            const checkArray = [2];
 
-            Float16Array.from([1], function (val, key) {
+            const float16 = Float16Array.from([1], function (val, key) {
 
                 assert( val === 1 );
                 assert( key === 0 );
                 assert( this === thisArg );
 
+                return 2;
+
             }, thisArg);
+
+            assert( float16 instanceof Float16Array );
+            assert.equalFloat16ArrayValues( float16, checkArray );
         });
 
     });
@@ -964,11 +1022,23 @@ describe("Float16Array", () => {
             assert.equalFloat16ArrayValues( float16, [1, 2, 3, 4, 5] );
         });
 
-        it("set myself (Float16Array)", () => {
+        it("set Float16Array", () => {
             const float16 = new Float16Array([1, 2, 3, 4, 5]);
             const array = [10, 11];
 
             assert( float16.set(new Float16Array(array), 2) === undefined );
+            assert.equalFloat16ArrayValues( float16, [1, 2, 10, 11, 5] );
+        });
+
+        it("set Float16Array from another realm", function () {
+            if (AnotherRealmFloat16Array === undefined) {
+                this.skip();
+            }
+
+            const float16 = new Float16Array([1, 2, 3, 4, 5]);
+            const array = [10, 11];
+
+            assert( float16.set(new AnotherRealmFloat16Array(array), 2) === undefined );
             assert.equalFloat16ArrayValues( float16, [1, 2, 10, 11, 5] );
         });
 
@@ -1315,6 +1385,17 @@ describe("Float16Array", () => {
 
 describe("isFloat16Array", () => {
 
+    let AnotherRealmFloat16Array;
+
+    if (typeof window !== "undefined") {
+        const iframe = document.createElement("iframe");
+        iframe.height = iframe.width = 0;
+        document.body.appendChild(iframe);
+        iframe.contentDocument.write('<script src="float16.js"></script>');
+        AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
+        iframe.remove();
+    }
+
     it("property `name` is 'isFloat16Array'", () => {
         assert( isFloat16Array.name === "isFloat16Array" );
     });
@@ -1347,6 +1428,14 @@ describe("isFloat16Array", () => {
         assert( isFloat16Array([]) === false );
         assert( isFloat16Array(/a/) === false );
         assert( isFloat16Array(() => {}) === false );
+    });
+
+    it("check if Float16Array from another realm", function () {
+        if (AnotherRealmFloat16Array === undefined) {
+            this.skip();
+        }
+
+        assert( isFloat16Array(new AnotherRealmFloat16Array()) === true );
     });
 
 });
