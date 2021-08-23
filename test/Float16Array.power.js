@@ -186,6 +186,7 @@ describe('Float16Array', () => {
         var _rec16 = new _PowerAssertRecorder1();
         var _rec17 = new _PowerAssertRecorder1();
         var _rec18 = new _PowerAssertRecorder1();
+        var _rec19 = new _PowerAssertRecorder1();
         class FooArrayBuffer extends ArrayBuffer {
         }
         const buffer = new FooArrayBuffer(16);
@@ -210,18 +211,24 @@ describe('Float16Array', () => {
             filepath: 'test/Float16Array.js',
             line: 112
         }));
-        assert(_rec18._expr(_rec18._capt(_rec18._capt(_rec18._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec18._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
+        assert(_rec18._expr(_rec18._capt(_rec18._capt(_rec18._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') instanceof _rec18._capt(FooArrayBuffer, 'arguments/0/right'), 'arguments/0'), {
+            content: 'assert(float16.buffer instanceof FooArrayBuffer)',
+            filepath: 'test/Float16Array.js',
+            line: 113
+        }));
+        assert(_rec19._expr(_rec19._capt(_rec19._capt(_rec19._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec19._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16.buffer !== buffer)',
             filepath: 'test/Float16Array.js',
-            line: 115
+            line: 114
         }));
     });
     it('input TypedArray with CustomSharedArrayBuffer', function () {
-        var _rec19 = new _PowerAssertRecorder1();
         var _rec20 = new _PowerAssertRecorder1();
         var _rec21 = new _PowerAssertRecorder1();
         var _rec22 = new _PowerAssertRecorder1();
         var _rec23 = new _PowerAssertRecorder1();
+        var _rec24 = new _PowerAssertRecorder1();
+        var _rec25 = new _PowerAssertRecorder1();
         if (typeof SharedArrayBuffer === 'undefined') {
             this.skip();
         }
@@ -229,37 +236,42 @@ describe('Float16Array', () => {
         }
         const buffer = new FooSharedArrayBuffer(16);
         const float16 = new Float16Array(new Float32Array(buffer));
-        assert(_rec19._expr(_rec19._capt(_rec19._capt(_rec19._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
+        assert(_rec20._expr(_rec20._capt(_rec20._capt(_rec20._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16.BYTES_PER_ELEMENT === 2)',
+            filepath: 'test/Float16Array.js',
+            line: 127
+        }));
+        assert(_rec21._expr(_rec21._capt(_rec21._capt(_rec21._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
+            content: 'assert(float16.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
             line: 128
         }));
-        assert(_rec20._expr(_rec20._capt(_rec20._capt(_rec20._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
-            content: 'assert(float16.byteOffset === 0)',
+        assert(_rec22._expr(_rec22._capt(_rec22._capt(_rec22._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
+            content: 'assert(float16.byteLength === 8)',
             filepath: 'test/Float16Array.js',
             line: 129
         }));
-        assert(_rec21._expr(_rec21._capt(_rec21._capt(_rec21._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
-            content: 'assert(float16.byteLength === 8)',
+        assert(_rec23._expr(_rec23._capt(_rec23._capt(_rec23._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
+            content: 'assert(float16.length === 4)',
             filepath: 'test/Float16Array.js',
             line: 130
         }));
-        assert(_rec22._expr(_rec22._capt(_rec22._capt(_rec22._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
-            content: 'assert(float16.length === 4)',
+        assert(_rec24._expr(_rec24._capt(!_rec24._capt(_rec24._capt(_rec24._capt(float16, 'arguments/0/argument/left/object').buffer, 'arguments/0/argument/left') instanceof _rec24._capt(FooSharedArrayBuffer, 'arguments/0/argument/right'), 'arguments/0/argument'), 'arguments/0'), {
+            content: 'assert(!(float16.buffer instanceof FooSharedArrayBuffer))',
             filepath: 'test/Float16Array.js',
             line: 131
         }));
-        assert(_rec23._expr(_rec23._capt(_rec23._capt(_rec23._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec23._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
+        assert(_rec25._expr(_rec25._capt(_rec25._capt(_rec25._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec25._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16.buffer !== buffer)',
             filepath: 'test/Float16Array.js',
-            line: 134
+            line: 132
         }));
     });
     it('input Iterable', () => {
-        var _rec24 = new _PowerAssertRecorder1();
-        var _rec25 = new _PowerAssertRecorder1();
         var _rec26 = new _PowerAssertRecorder1();
         var _rec27 = new _PowerAssertRecorder1();
+        var _rec28 = new _PowerAssertRecorder1();
+        var _rec29 = new _PowerAssertRecorder1();
         const iterable = [
             1,
             1.1,
@@ -273,33 +285,33 @@ describe('Float16Array', () => {
             1.2998046875
         ];
         const float16 = new Float16Array(iterable);
-        assert(_rec24._expr(_rec24._capt(_rec24._capt(_rec24._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
+        assert(_rec26._expr(_rec26._capt(_rec26._capt(_rec26._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16.BYTES_PER_ELEMENT === 2)',
+            filepath: 'test/Float16Array.js',
+            line: 141
+        }));
+        assert(_rec27._expr(_rec27._capt(_rec27._capt(_rec27._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
+            content: 'assert(float16.byteOffset === 0)',
+            filepath: 'test/Float16Array.js',
+            line: 142
+        }));
+        assert(_rec28._expr(_rec28._capt(_rec28._capt(_rec28._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
+            content: 'assert(float16.byteLength === 8)',
             filepath: 'test/Float16Array.js',
             line: 143
         }));
-        assert(_rec25._expr(_rec25._capt(_rec25._capt(_rec25._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
-            content: 'assert(float16.byteOffset === 0)',
-            filepath: 'test/Float16Array.js',
-            line: 144
-        }));
-        assert(_rec26._expr(_rec26._capt(_rec26._capt(_rec26._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
-            content: 'assert(float16.byteLength === 8)',
-            filepath: 'test/Float16Array.js',
-            line: 145
-        }));
-        assert(_rec27._expr(_rec27._capt(_rec27._capt(_rec27._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
+        assert(_rec29._expr(_rec29._capt(_rec29._capt(_rec29._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 146
+            line: 144
         }));
         assert.equalFloat16ArrayValues(float16, checkArray);
     });
     it('input ArrayLike', () => {
-        var _rec28 = new _PowerAssertRecorder1();
-        var _rec29 = new _PowerAssertRecorder1();
         var _rec30 = new _PowerAssertRecorder1();
         var _rec31 = new _PowerAssertRecorder1();
+        var _rec32 = new _PowerAssertRecorder1();
+        var _rec33 = new _PowerAssertRecorder1();
         const arrayLike = {
             '0': 1,
             '1': 1.1,
@@ -314,31 +326,29 @@ describe('Float16Array', () => {
             1.2998046875
         ];
         const float16 = new Float16Array(arrayLike);
-        assert(_rec28._expr(_rec28._capt(_rec28._capt(_rec28._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
+        assert(_rec30._expr(_rec30._capt(_rec30._capt(_rec30._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16.BYTES_PER_ELEMENT === 2)',
+            filepath: 'test/Float16Array.js',
+            line: 154
+        }));
+        assert(_rec31._expr(_rec31._capt(_rec31._capt(_rec31._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
+            content: 'assert(float16.byteOffset === 0)',
+            filepath: 'test/Float16Array.js',
+            line: 155
+        }));
+        assert(_rec32._expr(_rec32._capt(_rec32._capt(_rec32._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
+            content: 'assert(float16.byteLength === 8)',
             filepath: 'test/Float16Array.js',
             line: 156
         }));
-        assert(_rec29._expr(_rec29._capt(_rec29._capt(_rec29._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
-            content: 'assert(float16.byteOffset === 0)',
-            filepath: 'test/Float16Array.js',
-            line: 157
-        }));
-        assert(_rec30._expr(_rec30._capt(_rec30._capt(_rec30._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
-            content: 'assert(float16.byteLength === 8)',
-            filepath: 'test/Float16Array.js',
-            line: 158
-        }));
-        assert(_rec31._expr(_rec31._capt(_rec31._capt(_rec31._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
+        assert(_rec33._expr(_rec33._capt(_rec33._capt(_rec33._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 159
+            line: 157
         }));
         assert.equalFloat16ArrayValues(float16, checkArray);
     });
     it('input Float16Array', () => {
-        var _rec32 = new _PowerAssertRecorder1();
-        var _rec33 = new _PowerAssertRecorder1();
         var _rec34 = new _PowerAssertRecorder1();
         var _rec35 = new _PowerAssertRecorder1();
         var _rec36 = new _PowerAssertRecorder1();
@@ -347,6 +357,7 @@ describe('Float16Array', () => {
         var _rec39 = new _PowerAssertRecorder1();
         var _rec40 = new _PowerAssertRecorder1();
         var _rec41 = new _PowerAssertRecorder1();
+        var _rec42 = new _PowerAssertRecorder1();
         const array = [
             1,
             1.1,
@@ -360,64 +371,58 @@ describe('Float16Array', () => {
             1.2998046875
         ];
         const float16_1 = new Float16Array(new Float16Array(array));
-        assert(_rec32._expr(_rec32._capt(_rec32._capt(_rec32._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
+        assert(_rec34._expr(_rec34._capt(_rec34._capt(_rec34._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_1.BYTES_PER_ELEMENT === 2)',
+            filepath: 'test/Float16Array.js',
+            line: 167
+        }));
+        assert(_rec35._expr(_rec35._capt(_rec35._capt(_rec35._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
+            content: 'assert(float16_1.byteOffset === 0)',
+            filepath: 'test/Float16Array.js',
+            line: 168
+        }));
+        assert(_rec36._expr(_rec36._capt(_rec36._capt(_rec36._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
+            content: 'assert(float16_1.byteLength === 8)',
             filepath: 'test/Float16Array.js',
             line: 169
         }));
-        assert(_rec33._expr(_rec33._capt(_rec33._capt(_rec33._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
-            content: 'assert(float16_1.byteOffset === 0)',
-            filepath: 'test/Float16Array.js',
-            line: 170
-        }));
-        assert(_rec34._expr(_rec34._capt(_rec34._capt(_rec34._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
-            content: 'assert(float16_1.byteLength === 8)',
-            filepath: 'test/Float16Array.js',
-            line: 171
-        }));
-        assert(_rec35._expr(_rec35._capt(_rec35._capt(_rec35._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
+        assert(_rec37._expr(_rec37._capt(_rec37._capt(_rec37._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_1.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 172
+            line: 170
         }));
         assert.equalFloat16ArrayValues(float16_1, checkArray);
         class FooArrayBuffer extends ArrayBuffer {
         }
         const buffer = new FooArrayBuffer(16);
         const float16_2 = new Float16Array(new Float16Array(buffer));
-        assert(_rec36._expr(_rec36._capt(_rec36._capt(_rec36._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
+        assert(_rec38._expr(_rec38._capt(_rec38._capt(_rec38._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.BYTES_PER_ELEMENT === 2)',
+            filepath: 'test/Float16Array.js',
+            line: 178
+        }));
+        assert(_rec39._expr(_rec39._capt(_rec39._capt(_rec39._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
+            content: 'assert(float16_2.byteOffset === 0)',
+            filepath: 'test/Float16Array.js',
+            line: 179
+        }));
+        assert(_rec40._expr(_rec40._capt(_rec40._capt(_rec40._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 16, 'arguments/0'), {
+            content: 'assert(float16_2.byteLength === 16)',
             filepath: 'test/Float16Array.js',
             line: 180
         }));
-        assert(_rec37._expr(_rec37._capt(_rec37._capt(_rec37._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
-            content: 'assert(float16_2.byteOffset === 0)',
+        assert(_rec41._expr(_rec41._capt(_rec41._capt(_rec41._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 8, 'arguments/0'), {
+            content: 'assert(float16_2.length === 8)',
             filepath: 'test/Float16Array.js',
             line: 181
         }));
-        assert(_rec38._expr(_rec38._capt(_rec38._capt(_rec38._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 16, 'arguments/0'), {
-            content: 'assert(float16_2.byteLength === 16)',
-            filepath: 'test/Float16Array.js',
-            line: 182
-        }));
-        assert(_rec39._expr(_rec39._capt(_rec39._capt(_rec39._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 8, 'arguments/0'), {
-            content: 'assert(float16_2.length === 8)',
-            filepath: 'test/Float16Array.js',
-            line: 183
-        }));
-        assert(_rec40._expr(_rec40._capt(_rec40._capt(_rec40._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') instanceof _rec40._capt(FooArrayBuffer, 'arguments/0/right'), 'arguments/0'), {
-            content: 'assert(float16_2.buffer instanceof FooArrayBuffer)',
+        assert(_rec42._expr(_rec42._capt(_rec42._capt(_rec42._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec42._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
+            content: 'assert(float16_2.buffer !== buffer)',
             filepath: 'test/Float16Array.js',
             line: 184
         }));
-        assert(_rec41._expr(_rec41._capt(_rec41._capt(_rec41._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec41._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
-            content: 'assert(float16_2.buffer !== buffer)',
-            filepath: 'test/Float16Array.js',
-            line: 185
-        }));
     });
     it('input Float16Array from another realm', function () {
-        var _rec42 = new _PowerAssertRecorder1();
         var _rec43 = new _PowerAssertRecorder1();
         var _rec44 = new _PowerAssertRecorder1();
         var _rec45 = new _PowerAssertRecorder1();
@@ -443,55 +448,50 @@ describe('Float16Array', () => {
             1.2998046875
         ];
         const float16_1 = new Float16Array(new AnotherRealmFloat16Array(array));
-        assert(_rec42._expr(_rec42._capt(_rec42._capt(_rec42._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
+        assert(_rec43._expr(_rec43._capt(_rec43._capt(_rec43._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_1.BYTES_PER_ELEMENT === 2)',
+            filepath: 'test/Float16Array.js',
+            line: 197
+        }));
+        assert(_rec44._expr(_rec44._capt(_rec44._capt(_rec44._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
+            content: 'assert(float16_1.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
             line: 198
         }));
-        assert(_rec43._expr(_rec43._capt(_rec43._capt(_rec43._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
-            content: 'assert(float16_1.byteOffset === 0)',
+        assert(_rec45._expr(_rec45._capt(_rec45._capt(_rec45._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
+            content: 'assert(float16_1.byteLength === 8)',
             filepath: 'test/Float16Array.js',
             line: 199
         }));
-        assert(_rec44._expr(_rec44._capt(_rec44._capt(_rec44._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
-            content: 'assert(float16_1.byteLength === 8)',
-            filepath: 'test/Float16Array.js',
-            line: 200
-        }));
-        assert(_rec45._expr(_rec45._capt(_rec45._capt(_rec45._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
+        assert(_rec46._expr(_rec46._capt(_rec46._capt(_rec46._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_1.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 201
+            line: 200
         }));
         assert.equalFloat16ArrayValues(float16_1, checkArray);
         class FooArrayBuffer extends ArrayBuffer {
         }
         const buffer = new FooArrayBuffer(16);
         const float16_2 = new Float16Array(new AnotherRealmFloat16Array(buffer));
-        assert(_rec46._expr(_rec46._capt(_rec46._capt(_rec46._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
+        assert(_rec47._expr(_rec47._capt(_rec47._capt(_rec47._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.BYTES_PER_ELEMENT === 2)',
+            filepath: 'test/Float16Array.js',
+            line: 208
+        }));
+        assert(_rec48._expr(_rec48._capt(_rec48._capt(_rec48._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
+            content: 'assert(float16_2.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
             line: 209
         }));
-        assert(_rec47._expr(_rec47._capt(_rec47._capt(_rec47._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
-            content: 'assert(float16_2.byteOffset === 0)',
+        assert(_rec49._expr(_rec49._capt(_rec49._capt(_rec49._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 16, 'arguments/0'), {
+            content: 'assert(float16_2.byteLength === 16)',
             filepath: 'test/Float16Array.js',
             line: 210
         }));
-        assert(_rec48._expr(_rec48._capt(_rec48._capt(_rec48._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 16, 'arguments/0'), {
-            content: 'assert(float16_2.byteLength === 16)',
-            filepath: 'test/Float16Array.js',
-            line: 211
-        }));
-        assert(_rec49._expr(_rec49._capt(_rec49._capt(_rec49._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 8, 'arguments/0'), {
+        assert(_rec50._expr(_rec50._capt(_rec50._capt(_rec50._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_2.length === 8)',
             filepath: 'test/Float16Array.js',
-            line: 212
-        }));
-        assert(_rec50._expr(_rec50._capt(_rec50._capt(_rec50._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') instanceof _rec50._capt(FooArrayBuffer, 'arguments/0/right'), 'arguments/0'), {
-            content: 'assert(float16_2.buffer instanceof FooArrayBuffer)',
-            filepath: 'test/Float16Array.js',
-            line: 213
+            line: 211
         }));
         assert(_rec51._expr(_rec51._capt(_rec51._capt(_rec51._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec51._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16_2.buffer !== buffer)',

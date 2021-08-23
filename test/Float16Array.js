@@ -110,8 +110,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        // Safari 13 bug
-        // assert( float16.buffer instanceof FooArrayBuffer );
+        assert( float16.buffer instanceof FooArrayBuffer );
         assert( float16.buffer !== buffer );
     });
 
@@ -129,8 +128,7 @@ describe("Float16Array", () => {
         assert( float16.byteOffset === 0 );
         assert( float16.byteLength === 8 );
         assert( float16.length === 4 );
-        // Safari 13 bug
-        // assert( !(float16.buffer instanceof FooSharedArrayBuffer) );
+        assert( !(float16.buffer instanceof FooSharedArrayBuffer) );
         assert( float16.buffer !== buffer );
     });
 
@@ -181,7 +179,8 @@ describe("Float16Array", () => {
         assert( float16_2.byteOffset === 0 );
         assert( float16_2.byteLength === 16 );
         assert( float16_2.length === 8 );
-        assert( float16_2.buffer instanceof FooArrayBuffer );
+        // Safari 13 bug
+        // assert( float16_2.buffer instanceof FooArrayBuffer );
         assert( float16_2.buffer !== buffer );
     });
 
@@ -210,7 +209,8 @@ describe("Float16Array", () => {
         assert( float16_2.byteOffset === 0 );
         assert( float16_2.byteLength === 16 );
         assert( float16_2.length === 8 );
-        assert( float16_2.buffer instanceof FooArrayBuffer );
+        // Safari 13 bug
+        // assert( float16_2.buffer instanceof FooArrayBuffer );
         assert( float16_2.buffer !== buffer );
     });
 
