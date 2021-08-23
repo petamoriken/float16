@@ -13,39 +13,21 @@ module.exports = {
     async ["Browser Test"](client) {
         const elements = await client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
               .waitForElementPresent("#mocha-report")
-              .findElements("#mocha-report .test");
+              .findElements("#mocha-report .test .error");
 
         const result = elements.value;
+        const failed = result.length !== 0;
+        client.verify.ok(!failed, "Check error elements");
+
+        if (!failed === 0) {
+            return;
+        }
+
+        // show error log
         for (const element of result) {
             const id = element.getId();
-
-            const targets = [];
-            {
-                const { value: { ELEMENT: targetId } } = await client.elementIdElement(id, "xpath", "../preceding-sibling::h1");
-                const { value: target } = await client.elementIdText(targetId);
-                targets.push(target);
-
-                const { value: { ELEMENT: parentTargetId } } = await client.elementIdElement(targetId, "xpath", "../../preceding-sibling::h1");
-                if (parentTargetId !== undefined) {
-                    const { value: parentTarget } = await client.elementIdText(parentTargetId);
-                    targets.unshift(parentTarget);
-                }
-            }
-
-            const { value: { ELEMENT: titleId } } = await client.elementIdElement(id, "css selector", "h2");
-            const { value: rawTitle } = await client.elementIdText(titleId);
-            const title = rawTitle.split("\n")[0];
-
-            const { value: { ELEMENT: errorId } } = await client.elementIdElement(id, "css selector", ".error");
-            const failed = errorId !== undefined;
-
-            if (!failed) {
-                client.verify.ok(true, `${targets.join(" ")}: ${title}`);
-                continue;
-            }
-
-            const { value: error } = await client.elementIdText(errorId);
-            client.verify.ok(false, `${targets.join(" ")}: ${title}\n\n${red}${error}${reset}\n\n`);
+            const { value: error } = await client.elementIdText(id);
+            client.verify.ok(false, `\n\n${red}${error}${reset}\n\n`);
         }
     },
 

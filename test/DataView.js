@@ -13,17 +13,19 @@ describe("additional DataView methods", () => {
     /** @type {DataViewConstructor} */
     let AnotherRealmDataView;
 
-    if (typeof window !== "undefined") {
-        const iframe = document.createElement("iframe");
-        iframe.height = iframe.width = 0;
-        document.body.appendChild(iframe);
-        AnotherRealmDataView = iframe.contentWindow.DataView;
-        iframe.remove();
-    } else if (typeof global !== "undefined" && typeof require !== "undefined") {
-        AnotherRealmDataView = require("vm").runInNewContext("DataView");
-    } else {
-        throw new Error("Unexpected environment.");
-    }
+    before(() => {
+        if (typeof window !== "undefined") {
+            const iframe = document.createElement("iframe");
+            iframe.height = iframe.width = 0;
+            document.body.appendChild(iframe);
+            AnotherRealmDataView = iframe.contentWindow.DataView;
+            iframe.remove();
+        } else if (typeof global !== "undefined" && typeof require !== "undefined") {
+            AnotherRealmDataView = require("vm").runInNewContext("DataView");
+        } else {
+            throw new Error("Unexpected environment.");
+        }
+    });
 
     describe("getFloat16()", () => {
 
