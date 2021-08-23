@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.3-5-g42b5b84 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.3-6-g6901661 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -181,7 +181,7 @@ var float16 = (function (exports) {
 
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is object}
      */
     function isObject$1(value) {
       return value !== null && typeof value === "object" || typeof value === "function";
@@ -311,7 +311,7 @@ var float16 = (function (exports) {
 
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is object}
      */
 
     function isObject(value) {
@@ -319,7 +319,7 @@ var float16 = (function (exports) {
     }
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is object}
      */
 
     function isObjectLike(value) {
@@ -329,7 +329,7 @@ var float16 = (function (exports) {
     const toString = Object.prototype.toString;
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is DataView}
      */
 
     function isDataView(value) {
@@ -340,7 +340,7 @@ var float16 = (function (exports) {
     const getTypedArrayPrototypeSybolToStringTag = Object.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array}
      */
 
     function isTypedArray(value) {
@@ -348,7 +348,7 @@ var float16 = (function (exports) {
     }
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is ArrayBuffer}
      */
 
     function isArrayBuffer(value) {
@@ -356,7 +356,7 @@ var float16 = (function (exports) {
     }
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is SharedArrayBuffer}
      */
 
     function isSharedArrayBuffer(value) {
@@ -364,7 +364,7 @@ var float16 = (function (exports) {
     }
     /**
      * @param {unknown} value
-     * @returns {boolean}
+     * @returns {value is Iterable}
      */
 
     function isIterable(value) {
@@ -372,7 +372,7 @@ var float16 = (function (exports) {
     }
     /**
      * @param {unknown} key
-     * @returns {boolean}
+     * @returns {value is string}
      */
 
     function isCanonicalIntegerIndexString(key) {
@@ -483,6 +483,10 @@ var float16 = (function (exports) {
 
     });
     const hasOwnProperty = Object.prototype.hasOwnProperty;
+    /**
+     * limitation: see README.md for details
+     */
+
     class Float16Array extends Uint16Array {
       /**
        * @see https://tc39.es/ecma262/#sec-typedarray
@@ -502,7 +506,7 @@ var float16 = (function (exports) {
             /** @type {ArrayBufferConstructor} */
 
             const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
-            const data = new BufferConstructor(length * Uint16Array.BYTES_PER_ELEMENT);
+            const data = new BufferConstructor(length * Float16Array.BYTES_PER_ELEMENT);
             super(data); // Iterable (Array)
           } else if (isIterable(input)) {
             list = [...input];
@@ -551,6 +555,7 @@ var float16 = (function (exports) {
         return proxy;
       }
       /**
+       * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
        * @see https://tc39.es/ecma262/#sec-%typedarray%.from
        */
 
@@ -567,6 +572,7 @@ var float16 = (function (exports) {
         }, thisArg).buffer);
       }
       /**
+       * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
        * @see https://tc39.es/ecma262/#sec-%typedarray%.of
        */
 
@@ -1144,6 +1150,13 @@ var float16 = (function (exports) {
       }
 
     }
+    /**
+     * @see https://tc39.es/ecma262/#sec-typedarray.bytes_per_element
+     */
+
+    Object.defineProperty(Float16Array, "BYTES_PER_ELEMENT", {
+      value: Uint16Array.BYTES_PER_ELEMENT
+    });
     const Float16ArrayPrototype = Float16Array.prototype;
     /**
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator
