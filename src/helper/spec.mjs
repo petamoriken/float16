@@ -1,6 +1,6 @@
 /**
  * @param {unknown} value
- * @returns {boolean}
+ * @returns {value is object}
  */
 function isObject(value) {
     return (value !== null && typeof value === "object") || typeof value === "function";

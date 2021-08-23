@@ -102,6 +102,9 @@ const handler = Object.freeze({
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+/**
+ * limitation: see README.md for details
+ */
 export default class Float16Array extends Uint16Array {
 
     /**
@@ -125,7 +128,7 @@ export default class Float16Array extends Uint16Array {
                 const buffer = input.buffer;
                 /** @type {ArrayBufferConstructor} */
                 const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
-                const data = new BufferConstructor(length * Uint16Array.BYTES_PER_ELEMENT);
+                const data = new BufferConstructor(length * Float16Array.BYTES_PER_ELEMENT);
                 super(data);
 
             // Iterable (Array)
@@ -183,6 +186,7 @@ export default class Float16Array extends Uint16Array {
     }
 
     /**
+     * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
      * @see https://tc39.es/ecma262/#sec-%typedarray%.from
      */
     static from(src, ...opts) {
@@ -199,6 +203,7 @@ export default class Float16Array extends Uint16Array {
     }
 
     /**
+     * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
      * @see https://tc39.es/ecma262/#sec-%typedarray%.of
      */
     static of(...items) {
@@ -768,6 +773,11 @@ export default class Float16Array extends Uint16Array {
         }
     }
 }
+
+/**
+ * @see https://tc39.es/ecma262/#sec-typedarray.bytes_per_element
+ */
+Object.defineProperty(Float16Array, "BYTES_PER_ELEMENT", { value: Uint16Array.BYTES_PER_ELEMENT });
 
 const Float16ArrayPrototype = Float16Array.prototype;
 
