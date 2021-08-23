@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.3-8-gb98cb03 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.3-9-g26d4d67 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -612,6 +612,12 @@ var float16 = (function (exports) {
 
 
       static from(src, ...opts) {
+        // for optimization
+        if (isFloat16Array(src) && opts.length === 0) {
+          const uint16 = new Uint16Array(src.buffer, src.byteOffset, src.length);
+          return new Float16Array(uint16.slice().buffer);
+        }
+
         if (opts.length === 0) {
           return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
         }
@@ -1014,8 +1020,7 @@ var float16 = (function (exports) {
         if (Constructor === Float16Array) {
           const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
           const float16bitsArray = uint16.slice(...opts);
-          const proxy = new Float16Array(float16bitsArray.buffer);
-          return proxy;
+          return new Float16Array(float16bitsArray.buffer);
         }
 
         const length = this.length;
