@@ -1,4 +1,4 @@
-# <a href="https://git.io/float16" target="_blank">@petamoriken/float16</a>
+# <a href="https://git.io/float16">@petamoriken/float16</a>
 
 <p align="center">
     half precision floating point for JavaScript<br>
@@ -6,22 +6,22 @@
 </p>
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/@petamoriken/float16" target="_blank">
+    <a href="https://www.npmjs.com/package/@petamoriken/float16">
         <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
     </a>
-    <a href="https://www.npmjs.com/package/@petamoriken/float16" target="_blank">
+    <a href="https://www.npmjs.com/package/@petamoriken/float16">
         <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;style=flat-square" alt="npm">
     </a>
-    <a href="https://github.com/petamoriken/float16/blob/master/LICENSE" target="_blank">
+    <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
         <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
     </a>
-    <a href="https://codecov.io/gh/petamoriken/float16" target="_blank">
+    <a href="https://codecov.io/gh/petamoriken/float16">
         <img src="https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&amp;style=flat-square" alt="codecov">
     </a>
 </p>
 
 <p align="center">
-    <a href="https://saucelabs.com/u/petamoriken" target="_blank">
+    <a href="https://saucelabs.com/u/petamoriken">
         <img src="https://saucelabs.com/browser-matrix/petamoriken.svg" alt="Sauce Labs browser matrix">
     </a>
 </p>
@@ -175,7 +175,7 @@ hfround(1.337); // 1.3369140625
 
 ### The `instanceof` operator
 
-Since `Float16Array` is made by inheriting from `Uint16Array`, it doesn't work if the `instanceof` operator is used to detect a `Uint16Array`.
+Since `Float16Array` is made by inheriting from `Uint16Array`, so you can't use the `instanceof` operator to check if it is a `Uint16Array` or not.
 
 ```js
 new Uint16Array(10) instanceof Uint16Array; // true
@@ -195,7 +195,7 @@ function isUint16Array(target) {
 }
 ```
 
-For Node.js, you can use `util.types.isUint16Array` ([document](https://nodejs.org/api/util.html#util_util_types_isuint16array_value)) instead. `@@toStringTag` seems to be used for [its implementation](https://github.com/nodejs/node/blob/v16.x/lib/internal/util/types.js).
+For Node.js, you can use `util.types` ([document](https://nodejs.org/api/util.html#util_util_types)) instead. Want to do a more solid `TypedArray` check for other environments? Then you can use [this code](https://gist.github.com/petamoriken/6982e7469994a8880bcbef6198203042) 😉
 
 ### Built-in functions
 
