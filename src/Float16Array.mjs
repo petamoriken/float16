@@ -231,6 +231,12 @@ export class Float16Array extends Uint16Array {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.from
      */
     static from(src, ...opts) {
+        // for optimization
+        if (isFloat16Array(src) && opts.length === 0) {
+            const uint16 = new Uint16Array(src.buffer, src.byteOffset, src.length);
+            return new Float16Array(uint16.slice().buffer);
+        }
+
         if (opts.length === 0) {
             return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
         }
@@ -632,9 +638,7 @@ export class Float16Array extends Uint16Array {
         if (Constructor === Float16Array) {
             const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
             const float16bitsArray = uint16.slice(...opts);
-
-            const proxy = new Float16Array(float16bitsArray.buffer);
-            return proxy;
+            return new Float16Array(float16bitsArray.buffer);
         }
 
         const length = this.length;
