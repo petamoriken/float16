@@ -9,38 +9,44 @@ const reset = "\u001b[0m";
 // environment
 const { TARGET_URL } = process.env;
 
-function asyncElementIdText(client, element) {
-    return new Promise((resolve) => {
-        client.elementIdText(element, (e) => {
-            resolve(e.value);
-        });
-    });
-}
-
 module.exports = {
-    ["@petamoriken/float16 test"](client) {
-        client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
-              .waitForElementPresent("#mocha-report");
+    async ["Browser Test"](client) {
+        const elements = await client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
+              .waitForElementPresent("#mocha-report")
+              .findElements("#mocha-report .test");
 
-        client.elements("css selector", "#mocha-report .fail .error", async (e) => {
-            const elements = e.value;
+        const result = elements.value;
+        for (const element of result) {
+            const id = element.getId();
 
-            // assert
-            client.verify.ok(elements.length === 0);
+            const targets = [];
+            {
+                const { value: { ELEMENT: targetId } } = await client.elementIdElement(id, "xpath", "../preceding-sibling::h1");
+                const { value: target } = await client.elementIdText(targetId);
+                targets.push(target);
 
-            // show error log
-            if(elements.length !== 0) {
-                const promises = [];
-                for (const value of elements) {
-                    promises.push(asyncElementIdText(client, value.ELEMENT));
-                }
-
-                const errors = await Promise.all(promises);
-                for (const error of errors) {
-                    console.error(red + error + "\n" + reset);
+                const { value: { ELEMENT: parentTargetId } } = await client.elementIdElement(targetId, "xpath", "../../preceding-sibling::h1");
+                if (parentTargetId !== undefined) {
+                    const { value: parentTarget } = await client.elementIdText(parentTargetId);
+                    targets.unshift(parentTarget);
                 }
             }
-        });
+
+            const { value: { ELEMENT: titleId } } = await client.elementIdElement(id, "css selector", "h2");
+            const { value: rawTitle } = await client.elementIdText(titleId);
+            const title = rawTitle.split("\n")[0];
+
+            const { value: { ELEMENT: errorId } } = await client.elementIdElement(id, "css selector", ".error");
+            const failed = errorId !== undefined;
+
+            if (!failed) {
+                client.verify.ok(true, `${targets.join(" ")}: ${title}`);
+                continue;
+            }
+
+            const { value: error } = await client.elementIdText(errorId);
+            client.verify.ok(false, `${targets.join(" ")}: ${title}\n\n${red}${error}${reset}\n\n`);
+        }
     },
 
     afterEach(client, done) {
