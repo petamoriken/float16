@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.3-12-g07c4bb1 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.3-13-ga5e3db8 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -453,7 +453,7 @@ var float16 = (function (exports) {
 
       if (target === undefined) {
         const clone = new Float16Array(float16.buffer, float16.byteOffset, float16.length);
-        target = _(float16).target = _(clone).target;
+        target = _(clone).target;
       }
 
       return target;
