@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": [
-    "test/dataView.js"
+    "test/DataView.js"
   ],
   "names": [
     "_PowerAssertRecorder1",

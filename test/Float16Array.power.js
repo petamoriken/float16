@@ -3054,5 +3054,152 @@ describe('Float16Array', () => {
         });
     });
 });
+describe('isFloat16Array', () => {
+    it('property `name` is \'isFloat16Array\'', () => {
+        var _rec295 = new _PowerAssertRecorder1();
+        assert(_rec295._expr(_rec295._capt(_rec295._capt(_rec295._capt(isFloat16Array, 'arguments/0/left/object').name, 'arguments/0/left') === 'isFloat16Array', 'arguments/0'), {
+            content: 'assert(isFloat16Array.name === "isFloat16Array")',
+            filepath: 'test/Float16Array.js',
+            line: 1319
+        }));
+    });
+    it('property `length` is 1', () => {
+        var _rec296 = new _PowerAssertRecorder1();
+        assert(_rec296._expr(_rec296._capt(_rec296._capt(_rec296._capt(isFloat16Array, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
+            content: 'assert(isFloat16Array.length === 1)',
+            filepath: 'test/Float16Array.js',
+            line: 1323
+        }));
+    });
+    it('check if Float16Array', () => {
+        var _rec297 = new _PowerAssertRecorder1();
+        var _rec298 = new _PowerAssertRecorder1();
+        var _rec299 = new _PowerAssertRecorder1();
+        var _rec300 = new _PowerAssertRecorder1();
+        var _rec301 = new _PowerAssertRecorder1();
+        var _rec302 = new _PowerAssertRecorder1();
+        var _rec303 = new _PowerAssertRecorder1();
+        var _rec304 = new _PowerAssertRecorder1();
+        var _rec305 = new _PowerAssertRecorder1();
+        var _rec306 = new _PowerAssertRecorder1();
+        var _rec307 = new _PowerAssertRecorder1();
+        var _rec308 = new _PowerAssertRecorder1();
+        var _rec309 = new _PowerAssertRecorder1();
+        var _rec310 = new _PowerAssertRecorder1();
+        var _rec311 = new _PowerAssertRecorder1();
+        var _rec312 = new _PowerAssertRecorder1();
+        var _rec313 = new _PowerAssertRecorder1();
+        var _rec314 = new _PowerAssertRecorder1();
+        var _rec315 = new _PowerAssertRecorder1();
+        var _rec316 = new _PowerAssertRecorder1();
+        var _rec317 = new _PowerAssertRecorder1();
+        assert(_rec297._expr(_rec297._capt(_rec297._capt(isFloat16Array(_rec297._capt(new Float16Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === true, 'arguments/0'), {
+            content: 'assert(isFloat16Array(new Float16Array()) === true)',
+            filepath: 'test/Float16Array.js',
+            line: 1327
+        }));
+        assert(_rec298._expr(_rec298._capt(_rec298._capt(isFloat16Array(_rec298._capt(new Float32Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(new Float32Array()) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1328
+        }));
+        assert(_rec299._expr(_rec299._capt(_rec299._capt(isFloat16Array(_rec299._capt(new Uint16Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(new Uint16Array()) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1329
+        }));
+        assert(_rec300._expr(_rec300._capt(_rec300._capt(isFloat16Array(), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array() === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1331
+        }));
+        assert(_rec301._expr(_rec301._capt(_rec301._capt(isFloat16Array(null), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(null) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1332
+        }));
+        assert(_rec302._expr(_rec302._capt(_rec302._capt(isFloat16Array(_rec302._capt(undefined, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(undefined) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1333
+        }));
+        assert(_rec303._expr(_rec303._capt(_rec303._capt(isFloat16Array(0), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(0) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1334
+        }));
+        assert(_rec304._expr(_rec304._capt(_rec304._capt(isFloat16Array(1), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(1) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1335
+        }));
+        assert(_rec305._expr(_rec305._capt(_rec305._capt(isFloat16Array(_rec305._capt(NaN, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(NaN) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1336
+        }));
+        assert(_rec306._expr(_rec306._capt(_rec306._capt(isFloat16Array(_rec306._capt(Infinity, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(Infinity) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1337
+        }));
+        assert(_rec307._expr(_rec307._capt(_rec307._capt(isFloat16Array(true), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(true) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1338
+        }));
+        assert(_rec308._expr(_rec308._capt(_rec308._capt(isFloat16Array(false), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(false) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1339
+        }));
+        assert(_rec309._expr(_rec309._capt(_rec309._capt(isFloat16Array(''), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array("") === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1340
+        }));
+        assert(_rec310._expr(_rec310._capt(_rec310._capt(isFloat16Array('foo'), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array("foo") === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1341
+        }));
+        assert(_rec311._expr(_rec311._capt(_rec311._capt(isFloat16Array(_rec311._capt(Symbol(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(Symbol()) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1342
+        }));
+        assert(_rec312._expr(_rec312._capt(_rec312._capt(isFloat16Array(_rec312._capt(BigInt(0), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(BigInt(0)) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1343
+        }));
+        assert(_rec313._expr(_rec313._capt(_rec313._capt(isFloat16Array(_rec313._capt(BigInt(1), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(BigInt(1)) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1344
+        }));
+        assert(_rec314._expr(_rec314._capt(_rec314._capt(isFloat16Array(_rec314._capt({}, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array({}) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1346
+        }));
+        assert(_rec315._expr(_rec315._capt(_rec315._capt(isFloat16Array(_rec315._capt([], 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array([]) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1347
+        }));
+        assert(_rec316._expr(_rec316._capt(_rec316._capt(isFloat16Array(/a/), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(/a/) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1348
+        }));
+        assert(_rec317._expr(_rec317._capt(_rec317._capt(isFloat16Array(() => {
+        }), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isFloat16Array(() => {}) === false)',
+            filepath: 'test/Float16Array.js',
+            line: 1349
+        }));
+    });
+});
 //# sourceMappingURL=Float16Array.power.js.map
 

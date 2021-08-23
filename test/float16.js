@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.3.3-6-g6901661 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.3.3-7-g67420da | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -325,7 +325,6 @@ var float16 = (function (exports) {
     function isObjectLike(value) {
       return value !== null && typeof value === "object";
     }
-
     const toString = Object.prototype.toString;
     /**
      * @param {unknown} value
@@ -345,6 +344,14 @@ var float16 = (function (exports) {
 
     function isTypedArray(value) {
       return getTypedArrayPrototypeSybolToStringTag.call(value) !== undefined;
+    }
+    /**
+     * @param {unknown} value
+     * @returns {value is Uint16Array}
+     */
+
+    function isUint16Array(value) {
+      return getTypedArrayPrototypeSybolToStringTag.call(value) === "Uint16Array";
     }
     /**
      * @param {unknown} value
@@ -379,6 +386,8 @@ var float16 = (function (exports) {
       return typeof key === "string" && key === ToIntegerOrInfinity(key) + "";
     }
 
+    const brand = Symbol.for("__Float16Array__");
+
     const _ = createPrivateStorage();
     /**
      * @param {unknown} target
@@ -386,8 +395,22 @@ var float16 = (function (exports) {
      */
 
 
-    function isFloat16ArrayProxy(target) {
-      return target instanceof Float16Array && _(target).target !== undefined;
+    function hasFloat16ArrayBrand(target) {
+      if (!isObjectLike(target)) {
+        return false;
+      }
+
+      const constructor = target.constructor;
+
+      if (constructor === undefined) {
+        return false;
+      }
+
+      if (!isObject(constructor)) {
+        throw TypeError("constructor is not a object");
+      }
+
+      return Reflect.has(constructor, brand);
     }
     /**
      * @param {unknown} target
@@ -395,8 +418,16 @@ var float16 = (function (exports) {
      */
 
 
+    function isFloat16Array(target) {
+      return hasFloat16ArrayBrand(target) && !isTypedArray(target);
+    }
+    /**
+     * @param {unknown} target
+     * @returns {boolean}
+     */
+
     function isFloat16BitsArray(target) {
-      return target instanceof Float16Array && _(target).proxy !== undefined;
+      return hasFloat16ArrayBrand(target) && isUint16Array(target);
     }
     /**
      * @param {unknown} target
@@ -440,7 +471,7 @@ var float16 = (function (exports) {
     const applyHandler = Object.freeze({
       apply(func, thisArg, args) {
         // peel off proxy
-        if (isFloat16ArrayProxy(thisArg)) {
+        if (isFloat16Array(thisArg)) {
           return Reflect.apply(func, _(thisArg).target, args);
         }
 
@@ -493,7 +524,7 @@ var float16 = (function (exports) {
        */
       constructor(input, byteOffset, length) {
         // input Float16Array
-        if (isFloat16ArrayProxy(input)) {
+        if (isFloat16Array(input)) {
           super(_(input).target); // object without ArrayBuffer
         } else if (isObject(input) && !isArrayBuffer(input)) {
           let list;
@@ -891,7 +922,7 @@ var float16 = (function (exports) {
         } // for optimization
 
 
-        if (isFloat16ArrayProxy(input)) {
+        if (isFloat16Array(input)) {
           const float16bitsArray = _(input).target;
 
           super.set(float16bitsArray, targetOffset);
@@ -1157,6 +1188,11 @@ var float16 = (function (exports) {
     Object.defineProperty(Float16Array, "BYTES_PER_ELEMENT", {
       value: Uint16Array.BYTES_PER_ELEMENT
     });
+    /**
+     * limitation: It is peaked by `Object.getOwnPropertySymbols(Float16Array)` and `Reflect.ownKeys(Float16Array)`
+     */
+
+    Object.defineProperty(Float16Array, brand, {});
     const Float16ArrayPrototype = Float16Array.prototype;
     /**
      * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator
@@ -1170,6 +1206,11 @@ var float16 = (function (exports) {
     const defaultFloat16ArrayMethods = new WeakSet();
 
     for (const key of Reflect.ownKeys(Float16ArrayPrototype)) {
+      // constructor is not callable
+      if (key === "constructor") {
+        continue;
+      }
+
       const val = Float16ArrayPrototype[key];
 
       if (typeof val === "function") {
@@ -1211,6 +1252,7 @@ var float16 = (function (exports) {
     exports.Float16Array = Float16Array;
     exports.getFloat16 = getFloat16;
     exports.hfround = hfround;
+    exports.isFloat16Array = isFloat16Array;
     exports.setFloat16 = setFloat16;
 
     Object.defineProperty(exports, '__esModule', { value: true });
