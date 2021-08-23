@@ -12,7 +12,7 @@ export function isObject(value) {
  * @param {unknown} value
  * @returns {value is object}
  */
-function isObjectLike(value) {
+export function isObjectLike(value) {
     return value !== null && typeof value === "object";
 }
 
@@ -36,6 +36,14 @@ const getTypedArrayPrototypeSybolToStringTag = Object.getOwnPropertyDescriptor(T
  */
 export function isTypedArray(value) {
     return getTypedArrayPrototypeSybolToStringTag.call(value) !== undefined;
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is Uint16Array}
+ */
+export function isUint16Array(value) {
+    return getTypedArrayPrototypeSybolToStringTag.call(value) === "Uint16Array";
 }
 
 /**

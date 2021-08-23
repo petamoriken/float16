@@ -331,6 +331,12 @@ export declare var Float16Array: {
 }
 
 /**
+ * Returns `true` if the value is a Float16Array instance.
+ * @since v3.3.4
+ */
+export declare function isFloat16Array(value: unknown): value is Float16Array;
+
+/**
 * Gets the Float16 value at the specified byte offset from the start of the view. There is
 * no alignment constraint; multi-byte values may be fetched from any offset.
 * @param byteOffset The place in the buffer at which the value should be retrieved.

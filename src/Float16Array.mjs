@@ -1,8 +1,10 @@
 import { wrapInArrayIterator } from "./helper/arrayIterator.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isSharedArrayBuffer, isTypedArray } from "./helper/is.mjs";
+import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./helper/is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
 import { createPrivateStorage } from "./helper/private.mjs";
 import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompare } from "./helper/spec.mjs";
+
+const brand = Symbol.for("__Float16Array__");
 
 const _ = createPrivateStorage();
 
@@ -10,8 +12,28 @@ const _ = createPrivateStorage();
  * @param {unknown} target
  * @returns {boolean}
  */
-function isFloat16ArrayProxy(target) {
-    return target instanceof Float16Array && _(target).target !== undefined;
+function hasFloat16ArrayBrand(target) {
+    if (!isObjectLike(target)) {
+        return false;
+    }
+
+    const constructor = target.constructor;
+    if (constructor === undefined) {
+        return false;
+    }
+    if (!isObject(constructor)) {
+        throw TypeError("constructor is not a object");
+    }
+
+    return Reflect.has(constructor, brand);
+}
+
+/**
+ * @param {unknown} target
+ * @returns {boolean}
+ */
+export function isFloat16Array(target) {
+    return hasFloat16ArrayBrand(target) && !isTypedArray(target);
 }
 
 /**
@@ -19,7 +41,7 @@ function isFloat16ArrayProxy(target) {
  * @returns {boolean}
  */
 function isFloat16BitsArray(target) {
-    return target instanceof Float16Array && _(target).proxy !== undefined;
+    return hasFloat16ArrayBrand(target) && isUint16Array(target);
 }
 
 /**
@@ -59,7 +81,7 @@ function copyToArray(float16bitsArray) {
 const applyHandler = Object.freeze({
     apply(func, thisArg, args) {
         // peel off proxy
-        if (isFloat16ArrayProxy(thisArg)) {
+        if (isFloat16Array(thisArg)) {
             return Reflect.apply(func, _(thisArg).target, args);
         }
 
@@ -105,14 +127,14 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
  * limitation: see README.md for details
  */
-export default class Float16Array extends Uint16Array {
+export class Float16Array extends Uint16Array {
 
     /**
      * @see https://tc39.es/ecma262/#sec-typedarray
      */
     constructor(input, byteOffset, length) {
         // input Float16Array
-        if (isFloat16ArrayProxy(input)) {
+        if (isFloat16Array(input)) {
             super(_(input).target);
 
         // object without ArrayBuffer
@@ -513,7 +535,7 @@ export default class Float16Array extends Uint16Array {
         }
 
         // for optimization
-        if (isFloat16ArrayProxy(input)) {
+        if (isFloat16Array(input)) {
             const float16bitsArray = _(input).target;
             super.set(float16bitsArray, targetOffset);
             return;
@@ -779,6 +801,11 @@ export default class Float16Array extends Uint16Array {
  */
 Object.defineProperty(Float16Array, "BYTES_PER_ELEMENT", { value: Uint16Array.BYTES_PER_ELEMENT });
 
+/**
+ * limitation: It is peaked by `Object.getOwnPropertySymbols(Float16Array)` and `Reflect.ownKeys(Float16Array)`
+ */
+Object.defineProperty(Float16Array, brand, {});
+
 const Float16ArrayPrototype = Float16Array.prototype;
 
 /**
@@ -792,6 +819,11 @@ Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
 
 const defaultFloat16ArrayMethods = new WeakSet();
 for (const key of Reflect.ownKeys(Float16ArrayPrototype)) {
+    // constructor is not callable
+    if (key === "constructor") {
+        continue;
+    }
+
     const val = Float16ArrayPrototype[key];
     if (typeof val === "function") {
         defaultFloat16ArrayMethods.add(val);

@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-/* global assert Float16Array SharedArrayBuffer */
+/* eslint-env mocha, es2020 */
+/* global assert Float16Array isFloat16Array */
 
 describe("Float16Array", () => {
 
@@ -1309,6 +1309,44 @@ describe("Float16Array", () => {
             assert( Float16Array.prototype.toString.call(array) === "1,2,3" );
         });
 
+    });
+
+});
+
+describe("isFloat16Array", () => {
+
+    it("property `name` is 'isFloat16Array'", () => {
+        assert( isFloat16Array.name === "isFloat16Array" );
+    });
+
+    it("property `length` is 1", () => {
+        assert( isFloat16Array.length === 1 );
+    });
+
+    it("check if Float16Array", () => {
+        assert( isFloat16Array(new Float16Array()) === true );
+        assert( isFloat16Array(new Float32Array()) === false );
+        assert( isFloat16Array(new Uint16Array()) === false );
+
+        assert( isFloat16Array(/* empty */) === false );
+        assert( isFloat16Array(null) === false );
+        assert( isFloat16Array(undefined) === false );
+        assert( isFloat16Array(0) === false );
+        assert( isFloat16Array(1) === false );
+        assert( isFloat16Array(NaN) === false );
+        assert( isFloat16Array(Infinity) === false );
+        assert( isFloat16Array(true) === false );
+        assert( isFloat16Array(false) === false );
+        assert( isFloat16Array("") === false );
+        assert( isFloat16Array("foo") === false );
+        assert( isFloat16Array(Symbol()) === false );
+        assert( isFloat16Array(BigInt(0)) === false );
+        assert( isFloat16Array(BigInt(1)) === false );
+
+        assert( isFloat16Array({}) === false );
+        assert( isFloat16Array([]) === false );
+        assert( isFloat16Array(/a/) === false );
+        assert( isFloat16Array(() => {}) === false );
     });
 
 });

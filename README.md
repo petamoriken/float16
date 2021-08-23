@@ -42,12 +42,12 @@ npm install @petamoriken/float16 --save
 
 ```js
 // ES Modules
-import { Float16Array, getFloat16, setFloat16, hfround } from "@petamoriken/float16";
+import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "@petamoriken/float16";
 ```
 
 ```js
 // CommonJS
-const { Float16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/float16");
+const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/float16");
 ```
 
 ### Browser
@@ -57,7 +57,7 @@ Serve `browser/float16.mjs` / `browser/float16.js` files from your Web server as
 ```html
 <!-- Module Scripts -->
 <script type="module">
-    import { Float16Array, getFloat16, setFloat16, hfround } from "DEST/TO/float16.mjs";
+    import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "DEST/TO/float16.mjs";
 </script>
 ```
 
@@ -65,7 +65,7 @@ Serve `browser/float16.mjs` / `browser/float16.js` files from your Web server as
 <!-- Classic Scripts -->
 <script src="DEST/TO/float16.js"></script>
 <script>
-    const { Float16Array, getFloat16, setFloat16, hfround } = float16;
+    const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
 </script>
 ```
 
@@ -74,7 +74,7 @@ Or use [jsDelivr](https://www.jsdelivr.com/) CDN.
 ```html
 <!-- Module Scripts -->
 <script type="module">
-    import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
+    import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
 </script>
 ```
 
@@ -82,7 +82,7 @@ Or use [jsDelivr](https://www.jsdelivr.com/) CDN.
 <!-- Classic Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
 <script>
-    const { Float16Array, getFloat16, setFloat16, hfround } = float16;
+    const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
 </script>
 ```
 
@@ -91,14 +91,14 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/) CDN.
 ```html
 <!-- Module Scripts -->
 <script type="module">
-    import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
+    import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
 </script>
 ```
 
 ### Deno (Skypack CDN)
 
 ```ts
-import { Float16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?dts";
+import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?dts";
 ```
 
 ## Support
@@ -129,6 +129,18 @@ for (const val of array) {
 }
 
 array.reduce((prev, current) => prev + current); // 3.298828125
+```
+
+### `isFloat16Array`
+
+```ts
+declare function isFloat16Array(value: unknown): value is Float16Array;
+```
+
+```js
+isFloat16Array(new Float16Array()); // true
+isFloat16Array(new Float32Array()); // false
+isFloat16Array(new Uint16Array()); // false
 ```
 
 ### `DataView`
@@ -173,7 +185,7 @@ hfround(1.337); // 1.3369140625
 
 ## `Float16Array` limitations (edge cases)
 
-### The `instanceof` operator
+### The `instanceof` Operator
 
 Since `Float16Array` is made by inheriting from `Uint16Array`, so you can't use the `instanceof` operator to check if it is a `Uint16Array` or not.
 
@@ -197,7 +209,7 @@ function isUint16Array(target) {
 
 For Node.js, you can use `util.types` ([document](https://nodejs.org/api/util.html#util_util_types)) instead. Want to do a more solid `TypedArray` check for other environments? Then you can use [this code](https://gist.github.com/petamoriken/6982e7469994a8880bcbef6198203042) 😉
 
-### Built-in functions
+### Built-in Functions
 
 Built-in `TypedArray` objects use "internal slots" for built-in methods. Some limitations exist because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
 
@@ -209,10 +221,6 @@ E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the `[[Vi
 ArrayBuffer.isView(new Float32Array(10)); // true
 ArrayBuffer.isView(new Float16Array(10)); // false
 ```
-
-### Prototype methods
-
-Due to implementation reasons, some details of `Float16Array` prototype methods may differ from the ECMAScript specification. See JSDoc comments in `src/Float16Array.mjs` for details.
 
 ### WebGL
 
@@ -236,6 +244,10 @@ gl.vertexAttribPointer(location, 3, gl.HALF_FLOAT, false, 0, 0);
 gl.bindBuffer(gl.ARRAY_BUFFER, null);
 gl.enableVertexAttribArray(location);
 ```
+
+### Others
+
+See JSDoc comments in `src/Float16Array.mjs` for details. If you don't write hacky code, you shouldn't have any problems.
 
 ## Build
 

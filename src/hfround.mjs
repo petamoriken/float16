@@ -5,7 +5,7 @@ import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
  * @param {number} num
  * @returns {number}
  */
-export default function hfround(num) {
+export function hfround(num) {
     num = Number(num);
 
     // for optimization
