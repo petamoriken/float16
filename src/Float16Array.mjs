@@ -65,7 +65,7 @@ function getFloat16BitsArrayFromFloat16Array(float16) {
     // from another realm
     if (target === undefined) {
         const clone = new Float16Array(float16.buffer, float16.byteOffset, float16.length);
-        target = _(float16).target = _(clone).target;
+        target = _(clone).target;
     }
 
     return target;
