@@ -1,5 +1,7 @@
 /* eslint-env node */
 
+"use strict";
+
 const browserslist = require("browserslist");
 
 const FIREFOX_ESR_VERSION = `${Number.parseInt(browserslist("Firefox ESR")[0].replace(/^firefox\s+([\d.]+)$/i, "$1"))}.0`;

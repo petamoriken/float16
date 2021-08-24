@@ -5,7 +5,9 @@ describe("Float16Array", () => {
 
     let AnotherRealmFloat16Array;
 
-    before(async () => {
+    before(async function () {
+        this.timeout(15000);
+
         if (typeof window !== "undefined") {
             const iframe = document.createElement("iframe");
             iframe.height = iframe.width = 0;
@@ -15,7 +17,7 @@ describe("Float16Array", () => {
                     const script = document.createElement("script");
                     script.src = "float16.js";
 
-                    const id = setTimeout(reject, 30000);
+                    const id = setTimeout(reject, 10000);
                     script.onload = () => { clearTimeout(id); resolve(); };
                     script.onerror = () => { clearTimeout(id); reject(); };
 
@@ -1403,7 +1405,9 @@ describe("isFloat16Array", () => {
 
     let AnotherRealmFloat16Array;
 
-    before(async () => {
+    before(async function () {
+        this.timeout(15000);
+
         if (typeof window !== "undefined") {
             const iframe = document.createElement("iframe");
             iframe.height = iframe.width = 0;
@@ -1413,7 +1417,7 @@ describe("isFloat16Array", () => {
                     const script = document.createElement("script");
                     script.src = "float16.js";
 
-                    const id = setTimeout(reject, 30000);
+                    const id = setTimeout(reject, 10000);
                     script.onload = () => { clearTimeout(id); resolve(); };
                     script.onerror = () => { clearTimeout(id); reject(); };
 
