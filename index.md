@@ -10,7 +10,13 @@
         <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
     </a>
     <a href="https://www.npmjs.com/package/@petamoriken/float16">
-        <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;style=flat-square" alt="npm">
+        <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;logo=npm&amp;style=flat-square" alt="npm version">
+    </a>
+    <a href="https://deno.land/x/float16">
+        <img src="https://img.shields.io/github/v/tag/petamoriken/float16?label=version&amp;logo=deno&amp;style=flat-square" alt="deno version">
+    </a>
+    <a href="https://github.com/petamoriken/float16/blob/master/package.json">
+        <img src="https://img.shields.io/david/petamoriken/float16?style=flat-square" alt="dependencies">
     </a>
     <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
         <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
