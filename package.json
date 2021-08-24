@@ -2,11 +2,11 @@
   "name": "@petamoriken/float16",
   "description": "half precision floating point for JavaScript",
   "version": "3.3.3",
-  "main": "./lib/index.js",
-  "module": "./src/index.mjs",
+  "main": "./index.js",
+  "module": "./index.mjs",
   "exports": {
-    "require": "./lib/index.js",
-    "import": "./src/index.mjs"
+    "require": "./index.js",
+    "import": "./index.mjs"
   },
   "types": "index.d.ts",
   "sideEffects": false,
@@ -21,13 +21,12 @@
     "url": "https://github.com/petamoriken/float16.git"
   },
   "files": [
-    "package.json",
-    "README.md",
-    "LICENSE",
     "src",
-    "index.d.ts",
     "lib",
-    "browser"
+    "browser",
+    "index.mjs",
+    "index.js",
+    "index.d.ts"
   ],
   "keywords": [
     "float16",

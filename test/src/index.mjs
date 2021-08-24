@@ -1,4 +1,4 @@
-import { Float16Array, getFloat16, hfround, isFloat16Array, setFloat16 } from "../../src/index.mjs";
+import { Float16Array, getFloat16, hfround, isFloat16Array, setFloat16 } from "../../index.mjs";
 
 const float16 = new Float16Array([1.0, 1.1, 1.2]);
 assert( float16.reduce((prev, current) => prev + current) === 3.298828125 );

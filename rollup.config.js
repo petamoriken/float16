@@ -11,7 +11,7 @@ const homepage = process.env.npm_package_homepage;
 const banner = `/*! ${ name } ${ version } | ${ license } License - ${ homepage } */\n`;
 
 export default {
-    input: "src/index.mjs",
+    input: "index.mjs",
     output: [{
         file: "browser/float16.js",
         format: "iife",
