@@ -95,10 +95,10 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/) CDN.
 </script>
 ```
 
-### Deno (Skypack CDN)
+### Deno
 
 ```ts
-import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?dts";
+import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://deno.land/x/float16/index.mjs";
 ```
 
 ## Support
