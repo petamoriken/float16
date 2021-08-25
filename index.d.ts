@@ -332,7 +332,7 @@ export declare var Float16Array: {
 
 /**
  * Returns `true` if the value is a Float16Array instance.
- * @since v3.3.4
+ * @since v3.4.0
  */
 export declare function isFloat16Array(value: unknown): value is Float16Array;
 

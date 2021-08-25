@@ -55,14 +55,13 @@ function assertFloat16BitsArray(target) {
 }
 
 /**
- * peel off Proxy
  * @param {Float16Array} float16
- * @return {Float16Array}
+ * @return {ArrayLike<number>}
  */
 function getFloat16BitsArrayFromFloat16Array(float16) {
     let target = _(float16).target;
 
-    // from another realm
+    // from other realms
     if (target === undefined) {
         const clone = new Float16Array(float16.buffer, float16.byteOffset, float16.length);
         target = _(clone).target;
@@ -72,26 +71,26 @@ function getFloat16BitsArrayFromFloat16Array(float16) {
 }
 
 /**
+ * @param {ArrayLike<number>} float16bitsArray
+ * @return {number[]}
+ */
+ function copyToArray(float16bitsArray) {
+    const length = float16bitsArray.length;
+
+    const array = [];
+    for (let i = 0; i < length; ++i) {
+        array[i] = convertToNumber(float16bitsArray[i]);
+    }
+
+    return array;
+}
+
+/**
  * @param {unknown} target
  * @returns {boolean}
  */
 function isDefaultFloat16ArrayMethods(target) {
     return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
-}
-
-/**
- * @param {Float16Array} float16bitsArray
- * @return {number[]}
- */
-function copyToArray(float16bitsArray) {
-    const length = float16bitsArray.length;
-
-    const array = [];
-    for (let i = 0; i < length; ++i) {
-        array.push(convertToNumber(float16bitsArray[i]));
-    }
-
-    return array;
 }
 
 /** @type {ProxyHandler<Function>} */
@@ -154,7 +153,8 @@ export class Float16Array extends Uint16Array {
         // input Float16Array
         if (isFloat16Array(input)) {
             // peel off Proxy
-            super(getFloat16BitsArrayFromFloat16Array(input));
+            const float16bitsArray = getFloat16BitsArrayFromFloat16Array(input);
+            super(float16bitsArray);
 
         // object without ArrayBuffer
         } else if (isObject(input) && !isArrayBuffer(input)) {
