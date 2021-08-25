@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.0-1-gb9b680e | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.0-5-g15e3f43 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -441,14 +441,13 @@ var float16 = (function (exports) {
       }
     }
     /**
-     * peel off Proxy
      * @param {Float16Array} float16
-     * @return {Float16Array}
+     * @return {ArrayLike<number>}
      */
 
 
     function getFloat16BitsArrayFromFloat16Array(float16) {
-      let target = _(float16).target; // from another realm
+      let target = _(float16).target; // from other realms
 
 
       if (target === undefined) {
@@ -459,16 +458,7 @@ var float16 = (function (exports) {
       return target;
     }
     /**
-     * @param {unknown} target
-     * @returns {boolean}
-     */
-
-
-    function isDefaultFloat16ArrayMethods(target) {
-      return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
-    }
-    /**
-     * @param {Float16Array} float16bitsArray
+     * @param {ArrayLike<number>} float16bitsArray
      * @return {number[]}
      */
 
@@ -478,10 +468,19 @@ var float16 = (function (exports) {
       const array = [];
 
       for (let i = 0; i < length; ++i) {
-        array.push(convertToNumber(float16bitsArray[i]));
+        array[i] = convertToNumber(float16bitsArray[i]);
       }
 
       return array;
+    }
+    /**
+     * @param {unknown} target
+     * @returns {boolean}
+     */
+
+
+    function isDefaultFloat16ArrayMethods(target) {
+      return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
     }
     /** @type {ProxyHandler<Function>} */
 
@@ -545,7 +544,8 @@ var float16 = (function (exports) {
         // input Float16Array
         if (isFloat16Array(input)) {
           // peel off Proxy
-          super(getFloat16BitsArrayFromFloat16Array(input)); // object without ArrayBuffer
+          const float16bitsArray = getFloat16BitsArrayFromFloat16Array(input);
+          super(float16bitsArray); // object without ArrayBuffer
         } else if (isObject(input) && !isArrayBuffer(input)) {
           let list;
           let length; // TypedArray
