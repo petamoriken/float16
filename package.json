@@ -1,7 +1,7 @@
 {
   "name": "@petamoriken/float16",
   "description": "half precision floating point for JavaScript",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "main": "./index.js",
   "module": "./index.mjs",
   "exports": {
