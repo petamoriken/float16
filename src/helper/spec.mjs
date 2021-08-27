@@ -1,10 +1,5 @@
-/**
- * @param {unknown} value
- * @returns {value is object}
- */
-function isObject(value) {
-    return (value !== null && typeof value === "object") || typeof value === "function";
-}
+import { isObject } from "./is.mjs";
+
 /**
  * @param {unknown} target
  * @returns {number}

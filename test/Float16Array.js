@@ -252,12 +252,20 @@ describe("Float16Array", () => {
         assert( float16.foo === "foo" );
 
         // not integer
-        float16[0.5] = 1.337;
+        float16[0.5] = 1;
         assert( float16[0.5] === undefined );
 
         // out of range
-        float16[10] = 1.337;
+        float16[10] = 2;
         assert( float16[10] === undefined );
+
+        // Infinity
+        float16[Infinity] = 3;
+        assert( float16[Infinity] === undefined );
+
+        // "-0"
+        float16["-0"] = 4;
+        assert( float16["-0"] === undefined );
     });
 
     it("iterate", () => {

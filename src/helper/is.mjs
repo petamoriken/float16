@@ -1,5 +1,3 @@
-import { ToIntegerOrInfinity } from "./spec.mjs";
-
 /**
  * @param {unknown} value
  * @returns {value is object}
@@ -71,9 +69,26 @@ export function isIterable(value) {
 }
 
 /**
- * @param {unknown} key
+ * @param {unknown} value
  * @returns {value is string}
  */
-export function isCanonicalIntegerIndexString(key) {
-    return typeof key === "string" && key === ToIntegerOrInfinity(key) + "";
+export function isCanonicalIntegerIndexString(value) {
+    if (typeof value !== "string") {
+        return false;
+    }
+
+    const number = Number(value);
+    if (value !== number + "") {
+        return false;
+    }
+
+    if (!Number.isFinite(number)) {
+        return false;
+    }
+
+    if (number !== Math.trunc(number)) {
+        return false;
+    }
+
+    return true;
 }

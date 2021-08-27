@@ -106,40 +106,38 @@ const applyHandler = Object.freeze({
     },
 });
 
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
 /** @type {ProxyHandler<Float16Array>} */
 const handler = Object.freeze({
     get(target, key) {
-        if (isCanonicalIntegerIndexString(key)) {
-            const raw = Reflect.get(target, key);
-            return raw !== undefined ? convertToNumber(raw) : undefined;
-        } else {
-            const ret = Reflect.get(target, key);
-
-            if (!isDefaultFloat16ArrayMethods(ret)) {
-                return ret;
-            }
-
-            // TypedArray methods can't be called by Proxy Object
-            let proxy = _(ret).proxy;
-
-            if (proxy === undefined) {
-                proxy = _(ret).proxy = new Proxy(ret, applyHandler);
-            }
-
-            return proxy;
+        if (isCanonicalIntegerIndexString(key) && hasOwnProperty.call(target, key)) {
+            return convertToNumber(Reflect.get(target, key));
         }
+
+        const ret = Reflect.get(target, key);
+        if (!isDefaultFloat16ArrayMethods(ret)) {
+            return ret;
+        }
+
+        // TypedArray methods can't be called by Proxy Object
+        let proxy = _(ret).proxy;
+
+        if (proxy === undefined) {
+            proxy = _(ret).proxy = new Proxy(ret, applyHandler);
+        }
+
+        return proxy;
     },
 
     set(target, key, value) {
-        if (isCanonicalIntegerIndexString(key)) {
+        if (isCanonicalIntegerIndexString(key) && hasOwnProperty.call(target, key)) {
             return Reflect.set(target, key, roundToFloat16Bits(value));
-        } else {
-            return Reflect.set(target, key, value);
         }
+
+        return Reflect.set(target, key, value);
     },
 });
-
-const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**
  * limitation: see README.md for details
