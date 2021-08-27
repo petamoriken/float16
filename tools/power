@@ -13,15 +13,15 @@ const readdir = util.promisify(require("fs").readdir);
 const exec = util.promisify(require("child_process").exec);
 
 (async () => {
-    const files = (await readdir("test")).filter((name) => {
-        return path.extname(name) === ".js";
-    });
+  const files = (await readdir("test")).filter((name) => {
+    return path.extname(name) === ".js";
+  });
 
-    for (const file of files) {
-        const base = path.basename(file, ".js");
-        const command = `npx espower test/${ base }.js | npx exorcist -r ./ docs/test/${ base }.power.js.map > docs/test/${ base }.power.js`;
+  for (const file of files) {
+    const base = path.basename(file, ".js");
+    const command = `npx espower test/${ base }.js | npx exorcist -r ./ docs/test/${ base }.power.js.map > docs/test/${ base }.power.js`;
 
-        console.log(`${gray}$ ${command}${reset}`);
-        exec(command);
-    }
+    console.log(`${gray}$ ${command}${reset}`);
+    exec(command);
+  }
 })();

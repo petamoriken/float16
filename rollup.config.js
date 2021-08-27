@@ -11,22 +11,22 @@ const homepage = process.env.npm_package_homepage;
 const banner = `/*! ${ name } ${ version } | ${ license } License - ${ homepage } */\n`;
 
 export default {
-    input: "index.mjs",
-    output: [{
-        file: "browser/float16.js",
-        format: "iife",
-        name: "float16",
-        banner,
-    }, {
-        file: "browser/float16.mjs",
-        format: "es",
-        banner,
-    }],
-    plugins: [
-        babel({
-            babelrc: false,
-            presets: ["@babel/preset-env"],
-            babelHelpers: "bundled",
-        }),
-    ],
+  input: "index.mjs",
+  output: [{
+    file: "browser/float16.js",
+    format: "iife",
+    name: "float16",
+    banner,
+  }, {
+    file: "browser/float16.mjs",
+    format: "es",
+    banner,
+  }],
+  plugins: [
+    babel({
+      babelrc: false,
+      presets: ["@babel/preset-env"],
+      babelHelpers: "bundled",
+    }),
+  ],
 };

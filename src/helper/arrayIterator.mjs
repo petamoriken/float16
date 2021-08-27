@@ -5,18 +5,18 @@ const _ = createPrivateStorage();
 const IteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
 
 const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
-    next: {
-        value: function next() {
-            return _(this).iterator.next();
-        },
-        writable: true,
-        configurable: true,
+  next: {
+    value: function next() {
+      return _(this).iterator.next();
     },
+    writable: true,
+    configurable: true,
+  },
 
-    [Symbol.toStringTag]: {
-        value: "Array Iterator",
-        configurable: true,
-    },
+  [Symbol.toStringTag]: {
+    value: "Array Iterator",
+    configurable: true,
+  },
 });
 
 /**
@@ -24,7 +24,7 @@ const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
  * @returns {IterableIterator<number>}
  */
 export function wrapInArrayIterator(iterator) {
-    const arrayIterator = Object.create(ArrayIteratorPrototype);
-    _(arrayIterator).iterator = iterator;
-    return arrayIterator;
+  const arrayIterator = Object.create(ArrayIteratorPrototype);
+  _(arrayIterator).iterator = iterator;
+  return arrayIterator;
 }

@@ -3,8 +3,8 @@
 "use strict";
 
 require("espower-loader")({
-    cwd: process.cwd(),
-    pattern: "test/*.js",
+  cwd: process.cwd(),
+  pattern: "test/*.js",
 });
 
 const assert = require("power-assert");
