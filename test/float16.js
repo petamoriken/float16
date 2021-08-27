@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.0-12-g74cf54a | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.0-13-ge7fc812 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
     'use strict';
@@ -193,15 +193,6 @@ var float16 = (function (exports) {
 
     function isObjectLike(value) {
       return value !== null && typeof value === "object";
-    }
-    const toString = Object.prototype.toString;
-    /**
-     * @param {unknown} value
-     * @returns {value is DataView}
-     */
-
-    function isDataView(value) {
-      return ArrayBuffer.isView(value) && toString.call(value) === "[object DataView]";
     } // Inspired by util.types implementation of Node.js
 
     const TypedArrayPrototype = Object.getPrototypeOf(Uint8Array).prototype;
@@ -221,6 +212,27 @@ var float16 = (function (exports) {
 
     function isUint16Array(value) {
       return getTypedArrayPrototypeSybolToStringTag.call(value) === "Uint16Array";
+    }
+    const toString = Object.prototype.toString;
+    /**
+     * @param {unknown} value
+     * @returns {value is DataView}
+     */
+
+    function isDataView(value) {
+      if (!ArrayBuffer.isView(value)) {
+        return false;
+      }
+
+      if (isTypedArray(value)) {
+        return false;
+      }
+
+      if (toString.call(value) !== "[object DataView]") {
+        return false;
+      }
+
+      return true;
     }
     /**
      * @param {unknown} value
