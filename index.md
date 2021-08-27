@@ -58,7 +58,7 @@ const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = requir
 
 ### Browser
 
-Serve `browser/float16.mjs` / `browser/float16.js` files from your Web server as the JavaScript `Content-Type`.
+Deliver a `browser/float16.mjs` or `browser/float16.js` file from your Web server with the JavaScript `Content-Type` HTTP header.
 
 ```html
 <!-- Module Scripts -->
@@ -75,7 +75,7 @@ Serve `browser/float16.mjs` / `browser/float16.js` files from your Web server as
 </script>
 ```
 
-Or use [jsDelivr](https://www.jsdelivr.com/) CDN.
+Or use [jsDelivr](https://cdn.jsdelivr.net/npm/@petamoriken/float16/) CDN.
 
 ```html
 <!-- Module Scripts -->
@@ -92,7 +92,7 @@ Or use [jsDelivr](https://www.jsdelivr.com/) CDN.
 </script>
 ```
 
-ES modules are also available on the [Skypack](https://www.skypack.dev/) CDN.
+ES modules are also available on the [Skypack](https://www.skypack.dev/view/@petamoriken/float16) CDN.
 
 ```html
 <!-- Module Scripts -->
@@ -102,6 +102,8 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/) CDN.
 ```
 
 ### Deno
+
+You can get modules from [deno.land/x](https://deno.land/x/float16) hosting service.
 
 ```ts
 import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://deno.land/x/float16/index.mjs";
@@ -126,7 +128,7 @@ If you build it yourself using bundler to support older browsers, transpile the 
 
 ### `Float16Array`
 
-This API is similar to `TypedArray` such as `Float32Array` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)).
+`Float16Array` is similar to `TypedArray` such as `Float32Array` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)).
 
 ```js
 const array = new Float16Array([1.0, 1.1, 1.2]);
@@ -139,24 +141,26 @@ array.reduce((prev, current) => prev + current); // 3.298828125
 
 ### `isFloat16Array`
 
+`isFloat16Array` is a utility function to check whether the value given as an argument is an instance of `Float16Array` or not.
+
 ```ts
 declare function isFloat16Array(value: unknown): value is Float16Array;
 ```
 
 ```js
-isFloat16Array(new Float16Array()); // true
-isFloat16Array(new Float32Array()); // false
-isFloat16Array(new Uint16Array()); // false
+isFloat16Array(new Float16Array(10)); // true
+isFloat16Array(new Float32Array(10)); // false
+isFloat16Array(new Uint16Array(10)); // false
 ```
 
 ### `DataView`
+
+`getFloat16` and `setFloat16` are similar to `DataView` methods such as `DataView#getFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/getFloat32)) and `DataView#setFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/setFloat32)).
 
 ```ts
 declare function getFloat16(view: DataView, byteOffset: number, littleEndian?: boolean): number;
 declare function setFloat16(view: DataView, byteOffset: number, value: number, littleEndian?: boolean): void;
 ```
-
-These APIs are similar to `DataView` methods such as `DataView#getFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/getFloat32)) and `DataView#setFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/setFloat32)).
 
 ```js
 const buffer = new ArrayBuffer(10);
@@ -177,12 +181,12 @@ view.getFloat16(0, true); // 3.140625
 
 ### `hfround`
 
+`hfround` is similar to `Math.fround` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
+This function returns nearest half precision float representation of a number.
+
 ```ts
 declare function hfround(x: number): number;
 ```
-
-This API is similar to `Math.fround` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
-This function returns nearest half precision float representation of a number.
 
 ```js
 Math.fround(1.337); // 1.3370000123977661
@@ -221,11 +225,22 @@ Built-in `TypedArray` objects use "internal slots" for built-in methods. Some li
 
 This package isn't polyfill, in other words, it doesn't change native global functions and static/prototype methods.
 
-E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the `[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object such as `Float16Array`.
+E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the `[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object such as `Float16Array` instance.
 
 ```js
 ArrayBuffer.isView(new Float32Array(10)); // true
 ArrayBuffer.isView(new Float16Array(10)); // false
+```
+
+### The structured clone algorithm (Web Workers, IndexedDB, etc)
+
+The structured clone algorithm copies complex JavaScript objects. It is used internally when invoking `structuredClone()`, to transfer data between Web Workers via `postMessage()`, storing objects with IndexedDB, or copying objects for other APIs ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)).
+
+It can't clone `Proxy` object such as `Float16Array` instance, you need to convert it to `Uint16Array` or deal with `ArrayBuffer` directly.
+
+```js
+const array = new Float16Array([1.0, 1.1, 1.2]);
+const cloned = structuredClone({ buffer: array.buffer });
 ```
 
 ### WebGL
