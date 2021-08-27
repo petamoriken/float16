@@ -1,17 +1,17 @@
 {
-    "presets": [
-        ["@babel/preset-env", {
-            "modules": "commonjs"
-        }]
-    ],
-    "plugins": [
-        ["replace-import-extension", {
-            "extMapping": { ".mjs": ".js" }
-        }]
-    ],
-    "env": {
-        "test": {
-            "sourceMaps": "inline"
-        }
+  "presets": [
+    ["@babel/preset-env", {
+      "modules": "commonjs"
+    }]
+  ],
+  "plugins": [
+    ["replace-import-extension", {
+      "extMapping": { ".mjs": ".js" }
+    }]
+  ],
+  "env": {
+    "test": {
+      "sourceMaps": "inline"
     }
+  }
 }
