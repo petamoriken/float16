@@ -28,8 +28,9 @@ describe('Float16Array', () => {
         this.timeout(15000);
         if (typeof window !== 'undefined') {
             const iframe = document.createElement('iframe');
-            iframe.height = iframe.width = 0;
-            document.body.appendChild(iframe);
+            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts');
+            iframe.style.display = 'none';
+            document.body.parentElement.appendChild(iframe);
             try {
                 await new Promise((resolve, reject) => {
                     const script = document.createElement('script');
@@ -73,11 +74,11 @@ describe('Float16Array', () => {
             assert.deepStrictEqual(_rec1._expr(_rec1._capt(float16, 'arguments/0'), {
                 content: 'assert.deepStrictEqual(float16, array)',
                 filepath: 'test/Float16Array.js',
-                line: 55
+                line: 56
             }), _rec2._expr(_rec2._capt(array, 'arguments/1'), {
                 content: 'assert.deepStrictEqual(float16, array)',
                 filepath: 'test/Float16Array.js',
-                line: 55
+                line: 56
             }));
         };
     });
@@ -89,7 +90,7 @@ describe('Float16Array', () => {
         assert(_rec3._expr(_rec3._capt(_rec3._capt(_rec3._capt(Float16Array, 'arguments/0/left/object').name, 'arguments/0/left') === 'Float16Array', 'arguments/0'), {
             content: 'assert(Float16Array.name === "Float16Array")',
             filepath: 'test/Float16Array.js',
-            line: 64
+            line: 65
         }));
     });
     it('property `length` is 3', () => {
@@ -97,7 +98,7 @@ describe('Float16Array', () => {
         assert(_rec4._expr(_rec4._capt(_rec4._capt(_rec4._capt(Float16Array, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
             content: 'assert(Float16Array.length === 3)',
             filepath: 'test/Float16Array.js',
-            line: 68
+            line: 69
         }));
     });
     it('property `BYTES_PER_ELEMENT` is 2', () => {
@@ -105,7 +106,7 @@ describe('Float16Array', () => {
         assert(_rec5._expr(_rec5._capt(_rec5._capt(_rec5._capt(Float16Array, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(Float16Array.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 72
+            line: 73
         }));
     });
     it('input empty or primitive', () => {
@@ -140,44 +141,44 @@ describe('Float16Array', () => {
         assert(_rec6._expr(_rec6._capt(_rec6._capt(_rec6._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_1.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 90
+            line: 91
         }));
         assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16_1.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 91
+            line: 92
         }));
         assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_1.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 92
+            line: 93
         }));
         assert(_rec9._expr(_rec9._capt(_rec9._capt(_rec9._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_1.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 93
+            line: 94
         }));
         assert.equalFloat16ArrayValues(float16_1, checkArray);
         const float16_2 = new Float16Array(new Float32Array(array));
         assert(_rec10._expr(_rec10._capt(_rec10._capt(_rec10._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 98
+            line: 99
         }));
         assert(_rec11._expr(_rec11._capt(_rec11._capt(_rec11._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16_2.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 99
+            line: 100
         }));
         assert(_rec12._expr(_rec12._capt(_rec12._capt(_rec12._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_2.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 100
+            line: 101
         }));
         assert(_rec13._expr(_rec13._capt(_rec13._capt(_rec13._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_2.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 101
+            line: 102
         }));
         assert.equalFloat16ArrayValues(float16_2, checkArray);
     });
@@ -195,32 +196,32 @@ describe('Float16Array', () => {
         assert(_rec14._expr(_rec14._capt(_rec14._capt(_rec14._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 111
+            line: 112
         }));
         assert(_rec15._expr(_rec15._capt(_rec15._capt(_rec15._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 112
+            line: 113
         }));
         assert(_rec16._expr(_rec16._capt(_rec16._capt(_rec16._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 113
+            line: 114
         }));
         assert(_rec17._expr(_rec17._capt(_rec17._capt(_rec17._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 114
+            line: 115
         }));
         assert(_rec18._expr(_rec18._capt(_rec18._capt(_rec18._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') instanceof _rec18._capt(FooArrayBuffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16.buffer instanceof FooArrayBuffer)',
             filepath: 'test/Float16Array.js',
-            line: 115
+            line: 116
         }));
         assert(_rec19._expr(_rec19._capt(_rec19._capt(_rec19._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec19._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16.buffer !== buffer)',
             filepath: 'test/Float16Array.js',
-            line: 116
+            line: 117
         }));
     });
     it('input TypedArray with CustomSharedArrayBuffer', function () {
@@ -240,32 +241,32 @@ describe('Float16Array', () => {
         assert(_rec20._expr(_rec20._capt(_rec20._capt(_rec20._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 129
+            line: 130
         }));
         assert(_rec21._expr(_rec21._capt(_rec21._capt(_rec21._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 130
+            line: 131
         }));
         assert(_rec22._expr(_rec22._capt(_rec22._capt(_rec22._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 131
+            line: 132
         }));
         assert(_rec23._expr(_rec23._capt(_rec23._capt(_rec23._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 132
+            line: 133
         }));
         assert(_rec24._expr(_rec24._capt(!_rec24._capt(_rec24._capt(_rec24._capt(float16, 'arguments/0/argument/left/object').buffer, 'arguments/0/argument/left') instanceof _rec24._capt(FooSharedArrayBuffer, 'arguments/0/argument/right'), 'arguments/0/argument'), 'arguments/0'), {
             content: 'assert(!(float16.buffer instanceof FooSharedArrayBuffer))',
             filepath: 'test/Float16Array.js',
-            line: 133
+            line: 134
         }));
         assert(_rec25._expr(_rec25._capt(_rec25._capt(_rec25._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec25._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16.buffer !== buffer)',
             filepath: 'test/Float16Array.js',
-            line: 134
+            line: 135
         }));
     });
     it('input Iterable', () => {
@@ -289,22 +290,22 @@ describe('Float16Array', () => {
         assert(_rec26._expr(_rec26._capt(_rec26._capt(_rec26._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 143
+            line: 144
         }));
         assert(_rec27._expr(_rec27._capt(_rec27._capt(_rec27._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 144
+            line: 145
         }));
         assert(_rec28._expr(_rec28._capt(_rec28._capt(_rec28._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 145
+            line: 146
         }));
         assert(_rec29._expr(_rec29._capt(_rec29._capt(_rec29._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 146
+            line: 147
         }));
         assert.equalFloat16ArrayValues(float16, checkArray);
     });
@@ -330,22 +331,22 @@ describe('Float16Array', () => {
         assert(_rec30._expr(_rec30._capt(_rec30._capt(_rec30._capt(float16, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 156
+            line: 157
         }));
         assert(_rec31._expr(_rec31._capt(_rec31._capt(_rec31._capt(float16, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 157
+            line: 158
         }));
         assert(_rec32._expr(_rec32._capt(_rec32._capt(_rec32._capt(float16, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 158
+            line: 159
         }));
         assert(_rec33._expr(_rec33._capt(_rec33._capt(_rec33._capt(float16, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 159
+            line: 160
         }));
         assert.equalFloat16ArrayValues(float16, checkArray);
     });
@@ -375,22 +376,22 @@ describe('Float16Array', () => {
         assert(_rec34._expr(_rec34._capt(_rec34._capt(_rec34._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_1.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 169
+            line: 170
         }));
         assert(_rec35._expr(_rec35._capt(_rec35._capt(_rec35._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16_1.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 170
+            line: 171
         }));
         assert(_rec36._expr(_rec36._capt(_rec36._capt(_rec36._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_1.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 171
+            line: 172
         }));
         assert(_rec37._expr(_rec37._capt(_rec37._capt(_rec37._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_1.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 172
+            line: 173
         }));
         assert.equalFloat16ArrayValues(float16_1, checkArray);
         class FooArrayBuffer extends ArrayBuffer {
@@ -400,27 +401,27 @@ describe('Float16Array', () => {
         assert(_rec38._expr(_rec38._capt(_rec38._capt(_rec38._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 180
+            line: 181
         }));
         assert(_rec39._expr(_rec39._capt(_rec39._capt(_rec39._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16_2.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 181
+            line: 182
         }));
         assert(_rec40._expr(_rec40._capt(_rec40._capt(_rec40._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 16, 'arguments/0'), {
             content: 'assert(float16_2.byteLength === 16)',
             filepath: 'test/Float16Array.js',
-            line: 182
+            line: 183
         }));
         assert(_rec41._expr(_rec41._capt(_rec41._capt(_rec41._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_2.length === 8)',
             filepath: 'test/Float16Array.js',
-            line: 183
+            line: 184
         }));
         assert(_rec42._expr(_rec42._capt(_rec42._capt(_rec42._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec42._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16_2.buffer !== buffer)',
             filepath: 'test/Float16Array.js',
-            line: 186
+            line: 187
         }));
     });
     it('input Float16Array from another realm', function () {
@@ -452,22 +453,22 @@ describe('Float16Array', () => {
         assert(_rec43._expr(_rec43._capt(_rec43._capt(_rec43._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_1.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 199
+            line: 200
         }));
         assert(_rec44._expr(_rec44._capt(_rec44._capt(_rec44._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16_1.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 200
+            line: 201
         }));
         assert(_rec45._expr(_rec45._capt(_rec45._capt(_rec45._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_1.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 201
+            line: 202
         }));
         assert(_rec46._expr(_rec46._capt(_rec46._capt(_rec46._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_1.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 202
+            line: 203
         }));
         assert.equalFloat16ArrayValues(float16_1, checkArray);
         class FooArrayBuffer extends ArrayBuffer {
@@ -477,27 +478,27 @@ describe('Float16Array', () => {
         assert(_rec47._expr(_rec47._capt(_rec47._capt(_rec47._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 210
+            line: 211
         }));
         assert(_rec48._expr(_rec48._capt(_rec48._capt(_rec48._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16_2.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 211
+            line: 212
         }));
         assert(_rec49._expr(_rec49._capt(_rec49._capt(_rec49._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 16, 'arguments/0'), {
             content: 'assert(float16_2.byteLength === 16)',
             filepath: 'test/Float16Array.js',
-            line: 212
+            line: 213
         }));
         assert(_rec50._expr(_rec50._capt(_rec50._capt(_rec50._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_2.length === 8)',
             filepath: 'test/Float16Array.js',
-            line: 213
+            line: 214
         }));
         assert(_rec51._expr(_rec51._capt(_rec51._capt(_rec51._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec51._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16_2.buffer !== buffer)',
             filepath: 'test/Float16Array.js',
-            line: 216
+            line: 217
         }));
     });
     it('input ArrayBuffer', () => {
@@ -521,27 +522,27 @@ describe('Float16Array', () => {
         assert(_rec52._expr(_rec52._capt(_rec52._capt(_rec52._capt(float16_1, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_1.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 224
+            line: 225
         }));
         assert(_rec53._expr(_rec53._capt(_rec53._capt(_rec53._capt(float16_1, 'arguments/0/left/object').buffer, 'arguments/0/left') === _rec53._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16_1.buffer === buffer)',
             filepath: 'test/Float16Array.js',
-            line: 225
+            line: 226
         }));
         assert(_rec54._expr(_rec54._capt(_rec54._capt(_rec54._capt(float16_1, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
             content: 'assert(float16_1.byteOffset === 0)',
             filepath: 'test/Float16Array.js',
-            line: 226
+            line: 227
         }));
         assert(_rec55._expr(_rec55._capt(_rec55._capt(_rec55._capt(float16_1, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 8, 'arguments/0'), {
             content: 'assert(float16_1.byteLength === 8)',
             filepath: 'test/Float16Array.js',
-            line: 227
+            line: 228
         }));
         assert(_rec56._expr(_rec56._capt(_rec56._capt(_rec56._capt(float16_1, 'arguments/0/left/object').length, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_1.length === 4)',
             filepath: 'test/Float16Array.js',
-            line: 228
+            line: 229
         }));
         assert.equalFloat16ArrayValues(float16_1, [
             1,
@@ -553,27 +554,27 @@ describe('Float16Array', () => {
         assert(_rec57._expr(_rec57._capt(_rec57._capt(_rec57._capt(float16_2, 'arguments/0/left/object').BYTES_PER_ELEMENT, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.BYTES_PER_ELEMENT === 2)',
             filepath: 'test/Float16Array.js',
-            line: 233
+            line: 234
         }));
         assert(_rec58._expr(_rec58._capt(_rec58._capt(_rec58._capt(float16_2, 'arguments/0/left/object').buffer, 'arguments/0/left') === _rec58._capt(buffer, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16_2.buffer === buffer)',
             filepath: 'test/Float16Array.js',
-            line: 234
+            line: 235
         }));
         assert(_rec59._expr(_rec59._capt(_rec59._capt(_rec59._capt(float16_2, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.byteOffset === 2)',
             filepath: 'test/Float16Array.js',
-            line: 235
+            line: 236
         }));
         assert(_rec60._expr(_rec60._capt(_rec60._capt(_rec60._capt(float16_2, 'arguments/0/left/object').byteLength, 'arguments/0/left') === 4, 'arguments/0'), {
             content: 'assert(float16_2.byteLength === 4)',
             filepath: 'test/Float16Array.js',
-            line: 236
+            line: 237
         }));
         assert(_rec61._expr(_rec61._capt(_rec61._capt(_rec61._capt(float16_2, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
             content: 'assert(float16_2.length === 2)',
             filepath: 'test/Float16Array.js',
-            line: 237
+            line: 238
         }));
         assert.equalFloat16ArrayValues(float16_2, [
             1.099609375,
@@ -601,31 +602,31 @@ describe('Float16Array', () => {
         assert(_rec62._expr(_rec62._capt(_rec62._capt(_rec62._capt(float16, 'arguments/0/left/object').foo, 'arguments/0/left') === 'foo', 'arguments/0'), {
             content: 'assert(float16.foo === "foo")',
             filepath: 'test/Float16Array.js',
-            line: 252
+            line: 253
         }));
         float16[0.5] = 1;
         assert(_rec63._expr(_rec63._capt(_rec63._capt(_rec63._capt(float16, 'arguments/0/left/object')[0.5], 'arguments/0/left') === _rec63._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16[0.5] === undefined)',
             filepath: 'test/Float16Array.js',
-            line: 256
+            line: 257
         }));
         float16[10] = 2;
         assert(_rec64._expr(_rec64._capt(_rec64._capt(_rec64._capt(float16, 'arguments/0/left/object')[10], 'arguments/0/left') === _rec64._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16[10] === undefined)',
             filepath: 'test/Float16Array.js',
-            line: 260
+            line: 261
         }));
         float16[Infinity] = 3;
         assert(_rec65._expr(_rec65._capt(_rec65._capt(_rec65._capt(float16, 'arguments/0/left/object')[_rec65._capt(Infinity, 'arguments/0/left/property')], 'arguments/0/left') === _rec65._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16[Infinity] === undefined)',
             filepath: 'test/Float16Array.js',
-            line: 264
+            line: 265
         }));
         float16['-0'] = 4;
         assert(_rec66._expr(_rec66._capt(_rec66._capt(_rec66._capt(float16, 'arguments/0/left/object')['-0'], 'arguments/0/left') === _rec66._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16["-0"] === undefined)',
             filepath: 'test/Float16Array.js',
-            line: 268
+            line: 269
         }));
     });
     it('iterate', () => {
@@ -646,7 +647,7 @@ describe('Float16Array', () => {
             assert(_rec67._expr(_rec67._capt(_rec67._capt(val, 'arguments/0/left') === _rec67._capt(_rec67._capt(checkArray, 'arguments/0/right/callee/object').shift(), 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(val === checkArray.shift())',
                 filepath: 'test/Float16Array.js',
-                line: 276
+                line: 277
             }));
         }
     });
@@ -657,7 +658,7 @@ describe('Float16Array', () => {
         assert(_rec68._expr(_rec68._capt(_rec68._capt(_rec68._capt(float16, 'arguments/0/left/object')[10], 'arguments/0/left') === _rec68._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16[10] === undefined)',
             filepath: 'test/Float16Array.js',
-            line: 284
+            line: 285
         }));
     });
     it('can\'t be frozen with elements', () => {
@@ -673,20 +674,20 @@ describe('Float16Array', () => {
         assert(_rec69._expr(_rec69._capt(_rec69._capt(_rec69._capt(float16, 'arguments/0/left/object').hoge, 'arguments/0/left') === 'hoge', 'arguments/0'), {
             content: 'assert(float16.hoge === "hoge")',
             filepath: 'test/Float16Array.js',
-            line: 296
+            line: 297
         }));
         Object.freeze(float16);
         float16.fuga = 'fuga';
         assert(_rec70._expr(_rec70._capt(_rec70._capt(_rec70._capt(float16, 'arguments/0/left/object').fuga, 'arguments/0/left') === _rec70._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16.fuga === undefined)',
             filepath: 'test/Float16Array.js',
-            line: 301
+            line: 302
         }));
         float16.map = 'map';
         assert(_rec71._expr(_rec71._capt(_rec71._capt(typeof _rec71._capt(_rec71._capt(float16, 'arguments/0/left/argument/object').map, 'arguments/0/left/argument'), 'arguments/0/left') === 'function', 'arguments/0'), {
             content: 'assert(typeof float16.map === "function")',
             filepath: 'test/Float16Array.js',
-            line: 304
+            line: 305
         }));
     });
     it('check ownKeys', () => {
@@ -699,14 +700,14 @@ describe('Float16Array', () => {
         assert.deepStrictEqual(_rec72._expr(_rec72._capt(_rec72._capt(Reflect, 'arguments/0/callee/object').ownKeys(_rec72._capt(float16, 'arguments/0/arguments/0')), 'arguments/0'), {
             content: 'assert.deepStrictEqual(Reflect.ownKeys(float16), ["0","1"])',
             filepath: 'test/Float16Array.js',
-            line: 309
+            line: 310
         }), _rec73._expr(_rec73._capt([
             '0',
             '1'
         ], 'arguments/1'), {
             content: 'assert.deepStrictEqual(Reflect.ownKeys(float16), ["0","1"])',
             filepath: 'test/Float16Array.js',
-            line: 309
+            line: 310
         }));
     });
     it('append custom methods (not using `super`)', () => {
@@ -726,7 +727,7 @@ describe('Float16Array', () => {
         assert(_rec74._expr(_rec74._capt(_rec74._capt(_rec74._capt(float16, 'arguments/0/left/callee/object').sum(), 'arguments/0/left') === 6, 'arguments/0'), {
             content: 'assert(float16.sum() === 6)',
             filepath: 'test/Float16Array.js',
-            line: 323
+            line: 324
         }));
     });
     it('prototype methods are as same as themselves', () => {
@@ -735,7 +736,7 @@ describe('Float16Array', () => {
         assert(_rec75._expr(_rec75._capt(_rec75._capt(_rec75._capt(float16, 'arguments/0/left/object').map, 'arguments/0/left') === _rec75._capt(_rec75._capt(float16, 'arguments/0/right/object').map, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(float16.map === float16.map)',
             filepath: 'test/Float16Array.js',
-            line: 328
+            line: 329
         }));
     });
     describe('.from()', () => {
@@ -744,7 +745,7 @@ describe('Float16Array', () => {
             assert(_rec76._expr(_rec76._capt(_rec76._capt(_rec76._capt(_rec76._capt(Float16Array, 'arguments/0/left/object/object').from, 'arguments/0/left/object').name, 'arguments/0/left') === 'from', 'arguments/0'), {
                 content: 'assert(Float16Array.from.name === "from")',
                 filepath: 'test/Float16Array.js',
-                line: 334
+                line: 335
             }));
         });
         it('property `length` is 1', () => {
@@ -752,7 +753,7 @@ describe('Float16Array', () => {
             assert(_rec77._expr(_rec77._capt(_rec77._capt(_rec77._capt(_rec77._capt(Float16Array, 'arguments/0/left/object/object').from, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.from.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 338
+                line: 339
             }));
         });
         it('input Array or TypedArray', () => {
@@ -774,14 +775,14 @@ describe('Float16Array', () => {
             assert(_rec78._expr(_rec78._capt(_rec78._capt(float16_1, 'arguments/0/left') instanceof _rec78._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_1 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 347
+                line: 348
             }));
             assert.equalFloat16ArrayValues(float16_1, checkArray);
             const float16_2 = Float16Array.from(new Float32Array(array));
             assert(_rec79._expr(_rec79._capt(_rec79._capt(float16_2, 'arguments/0/left') instanceof _rec79._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_2 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 352
+                line: 353
             }));
             assert.equalFloat16ArrayValues(float16_2, checkArray);
         });
@@ -803,7 +804,7 @@ describe('Float16Array', () => {
             assert(_rec80._expr(_rec80._capt(_rec80._capt(float16, 'arguments/0/left') instanceof _rec80._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 362
+                line: 363
             }));
             assert.equalFloat16ArrayValues(float16, checkArray);
         });
@@ -826,7 +827,7 @@ describe('Float16Array', () => {
             assert(_rec81._expr(_rec81._capt(_rec81._capt(float16, 'arguments/0/left') instanceof _rec81._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 372
+                line: 373
             }));
             assert.equalFloat16ArrayValues(float16, checkArray);
         });
@@ -848,7 +849,7 @@ describe('Float16Array', () => {
             assert(_rec82._expr(_rec82._capt(_rec82._capt(float16, 'arguments/0/left') instanceof _rec82._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 382
+                line: 383
             }));
             assert.equalFloat16ArrayValues(float16, checkArray);
         });
@@ -863,24 +864,24 @@ describe('Float16Array', () => {
                 assert(_rec83._expr(_rec83._capt(_rec83._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 392
+                    line: 393
                 }));
                 assert(_rec84._expr(_rec84._capt(_rec84._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 393
+                    line: 394
                 }));
                 assert(_rec85._expr(_rec85._capt(this === _rec85._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 394
+                    line: 395
                 }));
                 return 2;
             }, thisArg);
             assert(_rec86._expr(_rec86._capt(_rec86._capt(float16, 'arguments/0/left') instanceof _rec86._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 400
+                line: 401
             }));
             assert.equalFloat16ArrayValues(float16, checkArray);
         });
@@ -891,7 +892,7 @@ describe('Float16Array', () => {
             assert(_rec87._expr(_rec87._capt(_rec87._capt(_rec87._capt(_rec87._capt(Float16Array, 'arguments/0/left/object/object').of, 'arguments/0/left/object').name, 'arguments/0/left') === 'of', 'arguments/0'), {
                 content: 'assert(Float16Array.of.name === "of")',
                 filepath: 'test/Float16Array.js',
-                line: 409
+                line: 410
             }));
         });
         it('property `length` is 0', () => {
@@ -899,7 +900,7 @@ describe('Float16Array', () => {
             assert(_rec88._expr(_rec88._capt(_rec88._capt(_rec88._capt(_rec88._capt(Float16Array, 'arguments/0/left/object/object').of, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.of.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 413
+                line: 414
             }));
         });
         it('input arguments', () => {
@@ -920,7 +921,7 @@ describe('Float16Array', () => {
             assert(_rec89._expr(_rec89._capt(_rec89._capt(float16, 'arguments/0/left') instanceof _rec89._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 422
+                line: 423
             }));
             assert.equalFloat16ArrayValues(float16, checkArray);
         });
@@ -932,7 +933,7 @@ describe('Float16Array', () => {
             assert(_rec90._expr(_rec90._capt(_rec90._capt(_rec90._capt(float16, 'arguments/0/left/object')[_rec90._capt(_rec90._capt(Symbol, 'arguments/0/left/property/object').toStringTag, 'arguments/0/left/property')], 'arguments/0/left') === 'Float16Array', 'arguments/0'), {
                 content: 'assert(float16[Symbol.toStringTag] === "Float16Array")',
                 filepath: 'test/Float16Array.js',
-                line: 432
+                line: 433
             }));
         });
         it('return undefined when access by prototype', () => {
@@ -940,7 +941,7 @@ describe('Float16Array', () => {
             assert(_rec91._expr(_rec91._capt(_rec91._capt(_rec91._capt(_rec91._capt(Float16Array, 'arguments/0/left/object/object').prototype, 'arguments/0/left/object')[_rec91._capt(_rec91._capt(Symbol, 'arguments/0/left/property/object').toStringTag, 'arguments/0/left/property')], 'arguments/0/left') === _rec91._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(Float16Array.prototype[Symbol.toStringTag] === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 436
+                line: 437
             }));
         });
     });
@@ -950,7 +951,7 @@ describe('Float16Array', () => {
             assert(_rec92._expr(_rec92._capt(_rec92._capt(_rec92._capt(_rec92._capt(_rec92._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').keys, 'arguments/0/left/object').name, 'arguments/0/left') === 'keys', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.keys.name === "keys")',
                 filepath: 'test/Float16Array.js',
-                line: 444
+                line: 445
             }));
         });
         it('property `length` is 0', () => {
@@ -958,7 +959,7 @@ describe('Float16Array', () => {
             assert(_rec93._expr(_rec93._capt(_rec93._capt(_rec93._capt(_rec93._capt(_rec93._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').keys, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.keys.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 448
+                line: 449
             }));
         });
         it('get keys', () => {
@@ -973,7 +974,7 @@ describe('Float16Array', () => {
             assert.deepStrictEqual(_rec94._expr(_rec94._capt(array, 'arguments/0'), {
                 content: 'assert.deepStrictEqual(array, [0,1,2])',
                 filepath: 'test/Float16Array.js',
-                line: 455
+                line: 456
             }), _rec95._expr(_rec95._capt([
                 0,
                 1,
@@ -981,7 +982,7 @@ describe('Float16Array', () => {
             ], 'arguments/1'), {
                 content: 'assert.deepStrictEqual(array, [0,1,2])',
                 filepath: 'test/Float16Array.js',
-                line: 455
+                line: 456
             }));
         });
         it('suspend to iterate keys', () => {
@@ -1003,26 +1004,26 @@ describe('Float16Array', () => {
             assert.deepStrictEqual(_rec96._expr(_rec96._capt(_rec96._capt(iterator, 'arguments/0/callee/object').next(), 'arguments/0'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: 2,done: false})',
                 filepath: 'test/Float16Array.js',
-                line: 468
+                line: 469
             }), _rec97._expr(_rec97._capt({
                 value: 2,
                 done: false
             }, 'arguments/1'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: 2,done: false})',
                 filepath: 'test/Float16Array.js',
-                line: 468
+                line: 469
             }));
             assert.deepStrictEqual(_rec98._expr(_rec98._capt(_rec98._capt(iterator, 'arguments/0/callee/object').next(), 'arguments/0'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: undefined,done: true})',
                 filepath: 'test/Float16Array.js',
-                line: 469
+                line: 470
             }), _rec99._expr(_rec99._capt({
                 value: _rec99._capt(undefined, 'arguments/1/properties/0/value'),
                 done: true
             }, 'arguments/1'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: undefined,done: true})',
                 filepath: 'test/Float16Array.js',
-                line: 469
+                line: 470
             }));
         });
     });
@@ -1032,7 +1033,7 @@ describe('Float16Array', () => {
             assert(_rec100._expr(_rec100._capt(_rec100._capt(_rec100._capt(_rec100._capt(_rec100._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').values, 'arguments/0/left/object').name, 'arguments/0/left') === 'values', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.values.name === "values")',
                 filepath: 'test/Float16Array.js',
-                line: 477
+                line: 478
             }));
         });
         it('property `length` is 0', () => {
@@ -1040,7 +1041,7 @@ describe('Float16Array', () => {
             assert(_rec101._expr(_rec101._capt(_rec101._capt(_rec101._capt(_rec101._capt(_rec101._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').values, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.values.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 481
+                line: 482
             }));
         });
         it('get values', () => {
@@ -1055,7 +1056,7 @@ describe('Float16Array', () => {
             assert.deepStrictEqual(_rec102._expr(_rec102._capt(array, 'arguments/0'), {
                 content: 'assert.deepStrictEqual(array, [1,2,3])',
                 filepath: 'test/Float16Array.js',
-                line: 488
+                line: 489
             }), _rec103._expr(_rec103._capt([
                 1,
                 2,
@@ -1063,7 +1064,7 @@ describe('Float16Array', () => {
             ], 'arguments/1'), {
                 content: 'assert.deepStrictEqual(array, [1,2,3])',
                 filepath: 'test/Float16Array.js',
-                line: 488
+                line: 489
             }));
         });
         it('suspend to iterate values', () => {
@@ -1085,26 +1086,26 @@ describe('Float16Array', () => {
             assert.deepStrictEqual(_rec104._expr(_rec104._capt(_rec104._capt(iterator, 'arguments/0/callee/object').next(), 'arguments/0'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: 3,done: false})',
                 filepath: 'test/Float16Array.js',
-                line: 501
+                line: 502
             }), _rec105._expr(_rec105._capt({
                 value: 3,
                 done: false
             }, 'arguments/1'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: 3,done: false})',
                 filepath: 'test/Float16Array.js',
-                line: 501
+                line: 502
             }));
             assert.deepStrictEqual(_rec106._expr(_rec106._capt(_rec106._capt(iterator, 'arguments/0/callee/object').next(), 'arguments/0'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: undefined,done: true})',
                 filepath: 'test/Float16Array.js',
-                line: 502
+                line: 503
             }), _rec107._expr(_rec107._capt({
                 value: _rec107._capt(undefined, 'arguments/1/properties/0/value'),
                 done: true
             }, 'arguments/1'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: undefined,done: true})',
                 filepath: 'test/Float16Array.js',
-                line: 502
+                line: 503
             }));
         });
     });
@@ -1114,7 +1115,7 @@ describe('Float16Array', () => {
             assert(_rec108._expr(_rec108._capt(_rec108._capt(_rec108._capt(_rec108._capt(_rec108._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').entries, 'arguments/0/left/object').name, 'arguments/0/left') === 'entries', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.entries.name === "entries")',
                 filepath: 'test/Float16Array.js',
-                line: 510
+                line: 511
             }));
         });
         it('property `length` is 0', () => {
@@ -1122,7 +1123,7 @@ describe('Float16Array', () => {
             assert(_rec109._expr(_rec109._capt(_rec109._capt(_rec109._capt(_rec109._capt(_rec109._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').entries, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.entries.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 514
+                line: 515
             }));
         });
         it('get entries', () => {
@@ -1137,7 +1138,7 @@ describe('Float16Array', () => {
             assert.deepStrictEqual(_rec110._expr(_rec110._capt(array, 'arguments/0'), {
                 content: 'assert.deepStrictEqual(array, [[0,1],[1,2],[2,3]])',
                 filepath: 'test/Float16Array.js',
-                line: 521
+                line: 522
             }), _rec111._expr(_rec111._capt([
                 _rec111._capt([
                     0,
@@ -1154,7 +1155,7 @@ describe('Float16Array', () => {
             ], 'arguments/1'), {
                 content: 'assert.deepStrictEqual(array, [[0,1],[1,2],[2,3]])',
                 filepath: 'test/Float16Array.js',
-                line: 521
+                line: 522
             }));
         });
         it('suspend to iterate entries', () => {
@@ -1176,7 +1177,7 @@ describe('Float16Array', () => {
             assert.deepStrictEqual(_rec112._expr(_rec112._capt(_rec112._capt(iterator, 'arguments/0/callee/object').next(), 'arguments/0'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: [2,3],done: false})',
                 filepath: 'test/Float16Array.js',
-                line: 535
+                line: 536
             }), _rec113._expr(_rec113._capt({
                 value: _rec113._capt([
                     2,
@@ -1186,19 +1187,19 @@ describe('Float16Array', () => {
             }, 'arguments/1'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: [2,3],done: false})',
                 filepath: 'test/Float16Array.js',
-                line: 535
+                line: 536
             }));
             assert.deepStrictEqual(_rec114._expr(_rec114._capt(_rec114._capt(iterator, 'arguments/0/callee/object').next(), 'arguments/0'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: undefined,done: true})',
                 filepath: 'test/Float16Array.js',
-                line: 536
+                line: 537
             }), _rec115._expr(_rec115._capt({
                 value: _rec115._capt(undefined, 'arguments/1/properties/0/value'),
                 done: true
             }, 'arguments/1'), {
                 content: 'assert.deepStrictEqual(iterator.next(), {value: undefined,done: true})',
                 filepath: 'test/Float16Array.js',
-                line: 536
+                line: 537
             }));
         });
     });
@@ -1208,7 +1209,7 @@ describe('Float16Array', () => {
             assert(_rec116._expr(_rec116._capt(_rec116._capt(_rec116._capt(_rec116._capt(_rec116._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').at, 'arguments/0/left/object').name, 'arguments/0/left') === 'at', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.at.name === "at")',
                 filepath: 'test/Float16Array.js',
-                line: 544
+                line: 545
             }));
         });
         it('property `length` is 1', () => {
@@ -1216,7 +1217,7 @@ describe('Float16Array', () => {
             assert(_rec117._expr(_rec117._capt(_rec117._capt(_rec117._capt(_rec117._capt(_rec117._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').at, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.at.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 548
+                line: 549
             }));
         });
         it('get values', () => {
@@ -1231,17 +1232,17 @@ describe('Float16Array', () => {
             assert(_rec118._expr(_rec118._capt(_rec118._capt(_rec118._capt(float16, 'arguments/0/left/callee/object').at(0), 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(float16.at(0) === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 554
+                line: 555
             }));
             assert(_rec119._expr(_rec119._capt(_rec119._capt(_rec119._capt(float16, 'arguments/0/left/callee/object').at(_rec119._capt(-1, 'arguments/0/left/arguments/0')), 'arguments/0/left') === 3, 'arguments/0'), {
                 content: 'assert(float16.at(-1) === 3)',
                 filepath: 'test/Float16Array.js',
-                line: 555
+                line: 556
             }));
             assert(_rec120._expr(_rec120._capt(_rec120._capt(_rec120._capt(float16, 'arguments/0/left/callee/object').at(4), 'arguments/0/left') === _rec120._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.at(4) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 556
+                line: 557
             }));
         });
     });
@@ -1251,7 +1252,7 @@ describe('Float16Array', () => {
             assert(_rec121._expr(_rec121._capt(_rec121._capt(_rec121._capt(_rec121._capt(_rec121._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').map, 'arguments/0/left/object').name, 'arguments/0/left') === 'map', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.map.name === "map")',
                 filepath: 'test/Float16Array.js',
-                line: 564
+                line: 565
             }));
         });
         it('property `length` is 1', () => {
@@ -1259,7 +1260,7 @@ describe('Float16Array', () => {
             assert(_rec122._expr(_rec122._capt(_rec122._capt(_rec122._capt(_rec122._capt(_rec122._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').map, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.map.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 568
+                line: 569
             }));
         });
         it('check callback arguments', () => {
@@ -1273,22 +1274,22 @@ describe('Float16Array', () => {
                 assert(_rec123._expr(_rec123._capt(_rec123._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 577
+                    line: 578
                 }));
                 assert(_rec124._expr(_rec124._capt(_rec124._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 578
+                    line: 579
                 }));
                 assert(_rec125._expr(_rec125._capt(_rec125._capt(f16, 'arguments/0/left') === _rec125._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 579
+                    line: 580
                 }));
                 assert(_rec126._expr(_rec126._capt(this === _rec126._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 580
+                    line: 581
                 }));
             }, thisArg);
         });
@@ -1304,7 +1305,7 @@ describe('Float16Array', () => {
             assert(_rec127._expr(_rec127._capt(_rec127._capt(float16_2, 'arguments/0/left') instanceof _rec127._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_2 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 589
+                line: 590
             }));
             assert.equalFloat16ArrayValues(float16_2, [
                 2,
@@ -1330,12 +1331,12 @@ describe('Float16Array', () => {
                         assert(_rec128._expr(_rec128._capt(_rec128._capt(_rec128._capt(args, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                             content: 'assert(args.length === 1)',
                             filepath: 'test/Float16Array.js',
-                            line: 599
+                            line: 600
                         }));
                         assert.deepStrictEqual(_rec129._expr(_rec129._capt(_rec129._capt(args, 'arguments/0/object')[0], 'arguments/0'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 600
+                            line: 601
                         }), _rec130._expr(_rec130._capt([
                             1,
                             2,
@@ -1344,18 +1345,18 @@ describe('Float16Array', () => {
                         ], 'arguments/1'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 600
+                            line: 601
                         }));
                         ++step;
                     } else {
                         assert.deepStrictEqual(_rec131._expr(_rec131._capt(args, 'arguments/0'), {
                             content: 'assert.deepStrictEqual(args, [4])',
                             filepath: 'test/Float16Array.js',
-                            line: 603
+                            line: 604
                         }), _rec132._expr(_rec132._capt([4], 'arguments/1'), {
                             content: 'assert.deepStrictEqual(args, [4])',
                             filepath: 'test/Float16Array.js',
-                            line: 603
+                            line: 604
                         }));
                     }
                 }
@@ -1369,7 +1370,7 @@ describe('Float16Array', () => {
             assert(_rec133._expr(_rec133._capt(_rec133._capt(foo, 'arguments/0/left') instanceof _rec133._capt(Foo, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(foo instanceof Foo)',
                 filepath: 'test/Float16Array.js',
-                line: 608
+                line: 609
             }));
             assert.equalFloat16ArrayValues(foo, [
                 1,
@@ -1391,12 +1392,12 @@ describe('Float16Array', () => {
             assert(_rec134._expr(_rec134._capt(!_rec134._capt(_rec134._capt(bar, 'arguments/0/argument/left') instanceof _rec134._capt(Bar, 'arguments/0/argument/right'), 'arguments/0/argument'), 'arguments/0'), {
                 content: 'assert(!(bar instanceof Bar))',
                 filepath: 'test/Float16Array.js',
-                line: 615
+                line: 616
             }));
             assert(_rec135._expr(_rec135._capt(_rec135._capt(bar, 'arguments/0/left') instanceof _rec135._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(bar instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 616
+                line: 617
             }));
             assert.equalFloat16ArrayValues(bar, [
                 1,
@@ -1412,7 +1413,7 @@ describe('Float16Array', () => {
             assert(_rec136._expr(_rec136._capt(_rec136._capt(_rec136._capt(_rec136._capt(_rec136._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').filter, 'arguments/0/left/object').name, 'arguments/0/left') === 'filter', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.filter.name === "filter")',
                 filepath: 'test/Float16Array.js',
-                line: 625
+                line: 626
             }));
         });
         it('property `length` is 1', () => {
@@ -1420,7 +1421,7 @@ describe('Float16Array', () => {
             assert(_rec137._expr(_rec137._capt(_rec137._capt(_rec137._capt(_rec137._capt(_rec137._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').filter, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.filter.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 629
+                line: 630
             }));
         });
         it('check callback arguments', () => {
@@ -1434,22 +1435,22 @@ describe('Float16Array', () => {
                 assert(_rec138._expr(_rec138._capt(_rec138._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 638
+                    line: 639
                 }));
                 assert(_rec139._expr(_rec139._capt(_rec139._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 639
+                    line: 640
                 }));
                 assert(_rec140._expr(_rec140._capt(_rec140._capt(f16, 'arguments/0/left') === _rec140._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 640
+                    line: 641
                 }));
                 assert(_rec141._expr(_rec141._capt(this === _rec141._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 641
+                    line: 642
                 }));
             }, thisArg);
         });
@@ -1465,7 +1466,7 @@ describe('Float16Array', () => {
             assert(_rec142._expr(_rec142._capt(_rec142._capt(float16_2, 'arguments/0/left') instanceof _rec142._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_2 instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 650
+                line: 651
             }));
             assert.equalFloat16ArrayValues(float16_2, [
                 2,
@@ -1490,12 +1491,12 @@ describe('Float16Array', () => {
                         assert(_rec143._expr(_rec143._capt(_rec143._capt(_rec143._capt(args, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                             content: 'assert(args.length === 1)',
                             filepath: 'test/Float16Array.js',
-                            line: 660
+                            line: 661
                         }));
                         assert.deepStrictEqual(_rec144._expr(_rec144._capt(_rec144._capt(args, 'arguments/0/object')[0], 'arguments/0'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 661
+                            line: 662
                         }), _rec145._expr(_rec145._capt([
                             1,
                             2,
@@ -1504,19 +1505,19 @@ describe('Float16Array', () => {
                         ], 'arguments/1'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 661
+                            line: 662
                         }));
                         ++step;
                     } else {
                         assert(_rec146._expr(_rec146._capt(_rec146._capt(_rec146._capt(args, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                             content: 'assert(args.length === 1)',
                             filepath: 'test/Float16Array.js',
-                            line: 664
+                            line: 665
                         }));
                         assert.deepStrictEqual(_rec147._expr(_rec147._capt(_rec147._capt(args, 'arguments/0/object')[0], 'arguments/0'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 665
+                            line: 666
                         }), _rec148._expr(_rec148._capt([
                             1,
                             2,
@@ -1525,7 +1526,7 @@ describe('Float16Array', () => {
                         ], 'arguments/1'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 665
+                            line: 666
                         }));
                     }
                 }
@@ -1539,7 +1540,7 @@ describe('Float16Array', () => {
             assert(_rec149._expr(_rec149._capt(_rec149._capt(foo, 'arguments/0/left') instanceof _rec149._capt(Foo, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(foo instanceof Foo)',
                 filepath: 'test/Float16Array.js',
-                line: 670
+                line: 671
             }));
             assert.equalFloat16ArrayValues(foo, [
                 1,
@@ -1561,12 +1562,12 @@ describe('Float16Array', () => {
             assert(_rec150._expr(_rec150._capt(!_rec150._capt(_rec150._capt(bar, 'arguments/0/argument/left') instanceof _rec150._capt(Bar, 'arguments/0/argument/right'), 'arguments/0/argument'), 'arguments/0'), {
                 content: 'assert(!(bar instanceof Bar))',
                 filepath: 'test/Float16Array.js',
-                line: 677
+                line: 678
             }));
             assert(_rec151._expr(_rec151._capt(_rec151._capt(bar, 'arguments/0/left') instanceof _rec151._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(bar instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 678
+                line: 679
             }));
             assert.equalFloat16ArrayValues(bar, [
                 1,
@@ -1582,7 +1583,7 @@ describe('Float16Array', () => {
             assert(_rec152._expr(_rec152._capt(_rec152._capt(_rec152._capt(_rec152._capt(_rec152._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').reduce, 'arguments/0/left/object').name, 'arguments/0/left') === 'reduce', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.reduce.name === "reduce")',
                 filepath: 'test/Float16Array.js',
-                line: 687
+                line: 688
             }));
         });
         it('property `length` is 1', () => {
@@ -1590,7 +1591,7 @@ describe('Float16Array', () => {
             assert(_rec153._expr(_rec153._capt(_rec153._capt(_rec153._capt(_rec153._capt(_rec153._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').reduce, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.reduce.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 691
+                line: 692
             }));
         });
         it('check callback arguments', () => {
@@ -1606,22 +1607,22 @@ describe('Float16Array', () => {
                 assert(_rec154._expr(_rec154._capt(_rec154._capt(prev, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(prev === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 699
+                    line: 700
                 }));
                 assert(_rec155._expr(_rec155._capt(_rec155._capt(current, 'arguments/0/left') === 2, 'arguments/0'), {
                     content: 'assert(current === 2)',
                     filepath: 'test/Float16Array.js',
-                    line: 700
+                    line: 701
                 }));
                 assert(_rec156._expr(_rec156._capt(_rec156._capt(key, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(key === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 701
+                    line: 702
                 }));
                 assert(_rec157._expr(_rec157._capt(_rec157._capt(f16, 'arguments/0/left') === _rec157._capt(float16_1, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16_1)',
                     filepath: 'test/Float16Array.js',
-                    line: 702
+                    line: 703
                 }));
             });
             const float16_2 = new Float16Array([2]);
@@ -1633,22 +1634,22 @@ describe('Float16Array', () => {
                 assert(_rec158._expr(_rec158._capt(_rec158._capt(prev, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(prev === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 710
+                    line: 711
                 }));
                 assert(_rec159._expr(_rec159._capt(_rec159._capt(current, 'arguments/0/left') === 2, 'arguments/0'), {
                     content: 'assert(current === 2)',
                     filepath: 'test/Float16Array.js',
-                    line: 711
+                    line: 712
                 }));
                 assert(_rec160._expr(_rec160._capt(_rec160._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 712
+                    line: 713
                 }));
                 assert(_rec161._expr(_rec161._capt(_rec161._capt(f16, 'arguments/0/left') === _rec161._capt(float16_2, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16_2)',
                     filepath: 'test/Float16Array.js',
-                    line: 713
+                    line: 714
                 }));
             }, 1);
         });
@@ -1663,7 +1664,7 @@ describe('Float16Array', () => {
             assert(_rec162._expr(_rec162._capt(_rec162._capt(val, 'arguments/0/left') === '123', 'arguments/0'), {
                 content: 'assert(val === "123")',
                 filepath: 'test/Float16Array.js',
-                line: 721
+                line: 722
             }));
         });
         it('throw TypeError on empty array with no initial value', () => {
@@ -1678,7 +1679,7 @@ describe('Float16Array', () => {
             assert(_rec163._expr(_rec163._capt(_rec163._capt(_rec163._capt(_rec163._capt(_rec163._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').reduceRight, 'arguments/0/left/object').name, 'arguments/0/left') === 'reduceRight', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.reduceRight.name === "reduceRight")',
                 filepath: 'test/Float16Array.js',
-                line: 734
+                line: 735
             }));
         });
         it('property `length` is 1', () => {
@@ -1686,7 +1687,7 @@ describe('Float16Array', () => {
             assert(_rec164._expr(_rec164._capt(_rec164._capt(_rec164._capt(_rec164._capt(_rec164._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').reduceRight, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.reduceRight.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 738
+                line: 739
             }));
         });
         it('check callback arguments', () => {
@@ -1702,22 +1703,22 @@ describe('Float16Array', () => {
                 assert(_rec165._expr(_rec165._capt(_rec165._capt(prev, 'arguments/0/left') === 2, 'arguments/0'), {
                     content: 'assert(prev === 2)',
                     filepath: 'test/Float16Array.js',
-                    line: 746
+                    line: 747
                 }));
                 assert(_rec166._expr(_rec166._capt(_rec166._capt(current, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(current === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 747
+                    line: 748
                 }));
                 assert(_rec167._expr(_rec167._capt(_rec167._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 748
+                    line: 749
                 }));
                 assert(_rec168._expr(_rec168._capt(_rec168._capt(f16, 'arguments/0/left') === _rec168._capt(float16_1, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16_1)',
                     filepath: 'test/Float16Array.js',
-                    line: 749
+                    line: 750
                 }));
             });
             const float16_2 = new Float16Array([2]);
@@ -1729,22 +1730,22 @@ describe('Float16Array', () => {
                 assert(_rec169._expr(_rec169._capt(_rec169._capt(prev, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(prev === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 757
+                    line: 758
                 }));
                 assert(_rec170._expr(_rec170._capt(_rec170._capt(current, 'arguments/0/left') === 2, 'arguments/0'), {
                     content: 'assert(current === 2)',
                     filepath: 'test/Float16Array.js',
-                    line: 758
+                    line: 759
                 }));
                 assert(_rec171._expr(_rec171._capt(_rec171._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 759
+                    line: 760
                 }));
                 assert(_rec172._expr(_rec172._capt(_rec172._capt(f16, 'arguments/0/left') === _rec172._capt(float16_2, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16_2)',
                     filepath: 'test/Float16Array.js',
-                    line: 760
+                    line: 761
                 }));
             }, 1);
         });
@@ -1759,7 +1760,7 @@ describe('Float16Array', () => {
             assert(_rec173._expr(_rec173._capt(_rec173._capt(val, 'arguments/0/left') === '321', 'arguments/0'), {
                 content: 'assert(val === "321")',
                 filepath: 'test/Float16Array.js',
-                line: 768
+                line: 769
             }));
         });
         it('throw TypeError on empty array with no initial value', () => {
@@ -1774,7 +1775,7 @@ describe('Float16Array', () => {
             assert(_rec174._expr(_rec174._capt(_rec174._capt(_rec174._capt(_rec174._capt(_rec174._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').forEach, 'arguments/0/left/object').name, 'arguments/0/left') === 'forEach', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.forEach.name === "forEach")',
                 filepath: 'test/Float16Array.js',
-                line: 781
+                line: 782
             }));
         });
         it('property `length` is 1', () => {
@@ -1782,7 +1783,7 @@ describe('Float16Array', () => {
             assert(_rec175._expr(_rec175._capt(_rec175._capt(_rec175._capt(_rec175._capt(_rec175._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').forEach, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.forEach.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 785
+                line: 786
             }));
         });
         it('check callback arguments', () => {
@@ -1796,22 +1797,22 @@ describe('Float16Array', () => {
                 assert(_rec176._expr(_rec176._capt(_rec176._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 794
+                    line: 795
                 }));
                 assert(_rec177._expr(_rec177._capt(_rec177._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 795
+                    line: 796
                 }));
                 assert(_rec178._expr(_rec178._capt(_rec178._capt(f16, 'arguments/0/left') === _rec178._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 796
+                    line: 797
                 }));
                 assert(_rec179._expr(_rec179._capt(this === _rec179._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 797
+                    line: 798
                 }));
             }, thisArg);
         });
@@ -1822,7 +1823,7 @@ describe('Float16Array', () => {
             assert(_rec180._expr(_rec180._capt(_rec180._capt(_rec180._capt(_rec180._capt(_rec180._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').find, 'arguments/0/left/object').name, 'arguments/0/left') === 'find', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.find.name === "find")',
                 filepath: 'test/Float16Array.js',
-                line: 807
+                line: 808
             }));
         });
         it('property `length` is 1', () => {
@@ -1830,7 +1831,7 @@ describe('Float16Array', () => {
             assert(_rec181._expr(_rec181._capt(_rec181._capt(_rec181._capt(_rec181._capt(_rec181._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').find, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.find.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 811
+                line: 812
             }));
         });
         it('check callback arguments', () => {
@@ -1844,22 +1845,22 @@ describe('Float16Array', () => {
                 assert(_rec182._expr(_rec182._capt(_rec182._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 820
+                    line: 821
                 }));
                 assert(_rec183._expr(_rec183._capt(_rec183._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 821
+                    line: 822
                 }));
                 assert(_rec184._expr(_rec184._capt(_rec184._capt(f16, 'arguments/0/left') === _rec184._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 822
+                    line: 823
                 }));
                 assert(_rec185._expr(_rec185._capt(this === _rec185._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 823
+                    line: 824
                 }));
             }, thisArg);
         });
@@ -1875,7 +1876,7 @@ describe('Float16Array', () => {
             assert(_rec186._expr(_rec186._capt(_rec186._capt(_rec186._capt(float16_1, 'arguments/0/left/callee/object').find(val => val % 2 === 0), 'arguments/0/left') === 2, 'arguments/0'), {
                 content: 'assert(float16_1.find(val => val % 2 === 0) === 2)',
                 filepath: 'test/Float16Array.js',
-                line: 830
+                line: 831
             }));
             const float16_2 = new Float16Array([
                 1,
@@ -1885,7 +1886,7 @@ describe('Float16Array', () => {
             assert(_rec187._expr(_rec187._capt(_rec187._capt(_rec187._capt(float16_2, 'arguments/0/left/callee/object').find(val => val % 2 === 0), 'arguments/0/left') === _rec187._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_2.find(val => val % 2 === 0) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 833
+                line: 834
             }));
         });
     });
@@ -1895,7 +1896,7 @@ describe('Float16Array', () => {
             assert(_rec188._expr(_rec188._capt(_rec188._capt(_rec188._capt(_rec188._capt(_rec188._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').findIndex, 'arguments/0/left/object').name, 'arguments/0/left') === 'findIndex', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.findIndex.name === "findIndex")',
                 filepath: 'test/Float16Array.js',
-                line: 841
+                line: 842
             }));
         });
         it('property `length` is 1', () => {
@@ -1903,7 +1904,7 @@ describe('Float16Array', () => {
             assert(_rec189._expr(_rec189._capt(_rec189._capt(_rec189._capt(_rec189._capt(_rec189._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').findIndex, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.findIndex.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 845
+                line: 846
             }));
         });
         it('check callback arguments', () => {
@@ -1917,22 +1918,22 @@ describe('Float16Array', () => {
                 assert(_rec190._expr(_rec190._capt(_rec190._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 854
+                    line: 855
                 }));
                 assert(_rec191._expr(_rec191._capt(_rec191._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 855
+                    line: 856
                 }));
                 assert(_rec192._expr(_rec192._capt(_rec192._capt(f16, 'arguments/0/left') === _rec192._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 856
+                    line: 857
                 }));
                 assert(_rec193._expr(_rec193._capt(this === _rec193._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 857
+                    line: 858
                 }));
             }, thisArg);
         });
@@ -1948,7 +1949,7 @@ describe('Float16Array', () => {
             assert(_rec194._expr(_rec194._capt(_rec194._capt(_rec194._capt(float16_1, 'arguments/0/left/callee/object').findIndex(val => val % 2 === 0), 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(float16_1.findIndex(val => val % 2 === 0) === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 864
+                line: 865
             }));
             const float16_2 = new Float16Array([
                 1,
@@ -1958,7 +1959,7 @@ describe('Float16Array', () => {
             assert(_rec195._expr(_rec195._capt(_rec195._capt(_rec195._capt(float16_2, 'arguments/0/left/callee/object').findIndex(val => val % 2 === 0), 'arguments/0/left') === _rec195._capt(-1, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_2.findIndex(val => val % 2 === 0) === -1)',
                 filepath: 'test/Float16Array.js',
-                line: 867
+                line: 868
             }));
         });
     });
@@ -1968,7 +1969,7 @@ describe('Float16Array', () => {
             assert(_rec196._expr(_rec196._capt(_rec196._capt(_rec196._capt(_rec196._capt(_rec196._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').findLast, 'arguments/0/left/object').name, 'arguments/0/left') === 'findLast', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.findLast.name === "findLast")',
                 filepath: 'test/Float16Array.js',
-                line: 875
+                line: 876
             }));
         });
         it('property `length` is 1', () => {
@@ -1976,7 +1977,7 @@ describe('Float16Array', () => {
             assert(_rec197._expr(_rec197._capt(_rec197._capt(_rec197._capt(_rec197._capt(_rec197._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').findLast, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.findLast.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 879
+                line: 880
             }));
         });
         it('check callback arguments', () => {
@@ -1990,22 +1991,22 @@ describe('Float16Array', () => {
                 assert(_rec198._expr(_rec198._capt(_rec198._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 888
+                    line: 889
                 }));
                 assert(_rec199._expr(_rec199._capt(_rec199._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 889
+                    line: 890
                 }));
                 assert(_rec200._expr(_rec200._capt(_rec200._capt(f16, 'arguments/0/left') === _rec200._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 890
+                    line: 891
                 }));
                 assert(_rec201._expr(_rec201._capt(this === _rec201._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 891
+                    line: 892
                 }));
             }, thisArg);
         });
@@ -2021,7 +2022,7 @@ describe('Float16Array', () => {
             assert(_rec202._expr(_rec202._capt(_rec202._capt(_rec202._capt(float16_1, 'arguments/0/left/callee/object').findLast(val => val % 2 === 0), 'arguments/0/left') === 4, 'arguments/0'), {
                 content: 'assert(float16_1.findLast(val => val % 2 === 0) === 4)',
                 filepath: 'test/Float16Array.js',
-                line: 898
+                line: 899
             }));
             const float16_2 = new Float16Array([
                 1,
@@ -2031,7 +2032,7 @@ describe('Float16Array', () => {
             assert(_rec203._expr(_rec203._capt(_rec203._capt(_rec203._capt(float16_2, 'arguments/0/left/callee/object').findLast(val => val % 2 === 0), 'arguments/0/left') === _rec203._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_2.findLast(val => val % 2 === 0) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 901
+                line: 902
             }));
         });
     });
@@ -2041,7 +2042,7 @@ describe('Float16Array', () => {
             assert(_rec204._expr(_rec204._capt(_rec204._capt(_rec204._capt(_rec204._capt(_rec204._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').findLastIndex, 'arguments/0/left/object').name, 'arguments/0/left') === 'findLastIndex', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.findLastIndex.name === "findLastIndex")',
                 filepath: 'test/Float16Array.js',
-                line: 909
+                line: 910
             }));
         });
         it('property `length` is 1', () => {
@@ -2049,7 +2050,7 @@ describe('Float16Array', () => {
             assert(_rec205._expr(_rec205._capt(_rec205._capt(_rec205._capt(_rec205._capt(_rec205._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').findLastIndex, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.findLastIndex.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 913
+                line: 914
             }));
         });
         it('check callback arguments', () => {
@@ -2063,22 +2064,22 @@ describe('Float16Array', () => {
                 assert(_rec206._expr(_rec206._capt(_rec206._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 922
+                    line: 923
                 }));
                 assert(_rec207._expr(_rec207._capt(_rec207._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 923
+                    line: 924
                 }));
                 assert(_rec208._expr(_rec208._capt(_rec208._capt(f16, 'arguments/0/left') === _rec208._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 924
+                    line: 925
                 }));
                 assert(_rec209._expr(_rec209._capt(this === _rec209._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 925
+                    line: 926
                 }));
             }, thisArg);
         });
@@ -2094,7 +2095,7 @@ describe('Float16Array', () => {
             assert(_rec210._expr(_rec210._capt(_rec210._capt(_rec210._capt(float16_1, 'arguments/0/left/callee/object').findLastIndex(val => val % 2 === 0), 'arguments/0/left') === 3, 'arguments/0'), {
                 content: 'assert(float16_1.findLastIndex(val => val % 2 === 0) === 3)',
                 filepath: 'test/Float16Array.js',
-                line: 932
+                line: 933
             }));
             const float16_2 = new Float16Array([
                 1,
@@ -2104,7 +2105,7 @@ describe('Float16Array', () => {
             assert(_rec211._expr(_rec211._capt(_rec211._capt(_rec211._capt(float16_2, 'arguments/0/left/callee/object').findLastIndex(val => val % 2 === 0), 'arguments/0/left') === _rec211._capt(-1, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16_2.findLastIndex(val => val % 2 === 0) === -1)',
                 filepath: 'test/Float16Array.js',
-                line: 935
+                line: 936
             }));
         });
     });
@@ -2114,7 +2115,7 @@ describe('Float16Array', () => {
             assert(_rec212._expr(_rec212._capt(_rec212._capt(_rec212._capt(_rec212._capt(_rec212._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').every, 'arguments/0/left/object').name, 'arguments/0/left') === 'every', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.every.name === "every")',
                 filepath: 'test/Float16Array.js',
-                line: 943
+                line: 944
             }));
         });
         it('property `length` is 1', () => {
@@ -2122,7 +2123,7 @@ describe('Float16Array', () => {
             assert(_rec213._expr(_rec213._capt(_rec213._capt(_rec213._capt(_rec213._capt(_rec213._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').every, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.every.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 947
+                line: 948
             }));
         });
         it('check callback arguments', () => {
@@ -2136,22 +2137,22 @@ describe('Float16Array', () => {
                 assert(_rec214._expr(_rec214._capt(_rec214._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 956
+                    line: 957
                 }));
                 assert(_rec215._expr(_rec215._capt(_rec215._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 957
+                    line: 958
                 }));
                 assert(_rec216._expr(_rec216._capt(_rec216._capt(f16, 'arguments/0/left') === _rec216._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 958
+                    line: 959
                 }));
                 assert(_rec217._expr(_rec217._capt(this === _rec217._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 959
+                    line: 960
                 }));
             }, thisArg);
         });
@@ -2166,7 +2167,7 @@ describe('Float16Array', () => {
             assert(_rec218._expr(_rec218._capt(_rec218._capt(_rec218._capt(float16_1, 'arguments/0/left/callee/object').every(val => val % 2 === 0), 'arguments/0/left') === true, 'arguments/0'), {
                 content: 'assert(float16_1.every(val => val % 2 === 0) === true)',
                 filepath: 'test/Float16Array.js',
-                line: 966
+                line: 967
             }));
             const float16_2 = new Float16Array([
                 2,
@@ -2176,7 +2177,7 @@ describe('Float16Array', () => {
             assert(_rec219._expr(_rec219._capt(_rec219._capt(_rec219._capt(float16_2, 'arguments/0/left/callee/object').every(val => val % 2 === 0), 'arguments/0/left') === false, 'arguments/0'), {
                 content: 'assert(float16_2.every(val => val % 2 === 0) === false)',
                 filepath: 'test/Float16Array.js',
-                line: 969
+                line: 970
             }));
         });
     });
@@ -2186,7 +2187,7 @@ describe('Float16Array', () => {
             assert(_rec220._expr(_rec220._capt(_rec220._capt(_rec220._capt(_rec220._capt(_rec220._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').some, 'arguments/0/left/object').name, 'arguments/0/left') === 'some', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.some.name === "some")',
                 filepath: 'test/Float16Array.js',
-                line: 977
+                line: 978
             }));
         });
         it('property `length` is 1', () => {
@@ -2194,7 +2195,7 @@ describe('Float16Array', () => {
             assert(_rec221._expr(_rec221._capt(_rec221._capt(_rec221._capt(_rec221._capt(_rec221._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').some, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.some.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 981
+                line: 982
             }));
         });
         it('check callback arguments', () => {
@@ -2208,22 +2209,22 @@ describe('Float16Array', () => {
                 assert(_rec222._expr(_rec222._capt(_rec222._capt(val, 'arguments/0/left') === 1, 'arguments/0'), {
                     content: 'assert(val === 1)',
                     filepath: 'test/Float16Array.js',
-                    line: 990
+                    line: 991
                 }));
                 assert(_rec223._expr(_rec223._capt(_rec223._capt(key, 'arguments/0/left') === 0, 'arguments/0'), {
                     content: 'assert(key === 0)',
                     filepath: 'test/Float16Array.js',
-                    line: 991
+                    line: 992
                 }));
                 assert(_rec224._expr(_rec224._capt(_rec224._capt(f16, 'arguments/0/left') === _rec224._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(f16 === float16)',
                     filepath: 'test/Float16Array.js',
-                    line: 992
+                    line: 993
                 }));
                 assert(_rec225._expr(_rec225._capt(this === _rec225._capt(thisArg, 'arguments/0/right'), 'arguments/0'), {
                     content: 'assert(this === thisArg)',
                     filepath: 'test/Float16Array.js',
-                    line: 993
+                    line: 994
                 }));
             }, thisArg);
         });
@@ -2238,7 +2239,7 @@ describe('Float16Array', () => {
             assert(_rec226._expr(_rec226._capt(_rec226._capt(_rec226._capt(float16_1, 'arguments/0/left/callee/object').some(val => val % 2 === 0), 'arguments/0/left') === true, 'arguments/0'), {
                 content: 'assert(float16_1.some(val => val % 2 === 0) === true)',
                 filepath: 'test/Float16Array.js',
-                line: 1000
+                line: 1001
             }));
             const float16_2 = new Float16Array([
                 1,
@@ -2248,7 +2249,7 @@ describe('Float16Array', () => {
             assert(_rec227._expr(_rec227._capt(_rec227._capt(_rec227._capt(float16_2, 'arguments/0/left/callee/object').some(val => val % 2 === 0), 'arguments/0/left') === false, 'arguments/0'), {
                 content: 'assert(float16_2.some(val => val % 2 === 0) === false)',
                 filepath: 'test/Float16Array.js',
-                line: 1003
+                line: 1004
             }));
         });
     });
@@ -2258,7 +2259,7 @@ describe('Float16Array', () => {
             assert(_rec228._expr(_rec228._capt(_rec228._capt(_rec228._capt(_rec228._capt(_rec228._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').set, 'arguments/0/left/object').name, 'arguments/0/left') === 'set', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.set.name === "set")',
                 filepath: 'test/Float16Array.js',
-                line: 1011
+                line: 1012
             }));
         });
         it('property `length` is 1', () => {
@@ -2266,7 +2267,7 @@ describe('Float16Array', () => {
             assert(_rec229._expr(_rec229._capt(_rec229._capt(_rec229._capt(_rec229._capt(_rec229._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').set, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.set.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1015
+                line: 1016
             }));
         });
         it('set Array or TypedArray', () => {
@@ -2286,7 +2287,7 @@ describe('Float16Array', () => {
             assert(_rec230._expr(_rec230._capt(_rec230._capt(_rec230._capt(float16, 'arguments/0/left/callee/object').set(_rec230._capt(array, 'arguments/0/left/arguments/0'), 2), 'arguments/0/left') === _rec230._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.set(array, 2) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 1022
+                line: 1023
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2302,7 +2303,7 @@ describe('Float16Array', () => {
             assert(_rec231._expr(_rec231._capt(_rec231._capt(_rec231._capt(float16, 'arguments/0/left/callee/object').set(_rec231._capt(float32, 'arguments/0/left/arguments/0'), 1), 'arguments/0/left') === _rec231._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.set(float32, 1) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 1027
+                line: 1028
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2330,7 +2331,7 @@ describe('Float16Array', () => {
             assert(_rec232._expr(_rec232._capt(_rec232._capt(_rec232._capt(float16, 'arguments/0/left/callee/object').set(_rec232._capt(arrayLike, 'arguments/0/left/arguments/0'), 2), 'arguments/0/left') === _rec232._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.set(arrayLike, 2) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 1035
+                line: 1036
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2343,7 +2344,7 @@ describe('Float16Array', () => {
             assert(_rec233._expr(_rec233._capt(_rec233._capt(_rec233._capt(float16, 'arguments/0/left/callee/object').set(_rec233._capt(str, 'arguments/0/left/arguments/0'), 1), 'arguments/0/left') === _rec233._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.set(str, 1) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 1039
+                line: 1040
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2369,7 +2370,7 @@ describe('Float16Array', () => {
             assert(_rec234._expr(_rec234._capt(_rec234._capt(_rec234._capt(float16, 'arguments/0/left/callee/object').set(_rec234._capt(Iterable, 'arguments/0/left/arguments/0'), 2), 'arguments/0/left') === _rec234._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.set(Iterable, 2) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 1047
+                line: 1048
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2395,7 +2396,7 @@ describe('Float16Array', () => {
             assert(_rec235._expr(_rec235._capt(_rec235._capt(_rec235._capt(float16, 'arguments/0/left/callee/object').set(_rec235._capt(new Float16Array(_rec235._capt(array, 'arguments/0/left/arguments/0/arguments/0')), 'arguments/0/left/arguments/0'), 2), 'arguments/0/left') === _rec235._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.set(new Float16Array(array), 2) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 1055
+                line: 1056
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2424,7 +2425,7 @@ describe('Float16Array', () => {
             assert(_rec236._expr(_rec236._capt(_rec236._capt(_rec236._capt(float16, 'arguments/0/left/callee/object').set(_rec236._capt(new AnotherRealmFloat16Array(_rec236._capt(array, 'arguments/0/left/arguments/0/arguments/0')), 'arguments/0/left/arguments/0'), 2), 'arguments/0/left') === _rec236._capt(undefined, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.set(new AnotherRealmFloat16Array(array), 2) === undefined)',
                 filepath: 'test/Float16Array.js',
-                line: 1067
+                line: 1068
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2457,7 +2458,7 @@ describe('Float16Array', () => {
             assert(_rec237._expr(_rec237._capt(_rec237._capt(_rec237._capt(_rec237._capt(_rec237._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').reverse, 'arguments/0/left/object').name, 'arguments/0/left') === 'reverse', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.reverse.name === "reverse")',
                 filepath: 'test/Float16Array.js',
-                line: 1085
+                line: 1086
             }));
         });
         it('property `length` is 0', () => {
@@ -2465,7 +2466,7 @@ describe('Float16Array', () => {
             assert(_rec238._expr(_rec238._capt(_rec238._capt(_rec238._capt(_rec238._capt(_rec238._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').reverse, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.reverse.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1089
+                line: 1090
             }));
         });
         it('reverse', () => {
@@ -2478,7 +2479,7 @@ describe('Float16Array', () => {
             assert(_rec239._expr(_rec239._capt(_rec239._capt(_rec239._capt(float16, 'arguments/0/left/callee/object').reverse(), 'arguments/0/left') === _rec239._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.reverse() === float16)',
                 filepath: 'test/Float16Array.js',
-                line: 1095
+                line: 1096
             }));
             assert.equalFloat16ArrayValues(float16, [
                 3,
@@ -2493,7 +2494,7 @@ describe('Float16Array', () => {
             assert(_rec240._expr(_rec240._capt(_rec240._capt(_rec240._capt(_rec240._capt(_rec240._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').fill, 'arguments/0/left/object').name, 'arguments/0/left') === 'fill', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.fill.name === "fill")',
                 filepath: 'test/Float16Array.js',
-                line: 1104
+                line: 1105
             }));
         });
         it('property `length` is 1', () => {
@@ -2501,7 +2502,7 @@ describe('Float16Array', () => {
             assert(_rec241._expr(_rec241._capt(_rec241._capt(_rec241._capt(_rec241._capt(_rec241._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').fill, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.fill.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1108
+                line: 1109
             }));
         });
         it('fill', () => {
@@ -2510,7 +2511,7 @@ describe('Float16Array', () => {
             assert(_rec242._expr(_rec242._capt(_rec242._capt(_rec242._capt(float16, 'arguments/0/left/callee/object').fill(1, 1, 4), 'arguments/0/left') === _rec242._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.fill(1, 1, 4) === float16)',
                 filepath: 'test/Float16Array.js',
-                line: 1114
+                line: 1115
             }));
             assert.equalFloat16ArrayValues(float16, [
                 0,
@@ -2527,7 +2528,7 @@ describe('Float16Array', () => {
             assert(_rec243._expr(_rec243._capt(_rec243._capt(_rec243._capt(_rec243._capt(_rec243._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').copyWithin, 'arguments/0/left/object').name, 'arguments/0/left') === 'copyWithin', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.copyWithin.name === "copyWithin")',
                 filepath: 'test/Float16Array.js',
-                line: 1123
+                line: 1124
             }));
         });
         it('property `length` is 2', () => {
@@ -2535,7 +2536,7 @@ describe('Float16Array', () => {
             assert(_rec244._expr(_rec244._capt(_rec244._capt(_rec244._capt(_rec244._capt(_rec244._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').copyWithin, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.copyWithin.length === 2)',
                 filepath: 'test/Float16Array.js',
-                line: 1127
+                line: 1128
             }));
         });
         it('copyWitnin', () => {
@@ -2550,7 +2551,7 @@ describe('Float16Array', () => {
             assert(_rec245._expr(_rec245._capt(_rec245._capt(_rec245._capt(float16, 'arguments/0/left/callee/object').copyWithin(2, 0, 2), 'arguments/0/left') === _rec245._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.copyWithin(2, 0, 2) === float16)',
                 filepath: 'test/Float16Array.js',
-                line: 1133
+                line: 1134
             }));
             assert.equalFloat16ArrayValues(float16, [
                 1,
@@ -2567,7 +2568,7 @@ describe('Float16Array', () => {
             assert(_rec246._expr(_rec246._capt(_rec246._capt(_rec246._capt(_rec246._capt(_rec246._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').sort, 'arguments/0/left/object').name, 'arguments/0/left') === 'sort', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.sort.name === "sort")',
                 filepath: 'test/Float16Array.js',
-                line: 1142
+                line: 1143
             }));
         });
         it('property `length` is 0', () => {
@@ -2575,7 +2576,7 @@ describe('Float16Array', () => {
             assert(_rec247._expr(_rec247._capt(_rec247._capt(_rec247._capt(_rec247._capt(_rec247._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').sort, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.sort.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1146
+                line: 1147
             }));
         });
         it('check default compare', () => {
@@ -2594,7 +2595,7 @@ describe('Float16Array', () => {
             assert(_rec248._expr(_rec248._capt(_rec248._capt(_rec248._capt(float16, 'arguments/0/left/callee/object').sort(), 'arguments/0/left') === _rec248._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.sort() === float16)',
                 filepath: 'test/Float16Array.js',
-                line: 1152
+                line: 1153
             }));
             assert.equalFloat16ArrayValues(float16, [
                 -Infinity,
@@ -2621,7 +2622,7 @@ describe('Float16Array', () => {
             assert(_rec249._expr(_rec249._capt(_rec249._capt(_rec249._capt(float16, 'arguments/0/left/callee/object').sort((x, y) => x - y), 'arguments/0/left') === _rec249._capt(float16, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.sort((x, y) => x - y) === float16)',
                 filepath: 'test/Float16Array.js',
-                line: 1159
+                line: 1160
             }));
             assert.equalFloat16ArrayValues(float16, [
                 -Infinity,
@@ -2639,7 +2640,7 @@ describe('Float16Array', () => {
             assert(_rec250._expr(_rec250._capt(_rec250._capt(_rec250._capt(_rec250._capt(_rec250._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').slice, 'arguments/0/left/object').name, 'arguments/0/left') === 'slice', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.slice.name === "slice")',
                 filepath: 'test/Float16Array.js',
-                line: 1168
+                line: 1169
             }));
         });
         it('property `length` is 0', () => {
@@ -2647,7 +2648,7 @@ describe('Float16Array', () => {
             assert(_rec251._expr(_rec251._capt(_rec251._capt(_rec251._capt(_rec251._capt(_rec251._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').slice, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.slice.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1172
+                line: 1173
             }));
         });
         it('get slice', () => {
@@ -2662,13 +2663,13 @@ describe('Float16Array', () => {
             assert(_rec252._expr(_rec252._capt(_rec252._capt(sliced, 'arguments/0/left') instanceof _rec252._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(sliced instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 1179
+                line: 1180
             }));
             assert.equalFloat16ArrayValues(float16, sliced);
             assert(_rec253._expr(_rec253._capt(_rec253._capt(_rec253._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') !== _rec253._capt(_rec253._capt(sliced, 'arguments/0/right/object').buffer, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.buffer !== sliced.buffer)',
                 filepath: 'test/Float16Array.js',
-                line: 1181
+                line: 1182
             }));
         });
         it('check sliced element & offset', () => {
@@ -2683,7 +2684,7 @@ describe('Float16Array', () => {
             assert(_rec254._expr(_rec254._capt(_rec254._capt(_rec254._capt(sliced, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(sliced.byteOffset === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1188
+                line: 1189
             }));
             assert.equalFloat16ArrayValues(sliced, [
                 2,
@@ -2708,12 +2709,12 @@ describe('Float16Array', () => {
                         assert(_rec255._expr(_rec255._capt(_rec255._capt(_rec255._capt(args, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                             content: 'assert(args.length === 1)',
                             filepath: 'test/Float16Array.js',
-                            line: 1198
+                            line: 1199
                         }));
                         assert.deepStrictEqual(_rec256._expr(_rec256._capt(_rec256._capt(args, 'arguments/0/object')[0], 'arguments/0'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 1199
+                            line: 1200
                         }), _rec257._expr(_rec257._capt([
                             1,
                             2,
@@ -2722,18 +2723,18 @@ describe('Float16Array', () => {
                         ], 'arguments/1'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 1199
+                            line: 1200
                         }));
                         ++step;
                     } else {
                         assert.deepStrictEqual(_rec258._expr(_rec258._capt(args, 'arguments/0'), {
                             content: 'assert.deepStrictEqual(args, [2])',
                             filepath: 'test/Float16Array.js',
-                            line: 1202
+                            line: 1203
                         }), _rec259._expr(_rec259._capt([2], 'arguments/1'), {
                             content: 'assert.deepStrictEqual(args, [2])',
                             filepath: 'test/Float16Array.js',
-                            line: 1202
+                            line: 1203
                         }));
                     }
                 }
@@ -2747,7 +2748,7 @@ describe('Float16Array', () => {
             assert(_rec260._expr(_rec260._capt(_rec260._capt(foo, 'arguments/0/left') instanceof _rec260._capt(Foo, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(foo instanceof Foo)',
                 filepath: 'test/Float16Array.js',
-                line: 1207
+                line: 1208
             }));
             assert.equalFloat16ArrayValues(foo, [
                 3,
@@ -2767,17 +2768,17 @@ describe('Float16Array', () => {
             assert(_rec261._expr(_rec261._capt(!_rec261._capt(_rec261._capt(bar, 'arguments/0/argument/left') instanceof _rec261._capt(Bar, 'arguments/0/argument/right'), 'arguments/0/argument'), 'arguments/0'), {
                 content: 'assert(!(bar instanceof Bar))',
                 filepath: 'test/Float16Array.js',
-                line: 1214
+                line: 1215
             }));
             assert(_rec262._expr(_rec262._capt(_rec262._capt(bar, 'arguments/0/left') instanceof _rec262._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(bar instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 1215
+                line: 1216
             }));
             assert(_rec263._expr(_rec263._capt(bar, 'arguments/0'), {
                 content: 'assert(bar, [3,4])',
                 filepath: 'test/Float16Array.js',
-                line: 1216
+                line: 1217
             }), [
                 3,
                 4
@@ -2790,7 +2791,7 @@ describe('Float16Array', () => {
             assert(_rec264._expr(_rec264._capt(_rec264._capt(_rec264._capt(_rec264._capt(_rec264._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').subarray, 'arguments/0/left/object').name, 'arguments/0/left') === 'subarray', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.subarray.name === "subarray")',
                 filepath: 'test/Float16Array.js',
-                line: 1224
+                line: 1225
             }));
         });
         it('property `length` is 0', () => {
@@ -2798,7 +2799,7 @@ describe('Float16Array', () => {
             assert(_rec265._expr(_rec265._capt(_rec265._capt(_rec265._capt(_rec265._capt(_rec265._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').subarray, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.subarray.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1228
+                line: 1229
             }));
         });
         it('get subarray', () => {
@@ -2813,13 +2814,13 @@ describe('Float16Array', () => {
             assert(_rec266._expr(_rec266._capt(_rec266._capt(subarray, 'arguments/0/left') instanceof _rec266._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(subarray instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 1235
+                line: 1236
             }));
             assert.equalFloat16ArrayValues(float16, subarray);
             assert(_rec267._expr(_rec267._capt(_rec267._capt(_rec267._capt(float16, 'arguments/0/left/object').buffer, 'arguments/0/left') === _rec267._capt(_rec267._capt(subarray, 'arguments/0/right/object').buffer, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.buffer === subarray.buffer)',
                 filepath: 'test/Float16Array.js',
-                line: 1237
+                line: 1238
             }));
         });
         it('check subarray element & offset', () => {
@@ -2834,7 +2835,7 @@ describe('Float16Array', () => {
             assert(_rec268._expr(_rec268._capt(_rec268._capt(_rec268._capt(subarray, 'arguments/0/left/object').byteOffset, 'arguments/0/left') === 2, 'arguments/0'), {
                 content: 'assert(subarray.byteOffset === 2)',
                 filepath: 'test/Float16Array.js',
-                line: 1244
+                line: 1245
             }));
             assert.equalFloat16ArrayValues(subarray, [
                 2,
@@ -2860,12 +2861,12 @@ describe('Float16Array', () => {
                         assert(_rec269._expr(_rec269._capt(_rec269._capt(_rec269._capt(args, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                             content: 'assert(args.length === 1)',
                             filepath: 'test/Float16Array.js',
-                            line: 1254
+                            line: 1255
                         }));
                         assert.deepStrictEqual(_rec270._expr(_rec270._capt(_rec270._capt(args, 'arguments/0/object')[0], 'arguments/0'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 1255
+                            line: 1256
                         }), _rec271._expr(_rec271._capt([
                             1,
                             2,
@@ -2874,29 +2875,29 @@ describe('Float16Array', () => {
                         ], 'arguments/1'), {
                             content: 'assert.deepStrictEqual(args[0], [1,2,3,4])',
                             filepath: 'test/Float16Array.js',
-                            line: 1255
+                            line: 1256
                         }));
                         ++step;
                     } else {
                         assert(_rec272._expr(_rec272._capt(_rec272._capt(_rec272._capt(args, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
                             content: 'assert(args.length === 3)',
                             filepath: 'test/Float16Array.js',
-                            line: 1258
+                            line: 1259
                         }));
                         assert(_rec273._expr(_rec273._capt(_rec273._capt(_rec273._capt(args, 'arguments/0/left/object')[0], 'arguments/0/left') instanceof _rec273._capt(ArrayBuffer, 'arguments/0/right'), 'arguments/0'), {
                             content: 'assert(args[0] instanceof ArrayBuffer)',
                             filepath: 'test/Float16Array.js',
-                            line: 1259
+                            line: 1260
                         }));
                         assert(_rec274._expr(_rec274._capt(_rec274._capt(_rec274._capt(args, 'arguments/0/left/object')[1], 'arguments/0/left') === 4, 'arguments/0'), {
                             content: 'assert(args[1] === 4)',
                             filepath: 'test/Float16Array.js',
-                            line: 1260
+                            line: 1261
                         }));
                         assert(_rec275._expr(_rec275._capt(_rec275._capt(_rec275._capt(args, 'arguments/0/left/object')[2], 'arguments/0/left') === 2, 'arguments/0'), {
                             content: 'assert(args[2] === 2)',
                             filepath: 'test/Float16Array.js',
-                            line: 1261
+                            line: 1262
                         }));
                     }
                 }
@@ -2910,7 +2911,7 @@ describe('Float16Array', () => {
             assert(_rec276._expr(_rec276._capt(_rec276._capt(foo, 'arguments/0/left') instanceof _rec276._capt(Foo, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(foo instanceof Foo)',
                 filepath: 'test/Float16Array.js',
-                line: 1266
+                line: 1267
             }));
             assert.equalFloat16ArrayValues(foo, [
                 3,
@@ -2930,12 +2931,12 @@ describe('Float16Array', () => {
             assert(_rec277._expr(_rec277._capt(!_rec277._capt(_rec277._capt(bar, 'arguments/0/argument/left') instanceof _rec277._capt(Bar, 'arguments/0/argument/right'), 'arguments/0/argument'), 'arguments/0'), {
                 content: 'assert(!(bar instanceof Bar))',
                 filepath: 'test/Float16Array.js',
-                line: 1273
+                line: 1274
             }));
             assert(_rec278._expr(_rec278._capt(_rec278._capt(bar, 'arguments/0/left') instanceof _rec278._capt(Float16Array, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(bar instanceof Float16Array)',
                 filepath: 'test/Float16Array.js',
-                line: 1274
+                line: 1275
             }));
             assert.equalFloat16ArrayValues(bar, [
                 3,
@@ -2949,7 +2950,7 @@ describe('Float16Array', () => {
             assert(_rec279._expr(_rec279._capt(_rec279._capt(_rec279._capt(_rec279._capt(_rec279._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').indexOf, 'arguments/0/left/object').name, 'arguments/0/left') === 'indexOf', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.indexOf.name === "indexOf")',
                 filepath: 'test/Float16Array.js',
-                line: 1283
+                line: 1284
             }));
         });
         it('property `length` is 1', () => {
@@ -2957,7 +2958,7 @@ describe('Float16Array', () => {
             assert(_rec280._expr(_rec280._capt(_rec280._capt(_rec280._capt(_rec280._capt(_rec280._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').indexOf, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.indexOf.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1287
+                line: 1288
             }));
         });
         it('check indexOf', () => {
@@ -2974,27 +2975,27 @@ describe('Float16Array', () => {
             assert(_rec281._expr(_rec281._capt(_rec281._capt(_rec281._capt(float16, 'arguments/0/left/callee/object').indexOf(1), 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(float16.indexOf(1) === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1293
+                line: 1294
             }));
             assert(_rec282._expr(_rec282._capt(_rec282._capt(_rec282._capt(float16, 'arguments/0/left/callee/object').indexOf(1, 1), 'arguments/0/left') === _rec282._capt(-1, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.indexOf(1, 1) === -1)',
                 filepath: 'test/Float16Array.js',
-                line: 1294
+                line: 1295
             }));
             assert(_rec283._expr(_rec283._capt(_rec283._capt(_rec283._capt(float16, 'arguments/0/left/callee/object').indexOf(2, 1), 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(float16.indexOf(2, 1) === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1295
+                line: 1296
             }));
             assert(_rec284._expr(_rec284._capt(_rec284._capt(_rec284._capt(float16, 'arguments/0/left/callee/object').indexOf(2, _rec284._capt(-1, 'arguments/0/left/arguments/1')), 'arguments/0/left') === _rec284._capt(-1, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.indexOf(2, -1) === -1)',
                 filepath: 'test/Float16Array.js',
-                line: 1296
+                line: 1297
             }));
             assert(_rec285._expr(_rec285._capt(_rec285._capt(_rec285._capt(float16, 'arguments/0/left/callee/object').indexOf(2, _rec285._capt(-2, 'arguments/0/left/arguments/1')), 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(float16.indexOf(2, -2) === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1297
+                line: 1298
             }));
         });
     });
@@ -3004,7 +3005,7 @@ describe('Float16Array', () => {
             assert(_rec286._expr(_rec286._capt(_rec286._capt(_rec286._capt(_rec286._capt(_rec286._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').lastIndexOf, 'arguments/0/left/object').name, 'arguments/0/left') === 'lastIndexOf', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.lastIndexOf.name === "lastIndexOf")',
                 filepath: 'test/Float16Array.js',
-                line: 1305
+                line: 1306
             }));
         });
         it('property `length` is 1', () => {
@@ -3012,7 +3013,7 @@ describe('Float16Array', () => {
             assert(_rec287._expr(_rec287._capt(_rec287._capt(_rec287._capt(_rec287._capt(_rec287._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').lastIndexOf, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.lastIndexOf.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1309
+                line: 1310
             }));
         });
         it('check lastIndexOf', () => {
@@ -3030,32 +3031,32 @@ describe('Float16Array', () => {
             assert(_rec288._expr(_rec288._capt(_rec288._capt(_rec288._capt(float16, 'arguments/0/left/callee/object').lastIndexOf(1), 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(float16.lastIndexOf(1) === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1315
+                line: 1316
             }));
             assert(_rec289._expr(_rec289._capt(_rec289._capt(_rec289._capt(float16, 'arguments/0/left/callee/object').lastIndexOf(2, 1), 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(float16.lastIndexOf(2, 1) === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1316
+                line: 1317
             }));
             assert(_rec290._expr(_rec290._capt(_rec290._capt(_rec290._capt(float16, 'arguments/0/left/callee/object').lastIndexOf(2, _rec290._capt(-2, 'arguments/0/left/arguments/1')), 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(float16.lastIndexOf(2, -2) === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1317
+                line: 1318
             }));
             assert(_rec291._expr(_rec291._capt(_rec291._capt(_rec291._capt(float16, 'arguments/0/left/callee/object').lastIndexOf(2, _rec291._capt(-3, 'arguments/0/left/arguments/1')), 'arguments/0/left') === _rec291._capt(-1, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.lastIndexOf(2, -3) === -1)',
                 filepath: 'test/Float16Array.js',
-                line: 1318
+                line: 1319
             }));
             assert(_rec292._expr(_rec292._capt(_rec292._capt(_rec292._capt(float16, 'arguments/0/left/callee/object').lastIndexOf(2, _rec292._capt(-5, 'arguments/0/left/arguments/1')), 'arguments/0/left') === _rec292._capt(-1, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.lastIndexOf(2, -5) === -1)',
                 filepath: 'test/Float16Array.js',
-                line: 1319
+                line: 1320
             }));
             assert(_rec293._expr(_rec293._capt(_rec293._capt(_rec293._capt(float16, 'arguments/0/left/callee/object').lastIndexOf(3, 1), 'arguments/0/left') === _rec293._capt(-1, 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.lastIndexOf(3, 1) === -1)',
                 filepath: 'test/Float16Array.js',
-                line: 1320
+                line: 1321
             }));
         });
     });
@@ -3065,7 +3066,7 @@ describe('Float16Array', () => {
             assert(_rec294._expr(_rec294._capt(_rec294._capt(_rec294._capt(_rec294._capt(_rec294._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').includes, 'arguments/0/left/object').name, 'arguments/0/left') === 'includes', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.includes.name === "includes")',
                 filepath: 'test/Float16Array.js',
-                line: 1328
+                line: 1329
             }));
         });
         it('property `length` is 1', () => {
@@ -3073,7 +3074,7 @@ describe('Float16Array', () => {
             assert(_rec295._expr(_rec295._capt(_rec295._capt(_rec295._capt(_rec295._capt(_rec295._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').includes, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.includes.length === 1)',
                 filepath: 'test/Float16Array.js',
-                line: 1332
+                line: 1333
             }));
         });
         it('check includes', () => {
@@ -3090,27 +3091,27 @@ describe('Float16Array', () => {
             assert(_rec296._expr(_rec296._capt(_rec296._capt(_rec296._capt(float16, 'arguments/0/left/callee/object').includes(1), 'arguments/0/left') === true, 'arguments/0'), {
                 content: 'assert(float16.includes(1) === true)',
                 filepath: 'test/Float16Array.js',
-                line: 1338
+                line: 1339
             }));
             assert(_rec297._expr(_rec297._capt(_rec297._capt(_rec297._capt(float16, 'arguments/0/left/callee/object').includes(1, 1), 'arguments/0/left') === false, 'arguments/0'), {
                 content: 'assert(float16.includes(1, 1) === false)',
                 filepath: 'test/Float16Array.js',
-                line: 1339
+                line: 1340
             }));
             assert(_rec298._expr(_rec298._capt(_rec298._capt(_rec298._capt(float16, 'arguments/0/left/callee/object').includes(2, 1), 'arguments/0/left') === true, 'arguments/0'), {
                 content: 'assert(float16.includes(2, 1) === true)',
                 filepath: 'test/Float16Array.js',
-                line: 1340
+                line: 1341
             }));
             assert(_rec299._expr(_rec299._capt(_rec299._capt(_rec299._capt(float16, 'arguments/0/left/callee/object').includes(2, _rec299._capt(-1, 'arguments/0/left/arguments/1')), 'arguments/0/left') === false, 'arguments/0'), {
                 content: 'assert(float16.includes(2, -1) === false)',
                 filepath: 'test/Float16Array.js',
-                line: 1341
+                line: 1342
             }));
             assert(_rec300._expr(_rec300._capt(_rec300._capt(_rec300._capt(float16, 'arguments/0/left/callee/object').includes(2, _rec300._capt(-2, 'arguments/0/left/arguments/1')), 'arguments/0/left') === true, 'arguments/0'), {
                 content: 'assert(float16.includes(2, -2) === true)',
                 filepath: 'test/Float16Array.js',
-                line: 1342
+                line: 1343
             }));
         });
     });
@@ -3120,7 +3121,7 @@ describe('Float16Array', () => {
             assert(_rec301._expr(_rec301._capt(_rec301._capt(_rec301._capt(_rec301._capt(_rec301._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').join, 'arguments/0/left/object').name, 'arguments/0/left') === 'join', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.join.name === "join")',
                 filepath: 'test/Float16Array.js',
-                line: 1350
+                line: 1351
             }));
         });
         it('property `length` is 0', () => {
@@ -3128,7 +3129,7 @@ describe('Float16Array', () => {
             assert(_rec302._expr(_rec302._capt(_rec302._capt(_rec302._capt(_rec302._capt(_rec302._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').join, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.join.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1354
+                line: 1355
             }));
         });
         it('check join', () => {
@@ -3142,12 +3143,12 @@ describe('Float16Array', () => {
             assert(_rec303._expr(_rec303._capt(_rec303._capt(_rec303._capt(float16, 'arguments/0/left/callee/object').join(), 'arguments/0/left') === '1,2,3', 'arguments/0'), {
                 content: 'assert(float16.join() === "1,2,3")',
                 filepath: 'test/Float16Array.js',
-                line: 1360
+                line: 1361
             }));
             assert(_rec304._expr(_rec304._capt(_rec304._capt(_rec304._capt(float16, 'arguments/0/left/callee/object').join('|'), 'arguments/0/left') === '1|2|3', 'arguments/0'), {
                 content: 'assert(float16.join("|") === "1|2|3")',
                 filepath: 'test/Float16Array.js',
-                line: 1361
+                line: 1362
             }));
         });
     });
@@ -3157,7 +3158,7 @@ describe('Float16Array', () => {
             assert(_rec305._expr(_rec305._capt(_rec305._capt(_rec305._capt(_rec305._capt(_rec305._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').toLocaleString, 'arguments/0/left/object').name, 'arguments/0/left') === 'toLocaleString', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.toLocaleString.name === "toLocaleString")',
                 filepath: 'test/Float16Array.js',
-                line: 1369
+                line: 1370
             }));
         });
         it('property `length` is 0', () => {
@@ -3165,7 +3166,7 @@ describe('Float16Array', () => {
             assert(_rec306._expr(_rec306._capt(_rec306._capt(_rec306._capt(_rec306._capt(_rec306._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').toLocaleString, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.toLocaleString.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1373
+                line: 1374
             }));
         });
         it('same as Array', () => {
@@ -3182,7 +3183,7 @@ describe('Float16Array', () => {
             ], 'arguments/0/right/callee/object').toLocaleString(), 'arguments/0/right'), 'arguments/0'), {
                 content: 'assert(float16.toLocaleString() === [1,2,3].toLocaleString())',
                 filepath: 'test/Float16Array.js',
-                line: 1378
+                line: 1379
             }));
         });
     });
@@ -3192,7 +3193,7 @@ describe('Float16Array', () => {
             assert(_rec308._expr(_rec308._capt(_rec308._capt(_rec308._capt(_rec308._capt(_rec308._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').toString, 'arguments/0/left/object').name, 'arguments/0/left') === 'toString', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.toString.name === "toString")',
                 filepath: 'test/Float16Array.js',
-                line: 1386
+                line: 1387
             }));
         });
         it('property `length` is 0', () => {
@@ -3200,7 +3201,7 @@ describe('Float16Array', () => {
             assert(_rec309._expr(_rec309._capt(_rec309._capt(_rec309._capt(_rec309._capt(_rec309._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').toString, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.toString.length === 0)',
                 filepath: 'test/Float16Array.js',
-                line: 1390
+                line: 1391
             }));
         });
         it('check toString', () => {
@@ -3213,7 +3214,7 @@ describe('Float16Array', () => {
             assert(_rec310._expr(_rec310._capt(_rec310._capt(_rec310._capt(float16, 'arguments/0/left/callee/object').toString(), 'arguments/0/left') === '1,2,3', 'arguments/0'), {
                 content: 'assert(float16.toString() === "1,2,3")',
                 filepath: 'test/Float16Array.js',
-                line: 1395
+                line: 1396
             }));
         });
         it('call Array#toString by Float16Array', () => {
@@ -3226,7 +3227,7 @@ describe('Float16Array', () => {
             assert(_rec311._expr(_rec311._capt(_rec311._capt(_rec311._capt(_rec311._capt(_rec311._capt(Array, 'arguments/0/left/callee/object/object/object').prototype, 'arguments/0/left/callee/object/object').toString, 'arguments/0/left/callee/object').call(_rec311._capt(float16, 'arguments/0/left/arguments/0')), 'arguments/0/left') === '1,2,3', 'arguments/0'), {
                 content: 'assert(Array.prototype.toString.call(float16) === "1,2,3")',
                 filepath: 'test/Float16Array.js',
-                line: 1400
+                line: 1401
             }));
         });
         it('call Float16Array#toString by Array', () => {
@@ -3239,7 +3240,7 @@ describe('Float16Array', () => {
             assert(_rec312._expr(_rec312._capt(_rec312._capt(_rec312._capt(_rec312._capt(_rec312._capt(Float16Array, 'arguments/0/left/callee/object/object/object').prototype, 'arguments/0/left/callee/object/object').toString, 'arguments/0/left/callee/object').call(_rec312._capt(array, 'arguments/0/left/arguments/0')), 'arguments/0/left') === '1,2,3', 'arguments/0'), {
                 content: 'assert(Float16Array.prototype.toString.call(array) === "1,2,3")',
                 filepath: 'test/Float16Array.js',
-                line: 1405
+                line: 1406
             }));
         });
     });
@@ -3250,8 +3251,9 @@ describe('isFloat16Array', () => {
         this.timeout(15000);
         if (typeof window !== 'undefined') {
             const iframe = document.createElement('iframe');
-            iframe.height = iframe.width = 0;
-            document.body.appendChild(iframe);
+            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts');
+            iframe.style.display = 'none';
+            document.body.parentElement.appendChild(iframe);
             try {
                 await new Promise((resolve, reject) => {
                     const script = document.createElement('script');
@@ -3279,7 +3281,7 @@ describe('isFloat16Array', () => {
         assert(_rec313._expr(_rec313._capt(_rec313._capt(_rec313._capt(isFloat16Array, 'arguments/0/left/object').name, 'arguments/0/left') === 'isFloat16Array', 'arguments/0'), {
             content: 'assert(isFloat16Array.name === "isFloat16Array")',
             filepath: 'test/Float16Array.js',
-            line: 1444
+            line: 1446
         }));
     });
     it('property `length` is 1', () => {
@@ -3287,7 +3289,7 @@ describe('isFloat16Array', () => {
         assert(_rec314._expr(_rec314._capt(_rec314._capt(_rec314._capt(isFloat16Array, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
             content: 'assert(isFloat16Array.length === 1)',
             filepath: 'test/Float16Array.js',
-            line: 1448
+            line: 1450
         }));
     });
     it('check if Float16Array', () => {
@@ -3315,110 +3317,110 @@ describe('isFloat16Array', () => {
         assert(_rec315._expr(_rec315._capt(_rec315._capt(isFloat16Array(_rec315._capt(new Float16Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === true, 'arguments/0'), {
             content: 'assert(isFloat16Array(new Float16Array()) === true)',
             filepath: 'test/Float16Array.js',
-            line: 1452
+            line: 1454
         }));
         assert(_rec316._expr(_rec316._capt(_rec316._capt(isFloat16Array(_rec316._capt(new Float32Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(new Float32Array()) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1453
+            line: 1455
         }));
         assert(_rec317._expr(_rec317._capt(_rec317._capt(isFloat16Array(_rec317._capt(new Uint16Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(new Uint16Array()) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1454
+            line: 1456
         }));
         assert(_rec318._expr(_rec318._capt(_rec318._capt(isFloat16Array(), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array() === false)',
             filepath: 'test/Float16Array.js',
-            line: 1456
+            line: 1458
         }));
         assert(_rec319._expr(_rec319._capt(_rec319._capt(isFloat16Array(null), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(null) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1457
+            line: 1459
         }));
         assert(_rec320._expr(_rec320._capt(_rec320._capt(isFloat16Array(_rec320._capt(undefined, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(undefined) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1458
+            line: 1460
         }));
         assert(_rec321._expr(_rec321._capt(_rec321._capt(isFloat16Array(0), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(0) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1459
+            line: 1461
         }));
         assert(_rec322._expr(_rec322._capt(_rec322._capt(isFloat16Array(1), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(1) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1460
+            line: 1462
         }));
         assert(_rec323._expr(_rec323._capt(_rec323._capt(isFloat16Array(_rec323._capt(NaN, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(NaN) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1461
+            line: 1463
         }));
         assert(_rec324._expr(_rec324._capt(_rec324._capt(isFloat16Array(_rec324._capt(Infinity, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(Infinity) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1462
+            line: 1464
         }));
         assert(_rec325._expr(_rec325._capt(_rec325._capt(isFloat16Array(true), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(true) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1463
+            line: 1465
         }));
         assert(_rec326._expr(_rec326._capt(_rec326._capt(isFloat16Array(false), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(false) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1464
+            line: 1466
         }));
         assert(_rec327._expr(_rec327._capt(_rec327._capt(isFloat16Array(''), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array("") === false)',
             filepath: 'test/Float16Array.js',
-            line: 1465
+            line: 1467
         }));
         assert(_rec328._expr(_rec328._capt(_rec328._capt(isFloat16Array('foo'), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array("foo") === false)',
             filepath: 'test/Float16Array.js',
-            line: 1466
+            line: 1468
         }));
         assert(_rec329._expr(_rec329._capt(_rec329._capt(isFloat16Array(_rec329._capt(Symbol(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(Symbol()) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1467
+            line: 1469
         }));
         if (typeof BigInt !== 'undefined') {
             assert(_rec330._expr(_rec330._capt(_rec330._capt(isFloat16Array(_rec330._capt(BigInt(0), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
                 content: 'assert(isFloat16Array(BigInt(0)) === false)',
                 filepath: 'test/Float16Array.js',
-                line: 1471
+                line: 1473
             }));
             assert(_rec331._expr(_rec331._capt(_rec331._capt(isFloat16Array(_rec331._capt(BigInt(1), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
                 content: 'assert(isFloat16Array(BigInt(1)) === false)',
                 filepath: 'test/Float16Array.js',
-                line: 1472
+                line: 1474
             }));
         }
         assert(_rec332._expr(_rec332._capt(_rec332._capt(isFloat16Array(_rec332._capt({}, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array({}) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1475
+            line: 1477
         }));
         assert(_rec333._expr(_rec333._capt(_rec333._capt(isFloat16Array(_rec333._capt([], 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array([]) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1476
+            line: 1478
         }));
         assert(_rec334._expr(_rec334._capt(_rec334._capt(isFloat16Array(/a/), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(/a/) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1477
+            line: 1479
         }));
         assert(_rec335._expr(_rec335._capt(_rec335._capt(isFloat16Array(() => {
         }), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isFloat16Array(() => {}) === false)',
             filepath: 'test/Float16Array.js',
-            line: 1478
+            line: 1480
         }));
     });
     it('check if Float16Array from another realm', function () {
@@ -3429,7 +3431,7 @@ describe('isFloat16Array', () => {
         assert(_rec336._expr(_rec336._capt(_rec336._capt(isFloat16Array(_rec336._capt(new AnotherRealmFloat16Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === true, 'arguments/0'), {
             content: 'assert(isFloat16Array(new AnotherRealmFloat16Array()) === true)',
             filepath: 'test/Float16Array.js',
-            line: 1486
+            line: 1488
         }));
     });
 });

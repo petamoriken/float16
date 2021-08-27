@@ -13,11 +13,14 @@ describe("additional DataView methods", () => {
     /** @type {DataViewConstructor} */
     let AnotherRealmDataView;
 
-    before(() => {
+    before(async function () {
+        this.timeout(15000);
+
         if (typeof window !== "undefined") {
             const iframe = document.createElement("iframe");
-            iframe.height = iframe.width = 0;
-            document.body.appendChild(iframe);
+            iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
+            iframe.style.display = "none";
+            document.body.parentElement.appendChild(iframe);
             AnotherRealmDataView = iframe.contentWindow.DataView;
             iframe.remove();
         } else if (typeof global !== "undefined" && typeof require !== "undefined") {

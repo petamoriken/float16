@@ -10,8 +10,9 @@ describe("Float16Array", () => {
 
         if (typeof window !== "undefined") {
             const iframe = document.createElement("iframe");
-            iframe.height = iframe.width = 0;
-            document.body.appendChild(iframe);
+            iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
+            iframe.style.display = "none";
+            document.body.parentElement.appendChild(iframe);
             try {
                 await new Promise((resolve, reject) => {
                     const script = document.createElement("script");
@@ -1418,8 +1419,9 @@ describe("isFloat16Array", () => {
 
         if (typeof window !== "undefined") {
             const iframe = document.createElement("iframe");
-            iframe.height = iframe.width = 0;
-            document.body.appendChild(iframe);
+            iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
+            iframe.style.display = "none";
+            document.body.parentElement.appendChild(iframe);
             try {
                 await new Promise((resolve, reject) => {
                     const script = document.createElement("script");
