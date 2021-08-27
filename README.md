@@ -39,7 +39,7 @@ yarn add @petamoriken/float16
 ```
 
 ```console
-npm install @petamoriken/float16 --save
+npm install @petamoriken/float16
 ```
 
 ## Import
