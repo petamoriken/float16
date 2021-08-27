@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
+/* eslint-env node */
+
 "use strict";
+
+const gray = "\x1b[90m";
+const reset = "\x1b[0m";
 
 const path = require("path");
 const util = require("util");
@@ -14,6 +19,9 @@ const exec = util.promisify(require("child_process").exec);
 
     for (const file of files) {
         const base = path.basename(file, ".js");
-        exec(`npx espower test/${ base }.js | npx exorcist -r ./ docs/test/${ base }.power.js.map > docs/test/${ base }.power.js`);
+        const command = `npx espower test/${ base }.js | npx exorcist -r ./ docs/test/${ base }.power.js.map > docs/test/${ base }.power.js`;
+
+        console.log(`${gray}$ ${command}${reset}`);
+        exec(command);
     }
 })();

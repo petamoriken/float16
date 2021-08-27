@@ -2625,7 +2625,7 @@ espower-cli@^1.1.0:
     espower-source "^2.0.0"
     minimist "^1.1.1"
 
-espower-loader@^1.0.0:
+espower-loader@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/espower-loader/-/espower-loader-1.2.2.tgz#edb46c3c59a06bac8ea73a695c86e5c5a0bc82da"
   integrity sha1-7bRsPFmga6yOpzppXIblxaC8gto=
@@ -3597,13 +3597,6 @@ ini@^1.3.4:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
-
-intelli-espower-loader@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/intelli-espower-loader/-/intelli-espower-loader-1.1.0.tgz#64f126471f4d54bdfb55ba603e7105059d43e681"
-  integrity sha512-GmnpIM5tRU5n8R4bQAcu2gJMlfRukrtklbE1auRN8qGK9KSLboGdmHSLSLLnIHKrnRmgWRBXNqy5sIOrbT2l8g==
-  dependencies:
-    espower-loader "^1.0.0"
 
 internal-slot@^1.0.3:
   version "1.0.3"
