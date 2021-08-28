@@ -1,5 +1,5 @@
 import { wrapInArrayIterator } from "./helper/arrayIterator.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./helper/is.mjs";
+import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isOrdinaryArray, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./helper/is.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
 import { createPrivateStorage } from "./helper/private.mjs";
 import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompare } from "./helper/spec.mjs";
@@ -172,9 +172,17 @@ export class Float16Array extends Uint16Array {
 
       // Iterable (Array)
       } else if (isIterable(input)) {
-        list = [...input];
-        length = list.length;
-        super(length);
+        // for optimization
+        if (isOrdinaryArray(input)) {
+          list = input;
+          length = input.length;
+          super(length);
+
+        } else {
+          list = [...input];
+          length = list.length;
+          super(length);
+        }
 
       // ArrayLike
       } else {

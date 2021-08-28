@@ -82,6 +82,23 @@ export function isIterable(value) {
 
 /**
  * @param {unknown} value
+ * @returns {value is any[]}
+ */
+ export function isOrdinaryArray(value) {
+  if (!Array.isArray(value)) {
+    return false;
+  }
+
+  const iterator = value[Symbol.iterator]();
+  if (toString.call(iterator) !== "[object Array Iterator]") {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * @param {unknown} value
  * @returns {value is string}
  */
 export function isCanonicalIntegerIndexString(value) {
