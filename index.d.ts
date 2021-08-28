@@ -41,9 +41,8 @@ export interface Float16Array {
   values(): IterableIterator<number>;
 
   /**
-   * Returns a value in the array
-   * @param index If index is negative, it is treated as length+index where length is the
-   * length of the array.
+   * Access item by relative indexing.
+   * @param index index to access.
    */
   at(index: number): number;
 
@@ -80,12 +79,12 @@ export interface Float16Array {
 
   /**
    * Returns the elements of an array that meet the condition specified in a callback function.
-   * @param callbackfn A function that accepts up to three arguments. The filter method calls
-   * the callbackfn function one time for each element in the array.
-   * @param thisArg An object to which the this keyword can refer in the callbackfn function.
+   * @param predicate A function that accepts up to three arguments. The filter method calls
+   * the predicate function one time for each element in the array.
+   * @param thisArg An object to which the this keyword can refer in the predicate function.
    * If thisArg is omitted, undefined is used as the this value.
    */
-  filter(callbackfn: (value: number, index: number, array: Float16Array) => any, thisArg?: any): Float16Array;
+  filter(predicate: (value: number, index: number, array: Float16Array) => any, thisArg?: any): Float16Array;
 
   /**
    * Returns the value of the first element in the array where predicate is true, and undefined
@@ -118,18 +117,18 @@ export interface Float16Array {
    * @param thisArg If provided, it will be used as the this value for each invocation of
    * predicate. If it is not provided, undefined is used instead.
    */
-   findLast(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number | undefined;
+  findLast(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number | undefined;
 
-   /**
-    * Returns the index of the last element in the array where predicate is true, and -1
-    * otherwise.
-    * @param predicate find calls predicate once for each element of the array, in descending
-    * order, until it finds one where predicate returns true. If such an element is found,
-    * findIndex immediately returns that element index. Otherwise, findIndex returns -1.
-    * @param thisArg If provided, it will be used as the this value for each invocation of
-    * predicate. If it is not provided, undefined is used instead.
-    */
-   findLastIndex(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number;
+  /**
+   * Returns the index of the last element in the array where predicate is true, and -1
+   * otherwise.
+   * @param predicate find calls predicate once for each element of the array, in descending
+   * order, until it finds one where predicate returns true. If such an element is found,
+   * findIndex immediately returns that element index. Otherwise, findIndex returns -1.
+   * @param thisArg If provided, it will be used as the this value for each invocation of
+   * predicate. If it is not provided, undefined is used instead.
+   */
+  findLastIndex(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number;
 
   /**
    * Performs the specified action for each element in an array.
@@ -238,7 +237,7 @@ export interface Float16Array {
   /**
    * Reverses the elements in an Array.
    */
-  reverse(): Float16Array;
+  reverse(): this;
 
   /**
    * Sets a value or an array of values.
@@ -298,10 +297,12 @@ export interface Float16Array {
   [index: number]: number;
 }
 
-export declare var Float16Array: {
+export interface Float16ArrayConstructor {
   readonly prototype: Float16Array;
+  new(): Float16Array;
   new(length: number): Float16Array;
-  new(arrayOrArrayBuffer: ArrayLike<number> | ArrayBufferLike): Float16Array;
+  new(elements: Iterable<number>): Float16Array;
+  new(array: ArrayLike<number> | ArrayBufferLike): Float16Array;
   new(buffer: ArrayBufferLike, byteOffset: number, length?: number): Float16Array;
 
   /**
@@ -319,6 +320,20 @@ export declare var Float16Array: {
    * Creates an array from an array-like or iterable object.
    * @param arrayLike An array-like or iterable object to convert to an array.
    */
+  from(arrayLike: Iterable<number>): Float16Array;
+
+  /**
+   * Creates an array from an array-like or iterable object.
+   * @param arrayLike An array-like or iterable object to convert to an array.
+   * @param mapfn A mapping function to call on every element of the array.
+   * @param thisArg Value of 'this' used to invoke the mapfn.
+   */
+  from<T>(arrayLike: Iterable<T>, mapfn: (v: T, k: number) => number, thisArg?: any): Float16Array;
+
+  /**
+   * Creates an array from an array-like or iterable object.
+   * @param arrayLike An array-like or iterable object to convert to an array.
+   */
   from(arrayLike: ArrayLike<number>): Float16Array;
 
   /**
@@ -329,6 +344,7 @@ export declare var Float16Array: {
    */
   from<T>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => number, thisArg?: any): Float16Array;
 }
+export declare var Float16Array: Float16ArrayConstructor;
 
 /**
  * Returns `true` if the value is a Float16Array instance.
@@ -337,12 +353,12 @@ export declare var Float16Array: {
 export declare function isFloat16Array(value: unknown): value is Float16Array;
 
 /**
-* Gets the Float16 value at the specified byte offset from the start of the view. There is
-* no alignment constraint; multi-byte values may be fetched from any offset.
-* @param byteOffset The place in the buffer at which the value should be retrieved.
-* @param littleEndian If false or undefined, a big-endian value should be read,
-* otherwise a little-endian value should be read.
-*/
+ * Gets the Float16 value at the specified byte offset from the start of the view. There is
+ * no alignment constraint; multi-byte values may be fetched from any offset.
+ * @param byteOffset The place in the buffer at which the value should be retrieved.
+ * @param littleEndian If false or undefined, a big-endian value should be read,
+ * otherwise a little-endian value should be read.
+ */
 export declare function getFloat16(dataView: DataView, byteOffset: number, littleEndian?: boolean): number;
 
 /**
