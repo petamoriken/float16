@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.1-1-g2a8d4b0 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.1-2-g355f5c4 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -257,6 +257,24 @@ var float16 = (function (exports) {
 
   function isIterable(value) {
     return isObject(value) && typeof value[Symbol.iterator] === "function";
+  }
+  /**
+   * @param {unknown} value
+   * @returns {value is any[]}
+   */
+
+  function isOrdinaryArray(value) {
+    if (!Array.isArray(value)) {
+      return false;
+    }
+
+    const iterator = value[Symbol.iterator]();
+
+    if (toString.call(iterator) !== "[object Array Iterator]") {
+      return false;
+    }
+
+    return true;
   }
   /**
    * @param {unknown} value
@@ -580,9 +598,17 @@ var float16 = (function (exports) {
           const data = new BufferConstructor(length * Float16Array.BYTES_PER_ELEMENT);
           super(data); // Iterable (Array)
         } else if (isIterable(input)) {
-          list = [...input];
-          length = list.length;
-          super(length); // ArrayLike
+          // for optimization
+          if (isOrdinaryArray(input)) {
+            list = input;
+            length = input.length;
+            super(length);
+          } else {
+            list = [...input];
+            length = list.length;
+            super(length);
+          } // ArrayLike
+
         } else {
           list = input;
           length = LengthOfArrayLike(input);
