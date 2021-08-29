@@ -267,10 +267,7 @@ export interface Float16Array {
    * Sorts an array.
    * @param compareFn Function used to determine the order of the elements. It is expected to return
    * a negative value if first argument is less than second argument, zero if they're equal and a positive
-   * value otherwise. If omitted, the elements are sorted in ascending, ASCII character order.
-   * ```ts
-   * [11,2,22,1].sort((a, b) => a - b)
-   * ```
+   * value otherwise. If omitted, the elements are sorted in ascending.
    */
   sort(compareFn?: (a: number, b: number) => number): this;
 
