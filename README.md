@@ -315,3 +315,9 @@ yarn docs
 Access `docs/test/index.html` with browsers.
 
 You can access current [test page](https://petamoriken.github.io/float16/test) ([power-assert version](https://petamoriken.github.io/float16/test/power)) in `master` branch.
+
+## License
+
+MIT License
+
+This software contains productions that are distributed under [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0). Specifically, `index.d.ts` is modified from the original [TypeScript lib files](https://github.com/microsoft/TypeScript/tree/main/src/lib).
