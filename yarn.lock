@@ -1926,9 +1926,9 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.14.0, core-js-compat@^3.16.0:
-  version "3.16.3"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.16.3.tgz#ae12a6e20505a1d79fbd16b6689dfc77fc989114"
-  integrity sha512-A/OtSfSJQKLAFRVd4V0m6Sep9lPdjD8bpN8v3tCCGwE0Tmh0hOiVDm9tw6mXmWOKOSZIyr3EkywPo84cJjGvIQ==
+  version "3.16.4"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.16.4.tgz#cf28abe0e45a43645b04b2c1a073efa03d0b3b26"
+  integrity sha512-IzCSomxRdahCYb6G3HiN6pl3JCiM0NMunRcNa1pIeC7g17Vd6Ue3AT9anQiENPIm/svThUVer1pIbLMDERIsFw==
   dependencies:
     browserslist "^4.16.8"
     semver "7.0.0"
@@ -2296,9 +2296,9 @@ ejs@^3.1.6:
     jake "^10.6.1"
 
 electron-to-chromium@^1.3.811:
-  version "1.3.819"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.819.tgz#b0a93075a4d4d3c364d058bbefe3ea3c7aa6fa73"
-  integrity sha512-vH3jJLd+tMwrQcYlZJUSjUMlq2JacHuIKl4rT0ZEAdY1Lxk95dBg+rc69ahIPGdKPPWgaN4wjt2f0BopFF3wjQ==
+  version "1.3.822"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.822.tgz#7036edc7f669b0aa79e9801dc5f56866c6ddc0b2"
+  integrity sha512-k7jG5oYYHxF4jx6PcqwHX3JVME/OjzolqOZiIogi9xtsfsmTjTdie4x88OakYFPEa8euciTgCCzvVNwvmjHb1Q==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
