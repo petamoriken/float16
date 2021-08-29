@@ -1669,9 +1669,9 @@ caw@^2.0.1:
     url-to-options "^1.0.1"
 
 chai-nightwatch@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/chai-nightwatch/-/chai-nightwatch-0.4.0.tgz#028dc2bf234d9ef1e895cb134027795b1c7c9467"
-  integrity sha512-1xw74vR02XiHzo4wQfHqme2nqYPIzYnK5s3DMST7UW8FIHDWD7qplg+DTJ5FIPcmWiGYX/Re0CzvOcZQKJm1Uw==
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/chai-nightwatch/-/chai-nightwatch-0.4.1.tgz#6846d6986f70cec63e5cadbe155350fcd5817ac4"
+  integrity sha512-s2put5cFhG8Hw+6Po3R8QZ0ctsDmcaIh7+l9Fu3RcLCfosfQffT3mcFSq2jmXEQk0pmwo/PuXvYMO87MRlyqxg==
   dependencies:
     assertion-error "1.0.0"
     deep-eql "0.1.3"
