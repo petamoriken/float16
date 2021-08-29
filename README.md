@@ -35,11 +35,11 @@
 ## Install
 
 ```console
-yarn add @petamoriken/float16
+npm install @petamoriken/float16
 ```
 
 ```console
-npm install @petamoriken/float16
+yarn add @petamoriken/float16
 ```
 
 ## Import
@@ -54,6 +54,14 @@ import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "@
 ```js
 // CommonJS
 const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/float16");
+```
+
+### Deno
+
+You can get modules from [deno.land/x](https://deno.land/x/float16) hosting service.
+
+```ts
+import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://deno.land/x/float16/index.mjs";
 ```
 
 ### Browser
@@ -99,14 +107,6 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/view/@pet
 <script type="module">
     import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
 </script>
-```
-
-### Deno
-
-You can get modules from [deno.land/x](https://deno.land/x/float16) hosting service.
-
-```ts
-import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://deno.land/x/float16/index.mjs";
 ```
 
 ## Support
