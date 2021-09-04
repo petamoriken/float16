@@ -24,8 +24,6 @@
     "src",
     "lib",
     "browser",
-    "index.mjs",
-    "index.js",
     "index.d.ts"
   ],
   "keywords": [
