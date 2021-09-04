@@ -66,7 +66,7 @@ import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "h
 
 ### Browser
 
-Deliver a `browser/float16.mjs` or `browser/float16.js` file from your Web server with the JavaScript `Content-Type` HTTP header.
+Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package from your Web server with the JavaScript `Content-Type` HTTP header.
 
 ```html
 <!-- Module Scripts -->
@@ -111,18 +111,20 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/view/@pet
 
 ## Support
 
-This package's `Float16Array` uses `Proxy` object, so IE11 is never supported.
+**This package only uses up to the ES2015 features**, so you should be able to use it without any problems.
 
-`lib/` and `browser/` directories in the npm package have JavaScript files already built, whose target are
+`Float16Array` implemented by the `Proxy` object, so IE11 is never supported.
+
+### Pre-transpiled JavaScript files (CommonJS)
+
+`lib/` and `browser/` directories in the npm package have JavaScript files already transpiled, whose target are
 
 * Firefox: last 2 versions and ESR
 * Chrome: last 2 versions
 * Edge: last 2 versions
 * Safari: last 2 versions
 
-However, **this package only uses up to the ES2015 features**, so you should be able to use it without any problems.
-
-If you build it yourself using bundler to support older browsers, transpile the JavaScript files in the `src/` directory.
+If you want to build it yourself using bundler to support older browsers, transpile the JavaScript files in the `src/` directory.
 
 ## API
 
