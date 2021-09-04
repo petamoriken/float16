@@ -61,7 +61,7 @@ const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = requir
 You can get modules from [deno.land/x](https://deno.land/x/float16) hosting service.
 
 ```ts
-import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://deno.land/x/float16/index.mjs";
+import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://deno.land/x/float16/mod.ts";
 ```
 
 ### Browser
