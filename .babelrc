@@ -9,6 +9,10 @@
       "extMapping": { ".mjs": ".js" }
     }]
   ],
+  "assumptions": {
+    "constantReexports": true,
+    "noIncompleteNsImportDetection": true
+  },
   "env": {
     "test": {
       "sourceMaps": "inline"
