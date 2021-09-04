@@ -20,6 +20,13 @@
     "getter-return": "off",
     "no-debugger": "warn",
     "no-undef": "error",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ForInStatement",
+        "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
+      }
+    ],
     "object-curly-newline": [
       "error",
       {
@@ -46,7 +53,7 @@
       }
     ],
     "import/extensions": ["error", "always"],
-    "import/no-named-as-default": "off",
+    "import/no-default-export": "error",
     "import/no-unresolved": "off",
     "import/order": ["error", {
       "newlines-between": "never",
