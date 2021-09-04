@@ -84,7 +84,7 @@ export function isIterable(value) {
  * @param {unknown} value
  * @returns {value is any[]}
  */
- export function isOrdinaryArray(value) {
+export function isOrdinaryArray(value) {
   if (!Array.isArray(value)) {
     return false;
   }
