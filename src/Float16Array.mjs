@@ -17,7 +17,12 @@ function hasFloat16ArrayBrand(target) {
     return false;
   }
 
-  const constructor = target.constructor;
+  const prototype = Object.getPrototypeOf(target);
+  if (!isObjectLike(prototype)) {
+    return false;
+  }
+
+  const constructor = prototype.constructor;
   if (constructor === undefined) {
     return false;
   }
