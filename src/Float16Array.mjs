@@ -1,6 +1,6 @@
 import { wrapInArrayIterator } from "./helper/arrayIterator.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./helper/converter.mjs";
 import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isOrdinaryArray, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./helper/is.mjs";
-import { convertToNumber, roundToFloat16Bits } from "./helper/lib.mjs";
 import { createPrivateStorage } from "./helper/private.mjs";
 import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompare } from "./helper/spec.mjs";
 
