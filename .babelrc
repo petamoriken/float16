@@ -1,10 +1,6 @@
 {
-  "presets": [
-    ["@babel/preset-env", {
-      "modules": "commonjs"
-    }]
-  ],
   "plugins": [
+    "@babel/plugin-transform-modules-commonjs",
     ["replace-import-extension", {
       "extMapping": { ".mjs": ".js" }
     }]

@@ -2,7 +2,6 @@
 /* eslint-disable import/no-default-export, import/no-named-as-default */
 
 import { execSync } from "child_process";
-import babel from "@rollup/plugin-babel";
 
 const name = process.env.npm_package_name;
 const version = process.env.NPM_VERSION_SCRIPT === "1" ? `v${ process.env.npm_package_version }` : execSync("git describe").toString().trim();
@@ -23,11 +22,4 @@ export default {
     format: "es",
     banner,
   }],
-  plugins: [
-    babel({
-      babelrc: false,
-      presets: ["@babel/preset-env"],
-      babelHelpers: "bundled",
-    }),
-  ],
 };
