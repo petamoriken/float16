@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.3-5-g31a9d9a | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.3-6-gf66063d | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -158,7 +158,7 @@ var float16 = (function (exports) {
 
   const _$1 = createPrivateStorage();
 
-  const IteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
+  const IteratorPrototype = Reflect.getPrototypeOf(Reflect.getPrototypeOf([][Symbol.iterator]()));
 
   const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
     next: {
@@ -202,8 +202,8 @@ var float16 = (function (exports) {
   }
 
   // Inspired by util.types implementation of Node.js
-  const TypedArrayPrototype = Object.getPrototypeOf(Uint8Array).prototype;
-  const getTypedArrayPrototypeSybolToStringTag = Object.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
+  const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
+  const getTypedArrayPrototypeSybolToStringTag = Reflect.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
 
   /**
    * @param {unknown} value
@@ -438,7 +438,7 @@ var float16 = (function (exports) {
       return false;
     }
 
-    const prototype = Object.getPrototypeOf(target);
+    const prototype = Reflect.getPrototypeOf(target);
     if (!isObjectLike(prototype)) {
       return false;
     }
