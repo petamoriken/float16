@@ -1,14 +1,13 @@
-/*! @petamoriken/float16 v3.4.3-7-g0727b02 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.3-8-g2eb4786 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
 
-  // algorithm: ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
+  // algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
 
   const buffer = new ArrayBuffer(4);
   const floatView = new Float32Array(buffer);
   const uint32View = new Uint32Array(buffer);
-
 
   const baseTable = new Uint32Array(512);
   const shiftTable = new Uint32Array(512);
@@ -60,12 +59,10 @@ var float16 = (function (exports) {
    */
   function roundToFloat16Bits(num) {
     floatView[0] = num;
-
     const f = uint32View[0];
     const e = (f >> 23) & 0x1ff;
     return baseTable[e] + ((f & 0x007fffff) >> shiftTable[e]);
   }
-
 
   const mantissaTable = new Uint32Array(2048);
   const exponentTable = new Uint32Array(64);
@@ -78,7 +75,7 @@ var float16 = (function (exports) {
 
     // normalized
     while((m & 0x00800000) === 0) {
-      e -= 0x00800000;    // decrement exponent
+      e -= 0x00800000;  // decrement exponent
       m <<= 1;
     }
 
@@ -310,6 +307,7 @@ var float16 = (function (exports) {
   }
 
   /**
+   * @see https://tc39.es/ecma262/#sec-tointegerorinfinity
    * @param {unknown} target
    * @returns {number}
    */
@@ -332,6 +330,7 @@ var float16 = (function (exports) {
   }
 
   /**
+   * @see https://tc39.es/ecma262/#sec-tolength
    * @param {unknown} target
    * @returns {number}
    */
@@ -345,6 +344,7 @@ var float16 = (function (exports) {
   }
 
   /**
+   * @see https://tc39.es/ecma262/#sec-lengthofarraylike
    * @param {object} arrayLike
    * @returns {number}
    */
@@ -357,6 +357,7 @@ var float16 = (function (exports) {
   }
 
   /**
+   * @see https://tc39.es/ecma262/#sec-speciesconstructor
    * @param {object} target
    * @param {Function} defaultConstructor
    * @returns {Function}
@@ -383,12 +384,15 @@ var float16 = (function (exports) {
   }
 
   /**
+   * bigint comparisons are not supported
+   * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort
    * @param {number} x
    * @param {number} y
    * @returns {-1 | 0 | 1}
    */
   function defaultCompare(x, y) {
-    const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
+    const isNaN_x = Number.isNaN(x);
+    const isNaN_y = Number.isNaN(y);
 
     if (isNaN_x && isNaN_y) {
       return 0;
@@ -411,7 +415,8 @@ var float16 = (function (exports) {
     }
 
     if (x === 0 && y === 0) {
-      const [isPlusZero_x, isPlusZero_y] = [Object.is(x, 0), Object.is(y, 0)];
+      const isPlusZero_x = Object.is(x, 0);
+      const isPlusZero_y = Object.is(y, 0);
 
       if (!isPlusZero_x && isPlusZero_y) {
         return -1;

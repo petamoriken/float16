@@ -2,7 +2,7 @@
 
 <p align="center">
   half precision floating point for JavaScript<br>
-  See <a href="https://esdiscuss.org/topic/float16array">ES Discuss Float16Array topic</a>
+  See <a href="https://esdiscuss.org/topic/float16array">the archive of the ES Discuss Float16Array topic</a> for details
 </p>
 
 <p align="center">
