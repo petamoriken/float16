@@ -1,115 +1,169 @@
+/* global globalThis, self, window, global */
+
 // algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
 
-const buffer = new ArrayBuffer(4);
-const floatView = new Float32Array(buffer);
-const uint32View = new Uint32Array(buffer);
+/** @type {globalThis} */
+const stdin =
+  typeof globalThis !== "undefined" ? globalThis :
+    typeof self !== "undefined" ? self :
+      typeof window !== "undefined" ? window :
+        typeof global !== "undefined" ? global : Function("return this")();
 
-const baseTable = new Uint32Array(512);
-const shiftTable = new Uint32Array(512);
+const heap = new ArrayBuffer(0x4000);
 
-for (let i = 0; i < 256; ++i) {
-  const e = i - 127;
+const asm = function (stdin, _foreign, heap) {
+  "use asm";
 
-  // very small number (0, -0)
-  if (e < -27) {
-    baseTable[i]         = 0x0000;
-    baseTable[i | 0x100] = 0x8000;
-    shiftTable[i]         = 24;
-    shiftTable[i | 0x100] = 24;
+  const fround = stdin.Math.fround;
 
-  // small number (denorm)
-  } else if (e < -14) {
-    baseTable[i]         =  0x0400 >> (-e - 14);
-    baseTable[i | 0x100] = (0x0400 >> (-e - 14)) | 0x8000;
-    shiftTable[i]         = -e - 1;
-    shiftTable[i | 0x100] = -e - 1;
+  const HEAPU32 = new stdin.Uint32Array(heap);
+  const HEAPF32 = new stdin.Float32Array(heap);
 
-  // normal number
-  } else if (e <= 15) {
-    baseTable[i]         =  (e + 15) << 10;
-    baseTable[i | 0x100] = ((e + 15) << 10) | 0x8000;
-    shiftTable[i]         = 13;
-    shiftTable[i | 0x100] = 13;
+  const base = 0;
+  const shift = 2048;
 
-  // large number (Infinity, -Infinity)
-  } else if (e < 128) {
-    baseTable[i]         = 0x7c00;
-    baseTable[i | 0x100] = 0xfc00;
-    shiftTable[i]         = 24;
-    shiftTable[i | 0x100] = 24;
+  const mantissa = 4096;
+  const exponent = 12288;
+  const offset = 12544;
 
-  // stay (NaN, Infinity, -Infinity)
-  } else {
-    baseTable[i]         = 0x7c00;
-    baseTable[i | 0x100] = 0xfc00;
-    shiftTable[i]         = 13;
-    shiftTable[i | 0x100] = 13;
-  }
-}
+  const free = 12800;
 
-/**
- * round a number to a half float number bits.
- * @param {number} num - double float
- * @returns {number} half float number bits
- */
-export function roundToFloat16Bits(num) {
-  floatView[0] = num;
-  const f = uint32View[0];
-  const e = (f >> 23) & 0x1ff;
-  return baseTable[e] + ((f & 0x007fffff) >> shiftTable[e]);
-}
-
-const mantissaTable = new Uint32Array(2048);
-const exponentTable = new Uint32Array(64);
-const offsetTable = new Uint32Array(64);
-
-mantissaTable[0] = 0;
-for (let i = 1; i < 1024; ++i) {
-  let m = i << 13;    // zero pad mantissa bits
-  let e = 0;          // zero exponent
-
-  // normalized
-  while((m & 0x00800000) === 0) {
-    e -= 0x00800000;  // decrement exponent
-    m <<= 1;
+  function init() {
+    initF64ToF16Table();
+    initF16ToF64Table();
   }
 
-  m &= ~0x00800000;   // clear leading 1 bit
-  e += 0x38800000;    // adjust bias
+  function initF64ToF16Table() {
+    var i = 0, e = 0;
 
-  mantissaTable[i] = m | e;
-}
-for (let i = 1024; i < 2048; ++i) {
-  mantissaTable[i] = 0x38000000 + ((i - 1024) << 13);
-}
+    for (i = 0; (i | 0) < 256; i = i + 1 | 0) {
+      e = i - 127 | 0;
 
-exponentTable[0] = 0;
-for (let i = 1; i < 31; ++i) {
-  exponentTable[i] = i << 23;
-}
-exponentTable[31] = 0x47800000;
-exponentTable[32] = 0x80000000;
-for (let i = 33; i < 63; ++i) {
-  exponentTable[i] = 0x80000000 + ((i - 32) << 23);
-}
-exponentTable[63] = 0xc7800000;
+      // very small number (0, -0)
+      if ((e | 0) < (-27 | 0)) {
+        HEAPU32[base + (i << 2) >> 2]           = 0x0000;
+        HEAPU32[base + ((i | 0x100) << 2) >> 2] = 0x8000;
+        HEAPU32[shift + (i << 2) >> 2]           = 24;
+        HEAPU32[shift + ((i | 0x100) << 2) >> 2] = 24;
 
-offsetTable[0] = 0;
-for (let i = 1; i < 64; ++i) {
-  if (i === 32) {
-    offsetTable[i] = 0;
-  } else {
-    offsetTable[i] = 1024;
+        // small number (denorm)
+      } else if ((e | 0) < (-14 | 0)) {
+        HEAPU32[base + (i << 2) >> 2]           = 0x0400 >> (-e | 0) - 14;
+        HEAPU32[base + ((i | 0x100) << 2) >> 2] = 0x0400 >> (-e | 0) - 14 | 0x8000;
+        HEAPU32[shift + (i << 2) >> 2]           = (-e | 0) - 1;
+        HEAPU32[shift + ((i | 0x100) << 2) >> 2] = (-e | 0) - 1;
+
+      // normal number
+      } else if ((e | 0) <= 15) {
+        HEAPU32[base + (i << 2) >> 2]           = e + 15 << 10;
+        HEAPU32[base + ((i | 0x100) << 2) >> 2] = e + 15 << 10 | 0x8000;
+        HEAPU32[shift + (i << 2) >> 2]           = 13;
+        HEAPU32[shift + ((i | 0x100) << 2) >> 2] = 13;
+
+      // large number (Infinity, -Infinity)
+      } else if ((e | 0) < 128) {
+        HEAPU32[base + (i << 2) >> 2]           = 0x7c00;
+        HEAPU32[base + ((i | 0x100) << 2) >> 2] = 0xfc00;
+        HEAPU32[shift + (i << 2) >> 2]           = 24;
+        HEAPU32[shift + ((i | 0x100) << 2) >> 2] = 24;
+
+      // stay (NaN, Infinity, -Infinity)
+      } else {
+        HEAPU32[base + (i << 2) >> 2]           = 0x7c00;
+        HEAPU32[base + ((i | 0x100) << 2) >> 2] = 0xfc00;
+        HEAPU32[shift + (i << 2) >> 2]           = 13;
+        HEAPU32[shift + ((i | 0x100) << 2) >> 2] = 13;
+      }
+    }
   }
-}
 
-/**
- * convert a half float number bits to a number.
- * @param {number} float16bits - half float number bits
- * @returns {number} double float
- */
-export function convertToNumber(float16bits) {
-  const m = float16bits >> 10;
-  uint32View[0] = mantissaTable[offsetTable[m] + (float16bits & 0x3ff)] + exponentTable[m];
-  return floatView[0];
-}
+  function initF16ToF64Table() {
+    var i = 0, m = 0, e = 0;
+
+    for (i = 1; (i | 0) < 1024; i = i + 1 | 0) {
+      m = i << 13; // zero pad mantissa bits
+      e = 0;       // zero exponent
+
+      // normalized
+      while ((m & 0x00800000) == 0) {
+        e = (e | 0) - 0x00800000 | 0; // decrement exponent
+        m = m << 1;
+      }
+
+      m = m & ~0x00800000;          // clear leading 1 bit
+      e = (e | 0) + 0x38800000 | 0; // adjust bias
+
+      HEAPU32[mantissa + (i << 2) >> 2] = m | e;
+    }
+    for (i = 1024; (i | 0) < 2048; i = i + 1 | 0) {
+      HEAPU32[mantissa + (i << 2) >> 2] = 0x38000000 + (i - 1024 << 13);
+    }
+
+    for (i = 1; (i | 0) < 31; i = i + 1 | 0) {
+      HEAPU32[exponent + (i << 2) >> 2] = i << 23;
+    }
+    HEAPU32[exponent + 124 >> 2] = 0x47800000;
+    HEAPU32[exponent + 128 >> 2] = 0x80000000;
+    for (i = 33; (i | 0) < 63; i = i + 1 | 0) {
+      HEAPU32[exponent + (i << 2) >> 2] = 0x80000000 + (i - 32 << 23);
+    }
+    HEAPU32[exponent + 252 >> 2] = 0xc7800000;
+
+    for (i = 1; (i | 0) < 64; i = i + 1 | 0) {
+      if ((i | 0) == 32) {
+        HEAPU32[offset + (i << 2) >> 2] = 0;
+      } else {
+        HEAPU32[offset + (i << 2) >> 2] = 1024;
+      }
+    }
+  }
+
+  /**
+   * @param {number} num
+   * @returns {number} half float number bits
+   */
+  function roundToFloat16Bits(num) {
+    num = fround(num);
+
+    var f = 0, e = 0;
+
+    HEAPF32[free >> 2] = num;
+    f = HEAPU32[free >> 2] | 0;
+    e = f >> 23 & 0x1ff;
+    return (
+      HEAPU32[base + (e << 2) >> 2] +
+      ((f & 0x007fffff) >> HEAPU32[shift + (e << 2) >> 2]) | 0
+    );
+  }
+
+  /**
+   * @param {number} float16bits - half float number bits
+   * @returns {number}
+   */
+  function convertToNumber(float16bits) {
+    float16bits = float16bits | 0;
+
+    var m = 0;
+
+    m = float16bits >> 10;
+    HEAPU32[free >> 2] =
+      HEAPU32[mantissa + (HEAPU32[offset + (m << 2) >> 2] + (float16bits & 0x3ff) << 2) >> 2] +
+      HEAPU32[exponent + (m << 2) >> 2];
+    return +HEAPF32[free >> 2];
+  }
+
+  return {
+    init: init,
+    roundToFloat16Bits: roundToFloat16Bits,
+    convertToNumber: convertToNumber,
+  };
+
+}(stdin, null, heap);
+
+asm.init();
+
+/** round a number to a half float number bits. */
+export const roundToFloat16Bits = asm.roundToFloat16Bits;
+
+/** convert a half float number bits to a number. */
+export const convertToNumber = asm.convertToNumber;
