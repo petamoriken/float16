@@ -315,27 +315,27 @@ export interface Float16ArrayConstructor {
 
   /**
    * Creates an array from an array-like or iterable object.
-   * @param arrayLike An array-like or iterable object to convert to an array.
+   * @param elements An iterable object to convert to an array.
    */
-  from(arrayLike: Iterable<number>): Float16Array;
+  from(elements: Iterable<number>): Float16Array;
 
   /**
    * Creates an array from an array-like or iterable object.
-   * @param arrayLike An array-like or iterable object to convert to an array.
+   * @param elements An iterable object to convert to an array.
    * @param mapfn A mapping function to call on every element of the array.
    * @param thisArg Value of 'this' used to invoke the mapfn.
    */
-  from<T>(arrayLike: Iterable<T>, mapfn: (v: T, k: number) => number, thisArg?: any): Float16Array;
+  from<T>(elements: Iterable<T>, mapfn: (v: T, k: number) => number, thisArg?: any): Float16Array;
 
   /**
    * Creates an array from an array-like or iterable object.
-   * @param arrayLike An array-like or iterable object to convert to an array.
+   * @param arrayLike An array-like object to convert to an array.
    */
   from(arrayLike: ArrayLike<number>): Float16Array;
 
   /**
    * Creates an array from an array-like or iterable object.
-   * @param arrayLike An array-like or iterable object to convert to an array.
+   * @param arrayLike An array-like object to convert to an array.
    * @param mapfn A mapping function to call on every element of the array.
    * @param thisArg Value of 'this' used to invoke the mapfn.
    */
