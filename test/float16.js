@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.3-4-g1aa9fc0 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.3-5-g31a9d9a | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -438,7 +438,12 @@ var float16 = (function (exports) {
       return false;
     }
 
-    const constructor = target.constructor;
+    const prototype = Object.getPrototypeOf(target);
+    if (!isObjectLike(prototype)) {
+      return false;
+    }
+
+    const constructor = prototype.constructor;
     if (constructor === undefined) {
       return false;
     }
