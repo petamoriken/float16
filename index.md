@@ -117,14 +117,13 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/view/@pet
 
 ### Pre-transpiled JavaScript files (CommonJS, IIFE)
 
-`lib/` and `browser/` directories in the npm package have JavaScript files already transpiled, whose target are
+`lib/` and `browser/` directories in the npm package have JavaScript files already transpiled, and they have been tested automatically in the following environments
 
+* Node.js Active LTS
 * Firefox: last 2 versions and ESR
 * Chrome: last 2 versions
 * Edge: last 2 versions
 * Safari: last 2 versions
-
-If you want to build it yourself using bundler to support older browsers, transpile the JavaScript files in the `src/` directory.
 
 ## API
 
