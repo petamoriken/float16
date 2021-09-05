@@ -151,48 +151,40 @@ describe('hfround()', () => {
             line: 51
         }));
     });
-    it('return same value when value is float16 max value + a bit number', () => {
+    it('return 0 when value is \xB1float16 min value / 2', () => {
         var _rec19 = new _PowerAssertRecorder1();
-        assert(_rec19._expr(_rec19._capt(_rec19._capt(hfround(_rec19._capt(_rec19._capt(maxFloat16, 'arguments/0/left/arguments/0/left') + _rec19._capt(2 ** _rec19._capt(_rec19._capt(_rec19._capt(_rec19._capt(2 ** _rec19._capt(5 - 1, 'arguments/0/left/arguments/0/right/right/left/left/left/right'), 'arguments/0/left/arguments/0/right/right/left/left/left') - 1, 'arguments/0/left/arguments/0/right/right/left/left') - 10, 'arguments/0/left/arguments/0/right/right/left') - 2, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec19._capt(maxFloat16, 'arguments/0/right'), 'arguments/0'), {
-            content: 'assert(hfround(maxFloat16 + 2 ** (2 ** (5 - 1) - 1 - 10 - 2)) === maxFloat16)',
+        var _rec20 = new _PowerAssertRecorder1();
+        assert(_rec19._expr(_rec19._capt(_rec19._capt(Object, 'arguments/0/callee/object').is(_rec19._capt(hfround(_rec19._capt(_rec19._capt(minFloat16, 'arguments/0/arguments/0/arguments/0/left') / 2, 'arguments/0/arguments/0/arguments/0')), 'arguments/0/arguments/0'), 0), 'arguments/0'), {
+            content: 'assert(Object.is(hfround(minFloat16 / 2), 0))',
             filepath: 'test/hfround.js',
             line: 55
         }));
-    });
-    it('return 0 when value is \xB1float16 min value / 2', () => {
-        var _rec20 = new _PowerAssertRecorder1();
-        var _rec21 = new _PowerAssertRecorder1();
-        assert(_rec20._expr(_rec20._capt(_rec20._capt(Object, 'arguments/0/callee/object').is(_rec20._capt(hfround(_rec20._capt(_rec20._capt(minFloat16, 'arguments/0/arguments/0/arguments/0/left') / 2, 'arguments/0/arguments/0/arguments/0')), 'arguments/0/arguments/0'), 0), 'arguments/0'), {
-            content: 'assert(Object.is(hfround(minFloat16 / 2), 0))',
-            filepath: 'test/hfround.js',
-            line: 59
-        }));
-        assert(_rec21._expr(_rec21._capt(_rec21._capt(Object, 'arguments/0/callee/object').is(_rec21._capt(hfround(_rec21._capt(_rec21._capt(-_rec21._capt(minFloat16, 'arguments/0/arguments/0/arguments/0/left/argument'), 'arguments/0/arguments/0/arguments/0/left') / 2, 'arguments/0/arguments/0/arguments/0')), 'arguments/0/arguments/0'), _rec21._capt(-0, 'arguments/0/arguments/1')), 'arguments/0'), {
+        assert(_rec20._expr(_rec20._capt(_rec20._capt(Object, 'arguments/0/callee/object').is(_rec20._capt(hfround(_rec20._capt(_rec20._capt(-_rec20._capt(minFloat16, 'arguments/0/arguments/0/arguments/0/left/argument'), 'arguments/0/arguments/0/arguments/0/left') / 2, 'arguments/0/arguments/0/arguments/0')), 'arguments/0/arguments/0'), _rec20._capt(-0, 'arguments/0/arguments/1')), 'arguments/0'), {
             content: 'assert(Object.is(hfround(-minFloat16 / 2), -0))',
             filepath: 'test/hfround.js',
-            line: 60
+            line: 56
         }));
     });
     it('return \xB1float16 min value when value is \xB1float16 min value / 2 \xB1 a bit number', () => {
+        var _rec21 = new _PowerAssertRecorder1();
         var _rec22 = new _PowerAssertRecorder1();
-        var _rec23 = new _PowerAssertRecorder1();
-        assert(_rec22._expr(_rec22._capt(_rec22._capt(hfround(_rec22._capt(_rec22._capt(_rec22._capt(minFloat16, 'arguments/0/left/arguments/0/left/left') / 2, 'arguments/0/left/arguments/0/left') + _rec22._capt(2 ** _rec22._capt(-25, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec22._capt(minFloat16, 'arguments/0/right'), 'arguments/0'), {
+        assert(_rec21._expr(_rec21._capt(_rec21._capt(hfround(_rec21._capt(_rec21._capt(_rec21._capt(minFloat16, 'arguments/0/left/arguments/0/left/left') / 2, 'arguments/0/left/arguments/0/left') + _rec21._capt(2 ** _rec21._capt(-25, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec21._capt(minFloat16, 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(hfround(minFloat16 / 2 + 2 ** -25) === minFloat16)',
             filepath: 'test/hfround.js',
-            line: 64
+            line: 60
         }));
-        assert(_rec23._expr(_rec23._capt(_rec23._capt(hfround(_rec23._capt(_rec23._capt(_rec23._capt(-_rec23._capt(minFloat16, 'arguments/0/left/arguments/0/left/left/argument'), 'arguments/0/left/arguments/0/left/left') / 2, 'arguments/0/left/arguments/0/left') - _rec23._capt(2 ** _rec23._capt(-25, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec23._capt(-_rec23._capt(minFloat16, 'arguments/0/right/argument'), 'arguments/0/right'), 'arguments/0'), {
+        assert(_rec22._expr(_rec22._capt(_rec22._capt(hfround(_rec22._capt(_rec22._capt(_rec22._capt(-_rec22._capt(minFloat16, 'arguments/0/left/arguments/0/left/left/argument'), 'arguments/0/left/arguments/0/left/left') / 2, 'arguments/0/left/arguments/0/left') - _rec22._capt(2 ** _rec22._capt(-25, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec22._capt(-_rec22._capt(minFloat16, 'arguments/0/right/argument'), 'arguments/0/right'), 'arguments/0'), {
             content: 'assert(hfround(-minFloat16 / 2 - 2 ** -25) === -minFloat16)',
             filepath: 'test/hfround.js',
-            line: 65
+            line: 61
         }));
     });
     it('return 1.3369140625 when value is 1.337', () => {
-        var _rec24 = new _PowerAssertRecorder1();
-        assert(_rec24._expr(_rec24._capt(_rec24._capt(hfround(1.337), 'arguments/0/left') === 1.3369140625, 'arguments/0'), {
+        var _rec23 = new _PowerAssertRecorder1();
+        assert(_rec23._expr(_rec23._capt(_rec23._capt(hfround(1.337), 'arguments/0/left') === 1.3369140625, 'arguments/0'), {
             content: 'assert(hfround(1.337) === 1.3369140625)',
             filepath: 'test/hfround.js',
-            line: 69
+            line: 65
         }));
     });
 });

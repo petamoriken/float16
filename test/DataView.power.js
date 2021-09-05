@@ -23,6 +23,60 @@ var _PowerAssertRecorder1 = function () {
     return PowerAssertRecorder;
 }();
 describe('additional DataView methods', () => {
+    const data = [
+        [
+            0,
+            0
+        ],
+        [
+            32768,
+            -0
+        ],
+        [
+            15360,
+            1
+        ],
+        [
+            48128,
+            -1
+        ],
+        [
+            16968,
+            3.140625
+        ],
+        [
+            512,
+            0.000030517578125
+        ],
+        [
+            31743,
+            65504
+        ],
+        [
+            64511,
+            -65504
+        ],
+        [
+            1,
+            2 ** -24
+        ],
+        [
+            32769,
+            -(2 ** -24)
+        ],
+        [
+            32256,
+            NaN
+        ],
+        [
+            31744,
+            Infinity
+        ],
+        [
+            64512,
+            -Infinity
+        ]
+    ];
     const buffer = new ArrayBuffer(2);
     const dataView = new DataView(buffer);
     function clear() {
@@ -51,7 +105,7 @@ describe('additional DataView methods', () => {
             assert(_rec1._expr(_rec1._capt(_rec1._capt(_rec1._capt(getFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'getFloat16', 'arguments/0'), {
                 content: 'assert(getFloat16.name === "getFloat16")',
                 filepath: 'test/DataView.js',
-                line: 38
+                line: 54
             }));
         });
         it('property `length` is 2', () => {
@@ -59,7 +113,7 @@ describe('additional DataView methods', () => {
             assert(_rec2._expr(_rec2._capt(_rec2._capt(_rec2._capt(getFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
                 content: 'assert(getFloat16.length === 2)',
                 filepath: 'test/DataView.js',
-                line: 42
+                line: 58
             }));
         });
         it('first argument must be DataView instance', () => {
@@ -72,20 +126,39 @@ describe('additional DataView methods', () => {
             assert.throws(() => getFloat16(() => {
             }, 0), TypeError);
         });
-        it('get 0.0007572174072265625 by big/little endian', () => {
+        it('get values', () => {
             var _rec3 = new _PowerAssertRecorder1();
             var _rec4 = new _PowerAssertRecorder1();
-            dataView.setUint16(0, 4660);
-            assert(_rec3._expr(_rec3._capt(_rec3._capt(getFloat16(_rec3._capt(dataView, 'arguments/0/left/arguments/0'), 0), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
-                content: 'assert(getFloat16(dataView, 0) === 0.0007572174072265625)',
+            for (const [float16bits, value] of data) {
+                dataView.setUint16(0, float16bits);
+                assert(_rec3._expr(_rec3._capt(_rec3._capt(Object, 'arguments/0/callee/object').is(_rec3._capt(getFloat16(_rec3._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0), 'arguments/0/arguments/0'), _rec3._capt(value, 'arguments/0/arguments/1')), 'arguments/0'), {
+                    content: 'assert(Object.is(getFloat16(dataView, 0), value))',
+                    filepath: 'test/DataView.js',
+                    line: 75
+                }));
+                dataView.setUint16(0, float16bits, true);
+                assert(_rec4._expr(_rec4._capt(_rec4._capt(Object, 'arguments/0/callee/object').is(_rec4._capt(getFloat16(_rec4._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0, true), 'arguments/0/arguments/0'), _rec4._capt(value, 'arguments/0/arguments/1')), 'arguments/0'), {
+                    content: 'assert(Object.is(getFloat16(dataView, 0, true), value))',
+                    filepath: 'test/DataView.js',
+                    line: 78
+                }));
+            }
+        });
+        it('get another NaN', () => {
+            var _rec5 = new _PowerAssertRecorder1();
+            var _rec6 = new _PowerAssertRecorder1();
+            const float16bits = 65024;
+            dataView.setUint16(0, float16bits);
+            assert(_rec5._expr(_rec5._capt(_rec5._capt(Number, 'arguments/0/callee/object').isNaN(_rec5._capt(getFloat16(_rec5._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0), 'arguments/0/arguments/0')), 'arguments/0'), {
+                content: 'assert(Number.isNaN(getFloat16(dataView, 0)))',
                 filepath: 'test/DataView.js',
-                line: 58
+                line: 86
             }));
-            dataView.setUint16(0, 4660, true);
-            assert(_rec4._expr(_rec4._capt(_rec4._capt(getFloat16(_rec4._capt(dataView, 'arguments/0/left/arguments/0'), 0, true), 'arguments/0/left') === 0.0007572174072265625, 'arguments/0'), {
-                content: 'assert(getFloat16(dataView, 0, true) === 0.0007572174072265625)',
+            dataView.setUint16(0, float16bits, true);
+            assert(_rec6._expr(_rec6._capt(_rec6._capt(Number, 'arguments/0/callee/object').isNaN(_rec6._capt(getFloat16(_rec6._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0, true), 'arguments/0/arguments/0')), 'arguments/0'), {
+                content: 'assert(Number.isNaN(getFloat16(dataView, 0, true)))',
                 filepath: 'test/DataView.js',
-                line: 61
+                line: 89
             }));
         });
         it('work with DataView from anothor realm', () => {
@@ -95,19 +168,19 @@ describe('additional DataView methods', () => {
     describe('setFloat16()', () => {
         beforeEach(clear);
         it('property `name` is \'setFloat16\'', () => {
-            var _rec5 = new _PowerAssertRecorder1();
-            assert(_rec5._expr(_rec5._capt(_rec5._capt(_rec5._capt(setFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'setFloat16', 'arguments/0'), {
+            var _rec7 = new _PowerAssertRecorder1();
+            assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(setFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'setFloat16', 'arguments/0'), {
                 content: 'assert(setFloat16.name === "setFloat16")',
                 filepath: 'test/DataView.js',
-                line: 75
+                line: 103
             }));
         });
         it('property `length` is 3', () => {
-            var _rec6 = new _PowerAssertRecorder1();
-            assert(_rec6._expr(_rec6._capt(_rec6._capt(_rec6._capt(setFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
+            var _rec8 = new _PowerAssertRecorder1();
+            assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(setFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
                 content: 'assert(setFloat16.length === 3)',
                 filepath: 'test/DataView.js',
-                line: 79
+                line: 107
             }));
         });
         it('first argument must be DataView instance', () => {
@@ -120,21 +193,23 @@ describe('additional DataView methods', () => {
             assert.throws(() => setFloat16(() => {
             }, 0, 0), TypeError);
         });
-        it('set 0.0007572174072265625 by big/little endian', () => {
-            var _rec7 = new _PowerAssertRecorder1();
-            var _rec8 = new _PowerAssertRecorder1();
-            setFloat16(dataView, 0, 0.0007572174072265625);
-            assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(dataView, 'arguments/0/left/callee/object').getUint16(0), 'arguments/0/left') === 4660, 'arguments/0'), {
-                content: 'assert(dataView.getUint16(0) === 0x1234)',
-                filepath: 'test/DataView.js',
-                line: 95
-            }));
-            setFloat16(dataView, 0, 0.0007572174072265625, true);
-            assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(dataView, 'arguments/0/left/callee/object').getUint16(0, true), 'arguments/0/left') === 4660, 'arguments/0'), {
-                content: 'assert(dataView.getUint16(0, true) === 0x1234)',
-                filepath: 'test/DataView.js',
-                line: 98
-            }));
+        it('set values', () => {
+            var _rec9 = new _PowerAssertRecorder1();
+            var _rec10 = new _PowerAssertRecorder1();
+            for (const [float16bits, value] of data) {
+                setFloat16(dataView, 0, value);
+                assert(_rec9._expr(_rec9._capt(_rec9._capt(Object, 'arguments/0/callee/object').is(_rec9._capt(_rec9._capt(dataView, 'arguments/0/arguments/0/callee/object').getUint16(0), 'arguments/0/arguments/0'), _rec9._capt(float16bits, 'arguments/0/arguments/1')), 'arguments/0'), {
+                    content: 'assert(Object.is(dataView.getUint16(0), float16bits))',
+                    filepath: 'test/DataView.js',
+                    line: 124
+                }));
+                setFloat16(dataView, 0, value, true);
+                assert(_rec10._expr(_rec10._capt(_rec10._capt(Object, 'arguments/0/callee/object').is(_rec10._capt(_rec10._capt(dataView, 'arguments/0/arguments/0/callee/object').getUint16(0, true), 'arguments/0/arguments/0'), _rec10._capt(float16bits, 'arguments/0/arguments/1')), 'arguments/0'), {
+                    content: 'assert(Object.is(dataView.getUint16(0, true), float16bits))',
+                    filepath: 'test/DataView.js',
+                    line: 127
+                }));
+            }
         });
         it('work with DataView from anothor realm', () => {
             assert.doesNotThrow(() => setFloat16(new AnotherRealmDataView(buffer), 0, 0));

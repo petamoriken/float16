@@ -51,10 +51,6 @@ describe("hfround()", () => {
     assert( hfround(-minFloat16) === -minFloat16 );
   });
 
-  it("return same value when value is float16 max value + a bit number", () => {
-    assert( hfround(maxFloat16 + 2 ** (2 ** (5 - 1) - 1 - 10 - 2)) === maxFloat16 );
-  });
-
   it("return 0 when value is ±float16 min value / 2", () => {
     assert( Object.is( hfround(minFloat16 / 2), 0 ) );
     assert( Object.is( hfround(-minFloat16 / 2), -0 ) );
