@@ -1,9 +1,8 @@
-// algorithm: ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf
+// algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
 
 const buffer = new ArrayBuffer(4);
 const floatView = new Float32Array(buffer);
 const uint32View = new Uint32Array(buffer);
-
 
 const baseTable = new Uint32Array(512);
 const shiftTable = new Uint32Array(512);
@@ -55,12 +54,10 @@ for (let i = 0; i < 256; ++i) {
  */
 export function roundToFloat16Bits(num) {
   floatView[0] = num;
-
   const f = uint32View[0];
   const e = (f >> 23) & 0x1ff;
   return baseTable[e] + ((f & 0x007fffff) >> shiftTable[e]);
 }
-
 
 const mantissaTable = new Uint32Array(2048);
 const exponentTable = new Uint32Array(64);
@@ -73,7 +70,7 @@ for (let i = 1; i < 1024; ++i) {
 
   // normalized
   while((m & 0x00800000) === 0) {
-    e -= 0x00800000;    // decrement exponent
+    e -= 0x00800000;  // decrement exponent
     m <<= 1;
   }
 

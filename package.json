@@ -31,12 +31,15 @@
     "binary16",
     "FP16",
     "half-precision",
+    "ieee754",
     "Float16Array",
     "TypedArray",
+    "DataView",
     "getFloat16",
     "setFloat16",
-    "DataView",
-    "hfround"
+    "hfround",
+    "ponyfill",
+    "shim"
   ],
   "scripts": {
     "build": "yarn run build:lib; yarn run build:browser",

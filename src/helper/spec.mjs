@@ -1,6 +1,7 @@
 import { isObject } from "./is.mjs";
 
 /**
+ * @see https://tc39.es/ecma262/#sec-tointegerorinfinity
  * @param {unknown} target
  * @returns {number}
  */
@@ -23,6 +24,7 @@ export function ToIntegerOrInfinity(target) {
 }
 
 /**
+ * @see https://tc39.es/ecma262/#sec-tolength
  * @param {unknown} target
  * @returns {number}
  */
@@ -36,6 +38,7 @@ function ToLength(target) {
 }
 
 /**
+ * @see https://tc39.es/ecma262/#sec-lengthofarraylike
  * @param {object} arrayLike
  * @returns {number}
  */
@@ -48,6 +51,7 @@ export function LengthOfArrayLike(arrayLike) {
 }
 
 /**
+ * @see https://tc39.es/ecma262/#sec-speciesconstructor
  * @param {object} target
  * @param {Function} defaultConstructor
  * @returns {Function}
@@ -74,12 +78,15 @@ export function SpeciesConstructor(target, defaultConstructor) {
 }
 
 /**
+ * bigint comparisons are not supported
+ * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort
  * @param {number} x
  * @param {number} y
  * @returns {-1 | 0 | 1}
  */
 export function defaultCompare(x, y) {
-  const [isNaN_x, isNaN_y] = [Number.isNaN(x), Number.isNaN(y)];
+  const isNaN_x = Number.isNaN(x);
+  const isNaN_y = Number.isNaN(y);
 
   if (isNaN_x && isNaN_y) {
     return 0;
@@ -102,7 +109,8 @@ export function defaultCompare(x, y) {
   }
 
   if (x === 0 && y === 0) {
-    const [isPlusZero_x, isPlusZero_y] = [Object.is(x, 0), Object.is(y, 0)];
+    const isPlusZero_x = Object.is(x, 0);
+    const isPlusZero_y = Object.is(y, 0);
 
     if (!isPlusZero_x && isPlusZero_y) {
       return -1;
