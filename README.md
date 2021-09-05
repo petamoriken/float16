@@ -1,35 +1,35 @@
 # <a href="https://git.io/float16">@petamoriken/float16</a>
 
 <p align="center">
-    half precision floating point for JavaScript<br>
-    See <a href="https://esdiscuss.org/topic/float16array">ES Discuss Float16Array topic</a>
+  half precision floating point for JavaScript<br>
+  See <a href="https://esdiscuss.org/topic/float16array">ES Discuss Float16Array topic</a>
 </p>
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/@petamoriken/float16">
-        <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
-    </a>
-    <a href="https://www.npmjs.com/package/@petamoriken/float16">
-        <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;logo=npm&amp;style=flat-square" alt="npm version">
-    </a>
-    <a href="https://deno.land/x/float16">
-        <img src="https://img.shields.io/github/v/tag/petamoriken/float16?label=version&amp;logo=deno&amp;style=flat-square" alt="deno version">
-    </a>
-    <a href="https://github.com/petamoriken/float16/blob/master/package.json">
-        <img src="https://img.shields.io/david/petamoriken/float16?style=flat-square" alt="dependencies">
-    </a>
-    <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
-        <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
-    </a>
-    <a href="https://codecov.io/gh/petamoriken/float16">
-        <img src="https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&amp;style=flat-square" alt="codecov">
-    </a>
+  <a href="https://www.npmjs.com/package/@petamoriken/float16">
+    <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/@petamoriken/float16">
+    <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;logo=npm&amp;style=flat-square" alt="npm version">
+  </a>
+  <a href="https://deno.land/x/float16">
+    <img src="https://img.shields.io/github/v/tag/petamoriken/float16?label=version&amp;logo=deno&amp;style=flat-square" alt="deno version">
+  </a>
+  <a href="https://github.com/petamoriken/float16/blob/master/package.json">
+    <img src="https://img.shields.io/david/petamoriken/float16?style=flat-square" alt="dependencies">
+  </a>
+  <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
+    <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
+  </a>
+  <a href="https://codecov.io/gh/petamoriken/float16">
+    <img src="https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&amp;style=flat-square" alt="codecov">
+  </a>
 </p>
 
 <p align="center">
-    <a href="https://saucelabs.com/u/petamoriken">
-        <img src="https://saucelabs.com/browser-matrix/petamoriken.svg" alt="Sauce Labs browser matrix">
-    </a>
+  <a href="https://saucelabs.com/u/petamoriken">
+    <img src="https://saucelabs.com/browser-matrix/petamoriken.svg" alt="Sauce Labs browser matrix">
+  </a>
 </p>
 
 ## Install
@@ -71,7 +71,7 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
 ```html
 <!-- Module Scripts -->
 <script type="module">
-    import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "DEST/TO/float16.mjs";
+  import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "DEST/TO/float16.mjs";
 </script>
 ```
 
@@ -79,7 +79,7 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
 <!-- Classic Scripts -->
 <script src="DEST/TO/float16.js"></script>
 <script>
-    const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
+  const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
 </script>
 ```
 
@@ -88,7 +88,7 @@ Or use [jsDelivr](https://cdn.jsdelivr.net/npm/@petamoriken/float16/) CDN.
 ```html
 <!-- Module Scripts -->
 <script type="module">
-    import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
+  import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
 </script>
 ```
 
@@ -96,7 +96,7 @@ Or use [jsDelivr](https://cdn.jsdelivr.net/npm/@petamoriken/float16/) CDN.
 <!-- Classic Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
 <script>
-    const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
+  const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
 </script>
 ```
 
@@ -105,7 +105,7 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/view/@pet
 ```html
 <!-- Module Scripts -->
 <script type="module">
-    import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
+  import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
 </script>
 ```
 
@@ -115,7 +115,7 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/view/@pet
 
 `Float16Array` implemented by the `Proxy` object, so IE11 is never supported.
 
-### Pre-transpiled JavaScript files (CommonJS)
+### Pre-transpiled JavaScript files (CommonJS, IIFE)
 
 `lib/` and `browser/` directories in the npm package have JavaScript files already transpiled, whose target are
 
@@ -135,7 +135,7 @@ If you want to build it yourself using bundler to support older browsers, transp
 ```js
 const array = new Float16Array([1.0, 1.1, 1.2]);
 for (const val of array) {
-    console.log(val); // => 1, 1.099609375, 1.19921875
+  console.log(val); // => 1, 1.099609375, 1.19921875
 }
 
 array.reduce((prev, current) => prev + current); // 3.298828125
@@ -212,10 +212,10 @@ In addition, it is a bad idea to use `instanceof` to detect the type of `TypedAr
 
 ```js
 function isUint16Array(target) {
-    if (target === null || typeof target !== "object") {
-        return false;
-    }
-    return Object.prototype.toString.call(target) === "[object Uint16Array]";
+  if (target === null || typeof target !== "object") {
+    return false;
+  }
+  return Object.prototype.toString.call(target) === "[object Uint16Array]";
 }
 ```
 
@@ -252,9 +252,9 @@ WebGL requires `Uint16Array` for buffer or texture data whose types are `gl.HALF
 ```js
 // WebGL 2 example
 const vertices = new Float16Array([
-    -0.5, -0.5,  0,
-     0.5, -0.5,  0,
-     0.5,  0.5,  0,
+  -0.5, -0.5,  0,
+   0.5, -0.5,  0,
+   0.5,  0.5,  0,
 ]);
 
 const buffer = gl.createBuffer();
