@@ -3,6 +3,22 @@
 
 describe("additional DataView methods", () => {
 
+  const data = [
+    [0b0000000000000000, 0],
+    [0b1000000000000000, -0],
+    [0b0011110000000000, 1],
+    [0b1011110000000000, -1],
+    [0b0100001001001000, 3.140625],
+    [0b0000001000000000, 0.000030517578125],
+    [0b0111101111111111, 65504],
+    [0b1111101111111111, -65504],
+    [0b0000000000000001, 2 ** -24],
+    [0b1000000000000001, -(2 ** -24)],
+    [0b0111111000000000, NaN],
+    [0b0111110000000000, Infinity],
+    [0b1111110000000000, -Infinity],
+  ];
+
   const buffer = new ArrayBuffer(2);
   const dataView = new DataView(buffer);
 
@@ -53,12 +69,24 @@ describe("additional DataView methods", () => {
       assert.throws(() => getFloat16(() => {}, 0), TypeError);
     });
 
-    it("get 0.0007572174072265625 by big/little endian", () => {
-      dataView.setUint16(0, 0x1234);
-      assert( getFloat16(dataView, 0) === 0.0007572174072265625 );
+    it("get values", () => {
+      for (const [float16bits, value] of data) {
+        dataView.setUint16(0, float16bits);
+        assert( Object.is( getFloat16(dataView, 0), value ) );
 
-      dataView.setUint16(0, 0x1234, true);
-      assert( getFloat16(dataView, 0, true) === 0.0007572174072265625 );
+        dataView.setUint16(0, float16bits, true);
+        assert( Object.is( getFloat16(dataView, 0, true), value ) );
+      }
+    });
+
+    it("get another NaN", () => {
+      const float16bits = 0b1111111000000000;
+
+      dataView.setUint16(0, float16bits);
+      assert( Number.isNaN( getFloat16(dataView, 0) ) );
+
+      dataView.setUint16(0, float16bits, true);
+      assert( Number.isNaN( getFloat16(dataView, 0, true) ) );
     });
 
     it("work with DataView from anothor realm", () => {
@@ -90,12 +118,14 @@ describe("additional DataView methods", () => {
       assert.throws(() => setFloat16(() => {}, 0, 0), TypeError);
     });
 
-    it("set 0.0007572174072265625 by big/little endian", () => {
-      setFloat16(dataView, 0, 0.0007572174072265625);
-      assert( dataView.getUint16(0) === 0x1234 );
+    it("set values", () => {
+      for (const [float16bits, value] of data) {
+        setFloat16(dataView, 0, value);
+        assert( Object.is( dataView.getUint16(0), float16bits ) );
 
-      setFloat16(dataView, 0, 0.0007572174072265625, true);
-      assert( dataView.getUint16(0, true) === 0x1234 );
+        setFloat16(dataView, 0, value, true);
+        assert( Object.is( dataView.getUint16(0, true), float16bits ) );
+      }
     });
 
     it("work with DataView from anothor realm", () => {
