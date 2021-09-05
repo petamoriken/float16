@@ -15,8 +15,8 @@ export function isObjectLike(value) {
 }
 
 // Inspired by util.types implementation of Node.js
-const TypedArrayPrototype = Object.getPrototypeOf(Uint8Array).prototype;
-const getTypedArrayPrototypeSybolToStringTag = Object.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
+const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
+const getTypedArrayPrototypeSybolToStringTag = Reflect.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
 
 /**
  * @param {unknown} value

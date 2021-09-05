@@ -2,7 +2,7 @@ import { createPrivateStorage } from "./private.mjs";
 
 const _ = createPrivateStorage();
 
-const IteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
+const IteratorPrototype = Reflect.getPrototypeOf(Reflect.getPrototypeOf([][Symbol.iterator]()));
 
 const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
   next: {
