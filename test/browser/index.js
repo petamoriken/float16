@@ -13,6 +13,7 @@ module.exports = {
   async ["Browser Test"](client) {
     const elements = await client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
       .waitForElementPresent("#mocha-report")
+      .timeoutsImplicitWait(3000)
       .findElements("#mocha-report .test .error");
 
     const result = elements.value;
