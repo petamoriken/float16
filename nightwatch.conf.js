@@ -4,7 +4,7 @@
 
 const browserslist = require("browserslist");
 
-const FIREFOX_ESR_VERSION = `${Number.parseInt(browserslist("Firefox ESR")[0].replace(/^firefox\s+([\d.]+)$/i, "$1"))}.0`;
+const FIREFOX_ESR_VERSION = Number.parseInt(browserslist("Firefox ESR")[0].replace(/^firefox\s+([\d.]+)$/i, "$1")) + "";
 const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, GITHUB_RUN_NUMBER, GITHUB_EVENT_NAME } = process.env;
 
 module.exports = {
@@ -34,8 +34,11 @@ module.exports = {
       desiredCapabilities: {
         javascriptEnabled: true,
         acceptSslCerts: true,
-        "tunnel-identifier": "github-action-tunnel",
+
+        // SauceLabs options
         build: GITHUB_EVENT_NAME === "push" ? `build-${ GITHUB_RUN_NUMBER }` : undefined,
+        public: "public",
+        tunnelIdentifier: "github-action-tunnel",
       },
     },
 
