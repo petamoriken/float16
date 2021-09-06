@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.4-7-gf290af9 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.4-8-g0c854a9 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
