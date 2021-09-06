@@ -12,7 +12,7 @@ const { TARGET_URL } = process.env;
 module.exports = {
   async ["Browser Test"](client) {
     const elements = await client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
-      .waitForElementPresent("#mocha-report")
+      .waitForElementPresent("#mocha-report .suite:nth-of-type(4)")
       .timeoutsImplicitWait(3000)
       .findElements("#mocha-report .test .error");
 
