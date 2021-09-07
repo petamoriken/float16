@@ -708,6 +708,21 @@ export class Float16Array extends Uint16Array {
     return this;
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withReversed */
+  withReversed() {
+    assertFloat16BitsArray(this);
+
+    const length = this.length;
+    const proxy = new Float16Array(length);
+    const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+
+    for (let i = 0; i < length; ++i) {
+      float16bitsArray[i] = this[length - 1 - i];
+    }
+
+    return proxy;
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill */
   fill(value, ...opts) {
     assertFloat16Array(this);

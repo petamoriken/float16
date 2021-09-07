@@ -1225,6 +1225,28 @@ describe("Float16Array", () => {
     });
   });
 
+
+  describe("#withReversed()", () => {
+
+    it("property `name` is 'reverse'", () => {
+      assert( Float16Array.prototype.withReversed.name === "withReversed" );
+    });
+
+    it("property `length` is 0", () => {
+      assert( Float16Array.prototype.withReversed.length === 0 );
+    });
+
+    it("get reversed Array", () => {
+      const float16_1 = new Float16Array([1, 2, 3]);
+      const float16_2 = float16_1.withReversed();
+
+      assert( float16_1.buffer !== float16_2.buffer );
+      assert.equalFloat16ArrayValues( float16_1, [1, 2, 3] );
+      assert.equalFloat16ArrayValues( float16_2, [3, 2, 1] );
+    });
+
+  });
+
   describe("#fill()", () => {
     it("property `name` is 'fill'", () => {
       assert(Float16Array.prototype.fill.name === "fill");
