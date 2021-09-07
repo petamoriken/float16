@@ -759,6 +759,14 @@ export class Float16Array extends Uint16Array {
     return this;
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSorted */
+  withSorted(...opts) {
+    assertFloat16BitsArray(this);
+
+    const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+    return new Float16Array(uint16.slice().buffer).sort(...opts);
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice */
   slice(...opts) {
     assertFloat16Array(this);

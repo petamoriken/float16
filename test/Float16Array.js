@@ -1332,6 +1332,36 @@ describe("Float16Array", () => {
     });
   });
 
+  describe("#withSorted()", () => {
+
+    it("property `name` is 'withSorted'", () => {
+      assert( Float16Array.prototype.withSorted.name === "withSorted" );
+    });
+
+    it("property `length` is 0", () => {
+      assert( Float16Array.prototype.withSorted.length === 0 );
+    });
+
+    it("check default compare", () => {
+      const float16_1 = new Float16Array([1, 2, -1, -2, 0, -0, NaN, Infinity, -Infinity]);
+      const float16_2 = float16_1.withSorted();
+
+      assert( float16_1.buffer !== float16_2.buffer );
+      assert.equalFloat16ArrayValues( float16_1, [1, 2, -1, -2, 0, -0, NaN, Infinity, -Infinity] );
+      assert.equalFloat16ArrayValues( float16_2, [-Infinity, -2, -1, -0, 0, 1, 2, Infinity, NaN] );
+    });
+
+    it("check custom compare", () => {
+      const float16_1 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
+      const float16_2 = float16_1.withSorted();
+
+      assert( float16_1.buffer !== float16_2.buffer );
+      assert.equalFloat16ArrayValues( float16_1, [1, 2, -1, -2, Infinity, -Infinity] );
+      assert.equalFloat16ArrayValues( float16_2, [-Infinity, -2, -1, 1, 2, Infinity] );
+    });
+
+  });
+
   describe("#slice()", () => {
     it("property `name` is 'slice'", () => {
       assert(Float16Array.prototype.slice.name === "slice");
