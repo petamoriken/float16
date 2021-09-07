@@ -824,6 +824,70 @@ export class Float16Array extends Uint16Array {
     return /** @type {any} */ (array);
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSpliced */
+  withSpliced(...opts) {
+    assertFloat16BitsArray(this);
+
+    const length = this.length;
+    const relativeStart = ToIntegerOrInfinity(opts[0]);
+
+    let actualStart;
+    if (relativeStart === -Infinity) {
+      actualStart = 0;
+    } else if (relativeStart < 0) {
+      actualStart = length + relativeStart > 0 ? length + relativeStart : 0;
+    } else {
+      actualStart = relativeStart < length ? relativeStart : length;
+    }
+
+    let insertCount, actualDeleteCount;
+    switch (opts.length) {
+      case 0:
+        insertCount = 0;
+        actualDeleteCount = 0;
+        break;
+
+      case 1:
+        insertCount = 0;
+        actualDeleteCount = length - actualStart;
+        break;
+
+      default: {
+        insertCount = opts.length - 2;
+        let dc = ToIntegerOrInfinity(opts[1]);
+        if (dc < 0) {
+          actualDeleteCount = 0;
+        } else if (dc > length - actualStart) {
+          actualDeleteCount = length - actualStart;
+        } else {
+          actualDeleteCount = dc;
+        }
+      }
+    }
+
+    const newLength = length + insertCount - actualDeleteCount;
+    const proxy = new Float16Array(newLength);
+    const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+
+    let k = 0;
+    while (k < actualStart) {
+      float16bitsArray[k] = this[k];
+      ++k;
+    }
+
+    for (const item of opts.slice(2)) {
+      float16bitsArray[k] = roundToFloat16Bits(item);
+      ++k;
+    }
+
+    while (k < newLength) {
+      float16bitsArray[k] = this[k + actualDeleteCount - insertCount];
+      ++k;
+    }
+
+    return proxy;
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray */
   subarray(...opts) {
     assertFloat16Array(this);
