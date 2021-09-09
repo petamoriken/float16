@@ -76,6 +76,6 @@
     "nyc": "^15.1.0",
     "power-assert": "^1.4.2",
     "rollup": "^2.6.0",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.20"
   }
 }
