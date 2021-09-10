@@ -99,6 +99,23 @@ export function isOrdinaryArray(value) {
 
 /**
  * @param {unknown} value
+ * @returns {value is any[]}
+ */
+export function isOrdinaryTypedArray(value) {
+  if (!isTypedArray(value)) {
+    return false;
+  }
+
+  const iterator = value[Symbol.iterator]();
+  if (toString.call(iterator) !== "[object Array Iterator]") {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * @param {unknown} value
  * @returns {value is string}
  */
 export function isCanonicalIntegerIndexString(value) {
