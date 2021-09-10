@@ -1461,15 +1461,25 @@ describe("Float16Array", () => {
       assert( float16_1.buffer !== float16_3.buffer );
       assert.equalFloat16ArrayValues( float16_3, [1] );
 
-      const float16_4 = float16_1.withSpliced(1, 1);
+      const float16_4 = float16_1.withSpliced(1, -1);
 
       assert( float16_1.buffer !== float16_4.buffer );
-      assert.equalFloat16ArrayValues( float16_4, [1, 3] );
+      assert.equalFloat16ArrayValues( float16_4, [1, 2, 3] );
 
-      const float16_5 = float16_1.withSpliced(1, 1, 5, 6);
+      const float16_5 = float16_1.withSpliced(1, 10);
 
       assert( float16_1.buffer !== float16_5.buffer );
-      assert.equalFloat16ArrayValues( float16_5, [1, 5, 6, 3] );
+      assert.equalFloat16ArrayValues( float16_5, [1] );
+
+      const float16_6 = float16_1.withSpliced(1, 1);
+
+      assert( float16_1.buffer !== float16_6.buffer );
+      assert.equalFloat16ArrayValues( float16_6, [1, 3] );
+
+      const float16_7 = float16_1.withSpliced(1, 1, 5, 6);
+
+      assert( float16_1.buffer !== float16_7.buffer );
+      assert.equalFloat16ArrayValues( float16_7, [1, 5, 6, 3] );
     });
 
   });
