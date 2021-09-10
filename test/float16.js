@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.4-11-g11cf434 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.4-12-g90e4c57 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -757,16 +757,33 @@ var float16 = (function (exports) {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.of
      */
     static of(...items) {
-      const length = items.length;
+      const Constructor = this;
 
-      const proxy = new Float16Array(length);
-      const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
-
-      for (let i = 0; i < length; ++i) {
-        float16bitsArray[i] = roundToFloat16Bits(items[i]);
+      if (!Reflect.has(Constructor, brand)) {
+        throw TypeError("This constructor is not a subclass of Float16Array");
       }
 
-      return proxy;
+      const length = items.length;
+
+      // for optimization
+      if (Constructor === Float16Array) {
+        const proxy = new Float16Array(length);
+        const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+
+        for (let i = 0; i < length; ++i) {
+          float16bitsArray[i] = roundToFloat16Bits(items[i]);
+        }
+
+        return proxy;
+      }
+
+      const array = new Constructor(length);
+
+      for (let i = 0; i < length; ++i) {
+        array[i] = items[i];
+      }
+
+      return array;
     }
 
     /**
