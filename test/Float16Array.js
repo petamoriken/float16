@@ -654,6 +654,17 @@ describe("Float16Array", () => {
       assert( float16.at(4) === undefined );
     });
 
+    it("throw TypeError with invalid index", () => {
+      const float16 = new Float16Array([1, 2, 3]);
+
+      assert.throws(() => { float16.at(Symbol(), 0); }, TypeError);
+
+      // Safari 13 doesn't have BigInt
+      if (typeof BigInt !== "undefined") {
+        assert.throws(() => { float16.at(BigInt(0), 0); }, TypeError);
+      }
+    });
+
   });
 
   describe("#map()", () => {

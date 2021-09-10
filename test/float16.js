@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.5 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.5-1-g3868ad6 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -329,6 +329,10 @@ var float16 = (function (exports) {
    * @returns {number}
    */
   function ToIntegerOrInfinity(target) {
+    if (typeof target === "bigint") {
+      throw TypeError("Cannot convert a BigInt value to a number");
+    }
+
     const number = Number(target);
 
     if (Number.isNaN(number) || number === 0) {
