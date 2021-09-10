@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.4-8-g0c854a9 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.4-11-g11cf434 | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -270,6 +270,23 @@ var float16 = (function (exports) {
    */
   function isOrdinaryArray(value) {
     if (!Array.isArray(value)) {
+      return false;
+    }
+
+    const iterator = value[Symbol.iterator]();
+    if (toString.call(iterator) !== "[object Array Iterator]") {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is any[]}
+   */
+  function isOrdinaryTypedArray(value) {
+    if (!isTypedArray(value)) {
       return false;
     }
 
@@ -587,7 +604,9 @@ var float16 = (function (exports) {
 
       // object without ArrayBuffer
       } else if (isObject(input) && !isArrayBuffer(input)) {
+        /** @type {ArrayLike<number>} */
         let list;
+        /** @type {number} */
         let length;
 
         // TypedArray
@@ -668,22 +687,69 @@ var float16 = (function (exports) {
      * @see https://tc39.es/ecma262/#sec-%typedarray%.from
      */
     static from(src, ...opts) {
-      // for optimization
-      if (isFloat16Array(src) && opts.length === 0) {
-        const uint16 = new Uint16Array(src.buffer, src.byteOffset, src.length);
-        return new Float16Array(uint16.slice().buffer);
+      const Constructor = this;
+
+      if (!Reflect.has(Constructor, brand)) {
+        throw TypeError("This constructor is not a subclass of Float16Array");
       }
+
+      // for optimization
+      if (Constructor === Float16Array) {
+        if (isFloat16Array(src) && opts.length === 0) {
+          const uint16 = new Uint16Array(src.buffer, src.byteOffset, src.length);
+          return new Float16Array(uint16.slice().buffer);
+        }
+
+        if (opts.length === 0) {
+          return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
+        }
+
+        const mapFunc = opts[0];
+        const thisArg = opts[1];
+
+        return new Float16Array(Uint16Array.from(src, function (val, ...args) {
+          return roundToFloat16Bits(mapFunc.call(this, val, ...args));
+        }, thisArg).buffer);
+      }
+
+      /** @type {ArrayLike<number>} */
+      let list;
+      /** @type {number} */
+      let length;
+
+      // Iterable (TypedArray, Array)
+      if (isIterable(src)) {
+        // for optimization
+        if (isOrdinaryArray(src) || isOrdinaryTypedArray(src)) {
+          list = src;
+          length = src.length;
+        } else {
+          list = [...src];
+          length = list.length;
+        }
+
+      // ArrayLike
+      } else {
+        list = src;
+        length = LengthOfArrayLike(src);
+      }
+
+      const array = new Constructor(length);
 
       if (opts.length === 0) {
-        return new Float16Array(Uint16Array.from(src, roundToFloat16Bits).buffer);
+        for (let i = 0; i < length; ++i) {
+          array[i] = list[i];
+        }
+
+      } else {
+        const mapFunc = opts[0];
+        const thisArg = opts[1];
+        for (let i = 0; i < length; ++i) {
+          array[i] = mapFunc.call(thisArg, list[i], i);
+        }
       }
 
-      const mapFunc = opts[0];
-      const thisArg = opts[1];
-
-      return new Float16Array(Uint16Array.from(src, function (val, ...args) {
-        return roundToFloat16Bits(mapFunc.call(this, val, ...args));
-      }, thisArg).buffer);
+      return array;
     }
 
     /**

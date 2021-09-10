@@ -415,6 +415,30 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues( float16, checkArray );
     });
 
+    it("check call from subclass", () => {
+      class Foo extends Float16Array {}
+
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const array = [1, 1.1, 1.2, 1.3];
+      const foo1 = Foo.from(array);
+
+      assert( foo1 instanceof Foo );
+      assert.equalFloat16ArrayValues( foo1, checkArray );
+
+      const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
+      const foo2 = Foo.from(iterable);
+
+      assert( foo2 instanceof Foo );
+      assert.equalFloat16ArrayValues( foo2, checkArray );
+
+      const arrayLike = { 0: 1, 1: 1.1, 2: 1.2, 3: 1.3, length: 4 };
+      const foo3 = Foo.from(arrayLike);
+
+      assert( foo3 instanceof Foo );
+      assert.equalFloat16ArrayValues( foo3, checkArray );
+    });
+
     it("check mapFn callback arguments", () => {
       const thisArg = {};
       const checkArray = [2];
@@ -424,6 +448,7 @@ describe("Float16Array", () => {
         assert( val === 1 );
         assert( key === 0 );
         assert( this === thisArg );
+        assert( arguments.length === 2 );
 
         return 2;
 
@@ -431,6 +456,22 @@ describe("Float16Array", () => {
 
       assert( float16 instanceof Float16Array );
       assert.equalFloat16ArrayValues( float16, checkArray );
+
+      class Foo extends Float16Array {}
+
+      const foo = Foo.from([1], function (val, key) {
+
+        assert( val === 1 );
+        assert( key === 0 );
+        assert( this === thisArg );
+        assert( arguments.length === 2 );
+
+        return 2;
+
+      }, thisArg);
+
+      assert( foo instanceof Foo );
+      assert.equalFloat16ArrayValues( foo, checkArray );
     });
 
   });
