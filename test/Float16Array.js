@@ -486,7 +486,7 @@ describe("Float16Array", () => {
       assert( Float16Array.of.length === 0 );
     });
 
-    it("input arguments", () => {
+    it("input", () => {
       const array = [1, 1.1, 1.2, 1.3];
       const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
@@ -496,6 +496,17 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues( float16, checkArray );
     });
 
+    it("call from subclass", () => {
+      class Foo extends Float16Array {}
+
+      const array = [1, 1.1, 1.2, 1.3];
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const foo = Foo.of(...array);
+
+      assert( foo instanceof Foo );
+      assert.equalFloat16ArrayValues( foo, checkArray );
+    });
   });
 
   describe("get #[ @@toStringTag ]", () => {
