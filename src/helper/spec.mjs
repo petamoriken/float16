@@ -6,6 +6,10 @@ import { isObject } from "./is.mjs";
  * @returns {number}
  */
 export function ToIntegerOrInfinity(target) {
+  if (typeof target === "bigint") {
+    throw TypeError("Cannot convert a BigInt value to a number");
+  }
+
   const number = Number(target);
 
   if (Number.isNaN(number) || number === 0) {
