@@ -421,6 +421,27 @@ export class Float16Array extends Uint16Array {
     return convertToNumber(float16bitsArray[k]);
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withAt */
+  withAt(index, value) {
+    assertFloat16BitsArray(this);
+
+    const length = this.length;
+    const relativeIndex = ToIntegerOrInfinity(index);
+    const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
+
+    if (k < 0 || k >= length) {
+      throw new RangeError("Invalid index");
+    }
+
+    const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+    const proxy = new Float16Array(uint16.slice().buffer);
+    const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+
+    float16bitsArray[k] = roundToFloat16Bits(value);
+
+    return proxy;
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map */
   map(callback, ...opts) {
     assertFloat16Array(this);
