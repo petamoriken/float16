@@ -415,7 +415,21 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues( float16, checkArray );
     });
 
-    it("check call from subclass", () => {
+    it("input Float16Array from another realm", function () {
+      if (AnotherRealmFloat16Array === undefined) {
+        this.skip();
+      }
+
+      const array = [1, 1.1, 1.2, 1.3];
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16 = Float16Array.from( new AnotherRealmFloat16Array(array) );
+
+      assert( float16 instanceof Float16Array );
+      assert.equalFloat16ArrayValues( float16, checkArray );
+    });
+
+    it("call from subclass", () => {
       class Foo extends Float16Array {}
 
       const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
