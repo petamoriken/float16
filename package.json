@@ -69,7 +69,7 @@
     "espower-cli": "^1.1.0",
     "espower-loader": "^1.2.2",
     "exorcist": "^2.0.0",
-    "http-server": "^13.0.0",
+    "http-server": "^13.0.2",
     "mocha": "^9.0.2",
     "nightwatch": "^1.6.4",
     "nightwatch-saucelabs-endsauce": "^1.0.5",
