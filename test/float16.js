@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.4.6-2-g4667f97 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.6-4-g9cc2f0e | MIT License - https://git.io/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -157,6 +157,9 @@ var float16 = (function (exports) {
 
   const IteratorPrototype = Reflect.getPrototypeOf(Reflect.getPrototypeOf([][Symbol.iterator]()));
 
+  /**
+   * @see https://tc39.es/ecma262/#sec-%arrayiteratorprototype%-object
+   */
   const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
     next: {
       value: function next() {
@@ -337,14 +340,6 @@ var float16 = (function (exports) {
 
     if (Number.isNaN(number) || number === 0) {
       return 0;
-    }
-
-    if (number === Infinity) {
-      return Infinity;
-    }
-
-    if (number === -Infinity) {
-      return -Infinity;
     }
 
     return Math.trunc(number);
