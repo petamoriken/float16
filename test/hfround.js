@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+/* eslint-env mocha, es2020 */
 /* global assert hfround */
 
 describe("hfround()", () => {
@@ -63,5 +63,14 @@ describe("hfround()", () => {
 
   it("return 1.3369140625 when value is 1.337", () => {
     assert( hfround(1.337) === 1.3369140625 );
+  });
+
+  it("throw TypeError when value is bigint", function () {
+    // Safari 13 doesn't have BigInt
+    if (typeof BigInt === "undefined") {
+      this.skip();
+    }
+
+    assert.throws(() => { hfround(BigInt(0)); }, TypeError);
   });
 });

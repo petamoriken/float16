@@ -6,6 +6,10 @@ import { convertToNumber, roundToFloat16Bits } from "./helper/converter.mjs";
  * @returns {number}
  */
 export function hfround(num) {
+  if (typeof num === "bigint") {
+    throw TypeError("Cannot convert a BigInt value to a number");
+  }
+
   num = Number(num);
 
   // for optimization
