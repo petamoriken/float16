@@ -3961,10 +3961,10 @@ nightwatch-saucelabs-endsauce@^1.0.5:
   dependencies:
     saucelabs "^6.0.0"
 
-nightwatch@^1.7.9:
-  version "1.7.9"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.7.9.tgz#4f240d07b0d5830c633bb06029880ab72eb494ef"
-  integrity sha512-C+YbrJtnz7G9PwZmxEYfgqwVnO7sfCA1TaXmAau/HOzwwSaq8S4pobexcCf3TSUG3SRuGz2W3bcyoipTq6NzuQ==
+nightwatch@^1.7.10:
+  version "1.7.10"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-1.7.10.tgz#157f07682f3d5a13f114d2eecc354e1959d48b09"
+  integrity sha512-YSKm3hiIYEn7BMf6nn1zK24HfkNeXfAAi+2SWFsLDrLu0AXzsiSkFxxxPhUauOKIfsIigfhBDUV3sPFsIIrLyQ==
   dependencies:
     assertion-error "^1.1.0"
     chai-nightwatch "^0.4.0"
