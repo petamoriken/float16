@@ -59,7 +59,7 @@
     "prepublishOnly": "yarn run lint && yarn test"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
+    "@babel/cli": "^7.15.7",
     "@babel/core": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "babel-plugin-replace-import-extension": "^1.1.1",
