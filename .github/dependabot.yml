@@ -1,5 +1,6 @@
 version: 2
 updates:
+
   - package-ecosystem: npm
     directory: "/"
     schedule:
@@ -12,3 +13,10 @@ updates:
         dependency-name: "caniuse-lite"
     versioning-strategy: increase
     open-pull-requests-limit: 10
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "08:00"
+      timezone: "Asia/Tokyo"
