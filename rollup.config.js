@@ -10,16 +10,21 @@ const homepage = process.env.npm_package_homepage;
 
 const banner = `/*! ${ name } ${ version } | ${ license } License - ${ homepage } */\n`;
 
-export default {
+/** @type {import("rollup").RollupOptions} */
+const options = {
   input: "src/index.mjs",
   output: [{
     file: "browser/float16.js",
     format: "iife",
     name: "float16",
+    generatedCode: "es2015",
     banner,
   }, {
     file: "browser/float16.mjs",
     format: "es",
+    generatedCode: "es2015",
     banner,
   }],
 };
+
+export default options;
