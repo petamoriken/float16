@@ -1,6 +1,6 @@
-/*! @petamoriken/float16 v3.4.7-7-g0168792 | MIT License - https://git.io/float16 */
+/*! @petamoriken/float16 v3.4.7-9-gb37194a | MIT License - https://git.io/float16 */
 
-var float16 = (function (exports) {
+const float16 = (function (exports) {
   'use strict';
 
   // algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
@@ -1417,4 +1417,4 @@ var float16 = (function (exports) {
 
   return exports;
 
-}({}));
+})({});
