@@ -55,7 +55,7 @@ jobs:
       - uses: saucelabs/sauce-connect-action@v1
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
-          accesskey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
           tunnelIdentifier: github-action-tunnel
 
       - name: Install dependencies
