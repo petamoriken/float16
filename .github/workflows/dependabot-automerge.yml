@@ -52,7 +52,7 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - uses: saucelabs/sauce-connect-action@v2
+      - uses: saucelabs/sauce-connect-action@v2.0.0
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
