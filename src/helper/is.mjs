@@ -74,7 +74,7 @@ export function isSharedArrayBuffer(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is Iterable}
+ * @returns {value is Iterable<any>}
  */
 export function isIterable(value) {
   return isObject(value) && typeof value[Symbol.iterator] === "function";
@@ -99,7 +99,7 @@ export function isOrdinaryArray(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is any[]}
+ * @returns {value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array}
  */
 export function isOrdinaryTypedArray(value) {
   if (!isTypedArray(value)) {

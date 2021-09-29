@@ -1,5 +1,5 @@
 /**
- * @returns {(self:object) => object}
+ * @returns {(self: object) => object}
  */
 export function createPrivateStorage() {
   const wm = new WeakMap();
