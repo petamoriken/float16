@@ -39,7 +39,6 @@ module.exports = {
         extendedDebugging: true,
         build: GITHUB_EVENT_NAME === "push" ? `build-${ GITHUB_RUN_NUMBER }` : undefined,
         public: "public",
-        tunnelIdentifier: "github-action-tunnel",
       },
     },
 
