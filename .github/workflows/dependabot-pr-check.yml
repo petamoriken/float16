@@ -6,6 +6,7 @@ on:
       - master
 
 permissions:
+  contents: none
 
 jobs:
   check-dependabot:
