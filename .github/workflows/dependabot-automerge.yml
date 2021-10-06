@@ -10,8 +10,16 @@ permissions:
   pull-requests: read
 
 jobs:
-  unit_test:
-    name: Unit Test & Coverage
+  lib_test:
+    strategy:
+      matrix:
+        node:
+          - name: Latest LTS
+            version: lts/*
+          - name: Prev LTS
+            version: lts/-1
+
+    name: Unit Test (Node.js ${{ matrix.node.name }})
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
 
@@ -23,7 +31,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
+          node-version: ${{ matrix.node.version }}
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
@@ -33,12 +41,8 @@ jobs:
 
       - run: yarn test
 
-      - uses: codecov/codecov-action@v2
-        with:
-          flags: unittests
-
   browser_test:
-    name: Browser Test
+    name: Unit Test (Browser)
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
 
@@ -50,7 +54,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
+          node-version: lts/*
 
       - uses: saucelabs/sauce-connect-action@v2.0.0
         with:
@@ -78,7 +82,7 @@ jobs:
     name: Auto-merge
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
-    needs: [unit_test, browser_test]
+    needs: [lib_test, browser_test]
 
     steps:
       - uses: ridedott/merge-me-action@v2

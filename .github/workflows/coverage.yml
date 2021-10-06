@@ -1,35 +1,41 @@
-name: Deploy Pages
+name: Coverage
 
 on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  deploy:
+  coverage:
+    name: Coverage
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
-      - run: yarn build:browser
+      - run: yarn build:lib
         env:
           NODE_ENV: test
 
-      - run: yarn docs
+      - run: yarn test
 
-      - uses: peaceiris/actions-gh-pages@v3
+      - uses: codecov/codecov-action@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          enable_jekyll: true
+          flags: unittests

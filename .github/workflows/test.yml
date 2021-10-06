@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  module_test_node:
+  src_test_node:
     name: ES Modules Test (Node.js)
     runs-on: ubuntu-latest
     if: |
@@ -27,11 +27,11 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
+          node-version: lts/*
 
       - run: node test/src/index.mjs
 
-  module_test_deno:
+  src_test_deno:
     name: ES Modules Test (Deno)
     runs-on: ubuntu-latest
     if: |
@@ -48,8 +48,16 @@ jobs:
 
       - run: deno run test/src/index.mjs
 
-  unit_test:
-    name: Unit Test & Coverage
+  lib_test:
+    strategy:
+      matrix:
+        node:
+          - name: Latest LTS
+            version: lts/*
+          - name: Prev LTS
+            version: lts/-1
+
+    name: Unit Test (Node.js ${{ matrix.node.name }})
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'schedule' ||
@@ -63,7 +71,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
+          node-version: ${{ matrix.node.version }}
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
@@ -73,12 +81,8 @@ jobs:
 
       - run: yarn test
 
-      - uses: codecov/codecov-action@v2
-        with:
-          flags: unittests
-
   browser_test:
-    name: Browser Test
+    name: Unit Test (Browser)
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'schedule' ||
@@ -92,7 +96,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
+          node-version: lts/*
 
       - uses: saucelabs/sauce-connect-action@v2.0.0
         with:
