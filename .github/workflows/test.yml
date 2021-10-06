@@ -49,15 +49,7 @@ jobs:
       - run: deno run test/src/index.mjs
 
   lib_test:
-    strategy:
-      matrix:
-        node:
-          - name: Latest LTS
-            version: lts/*
-          - name: Prev LTS
-            version: lts/-1
-
-    name: Unit Test (Node.js ${{ matrix.node.name }})
+    name: Unit Test (Node.js)
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'schedule' ||
@@ -71,7 +63,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node.version }}
+          node-version: lts/*
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
