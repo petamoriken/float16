@@ -1,80 +1,22 @@
 name: Dependabot Auto-merge
 
 on:
-  pull_request_target:
-    branches:
-      - master
+  workflow_run:
+    types:
+      - completed
+    workflows:
+      - Dependabot PR Check
+      - Test
 
 permissions:
   contents: write
   pull-requests: read
 
 jobs:
-  lib_test:
-    name: Unit Test (Node.js)
-    runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: lts/*
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn build:lib
-        env:
-          NODE_ENV: test
-
-      - run: yarn test
-
-  browser_test:
-    name: Unit Test (Browser)
-    runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: lts/*
-
-      - uses: saucelabs/sauce-connect-action@v2.0.0
-        with:
-          username: ${{ secrets.SAUCE_USERNAME }}
-          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn build:browser
-        env:
-          NODE_ENV: test
-
-      - run: yarn docs
-
-      - name: Start Server
-        run: |
-          yarn setup-test-browser
-          sleep 5
-      - run: yarn test-browser
-        env:
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-
   auto_merge:
     name: Auto-merge
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-    needs: [lib_test, browser_test]
+    if: github.event.workflow_run.conclusion == 'success'
 
     steps:
       - uses: ridedott/merge-me-action@v2

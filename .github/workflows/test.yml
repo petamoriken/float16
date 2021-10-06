@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - master
-  pull_request:
+  pull_request_target:
     branches:
       - master
 
@@ -17,13 +17,15 @@ jobs:
   src_test_node:
     name: ES Modules Test (Node.js)
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'schedule' ||
-      github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     steps:
-      - uses: actions/checkout@v2
+      - if: github.event_name != 'pull_request_target'
+        uses: actions/checkout@v2
+
+      - if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: actions/setup-node@v2
         with:
@@ -34,13 +36,15 @@ jobs:
   src_test_deno:
     name: ES Modules Test (Deno)
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'schedule' ||
-      github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     steps:
-      - uses: actions/checkout@v2
+      - if: github.event_name != 'pull_request_target'
+        uses: actions/checkout@v2
+
+      - if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: denoland/setup-deno@v1
         with:
@@ -51,15 +55,18 @@ jobs:
   lib_test:
     name: Unit Test (Node.js)
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'schedule' ||
-      github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     steps:
-      - uses: actions/checkout@v2
+      - if: github.event_name != 'pull_request_target'
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: actions/setup-node@v2
         with:
@@ -79,12 +86,20 @@ jobs:
     if: |
       github.event_name == 'schedule' ||
       github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
+      (github.event_name == 'pull_request_target' && github.actor == 'petamoriken') ||
+      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]')
 
     steps:
-      - uses: actions/checkout@v2
+      - if: github.event_name != 'pull_request_target'
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: actions/setup-node@v2
         with:
@@ -101,7 +116,7 @@ jobs:
         env:
           NODE_ENV: test
 
-      - run: yarn docs
+      - run: yarn docsz
 
       - name: Start Server
         run: |
