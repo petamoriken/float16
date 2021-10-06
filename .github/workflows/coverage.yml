@@ -34,7 +34,7 @@ jobs:
         env:
           NODE_ENV: test
 
-      - run: yarn test
+      - run: yarn coverage
 
       - uses: codecov/codecov-action@v2
         with:
