@@ -7,6 +7,7 @@ const browserslist = require("browserslist");
 const FIREFOX_ESR_VERSION = Number.parseInt(browserslist("Firefox ESR")[0].replace(/^firefox\s+([\d.]+)$/i, "$1")) + "";
 const { SAUCE_USERNAME, SAUCE_ACCESS_KEY, GITHUB_RUN_NUMBER, GITHUB_EVENT_NAME } = process.env;
 
+/** @type {import("nightwatch").NightwatchOptions} */
 module.exports = {
   src_folders: "test/browser",
   output_folder: "test_report",

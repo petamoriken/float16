@@ -9,7 +9,9 @@ const reset = "\u001b[0m";
 // environment
 const { TARGET_URL } = process.env;
 
+/** @type {import("nightwatch").NightwatchTestFunctions} */
 module.exports = {
+  /** @param {import("nightwatch").NightwatchBrowser} client */
   async ["Browser Test"](client) {
     const elements = await client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
       .waitForElementPresent("#mocha-report .suite:nth-of-type(4)", 30000)

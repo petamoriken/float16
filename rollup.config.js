@@ -12,7 +12,7 @@ const banner = `/*! ${ name } ${ version } | ${ license } License - ${ homepage 
 const test = process.env.NODE_ENV === "test";
 
 /** @type {import("rollup").RollupOptions} */
-const options = {
+export default ({
   input: "src/index.mjs",
   output: [{
     file: "browser/float16.js",
@@ -28,6 +28,4 @@ const options = {
     banner,
     sourcemap: test ? "inline" : false,
   }],
-};
-
-export default options;
+});
