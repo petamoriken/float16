@@ -83,13 +83,14 @@ jobs:
   browser_test:
     name: Unit Test (Browser)
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'schedule' ||
-      github.event_name == 'push' ||
-      (github.event_name == 'pull_request_target' && github.actor == 'petamoriken') ||
-      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]')
 
     steps:
+      - if: |
+          github.event_name == 'pull_request_target' &&
+          (github.actor != 'petamoriken' && github.actor != 'dependabot[bot]')
+        name: Check PR actor
+        run: exit 1
+
       - if: github.event_name != 'pull_request_target'
         uses: actions/checkout@v2
         with:
