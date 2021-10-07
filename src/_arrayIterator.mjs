@@ -1,4 +1,4 @@
-import { createPrivateStorage } from "./private.mjs";
+import { createPrivateStorage } from "./_util/private.mjs";
 
 const _ = createPrivateStorage();
 

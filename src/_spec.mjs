@@ -1,4 +1,4 @@
-import { isObject } from "./is.mjs";
+import { isObject } from "./_util/is.mjs";
 
 /**
  * @see https://tc39.es/ecma262/#sec-tointegerorinfinity

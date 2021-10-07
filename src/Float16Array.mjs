@@ -1,8 +1,9 @@
-import { wrapInArrayIterator } from "./helper/arrayIterator.mjs";
-import { convertToNumber, roundToFloat16Bits } from "./helper/converter.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isOrdinaryArray, isOrdinaryTypedArray, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./helper/is.mjs";
-import { createPrivateStorage } from "./helper/private.mjs";
-import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompare } from "./helper/spec.mjs";
+import { wrapInArrayIterator } from "./_arrayIterator.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
+import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompare } from "./_spec.mjs";
+import { hasOwn } from "./_util/hasOwn.mjs";
+import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isOrdinaryArray, isOrdinaryTypedArray, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./_util/is.mjs";
+import { createPrivateStorage } from "./_util/private.mjs";
 
 const brand = Symbol.for("__Float16Array__");
 
@@ -111,12 +112,10 @@ const applyHandler = Object.freeze({
   },
 });
 
-const hasOwnProperty = Object.prototype.hasOwnProperty;
-
 /** @type {ProxyHandler<Float16Array>} */
 const handler = Object.freeze({
   get(target, key) {
-    if (isCanonicalIntegerIndexString(key) && hasOwnProperty.call(target, key)) {
+    if (isCanonicalIntegerIndexString(key) && hasOwn(target, key)) {
       return convertToNumber(Reflect.get(target, key));
     }
 
@@ -136,7 +135,7 @@ const handler = Object.freeze({
   },
 
   set(target, key, value) {
-    if (isCanonicalIntegerIndexString(key) && hasOwnProperty.call(target, key)) {
+    if (isCanonicalIntegerIndexString(key) && hasOwn(target, key)) {
       return Reflect.set(target, key, roundToFloat16Bits(value));
     }
 
@@ -751,7 +750,7 @@ export class Float16Array extends Uint16Array {
     }
 
     for (let i = from, l = length; i < l; ++i) {
-      if (hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
+      if (hasOwn(this, i) && convertToNumber(this[i]) === element) {
         return i;
       }
     }
@@ -777,7 +776,7 @@ export class Float16Array extends Uint16Array {
     }
 
     for (let i = from; i >= 0; --i) {
-      if (hasOwnProperty.call(this, i) && convertToNumber(this[i]) === element) {
+      if (hasOwn(this, i) && convertToNumber(this[i]) === element) {
         return i;
       }
     }

@@ -1,4 +1,4 @@
-import { convertToNumber, roundToFloat16Bits } from "./helper/converter.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
 
 /**
  * returns the nearest half precision float representation of a number.
