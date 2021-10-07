@@ -5,13 +5,14 @@
   "extends": [
     "eslint:recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "plugin:jsdoc/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
-  "plugins": ["import"],
+  "plugins": ["import", "jsdoc"],
   "rules": {
     "arrow-parens": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
@@ -61,6 +62,13 @@
       "alphabetize": {
         "order": "asc"
       }
-    }]
+    }],
+    "jsdoc/no-undefined-types": "off",
+    "jsdoc/require-jsdoc": "off",
+    "jsdoc/require-param": "off",
+    "jsdoc/require-param-description": "off",
+    "jsdoc/require-returns": "off",
+    "jsdoc/require-returns-description": "off",
+    "jsdoc/valid-types": "off"
   }
 }

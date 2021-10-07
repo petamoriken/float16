@@ -75,6 +75,7 @@ export function SpeciesConstructor(target, defaultConstructor) {
 
 /**
  * bigint comparisons are not supported
+ *
  * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort
  * @param {number} x
  * @param {number} y

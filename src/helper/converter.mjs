@@ -49,6 +49,7 @@ for (let i = 0; i < 256; ++i) {
 
 /**
  * round a number to a half float number bits.
+ *
  * @param {number} num - double float
  * @returns {number} half float number bits
  */
@@ -105,6 +106,7 @@ for (let i = 1; i < 64; ++i) {
 
 /**
  * convert a half float number bits to a number.
+ *
  * @param {number} float16bits - half float number bits
  * @returns {number} double float
  */

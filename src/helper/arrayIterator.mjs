@@ -4,9 +4,7 @@ const _ = createPrivateStorage();
 
 const IteratorPrototype = Reflect.getPrototypeOf(Reflect.getPrototypeOf([][Symbol.iterator]()));
 
-/**
- * @see https://tc39.es/ecma262/#sec-%arrayiteratorprototype%-object
- */
+/** @see https://tc39.es/ecma262/#sec-%arrayiteratorprototype%-object */
 const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
   next: {
     value: function next() {
