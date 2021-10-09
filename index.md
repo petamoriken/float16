@@ -303,6 +303,39 @@ gl.enableVertexAttribArray(location);
 
 See JSDoc comments in `src/Float16Array.mjs` for details. If you don't write hacky code, you shouldn't have any problems.
 
+
+## `Float16Array` Custom inspection
+
+Provides custom inspection for Node.js and Deno, which makes the results of `console.log` more readable.
+
+### Node.js
+
+```js
+// ES Modules
+import { Float16Array } from "@petamoriken/float16";
+import { customInspect } from "@petamoriken/float16/inspect";
+
+Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
+```
+
+```js
+// CommonJS
+const { Float16Array } = require("@petamoriken/float16");
+const { customInspect } = require("@petamoriken/float16/inspect");
+
+Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
+```
+
+### Deno
+
+```ts
+import { Float16Array } from "https://deno.land/x/float16/mod.ts";
+import { customInspect } from "https://deno.land/x/float16/inspect.ts";
+
+// deno-lint-ignore no-explicit-any
+(Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;
+```
+
 ## Build
 
 First, download devDependencies.
