@@ -5,8 +5,14 @@
   "main": "./lib/index.cjs",
   "module": "./src/index.mjs",
   "exports": {
-    "require": "./lib/index.cjs",
-    "import": "./src/index.mjs"
+    ".": {
+      "import": "./src/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./inspect": {
+      "import": "./inspect/node.mjs",
+      "require": "./inspect/node.cjs"
+    }
   },
   "types": "index.d.ts",
   "sideEffects": false,
@@ -24,6 +30,8 @@
     "src",
     "lib",
     "browser",
+    "inspect/node.mjs",
+    "inspect/node.cjs",
     "index.d.ts"
   ],
   "keywords": [
