@@ -1,16 +1,3 @@
-const DEFAULT_INSPECT_OPTIONS = {
-  depth: 4,
-  indentLevel: 0,
-  sorted: false,
-  trailingComma: false,
-  compact: true,
-  iterableLimit: 100,
-  showProxy: false,
-  colors: false,
-  getters: false,
-  showHidden: false,
-};
-
 /**
  * @example
  * ```
@@ -25,5 +12,5 @@ export function customInspect(inspect: typeof Deno.inspect): string {
     array[i] = this[i];
   }
 
-  return `Float16Array(${this.length}) ${inspect(array, DEFAULT_INSPECT_OPTIONS)}`;
+  return `Float16Array(${this.length}) ${inspect(array)}`;
 }
