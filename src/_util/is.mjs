@@ -15,8 +15,7 @@ export function isObjectLike(value) {
 }
 
 // Inspired by util.types implementation of Node.js
-const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
-const getTypedArrayPrototypeSybolToStringTag = Reflect.getOwnPropertyDescriptor(TypedArrayPrototype, Symbol.toStringTag).get;
+const getTypedArrayPrototypeSybolToStringTag = Reflect.getOwnPropertyDescriptor(Reflect.getPrototypeOf(Uint8Array).prototype, Symbol.toStringTag).get;
 
 /**
  * @param {unknown} value
@@ -34,8 +33,6 @@ export function isUint16Array(value) {
   return getTypedArrayPrototypeSybolToStringTag.call(value) === "Uint16Array";
 }
 
-const toString = Object.prototype.toString;
-
 /**
  * @param {unknown} value
  * @returns {value is DataView}
@@ -49,10 +46,6 @@ export function isDataView(value) {
     return false;
   }
 
-  if (toString.call(value) !== "[object DataView]") {
-    return false;
-  }
-
   return true;
 }
 
@@ -61,7 +54,7 @@ export function isDataView(value) {
  * @returns {value is ArrayBuffer}
  */
 export function isArrayBuffer(value) {
-  return isObjectLike(value) && toString.call(value) === "[object ArrayBuffer]";
+  return isObjectLike(value) && value[Symbol.toStringTag] === "ArrayBuffer";
 }
 
 /**
@@ -69,7 +62,7 @@ export function isArrayBuffer(value) {
  * @returns {value is SharedArrayBuffer}
  */
 export function isSharedArrayBuffer(value) {
-  return isObjectLike(value) && toString.call(value) === "[object SharedArrayBuffer]";
+  return isObjectLike(value) && value[Symbol.toStringTag] === "SharedArrayBuffer";
 }
 
 /**
@@ -90,7 +83,7 @@ export function isOrdinaryArray(value) {
   }
 
   const iterator = value[Symbol.iterator]();
-  if (toString.call(iterator) !== "[object Array Iterator]") {
+  if (iterator[Symbol.toStringTag] !== "Array Iterator") {
     return false;
   }
 
@@ -107,7 +100,7 @@ export function isOrdinaryTypedArray(value) {
   }
 
   const iterator = value[Symbol.iterator]();
-  if (toString.call(iterator) !== "[object Array Iterator]") {
+  if (iterator[Symbol.toStringTag] !== "Array Iterator") {
     return false;
   }
 
