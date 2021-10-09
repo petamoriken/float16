@@ -2,10 +2,10 @@
   "name": "@petamoriken/float16",
   "description": "half precision floating point for JavaScript",
   "version": "3.4.8",
-  "main": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "module": "./src/index.mjs",
   "exports": {
-    "require": "./lib/index.js",
+    "require": "./lib/index.cjs",
     "import": "./src/index.mjs"
   },
   "types": "index.d.ts",
@@ -43,7 +43,7 @@
   ],
   "scripts": {
     "build": "yarn run build:lib; yarn run build:browser",
-    "build:lib": "babel src -d lib",
+    "build:lib": "babel src -d lib --out-file-extension .cjs",
     "build:browser": "rollup -c",
     "docs": "mkdir -p docs && cp README.md docs/index.md; yarn run docs:test",
     "docs:test": "mkdir -p docs/test && cp browser/float16.js docs/test/float16.js; yarn run docs:test:assets; yarn run docs:test:dependencies",

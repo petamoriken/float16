@@ -2,7 +2,7 @@
   "plugins": [
     "@babel/plugin-transform-modules-commonjs",
     ["replace-import-extension", {
-      "extMapping": { ".mjs": ".js" }
+      "extMapping": { ".mjs": ".cjs" }
     }]
   ],
   "assumptions": {
