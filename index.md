@@ -48,12 +48,20 @@ yarn add @petamoriken/float16
 
 ```js
 // ES Modules
-import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "@petamoriken/float16";
+import {
+  Float16Array, isFloat16Array,
+  getFloat16, setFloat16,
+  hfround,
+} from "@petamoriken/float16";
 ```
 
 ```js
 // CommonJS
-const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = require("@petamoriken/float16");
+const {
+  Float16Array, isFloat16Array,
+  getFloat16, setFloat16,
+  hfround,
+} = require("@petamoriken/float16");
 ```
 
 ### Deno
@@ -61,7 +69,11 @@ const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = requir
 You can get modules from [deno.land/x](https://deno.land/x/float16) hosting service.
 
 ```ts
-import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://deno.land/x/float16/mod.ts";
+import {
+  Float16Array, isFloat16Array,
+  getFloat16, setFloat16,
+  hfround,
+} from "https://deno.land/x/float16/mod.ts";
 ```
 
 ### Browser
@@ -71,7 +83,11 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
 ```html
 <!-- Module Scripts -->
 <script type="module">
-  import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "DEST/TO/float16.mjs";
+  import {
+    Float16Array, isFloat16Array,
+    getFloat16, setFloat16,
+    hfround,
+  } from "DEST/TO/float16.mjs";
 </script>
 ```
 
@@ -79,7 +95,11 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
 <!-- Classic Scripts -->
 <script src="DEST/TO/float16.js"></script>
 <script>
-  const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
+  const {
+    Float16Array, isFloat16Array,
+    getFloat16, setFloat16,
+    hfround,
+  } = float16;
 </script>
 ```
 
@@ -88,7 +108,11 @@ Or use [jsDelivr](https://cdn.jsdelivr.net/npm/@petamoriken/float16/) CDN.
 ```html
 <!-- Module Scripts -->
 <script type="module">
-  import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
+  import {
+    Float16Array, isFloat16Array,
+    getFloat16, setFloat16,
+    hfround,
+  } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
 </script>
 ```
 
@@ -96,7 +120,11 @@ Or use [jsDelivr](https://cdn.jsdelivr.net/npm/@petamoriken/float16/) CDN.
 <!-- Classic Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
 <script>
-  const { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } = float16;
+  const {
+    Float16Array, isFloat16Array,
+    getFloat16, setFloat16,
+    hfround,
+  } = float16;
 </script>
 ```
 
@@ -105,7 +133,11 @@ ES modules are also available on the [Skypack](https://www.skypack.dev/view/@pet
 ```html
 <!-- Module Scripts -->
 <script type="module">
-  import { Float16Array, isFloat16Array, getFloat16, setFloat16, hfround } from "https://cdn.skypack.dev/@petamoriken/float16?min";
+  import {
+    Float16Array, isFloat16Array,
+    getFloat16, setFloat16,
+    hfround,
+  } from "https://cdn.skypack.dev/@petamoriken/float16?min";
 </script>
 ```
 
