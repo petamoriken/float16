@@ -91,6 +91,8 @@ function copyToArray(float16bitsArray) {
   return array;
 }
 
+const defaultFloat16ArrayMethods = new WeakSet();
+
 /**
  * @param {unknown} target
  * @returns {boolean}
@@ -398,9 +400,8 @@ export class Float16Array extends Uint16Array {
   map(callback, ...opts) {
     assertFloat16BitsArray(this);
 
-    const thisArg = opts[0];
-
     const length = this.length;
+    const thisArg = opts[0];
 
     const Constructor = SpeciesConstructor(this, Float16Array);
 
@@ -431,10 +432,11 @@ export class Float16Array extends Uint16Array {
   filter(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
     const kept = [];
-    for (let i = 0, l = this.length; i < l; ++i) {
+    for (let i = 0; i < length; ++i) {
       const val = convertToNumber(this[i]);
       if (callback.call(thisArg, val, i, _(this).proxy)) {
         kept.push(val);
@@ -501,9 +503,10 @@ export class Float16Array extends Uint16Array {
   forEach(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
-    for (let i = 0, l = this.length; i < l; ++i) {
+    for (let i = 0; i < length; ++i) {
       callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy);
     }
   }
@@ -512,9 +515,10 @@ export class Float16Array extends Uint16Array {
   find(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
-    for (let i = 0, l = this.length; i < l; ++i) {
+    for (let i = 0; i < length; ++i) {
       const value = convertToNumber(this[i]);
       if (callback.call(thisArg, value, i, _(this).proxy)) {
         return value;
@@ -526,9 +530,10 @@ export class Float16Array extends Uint16Array {
   findIndex(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
-    for (let i = 0, l = this.length; i < l; ++i) {
+    for (let i = 0; i < length; ++i) {
       const value = convertToNumber(this[i]);
       if (callback.call(thisArg, value, i, _(this).proxy)) {
         return i;
@@ -542,9 +547,10 @@ export class Float16Array extends Uint16Array {
   findLast(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
-    for (let i = this.length - 1; i >= 0; --i) {
+    for (let i = length - 1; i >= 0; --i) {
       const value = convertToNumber(this[i]);
       if (callback.call(thisArg, value, i, _(this).proxy)) {
         return value;
@@ -556,9 +562,10 @@ export class Float16Array extends Uint16Array {
   findLastIndex(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
-    for (let i = this.length - 1; i >= 0; --i) {
+    for (let i = length - 1; i >= 0; --i) {
       const value = convertToNumber(this[i]);
       if (callback.call(thisArg, value, i, _(this).proxy)) {
         return i;
@@ -572,9 +579,10 @@ export class Float16Array extends Uint16Array {
   every(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
-    for (let i = 0, l = this.length; i < l; ++i) {
+    for (let i = 0; i < length; ++i) {
       if (!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
         return false;
       }
@@ -587,9 +595,10 @@ export class Float16Array extends Uint16Array {
   some(callback, ...opts) {
     assertFloat16BitsArray(this);
 
+    const length = this.length;
     const thisArg = opts[0];
 
-    for (let i = 0, l = this.length; i < l; ++i) {
+    for (let i = 0; i < length; ++i) {
       if (callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
         return true;
       }
@@ -749,7 +758,7 @@ export class Float16Array extends Uint16Array {
       }
     }
 
-    for (let i = from, l = length; i < l; ++i) {
+    for (let i = from; i < length; ++i) {
       if (hasOwn(this, i) && convertToNumber(this[i]) === element) {
         return i;
       }
@@ -803,7 +812,7 @@ export class Float16Array extends Uint16Array {
     }
 
     const isNaN = Number.isNaN(element);
-    for (let i = from, l = length; i < l; ++i) {
+    for (let i = from; i < length; ++i) {
       const value = convertToNumber(this[i]);
 
       if (isNaN && Number.isNaN(value)) {
@@ -859,7 +868,6 @@ Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
   configurable: true,
 });
 
-const defaultFloat16ArrayMethods = new WeakSet();
 for (const key of Reflect.ownKeys(Float16ArrayPrototype)) {
   // constructor is not callable
   if (key === "constructor") {
