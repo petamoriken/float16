@@ -145,11 +145,11 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
   ```
 </details>
 
-## Support
+## Support engines
 
-**This package only uses up to the ES2015 features**, so you should be able to use it without any problems. It works fine with [the current officially supported versions of Node.js](https://github.com/nodejs/Release).
+**This package only uses up to ES2015 features** and does not use environment-dependent features (except for `inspect/`), so you can use it without any problems. It works fine with [the current officially supported versions of Node.js](https://github.com/nodejs/Release).
 
-`Float16Array` implemented by the `Proxy` object, so IE11 is never supported.
+`Float16Array` implemented by the `Proxy`, so IE11 is never supported.
 
 ### Pre-transpiled JavaScript files (CommonJS, IIFE)
 
