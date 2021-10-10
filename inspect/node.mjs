@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-import util from "util";
+import { inspect } from "util";
 
 /**
  * @example
@@ -9,10 +9,12 @@ import util from "util";
  * ```
  */
 export function customInspect(_deps, options) {
+  const length = this.length;
+
   const array = [];
-  for (let i = 0; i < this.length; ++i) {
+  for (let i = 0; i < length; ++i) {
     array[i] = this[i];
   }
 
-  return `Float16Array(${this.length}) ${util.inspect(array, options)}`;
+  return `Float16Array(${length}) ${inspect(array, options)}`;
 }

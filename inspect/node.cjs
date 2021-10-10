@@ -2,7 +2,7 @@
 
 "use strict";
 
-const util = require("util");
+const { inspect } = require("util");
 
 /**
  * @example
@@ -10,11 +10,13 @@ const util = require("util");
  * Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
  * ```
  */
-module.exports.customInspect = function customInspect(_deps, options) {
+exports.customInspect = function customInspect(_deps, options) {
+  const length = this.length;
+
   const array = [];
-  for (let i = 0; i < this.length; ++i) {
+  for (let i = 0; i < length; ++i) {
     array[i] = this[i];
   }
 
-  return `Float16Array(${this.length}) ${util.inspect(array, options)}`;
+  return `Float16Array(${length}) ${inspect(array, options)}`;
 };
