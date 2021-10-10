@@ -15,14 +15,14 @@ export function isObjectLike(value) {
 }
 
 // Inspired by util.types implementation of Node.js
-const getTypedArrayPrototypeSybolToStringTag = Reflect.getOwnPropertyDescriptor(Reflect.getPrototypeOf(Uint8Array).prototype, Symbol.toStringTag).get;
+const getTypedArrayPrototypeSymbolToStringTag = Reflect.getOwnPropertyDescriptor(Reflect.getPrototypeOf(Uint8Array).prototype, Symbol.toStringTag).get;
 
 /**
  * @param {unknown} value
  * @returns {value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array}
  */
 export function isTypedArray(value) {
-  return getTypedArrayPrototypeSybolToStringTag.call(value) !== undefined;
+  return getTypedArrayPrototypeSymbolToStringTag.call(value) !== undefined;
 }
 
 /**
@@ -30,7 +30,7 @@ export function isTypedArray(value) {
  * @returns {value is Uint16Array}
  */
 export function isUint16Array(value) {
-  return getTypedArrayPrototypeSybolToStringTag.call(value) === "Uint16Array";
+  return getTypedArrayPrototypeSymbolToStringTag.call(value) === "Uint16Array";
 }
 
 /**
