@@ -1,39 +1,7 @@
 {
   "name": "@petamoriken/float16",
-  "description": "half precision floating point for JavaScript",
   "version": "3.4.9",
-  "main": "./lib/index.cjs",
-  "module": "./src/index.mjs",
-  "exports": {
-    ".": {
-      "import": "./src/index.mjs",
-      "require": "./lib/index.cjs"
-    },
-    "./inspect": {
-      "import": "./inspect/node.mjs",
-      "require": "./inspect/node.cjs"
-    }
-  },
-  "types": "index.d.ts",
-  "sideEffects": false,
-  "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.dev)",
-  "bugs": {
-    "url": "https://github.com/petamoriken/float16/issues"
-  },
-  "homepage": "https://git.io/float16",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/petamoriken/float16.git"
-  },
-  "files": [
-    "src",
-    "lib",
-    "browser",
-    "inspect/node.mjs",
-    "inspect/node.cjs",
-    "index.d.ts"
-  ],
+  "description": "half precision floating point for JavaScript",
   "keywords": [
     "float16",
     "binary16",
@@ -49,23 +17,55 @@
     "ponyfill",
     "shim"
   ],
+  "homepage": "https://git.io/float16",
+  "bugs": {
+    "url": "https://github.com/petamoriken/float16/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petamoriken/float16.git"
+  },
+  "license": "MIT",
+  "author": "Kenta Moriuchi <moriken@kimamass.com> (https://moriken.dev)",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./lib/index.cjs",
+      "import": "./src/index.mjs"
+    },
+    "./inspect": {
+      "require": "./inspect/node.cjs",
+      "import": "./inspect/node.mjs"
+    }
+  },
+  "main": "./lib/index.cjs",
+  "module": "./src/index.mjs",
+  "types": "index.d.ts",
+  "files": [
+    "src",
+    "lib",
+    "browser",
+    "inspect/node.mjs",
+    "inspect/node.cjs",
+    "index.d.ts"
+  ],
   "scripts": {
     "build": "yarn run build:lib; yarn run build:browser",
-    "build:lib": "babel src -d lib --out-file-extension .cjs",
     "build:browser": "rollup -c",
+    "build:lib": "babel src -d lib --out-file-extension .cjs",
+    "clean": "rm -rf lib browser docs coverage .nyc_output",
+    "coverage": "nyc --reporter=lcov mocha test/*.js",
     "docs": "mkdir -p docs && cp README.md docs/index.md; yarn run docs:test",
     "docs:test": "mkdir -p docs/test && cp browser/float16.js docs/test/float16.js; yarn run docs:test:assets; yarn run docs:test:dependencies",
     "docs:test:assets": "cp test/*.js docs/test && tools/power; cp test/browser/*.html docs/test",
     "docs:test:dependencies": "cp $(npm root)/mocha/mocha.js $(npm root)/mocha/mocha.css $(npm root)/power-assert/build/power-assert.js docs/test",
     "lint": "eslint *.js src/**/*.mjs test/**/*.js test/**/*.mjs",
+    "prepublishOnly": "yarn run lint && yarn test",
+    "refresh": "yarn run clean && yarn run build && yarn run docs",
+    "setup-test-browser": "http-server docs/test -p 8000 > /dev/null 2>&1 &",
     "test": "mocha test/*.js",
     "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,edge_old,safari,safari_old",
-    "setup-test-browser": "http-server docs/test -p 8000 > /dev/null 2>&1 &",
-    "coverage": "nyc --reporter=lcov mocha test/*.js",
-    "clean": "rm -rf lib browser docs coverage .nyc_output",
-    "refresh": "yarn run clean && yarn run build && yarn run docs",
-    "version": "NPM_VERSION_SCRIPT=1 yarn run refresh",
-    "prepublishOnly": "yarn run lint && yarn test"
+    "version": "NPM_VERSION_SCRIPT=1 yarn run refresh"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
