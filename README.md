@@ -9,14 +9,18 @@
   <a href="https://www.npmjs.com/package/@petamoriken/float16">
     <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
   </a>
+  <a href="https://www.jsdelivr.com/package/npm/@petamoriken/float16">
+    <img src="https://img.shields.io/jsdelivr/npm/hw/@petamoriken/float16?label=hits&amp;logo=jsDelivr&amp;style=flat-square" alt="jsDelivr hits">
+  </a>
   <a href="https://www.npmjs.com/package/@petamoriken/float16">
     <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;logo=npm&amp;style=flat-square" alt="npm version">
   </a>
   <a href="https://deno.land/x/float16">
     <img src="https://img.shields.io/github/v/tag/petamoriken/float16?label=version&amp;logo=deno&amp;style=flat-square" alt="deno version">
   </a>
+  <br>
   <a href="https://github.com/petamoriken/float16/blob/master/package.json">
-    <img src="https://img.shields.io/david/petamoriken/float16?style=flat-square" alt="dependencies">
+    <img src="https://img.shields.io/badge/dependencies-none-brightgreen?style=flat-square" alt="dependencies">
   </a>
   <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
     <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
@@ -104,9 +108,7 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
 ```
 
 <details>
-  <summary>Or, you can use CDN services.</summary>
-
-  #### [jsDelivr](https://cdn.jsdelivr.net/npm/@petamoriken/float16/) CDN
+  <summary>Or, you can use <a href="https://www.jsdelivr.com/package/npm/@petamoriken/float16">jsDelivr CDN</a>.</summary>
 
   ```html
   <!-- Module Scripts -->
@@ -128,19 +130,6 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
       getFloat16, setFloat16,
       hfround,
     } = float16;
-  </script>
-  ```
-
-  #### [Skypack](https://www.skypack.dev/view/@petamoriken/float16) CDN
-
-  ```html
-  <!-- Module Scripts -->
-  <script type="module">
-    import {
-      Float16Array, isFloat16Array,
-      getFloat16, setFloat16,
-      hfround,
-    } from "https://cdn.skypack.dev/@petamoriken/float16?min";
   </script>
   ```
 </details>
