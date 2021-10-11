@@ -18,6 +18,7 @@
   <a href="https://deno.land/x/float16">
     <img src="https://img.shields.io/github/v/tag/petamoriken/float16?label=version&amp;logo=deno&amp;style=flat-square" alt="deno version">
   </a>
+  <br>
   <a href="https://github.com/petamoriken/float16/blob/master/package.json">
     <img src="https://img.shields.io/badge/dependencies-none-brightgreen?style=flat-square" alt="dependencies">
   </a>
