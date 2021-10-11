@@ -224,7 +224,7 @@ hfround(1.337); // 1.3369140625
 <details>
   <summary><code>Float16Array</code> has some limitations, because it is impossible to completely reproduce the behavior of <code>TypedArray</code>. Be careful when checking which <code>TypedArray</code> it is, and when using Web standards such as <code>structuredClone</code> and WebGL.</summary>
 
-  ### The `instanceof` Operator
+  ### The `instanceof` operator
 
   Since `Float16Array` is made by inheriting from `Uint16Array`, so you can't use the `instanceof` operator to check if it is a `Uint16Array` or not.
 
@@ -249,7 +249,7 @@ hfround(1.337); // 1.3369140625
 
   For Node.js, you can use `util.types` ([document](https://nodejs.org/api/util.html#util_util_types)) instead. Want to do a more solid `TypedArray` check for other environments? Then you can use [this code](https://gist.github.com/petamoriken/6982e7469994a8880bcbef6198203042).
 
-  ### Built-in Functions
+  ### Built-in functions
 
   Built-in `TypedArray` objects use "internal slots" for built-in methods. Some limitations exist because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
 
@@ -339,9 +339,9 @@ hfround(1.337); // 1.3369140625
 ## Development
 
 <details>
-<summary>Manual build and test</summary>
+<summary>Manual build and test:</summary>
 
-  ### Manual Build
+  ### Manual build
 
   First, download devDependencies.
 
@@ -369,14 +369,14 @@ hfround(1.337); // 1.3369140625
   yarn
   ```
 
-  #### Node.js Test
+  #### Node.js test
 
   ```console
   NODE_ENV=test yarn build:lib
   yarn test
   ```
 
-  #### Browser Test
+  #### Browser test
 
   ```console
   NODE_ENV=test yarn build:browser
