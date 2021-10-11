@@ -292,8 +292,8 @@ hfround(1.337); // 1.3369140625
   // WebGL 2 example
   const vertices = new Float16Array([
     -0.5, -0.5,  0,
-    0.5, -0.5,  0,
-    0.5,  0.5,  0,
+     0.5, -0.5,  0,
+     0.5,  0.5,  0,
   ]);
 
   const buffer = gl.createBuffer();
@@ -312,7 +312,7 @@ hfround(1.337); // 1.3369140625
   See JSDoc comments in `src/Float16Array.mjs` for details. If you don't write hacky code, you shouldn't have any problems.
 </details>
 
-## `Float16Array` Custom inspection
+## `Float16Array` custom inspection
 
 <details>
   <summary>Provides custom inspection for Node.js and Deno, which makes the results of <code>console.log</code> more readable.
