@@ -1,4 +1,4 @@
-import type { Float16Array } from "../mod.ts";
+import type { Float16Array } from "../index.d.ts";
 
 /**
  * @example
@@ -7,7 +7,7 @@ import type { Float16Array } from "../mod.ts";
  * (Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;
  * ```
  */
-export function customInspect(this: Float16Array, inspect: typeof Deno.inspect, options: Deno.InspectOptions): string {
+export function customInspect(this: Float16Array, inspect: typeof Deno.inspect, options?: Deno.InspectOptions | undefined): string {
   const length = this.length;
 
   const array = [];

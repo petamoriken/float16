@@ -341,7 +341,7 @@ export interface Float16ArrayConstructor {
    */
   from<T>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => number, thisArg?: any): Float16Array;
 }
-export declare var Float16Array: Float16ArrayConstructor;
+export declare const Float16Array: Float16ArrayConstructor;
 
 /**
  * Returns `true` if the value is a Float16Array instance.
