@@ -1,0 +1,19 @@
+name: Purge GitHub README.md image cache
+
+on:
+  schedule:
+    - cron: '0 18 1 * *'
+
+permissions:
+  contents: read
+
+jobs:
+  purge:
+    name: Purge
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: syossan27/purge-github-readme-image@v1.0.0
+        with:
+          repository: ${{ github.repository }}
+          token: ${{ secrets.GITHUB_TOKEN }}
