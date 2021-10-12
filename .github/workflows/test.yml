@@ -87,7 +87,7 @@ jobs:
     steps:
       - if: |
           github.event_name == 'pull_request_target' &&
-          (github.actor != 'petamoriken' && github.actor != 'dependabot[bot]')
+          (github.actor != github.repository_owner && github.actor != 'dependabot[bot]')
         name: Check PR actor
         run: exit 1
 
