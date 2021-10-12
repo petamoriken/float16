@@ -1,4 +1,4 @@
-# <a href="https://git.io/float16">@petamoriken/float16</a>
+# <a href="https://git.io/float16">float16</a>
 
 <p align="center">
   half precision floating point for JavaScript<br>
