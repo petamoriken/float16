@@ -93,14 +93,26 @@ function copyToArray(float16bitsArray) {
 
 const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
 
+const TypedArrayPrototypeGetters = new Set();
+for (const key of Reflect.ownKeys(TypedArrayPrototype)) {
+  const descriptor = Object.getOwnPropertyDescriptor(TypedArrayPrototype, key);
+  if (hasOwn(descriptor, "get")) {
+    TypedArrayPrototypeGetters.add(key);
+  }
+}
+
 /** @type {ProxyHandler<Float16Array>} */
 const handler = Object.freeze({
-  get(target, key) {
+  get(target, key, receiver) {
     if (isCanonicalIntegerIndexString(key) && hasOwn(target, key)) {
       return convertToNumber(Reflect.get(target, key));
     }
 
-    return Reflect.get(target, key);
+    if (TypedArrayPrototypeGetters.has(key)) {
+      return Reflect.get(target, key);
+    }
+
+    return Reflect.get(target, key, receiver);
   },
 
   set(target, key, value) {
