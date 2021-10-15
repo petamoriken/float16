@@ -8,30 +8,6 @@ describe("Float16Array", () => {
   before(async function () {
     this.timeout(15000);
 
-    if (typeof window !== "undefined") {
-      const iframe = document.createElement("iframe");
-      iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
-      iframe.style.display = "none";
-      document.body.parentElement.appendChild(iframe);
-      try {
-        await new Promise((resolve, reject) => {
-          const script = document.createElement("script");
-          script.src = "float16.js";
-
-          const id = setTimeout(reject, 10000);
-          script.onload = () => { clearTimeout(id); resolve(); };
-          script.onerror = () => { clearTimeout(id); reject(); };
-
-          iframe.contentDocument.body.appendChild(script);
-        });
-        AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
-      } catch (e) {
-        // empty
-      } finally {
-        iframe.remove();
-      }
-    }
-
     assert.equalFloat16ArrayValues = function (_float16, _array) {
       const float16 = [];
       for (let i = 0, l = _float16.length; i < l; ++i) {
@@ -55,6 +31,18 @@ describe("Float16Array", () => {
 
       assert.deepStrictEqual(float16, array);
     };
+
+    if (typeof window !== "undefined") {
+      const iframe = document.getElementById("realm");
+      if (iframe.contentDocument.readyState !== "complete") {
+        await new Promise((resolve) => {
+          iframe.addEventListener("load", () => {
+            resolve();
+          }, { once: true });
+        });
+      }
+      AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
+    }
   });
 
   after(() => {

@@ -86,12 +86,15 @@ describe('additional DataView methods', () => {
     before(async function () {
         this.timeout(15000);
         if (typeof window !== 'undefined') {
-            const iframe = document.createElement('iframe');
-            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts');
-            iframe.style.display = 'none';
-            document.body.parentElement.appendChild(iframe);
+            const iframe = document.getElementById('realm');
+            if (iframe.contentDocument.readyState !== 'complete') {
+                await new Promise(resolve => {
+                    iframe.addEventListener('load', () => {
+                        resolve();
+                    }, { once: true });
+                });
+            }
             AnotherRealmDataView = iframe.contentWindow.DataView;
-            iframe.remove();
         } else if (typeof global !== 'undefined' && typeof require !== 'undefined') {
             AnotherRealmDataView = require('vm').runInNewContext('DataView');
         } else {
@@ -105,7 +108,7 @@ describe('additional DataView methods', () => {
             assert(_rec1._expr(_rec1._capt(_rec1._capt(_rec1._capt(getFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'getFloat16', 'arguments/0'), {
                 content: 'assert(getFloat16.name === "getFloat16")',
                 filepath: 'test/DataView.js',
-                line: 54
+                line: 57
             }));
         });
         it('property `length` is 2', () => {
@@ -113,7 +116,7 @@ describe('additional DataView methods', () => {
             assert(_rec2._expr(_rec2._capt(_rec2._capt(_rec2._capt(getFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
                 content: 'assert(getFloat16.length === 2)',
                 filepath: 'test/DataView.js',
-                line: 58
+                line: 61
             }));
         });
         it('first argument must be DataView instance', () => {
@@ -134,13 +137,13 @@ describe('additional DataView methods', () => {
                 assert(_rec3._expr(_rec3._capt(_rec3._capt(Object, 'arguments/0/callee/object').is(_rec3._capt(getFloat16(_rec3._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0), 'arguments/0/arguments/0'), _rec3._capt(value, 'arguments/0/arguments/1')), 'arguments/0'), {
                     content: 'assert(Object.is(getFloat16(dataView, 0), value))',
                     filepath: 'test/DataView.js',
-                    line: 75
+                    line: 78
                 }));
                 dataView.setUint16(0, float16bits, true);
                 assert(_rec4._expr(_rec4._capt(_rec4._capt(Object, 'arguments/0/callee/object').is(_rec4._capt(getFloat16(_rec4._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0, true), 'arguments/0/arguments/0'), _rec4._capt(value, 'arguments/0/arguments/1')), 'arguments/0'), {
                     content: 'assert(Object.is(getFloat16(dataView, 0, true), value))',
                     filepath: 'test/DataView.js',
-                    line: 78
+                    line: 81
                 }));
             }
         });
@@ -152,13 +155,13 @@ describe('additional DataView methods', () => {
             assert(_rec5._expr(_rec5._capt(_rec5._capt(Number, 'arguments/0/callee/object').isNaN(_rec5._capt(getFloat16(_rec5._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0), 'arguments/0/arguments/0')), 'arguments/0'), {
                 content: 'assert(Number.isNaN(getFloat16(dataView, 0)))',
                 filepath: 'test/DataView.js',
-                line: 86
+                line: 89
             }));
             dataView.setUint16(0, float16bits, true);
             assert(_rec6._expr(_rec6._capt(_rec6._capt(Number, 'arguments/0/callee/object').isNaN(_rec6._capt(getFloat16(_rec6._capt(dataView, 'arguments/0/arguments/0/arguments/0'), 0, true), 'arguments/0/arguments/0')), 'arguments/0'), {
                 content: 'assert(Number.isNaN(getFloat16(dataView, 0, true)))',
                 filepath: 'test/DataView.js',
-                line: 89
+                line: 92
             }));
         });
         it('work with DataView from anothor realm', () => {
@@ -172,7 +175,7 @@ describe('additional DataView methods', () => {
             assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(setFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'setFloat16', 'arguments/0'), {
                 content: 'assert(setFloat16.name === "setFloat16")',
                 filepath: 'test/DataView.js',
-                line: 103
+                line: 106
             }));
         });
         it('property `length` is 3', () => {
@@ -180,7 +183,7 @@ describe('additional DataView methods', () => {
             assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(setFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
                 content: 'assert(setFloat16.length === 3)',
                 filepath: 'test/DataView.js',
-                line: 107
+                line: 110
             }));
         });
         it('first argument must be DataView instance', () => {
@@ -201,13 +204,13 @@ describe('additional DataView methods', () => {
                 assert(_rec9._expr(_rec9._capt(_rec9._capt(Object, 'arguments/0/callee/object').is(_rec9._capt(_rec9._capt(dataView, 'arguments/0/arguments/0/callee/object').getUint16(0), 'arguments/0/arguments/0'), _rec9._capt(float16bits, 'arguments/0/arguments/1')), 'arguments/0'), {
                     content: 'assert(Object.is(dataView.getUint16(0), float16bits))',
                     filepath: 'test/DataView.js',
-                    line: 124
+                    line: 127
                 }));
                 setFloat16(dataView, 0, value, true);
                 assert(_rec10._expr(_rec10._capt(_rec10._capt(Object, 'arguments/0/callee/object').is(_rec10._capt(_rec10._capt(dataView, 'arguments/0/arguments/0/callee/object').getUint16(0, true), 'arguments/0/arguments/0'), _rec10._capt(float16bits, 'arguments/0/arguments/1')), 'arguments/0'), {
                     content: 'assert(Object.is(dataView.getUint16(0, true), float16bits))',
                     filepath: 'test/DataView.js',
-                    line: 127
+                    line: 130
                 }));
             }
         });

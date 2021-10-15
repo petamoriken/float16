@@ -12,6 +12,8 @@
 
     <script src="mocha.js"></script>
     <script src="power-assert.js"></script>
+
+    <iframe id="realm" sandbox="allow-same-origin allow-scripts" style="display: none;" srcdoc="&lt;script src=&quot;float16.js&quot;&gt;&lt;/script&gt;&lt;script&gt;window.float16 = float16;&lt;/script&gt;"></iframe>
     <script src="float16.js"></script>
     <script>
         Object.assign(window, float16);
