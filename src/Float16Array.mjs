@@ -133,12 +133,12 @@ const handler = Object.freeze({
     return Reflect.get(target, key, receiver);
   },
 
-  set(target, key, value) {
+  set(target, key, value, receiver) {
     if (isCanonicalIntegerIndexString(key) && hasOwn(target, key)) {
       return Reflect.set(target, key, roundToFloat16Bits(value));
     }
 
-    return Reflect.set(target, key, value);
+    return Reflect.set(target, key, value, receiver);
   },
 });
 
