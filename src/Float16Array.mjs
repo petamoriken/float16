@@ -344,7 +344,7 @@ export class Float16Array extends Uint16Array {
   keys() {
     assertFloat16Array(this);
 
-    return Reflect.apply(TypedArrayPrototype.keys, getFloat16BitsArray(this), []);
+    return Reflect.apply(super.keys, getFloat16BitsArray(this), []);
   }
 
   /**
@@ -355,7 +355,7 @@ export class Float16Array extends Uint16Array {
   values() {
     assertFloat16Array(this);
 
-    const arrayIterator = Reflect.apply(TypedArrayPrototype.values, getFloat16BitsArray(this), []);
+    const arrayIterator = Reflect.apply(super.values, getFloat16BitsArray(this), []);
     return wrapInArrayIterator((function* () {
       for (const val of arrayIterator) {
         yield convertToNumber(val);
@@ -371,7 +371,7 @@ export class Float16Array extends Uint16Array {
   entries() {
     assertFloat16Array(this);
 
-    const arrayIterator = Reflect.apply(TypedArrayPrototype.entries, getFloat16BitsArray(this), []);
+    const arrayIterator = Reflect.apply(super.entries, getFloat16BitsArray(this), []);
     return wrapInArrayIterator((function* () {
       for (const [i, val] of arrayIterator) {
         yield [i, convertToNumber(val)];
@@ -647,7 +647,7 @@ export class Float16Array extends Uint16Array {
     // for optimization
     if (isFloat16Array(input)) {
       // peel off Proxy
-      return Reflect.apply(TypedArrayPrototype.set, getFloat16BitsArray(this), [
+      return Reflect.apply(super.set, getFloat16BitsArray(this), [
         getFloat16BitsArray(input),
         targetOffset,
       ]);
@@ -673,7 +673,7 @@ export class Float16Array extends Uint16Array {
   reverse() {
     assertFloat16Array(this);
 
-    Reflect.apply(TypedArrayPrototype.reverse, getFloat16BitsArray(this), []);
+    Reflect.apply(super.reverse, getFloat16BitsArray(this), []);
 
     return this;
   }
@@ -682,7 +682,7 @@ export class Float16Array extends Uint16Array {
   fill(value, ...opts) {
     assertFloat16Array(this);
 
-    Reflect.apply(TypedArrayPrototype.fill, getFloat16BitsArray(this), [roundToFloat16Bits(value), ...opts]);
+    Reflect.apply(super.fill, getFloat16BitsArray(this), [roundToFloat16Bits(value), ...opts]);
 
     return this;
   }
@@ -691,7 +691,7 @@ export class Float16Array extends Uint16Array {
   copyWithin(target, start, ...opts) {
     assertFloat16Array(this);
 
-    Reflect.apply(TypedArrayPrototype.copyWithin, getFloat16BitsArray(this), [target, start, ...opts]);
+    Reflect.apply(super.copyWithin, getFloat16BitsArray(this), [target, start, ...opts]);
 
     return this;
   }
@@ -701,7 +701,7 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
 
     const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
-    Reflect.apply(TypedArrayPrototype.sort, getFloat16BitsArray(this), [(x, y) => { return compare(convertToNumber(x), convertToNumber(y)); }]);
+    Reflect.apply(super.sort, getFloat16BitsArray(this), [(x, y) => { return compare(convertToNumber(x), convertToNumber(y)); }]);
 
     return this;
   }
