@@ -35,6 +35,15 @@ export function isUint16Array(value) {
 
 /**
  * @param {unknown} value
+ * @returns {value is BigInt64Array|BigUint64Array}
+ */
+export function isBigIntTypedArray(value) {
+  const typedArrayName = getTypedArrayPrototypeSymbolToStringTag.call(value);
+  return typedArrayName === "BigInt64Array" || typedArrayName === "BigUint64Array";
+}
+
+/**
+ * @param {unknown} value
  * @returns {value is DataView}
  */
 export function isDataView(value) {

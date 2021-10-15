@@ -106,6 +106,15 @@ describe("Float16Array", () => {
     assert.equalFloat16ArrayValues( float16_2, checkArray );
   });
 
+  it("input BigInt TypedArray", function () {
+    // Safari 13 doesn't have BigInt
+    if (typeof BigUint64Array === "undefined") {
+      this.skip();
+    }
+
+    assert.throws(() => new Float16Array(new BigUint64Array()), TypeError);
+  });
+
   it("input custom Array", () => {
     class FooArray extends Array {}
     const array = FooArray.from([1, 1.1, 1.2, 1.3]);
@@ -1138,6 +1147,16 @@ describe("Float16Array", () => {
 
       assert( float16.set(float32, 1) === undefined );
       assert.equalFloat16ArrayValues( float16, [1, 20, 21, 11, 5] );
+    });
+
+    it("set BigInt TypedArray", function () {
+      // Safari 13 doesn't have BigInt
+      if (typeof BigUint64Array === "undefined") {
+        this.skip();
+      }
+
+      const float16 = new Float16Array([1, 2, 3, 4, 5]);
+      assert.throws(() => float16.set(new BigUint64Array()), TypeError);
     });
 
     it("set ArrayLike", () => {

@@ -2,7 +2,7 @@ import { wrapInArrayIterator } from "./_arrayIterator.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
 import { LengthOfArrayLike, SpeciesConstructor, ToIntegerOrInfinity, defaultCompare } from "./_spec.mjs";
 import { hasOwn } from "./_util/hasOwn.mjs";
-import { isArrayBuffer, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isOrdinaryArray, isOrdinaryTypedArray, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./_util/is.mjs";
+import { isArrayBuffer, isBigIntTypedArray, isCanonicalIntegerIndexString, isIterable, isObject, isObjectLike, isOrdinaryArray, isOrdinaryTypedArray, isSharedArrayBuffer, isTypedArray, isUint16Array } from "./_util/is.mjs";
 import { createPrivateStorage } from "./_util/private.mjs";
 
 const brand = Symbol.for("__Float16Array__");
@@ -144,6 +144,10 @@ export class Float16Array extends Uint16Array {
 
       // TypedArray
       if (isTypedArray(input)) {
+        if (isBigIntTypedArray(input)) {
+          throw new TypeError("Cannot mix BigInt and other types, use explicit conversions");
+        }
+
         list = input;
         length = input.length;
 
@@ -614,6 +618,10 @@ export class Float16Array extends Uint16Array {
     const targetOffset = ToIntegerOrInfinity(opts[0]);
     if (targetOffset < 0) {
       throw RangeError("offset is out of bounds");
+    }
+
+    if (isBigIntTypedArray(input)) {
+      throw new TypeError("Cannot mix BigInt and other types, use explicit conversions");
     }
 
     // for optimization
