@@ -91,6 +91,24 @@ function copyToArray(float16bitsArray) {
   return array;
 }
 
+/**
+ * @param {unknown} target
+ * @throws {TypeError}
+ */
+function assertSpeciesTypedArray(target) {
+  if (isFloat16Array(target)) {
+    return;
+  }
+
+  if (!isTypedArray(target)) {
+    throw new TypeError("This is not a TypedArray");
+  }
+
+  if (isBigIntTypedArray(target)) {
+    throw new TypeError("Cannot mix BigInt and other types, use explicit conversions");
+  }
+}
+
 const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
 
 const TypedArrayPrototypeGetters = new Set();
@@ -403,6 +421,7 @@ export class Float16Array extends Uint16Array {
     }
 
     const array = new Constructor(length);
+    assertSpeciesTypedArray(array);
 
     for (let i = 0; i < length; ++i) {
       const val = convertToNumber(float16bitsArray[i]);
@@ -431,6 +450,7 @@ export class Float16Array extends Uint16Array {
 
     const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
     const array = new Constructor(kept);
+    assertSpeciesTypedArray(array);
 
     return array;
   }
@@ -724,6 +744,7 @@ export class Float16Array extends Uint16Array {
 
     const count = final - k > 0 ? final - k : 0;
     const array = new Constructor(count);
+    assertSpeciesTypedArray(array);
 
     if (count === 0) {
       return array;
@@ -746,10 +767,13 @@ export class Float16Array extends Uint16Array {
     const float16bitsArray = getFloat16BitsArray(this);
 
     const uint16 = new Uint16Array(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
-    const array = uint16.subarray(...opts);
+    const subarray = uint16.subarray(...opts);
 
     const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
-    return new Constructor(array.buffer, array.byteOffset, array.length);
+    const array = new Constructor(subarray.buffer, subarray.byteOffset, subarray.length);
+    assertSpeciesTypedArray(array);
+
+    return array;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.indexof */
