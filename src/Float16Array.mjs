@@ -36,7 +36,7 @@ function hasFloat16ArrayBrand(target) {
 
 /**
  * @param {unknown} target
- * @returns {boolean}
+ * @returns {target is Float16Array}
  */
 export function isFloat16Array(target) {
   return hasFloat16ArrayBrand(target) && !isTypedArray(target);
@@ -44,7 +44,7 @@ export function isFloat16Array(target) {
 
 /**
  * @param {unknown} target
- * @returns {boolean}
+ * @returns {target is Uint16Array & { __float16bits: never }}
  */
 function isFloat16BitsArray(target) {
   return hasFloat16ArrayBrand(target) && isUint16Array(target);
@@ -62,7 +62,7 @@ function assertFloat16Array(target) {
 
 /**
  * @param {Float16Array} float16
- * @returns {ArrayLike<number>}
+ * @returns {Uint16Array & { __float16bits: never }}
  */
 function getFloat16BitsArray(float16) {
   let target = _(float16).target;
@@ -77,7 +77,7 @@ function getFloat16BitsArray(float16) {
 }
 
 /**
- * @param {ArrayLike<number>} float16bitsArray
+ * @param {Uint16Array & { __float16bits: never }} float16bitsArray
  * @returns {number[]}
  */
 function copyToArray(float16bitsArray) {

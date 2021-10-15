@@ -21,8 +21,8 @@ const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
 });
 
 /**
- * @param {Iterator<number>} iterator
- * @returns {IterableIterator<number>}
+ * @param {Iterator<T>} iterator
+ * @returns {IterableIterator<T>}
  */
 export function wrapInArrayIterator(iterator) {
   const arrayIterator = Object.create(ArrayIteratorPrototype);
