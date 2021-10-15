@@ -1,6 +1,6 @@
 {
   "name": "@petamoriken/float16",
-  "version": "3.4.11",
+  "version": "3.4.12",
   "description": "half precision floating point for JavaScript",
   "keywords": [
     "float16",
