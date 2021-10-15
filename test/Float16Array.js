@@ -6,8 +6,6 @@ describe("Float16Array", () => {
   let AnotherRealmFloat16Array;
 
   before(async function () {
-    this.timeout(15000);
-
     assert.equalFloat16ArrayValues = function (_float16, _array) {
       const float16 = [];
       for (let i = 0, l = _float16.length; i < l; ++i) {
@@ -34,14 +32,31 @@ describe("Float16Array", () => {
 
     if (typeof window !== "undefined") {
       const iframe = document.getElementById("realm");
-      if (iframe.contentDocument.readyState !== "complete") {
-        await new Promise((resolve) => {
-          iframe.addEventListener("load", () => {
-            resolve();
-          }, { once: true });
-        });
+      const iWindow = iframe.contentWindow;
+      const iDocument = iframe.contentDocument;
+
+      let success = false;
+      if (iDocument.readyState !== "complete" || iDocument.getElementById("float16") === null) {
+        try {
+          await new Promise((resolve, reject) => {
+            const id = setTimeout(() => reject(new Error("Timeout Error")), 10000);
+            iframe.addEventListener("load", () => {
+              clearTimeout(id);
+              resolve();
+            }, { once: true });
+          });
+          success = true;
+        } catch (e) {
+          // ignore error
+          console.error(e);
+        }
+      } else {
+        success = true;
       }
-      AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
+
+      if (success) {
+        AnotherRealmFloat16Array = iWindow.float16.Float16Array;
+      }
     }
   });
 
