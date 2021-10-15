@@ -64,7 +64,7 @@ function assertFloat16BitsArray(target) {
  * @param {Float16Array} float16
  * @returns {ArrayLike<number>}
  */
-function getFloat16BitsArrayFromFloat16Array(float16) {
+function getFloat16BitsArray(float16) {
   let target = _(float16).target;
 
   // from other realms
@@ -106,7 +106,7 @@ const applyHandler = Object.freeze({
   apply(func, thisArg, args) {
     // peel off Proxy
     if (isFloat16Array(thisArg)) {
-      const target = getFloat16BitsArrayFromFloat16Array(thisArg);
+      const target = getFloat16BitsArray(thisArg);
       return Reflect.apply(func, target, args);
     }
 
@@ -153,7 +153,7 @@ export class Float16Array extends Uint16Array {
     // input Float16Array
     if (isFloat16Array(input)) {
       // peel off Proxy
-      const float16bitsArray = getFloat16BitsArrayFromFloat16Array(input);
+      const float16bitsArray = getFloat16BitsArray(input);
       super(float16bitsArray);
 
     // object without ArrayBuffer
@@ -324,7 +324,7 @@ export class Float16Array extends Uint16Array {
     // for optimization
     if (Constructor === Float16Array) {
       const proxy = new Float16Array(length);
-      const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+      const float16bitsArray = getFloat16BitsArray(proxy);
 
       for (let i = 0; i < length; ++i) {
         float16bitsArray[i] = roundToFloat16Bits(items[i]);
@@ -408,7 +408,7 @@ export class Float16Array extends Uint16Array {
     // for optimization
     if (Constructor === Float16Array) {
       const proxy = new Float16Array(length);
-      const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+      const float16bitsArray = getFloat16BitsArray(proxy);
 
       for (let i = 0; i < length; ++i) {
         const val = convertToNumber(this[i]);
@@ -619,7 +619,7 @@ export class Float16Array extends Uint16Array {
     // for optimization
     if (isFloat16Array(input)) {
       // peel off Proxy
-      const float16bitsArray = getFloat16BitsArrayFromFloat16Array(input);
+      const float16bitsArray = getFloat16BitsArray(input);
       super.set(float16bitsArray, targetOffset);
       return;
     }
