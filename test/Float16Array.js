@@ -34,14 +34,16 @@ describe("Float16Array", () => {
 
     if (typeof window !== "undefined") {
       const iframe = document.getElementById("realm");
-      if (iframe.contentDocument.readyState !== "complete") {
+      const iWindow = iframe.contentWindow;
+      const iDocument = iframe.contentDocument;
+      if (iDocument.readyState !== "complete" || iDocument.getElementById("float16") === null) {
         await new Promise((resolve) => {
           iframe.addEventListener("load", () => {
             resolve();
           }, { once: true });
         });
       }
-      AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
+      AnotherRealmFloat16Array = iWindow.float16.Float16Array;
     }
   });
 
