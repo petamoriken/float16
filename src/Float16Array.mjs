@@ -61,6 +61,24 @@ function assertFloat16Array(target) {
 }
 
 /**
+ * @param {unknown} target
+ * @throws {TypeError}
+ */
+function assertSpeciesTypedArray(target) {
+  if (isFloat16Array(target)) {
+    return;
+  }
+
+  if (!isTypedArray(target)) {
+    throw new TypeError("This is not a TypedArray");
+  }
+
+  if (isBigIntTypedArray(target)) {
+    throw new TypeError("Cannot mix BigInt and other types, use explicit conversions");
+  }
+}
+
+/**
  * @param {Float16Array} float16
  * @returns {Uint16Array & { __float16bits: never }}
  */
@@ -89,24 +107,6 @@ function copyToArray(float16bitsArray) {
   }
 
   return array;
-}
-
-/**
- * @param {unknown} target
- * @throws {TypeError}
- */
-function assertSpeciesTypedArray(target) {
-  if (isFloat16Array(target)) {
-    return;
-  }
-
-  if (!isTypedArray(target)) {
-    throw new TypeError("This is not a TypedArray");
-  }
-
-  if (isBigIntTypedArray(target)) {
-    throw new TypeError("Cannot mix BigInt and other types, use explicit conversions");
-  }
 }
 
 const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
