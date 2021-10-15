@@ -812,8 +812,8 @@ describe('Float16Array', () => {
     it('prototype methods are as same as themselves', () => {
         var _rec83 = new _PowerAssertRecorder1();
         const float16 = new Float16Array();
-        assert(_rec83._expr(_rec83._capt(_rec83._capt(_rec83._capt(float16, 'arguments/0/left/object').map, 'arguments/0/left') === _rec83._capt(_rec83._capt(float16, 'arguments/0/right/object').map, 'arguments/0/right'), 'arguments/0'), {
-            content: 'assert(float16.map === float16.map)',
+        assert(_rec83._expr(_rec83._capt(_rec83._capt(_rec83._capt(_rec83._capt(Float16Array, 'arguments/0/left/object/object').prototype, 'arguments/0/left/object').map, 'arguments/0/left') === _rec83._capt(_rec83._capt(float16, 'arguments/0/right/object').map, 'arguments/0/right'), 'arguments/0'), {
+            content: 'assert(Float16Array.prototype.map === float16.map)',
             filepath: 'test/Float16Array.js',
             line: 363
         }));

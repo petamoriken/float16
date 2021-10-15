@@ -360,7 +360,7 @@ describe("Float16Array", () => {
 
   it("prototype methods are as same as themselves", () => {
     const float16 = new Float16Array();
-    assert( float16.map === float16.map );
+    assert( Float16Array.prototype.map === float16.map );
   });
 
   describe(".from()", () => {
