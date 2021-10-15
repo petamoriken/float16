@@ -197,9 +197,6 @@ export class Float16Array extends Uint16Array {
     // proxy private storage
     _(proxy).target = this;
 
-    // this private storage
-    _(this).proxy = proxy;
-
     return proxy;
   }
 
