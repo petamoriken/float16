@@ -54,8 +54,8 @@ function isFloat16BitsArray(target) {
  * @param {unknown} target
  * @throws {TypeError}
  */
-function assertFloat16BitsArray(target) {
-  if (!isFloat16BitsArray(target)) {
+function assertFloat16Array(target) {
+  if (!isFloat16Array(target)) {
     throw new TypeError("This is not a Float16Array");
   }
 }
@@ -91,28 +91,7 @@ function copyToArray(float16bitsArray) {
   return array;
 }
 
-const defaultFloat16ArrayMethods = new WeakSet();
-
-/**
- * @param {unknown} target
- * @returns {boolean}
- */
-function isDefaultFloat16ArrayMethods(target) {
-  return typeof target === "function" && defaultFloat16ArrayMethods.has(target);
-}
-
-/** @type {ProxyHandler<Function>} */
-const applyHandler = Object.freeze({
-  apply(func, thisArg, args) {
-    // peel off Proxy
-    if (isFloat16Array(thisArg)) {
-      const target = getFloat16BitsArray(thisArg);
-      return Reflect.apply(func, target, args);
-    }
-
-    return Reflect.apply(func, thisArg, args);
-  },
-});
+const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
 
 /** @type {ProxyHandler<Float16Array>} */
 const handler = Object.freeze({
@@ -121,19 +100,7 @@ const handler = Object.freeze({
       return convertToNumber(Reflect.get(target, key));
     }
 
-    const ret = Reflect.get(target, key);
-    if (!isDefaultFloat16ArrayMethods(ret)) {
-      return ret;
-    }
-
-    // TypedArray methods can't be called by Proxy Object
-    let proxy = _(ret).proxy;
-
-    if (proxy === undefined) {
-      proxy = _(ret).proxy = new Proxy(ret, applyHandler);
-    }
-
-    return proxy;
+    return Reflect.get(target, key);
   },
 
   set(target, key, value) {
@@ -344,9 +311,9 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys */
   keys() {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    return super.keys();
+    return Reflect.apply(TypedArrayPrototype.keys, getFloat16BitsArray(this), []);
   }
 
   /**
@@ -355,9 +322,9 @@ export class Float16Array extends Uint16Array {
    * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
    */
   values() {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const arrayIterator = super.values();
+    const arrayIterator = Reflect.apply(TypedArrayPrototype.values, getFloat16BitsArray(this), []);
     return wrapInArrayIterator((function* () {
       for (const val of arrayIterator) {
         yield convertToNumber(val);
@@ -371,9 +338,9 @@ export class Float16Array extends Uint16Array {
    * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
    */
   entries() {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const arrayIterator = super.entries();
+    const arrayIterator = Reflect.apply(TypedArrayPrototype.entries, getFloat16BitsArray(this), []);
     return wrapInArrayIterator((function* () {
       for (const [i, val] of arrayIterator) {
         yield [i, convertToNumber(val)];
@@ -383,9 +350,11 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.at */
   at(index) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const relativeIndex = ToIntegerOrInfinity(index);
     const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
 
@@ -393,26 +362,28 @@ export class Float16Array extends Uint16Array {
       return;
     }
 
-    return convertToNumber(this[k]);
+    return convertToNumber(float16bitsArray[k]);
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map */
   map(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
-    const Constructor = SpeciesConstructor(this, Float16Array);
+    const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
 
     // for optimization
     if (Constructor === Float16Array) {
       const proxy = new Float16Array(length);
-      const float16bitsArray = getFloat16BitsArray(proxy);
+      const array = getFloat16BitsArray(proxy);
 
       for (let i = 0; i < length; ++i) {
-        const val = convertToNumber(this[i]);
-        float16bitsArray[i] = roundToFloat16Bits(callback.call(thisArg, val, i, _(this).proxy));
+        const val = convertToNumber(float16bitsArray[i]);
+        array[i] = roundToFloat16Bits(callback.call(thisArg, val, i, this));
       }
 
       return proxy;
@@ -421,8 +392,8 @@ export class Float16Array extends Uint16Array {
     const array = new Constructor(length);
 
     for (let i = 0; i < length; ++i) {
-      const val = convertToNumber(this[i]);
-      array[i] = callback.call(thisArg, val, i, _(this).proxy);
+      const val = convertToNumber(float16bitsArray[i]);
+      array[i] = callback.call(thisArg, val, i, this);
     }
 
     return array;
@@ -430,20 +401,22 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.filter */
   filter(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     const kept = [];
     for (let i = 0; i < length; ++i) {
-      const val = convertToNumber(this[i]);
-      if (callback.call(thisArg, val, i, _(this).proxy)) {
+      const val = convertToNumber(float16bitsArray[i]);
+      if (callback.call(thisArg, val, i, this)) {
         kept.push(val);
       }
     }
 
-    const Constructor = SpeciesConstructor(this, Float16Array);
+    const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
     const array = new Constructor(kept);
 
     return array;
@@ -451,16 +424,18 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduce */
   reduce(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     if (length === 0 && opts.length === 0) {
       throw TypeError("Reduce of empty array with no initial value");
     }
 
     let accumulator, start;
     if (opts.length === 0) {
-      accumulator = convertToNumber(this[0]);
+      accumulator = convertToNumber(float16bitsArray[0]);
       start = 1;
     } else {
       accumulator = opts[0];
@@ -468,7 +443,7 @@ export class Float16Array extends Uint16Array {
     }
 
     for (let i = start; i < length; ++i) {
-      accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
+      accumulator = callback(accumulator, convertToNumber(float16bitsArray[i]), i, this);
     }
 
     return accumulator;
@@ -476,16 +451,18 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduceright */
   reduceRight(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     if (length === 0 && opts.length === 0) {
       throw TypeError("Reduce of empty array with no initial value");
     }
 
     let accumulator, start;
     if (opts.length === 0) {
-      accumulator = convertToNumber(this[length - 1]);
+      accumulator = convertToNumber(float16bitsArray[length - 1]);
       start = length - 2;
     } else {
       accumulator = opts[0];
@@ -493,7 +470,7 @@ export class Float16Array extends Uint16Array {
     }
 
     for (let i = start; i >= 0; --i) {
-      accumulator = callback(accumulator, convertToNumber(this[i]), i, _(this).proxy);
+      accumulator = callback(accumulator, convertToNumber(float16bitsArray[i]), i, this);
     }
 
     return accumulator;
@@ -501,26 +478,30 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.foreach */
   forEach(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
-      callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy);
+      callback.call(thisArg, convertToNumber(float16bitsArray[i]), i, this);
     }
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.find */
   find(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
-      const value = convertToNumber(this[i]);
-      if (callback.call(thisArg, value, i, _(this).proxy)) {
+      const value = convertToNumber(float16bitsArray[i]);
+      if (callback.call(thisArg, value, i, this)) {
         return value;
       }
     }
@@ -528,14 +509,16 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.findindex */
   findIndex(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
-      const value = convertToNumber(this[i]);
-      if (callback.call(thisArg, value, i, _(this).proxy)) {
+      const value = convertToNumber(float16bitsArray[i]);
+      if (callback.call(thisArg, value, i, this)) {
         return i;
       }
     }
@@ -545,14 +528,16 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlast */
   findLast(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     for (let i = length - 1; i >= 0; --i) {
-      const value = convertToNumber(this[i]);
-      if (callback.call(thisArg, value, i, _(this).proxy)) {
+      const value = convertToNumber(float16bitsArray[i]);
+      if (callback.call(thisArg, value, i, this)) {
         return value;
       }
     }
@@ -560,14 +545,16 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlastindex */
   findLastIndex(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     for (let i = length - 1; i >= 0; --i) {
-      const value = convertToNumber(this[i]);
-      if (callback.call(thisArg, value, i, _(this).proxy)) {
+      const value = convertToNumber(float16bitsArray[i]);
+      if (callback.call(thisArg, value, i, this)) {
         return i;
       }
     }
@@ -577,13 +564,15 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.every */
   every(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
-      if (!callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
+      if (!callback.call(thisArg, convertToNumber(float16bitsArray[i]), i, this)) {
         return false;
       }
     }
@@ -593,13 +582,15 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.some */
   some(callback, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
-      if (callback.call(thisArg, convertToNumber(this[i]), i, _(this).proxy)) {
+      if (callback.call(thisArg, convertToNumber(float16bitsArray[i]), i, this)) {
         return true;
       }
     }
@@ -609,7 +600,7 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.set */
   set(input, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
     const targetOffset = ToIntegerOrInfinity(opts[0]);
     if (targetOffset < 0) {
@@ -619,12 +610,15 @@ export class Float16Array extends Uint16Array {
     // for optimization
     if (isFloat16Array(input)) {
       // peel off Proxy
-      const float16bitsArray = getFloat16BitsArray(input);
-      super.set(float16bitsArray, targetOffset);
-      return;
+      return Reflect.apply(TypedArrayPrototype.set, getFloat16BitsArray(this), [
+        getFloat16BitsArray(input),
+        targetOffset,
+      ]);
     }
 
-    const targetLength = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const targetLength = float16bitsArray.length;
 
     const src = Object(input);
     const srcLength = LengthOfArrayLike(src);
@@ -634,61 +628,62 @@ export class Float16Array extends Uint16Array {
     }
 
     for (let i = 0; i < srcLength; ++i) {
-      this[i + targetOffset] = roundToFloat16Bits(src[i]);
+      float16bitsArray[i + targetOffset] = roundToFloat16Bits(src[i]);
     }
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reverse */
   reverse() {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    super.reverse();
+    Reflect.apply(TypedArrayPrototype.reverse, getFloat16BitsArray(this), []);
 
-    return _(this).proxy;
+    return this;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill */
   fill(value, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    super.fill(roundToFloat16Bits(value), ...opts);
+    Reflect.apply(TypedArrayPrototype.fill, getFloat16BitsArray(this), [roundToFloat16Bits(value), ...opts]);
 
-    return _(this).proxy;
+    return this;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.copywithin */
   copyWithin(target, start, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    super.copyWithin(target, start, ...opts);
+    Reflect.apply(TypedArrayPrototype.copyWithin, getFloat16BitsArray(this), [target, start, ...opts]);
 
-    return _(this).proxy;
+    return this;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort */
   sort(...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
     const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
-    super.sort((x, y) => { return compare(convertToNumber(x), convertToNumber(y)); });
+    Reflect.apply(TypedArrayPrototype.sort, getFloat16BitsArray(this), [(x, y) => { return compare(convertToNumber(x), convertToNumber(y)); }]);
 
-    return _(this).proxy;
+    return this;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice */
   slice(...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const Constructor = SpeciesConstructor(this, Float16Array);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
 
     // for optimization
     if (Constructor === Float16Array) {
-      const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-      const float16bitsArray = uint16.slice(...opts);
-      return new Float16Array(float16bitsArray.buffer);
+      const uint16 = new Uint16Array(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
+      return new Float16Array(uint16.slice(...opts).buffer);
     }
 
-    const length = this.length;
+    const length = float16bitsArray.length;
     const start = ToIntegerOrInfinity(opts[0]);
     const end = opts[1] === undefined ? length : ToIntegerOrInfinity(opts[1]);
 
@@ -719,7 +714,7 @@ export class Float16Array extends Uint16Array {
 
     let n = 0;
     while (k < final) {
-      array[n] = convertToNumber(this[k]);
+      array[n] = convertToNumber(float16bitsArray[k]);
       ++k;
       ++n;
     }
@@ -729,22 +724,24 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray */
   subarray(...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
-    const float16bitsArray = uint16.subarray(...opts);
+    const float16bitsArray = getFloat16BitsArray(this);
 
-    const Constructor = SpeciesConstructor(this, Float16Array);
-    const array = new Constructor(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
+    const uint16 = new Uint16Array(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
+    const array = uint16.subarray(...opts);
 
-    return array;
+    const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
+    return new Constructor(array.buffer, array.byteOffset, array.length);
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.indexof */
   indexOf(element, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
 
     let from = ToIntegerOrInfinity(opts[0]);
     if (from === Infinity) {
@@ -759,7 +756,7 @@ export class Float16Array extends Uint16Array {
     }
 
     for (let i = from; i < length; ++i) {
-      if (hasOwn(this, i) && convertToNumber(this[i]) === element) {
+      if (hasOwn(float16bitsArray, i) && convertToNumber(float16bitsArray[i]) === element) {
         return i;
       }
     }
@@ -769,9 +766,11 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.lastindexof */
   lastIndexOf(element, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
 
     let from = opts.length >= 1 ? ToIntegerOrInfinity(opts[0]) : length - 1;
     if (from === -Infinity) {
@@ -785,7 +784,7 @@ export class Float16Array extends Uint16Array {
     }
 
     for (let i = from; i >= 0; --i) {
-      if (hasOwn(this, i) && convertToNumber(this[i]) === element) {
+      if (hasOwn(float16bitsArray, i) && convertToNumber(float16bitsArray[i]) === element) {
         return i;
       }
     }
@@ -795,9 +794,11 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.includes */
   includes(element, ...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
 
     let from = ToIntegerOrInfinity(opts[0]);
     if (from === Infinity) {
@@ -813,7 +814,7 @@ export class Float16Array extends Uint16Array {
 
     const isNaN = Number.isNaN(element);
     for (let i = from; i < length; ++i) {
-      const value = convertToNumber(this[i]);
+      const value = convertToNumber(float16bitsArray[i]);
 
       if (isNaN && Number.isNaN(value)) {
         return true;
@@ -829,18 +830,20 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.join */
   join(...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const array = copyToArray(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+    const array = copyToArray(float16bitsArray);
 
     return array.join(...opts);
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring */
   toLocaleString(...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const array = copyToArray(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+    const array = copyToArray(float16bitsArray);
 
     return array.toLocaleString(...opts);
   }
@@ -867,15 +870,3 @@ Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
   writable: true,
   configurable: true,
 });
-
-for (const key of Reflect.ownKeys(Float16ArrayPrototype)) {
-  // constructor is not callable
-  if (key === "constructor") {
-    continue;
-  }
-
-  const val = Float16ArrayPrototype[key];
-  if (typeof val === "function") {
-    defaultFloat16ArrayMethods.add(val);
-  }
-}
