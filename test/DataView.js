@@ -33,12 +33,15 @@ describe("additional DataView methods", () => {
     this.timeout(15000);
 
     if (typeof window !== "undefined") {
-      const iframe = document.createElement("iframe");
-      iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
-      iframe.style.display = "none";
-      document.body.parentElement.appendChild(iframe);
+      const iframe = document.getElementById("realm");
+      if (iframe.contentDocument.readyState !== "complete") {
+        await new Promise((resolve) => {
+          iframe.addEventListener("load", () => {
+            resolve();
+          }, { once: true });
+        });
+      }
       AnotherRealmDataView = iframe.contentWindow.DataView;
-      iframe.remove();
     } else if (typeof global !== "undefined" && typeof require !== "undefined") {
       AnotherRealmDataView = require("vm").runInNewContext("DataView");
     } else {
