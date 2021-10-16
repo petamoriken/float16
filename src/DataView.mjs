@@ -11,7 +11,7 @@ import { isDataView } from "./_util/is.mjs";
  */
 export function getFloat16(dataView, byteOffset, ...opts) {
   if (!isDataView(dataView)) {
-    throw new TypeError("First argument to getFloat16 function must be a DataView");
+    throw new TypeError("First argument to getFloat16 must be a DataView");
   }
 
   return convertToNumber( dataView.getUint16(byteOffset, ...opts) );
@@ -27,7 +27,7 @@ export function getFloat16(dataView, byteOffset, ...opts) {
  */
 export function setFloat16(dataView, byteOffset, value, ...opts) {
   if (!isDataView(dataView)) {
-    throw new TypeError("First argument to setFloat16 function must be a DataView");
+    throw new TypeError("First argument to setFloat16 must be a DataView");
   }
 
   dataView.setUint16(byteOffset, roundToFloat16Bits(value), ...opts);

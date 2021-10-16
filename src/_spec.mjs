@@ -40,7 +40,7 @@ function ToLength(target) {
  */
 export function LengthOfArrayLike(arrayLike) {
   if (!isObject(arrayLike)) {
-    throw TypeError("this is not a object");
+    throw TypeError("This is not a object");
   }
 
   return ToLength(arrayLike.length);
@@ -54,7 +54,7 @@ export function LengthOfArrayLike(arrayLike) {
  */
 export function SpeciesConstructor(target, defaultConstructor) {
   if (!isObject(target)) {
-    throw TypeError("this is not a object");
+    throw TypeError("This is not a object");
   }
 
   const constructor = target.constructor;
@@ -62,7 +62,7 @@ export function SpeciesConstructor(target, defaultConstructor) {
     return defaultConstructor;
   }
   if (!isObject(constructor)) {
-    throw TypeError("constructor is not a object");
+    throw TypeError("Constructor is not a object");
   }
 
   const species = constructor[Symbol.species];

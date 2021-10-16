@@ -28,7 +28,7 @@ function hasFloat16ArrayBrand(target) {
     return false;
   }
   if (!isObject(constructor)) {
-    throw TypeError("constructor is not a object");
+    throw TypeError("Constructor is not a object");
   }
 
   return Reflect.has(constructor, brand);
@@ -70,7 +70,7 @@ function assertSpeciesTypedArray(target) {
   }
 
   if (!isTypedArray(target)) {
-    throw new TypeError("This is not a TypedArray");
+    throw new TypeError("SpeciesConstructor didn't return TypedArray");
   }
 
   if (isBigIntTypedArray(target)) {
@@ -637,7 +637,7 @@ export class Float16Array extends Uint16Array {
 
     const targetOffset = ToIntegerOrInfinity(opts[0]);
     if (targetOffset < 0) {
-      throw RangeError("offset is out of bounds");
+      throw RangeError("Offset is out of bounds");
     }
 
     if (isBigIntTypedArray(input)) {
@@ -661,7 +661,7 @@ export class Float16Array extends Uint16Array {
     const srcLength = LengthOfArrayLike(src);
 
     if (targetOffset === Infinity || srcLength + targetOffset > targetLength) {
-      throw RangeError("offset is out of bounds");
+      throw RangeError("Offset is out of bounds");
     }
 
     for (let i = 0; i < srcLength; ++i) {

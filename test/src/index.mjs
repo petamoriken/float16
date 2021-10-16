@@ -17,6 +17,6 @@ assert( hfround(1.337) === 1.3369140625 );
 
 function assert(target) {
   if (!target) {
-    throw new Error("assertion failed");
+    throw new Error("Assertion failed");
   }
 }
