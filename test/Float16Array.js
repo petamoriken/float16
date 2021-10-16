@@ -353,6 +353,18 @@ describe("Float16Array", () => {
     assert.deepStrictEqual( Reflect.ownKeys(float16), ["0", "1"] );
   });
 
+  it("`instanceof` operator", () => {
+    const float16 = new Float16Array([1, 1.1, 1.2, 1.3]);
+
+    assert( float16 instanceof Float16Array );
+    assert( !(float16 instanceof Uint16Array) );
+  });
+
+  it("prototype methods are as same as themselves", () => {
+    const float16 = new Float16Array();
+    assert( Float16Array.prototype.map === float16.map );
+  });
+
   it("append custom methods (not using `super`)", () => {
     const float16 = new Float16Array([1, 2, 3]);
 
@@ -365,11 +377,6 @@ describe("Float16Array", () => {
     };
 
     assert( float16.sum() === 6 );
-  });
-
-  it("prototype methods are as same as themselves", () => {
-    const float16 = new Float16Array();
-    assert( Float16Array.prototype.map === float16.map );
   });
 
   describe(".from()", () => {
