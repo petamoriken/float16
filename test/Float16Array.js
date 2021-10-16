@@ -738,6 +738,22 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues( bar, [1, 2, 3, 4] );
     });
 
+    it("SpeciesConstructor must return TypedArray", function () {
+      class Foo extends Float16Array {
+        static get [Symbol.species]() { return Array; }
+      }
+      const foo = new Foo([1, 2, 3, 4]);
+      assert.throws(() => foo.map((val) => val), TypeError);
+
+      if (typeof BigUint64Array !== "undefined") {
+        class Bar extends Float16Array {
+          static get [Symbol.species]() { return BigUint64Array; }
+        }
+        const bar = new Bar([1, 2, 3, 4]);
+        assert.throws(() => bar.map((val) => val), TypeError);
+      }
+    });
+
   });
 
   describe("#filter()", () => {
@@ -798,6 +814,22 @@ describe("Float16Array", () => {
       assert( !(bar instanceof Bar) );
       assert( bar instanceof Float16Array );
       assert.equalFloat16ArrayValues( bar, [1, 2, 3, 4] );
+    });
+
+    it("SpeciesConstructor must return TypedArray", function () {
+      class Foo extends Float16Array {
+        static get [Symbol.species]() { return Array; }
+      }
+      const foo = new Foo([1, 2, 3, 4]);
+      assert.throws(() => foo.filter(() => true), TypeError);
+
+      if (typeof BigUint64Array !== "undefined") {
+        class Bar extends Float16Array {
+          static get [Symbol.species]() { return BigUint64Array; }
+        }
+        const bar = new Bar([1, 2, 3, 4]);
+        assert.throws(() => bar.filter(() => true), TypeError);
+      }
     });
 
   });
@@ -1347,6 +1379,22 @@ describe("Float16Array", () => {
       assert( bar, [3, 4] );
     });
 
+    it("SpeciesConstructor must return TypedArray", function () {
+      class Foo extends Float16Array {
+        static get [Symbol.species]() { return Array; }
+      }
+      const foo = new Foo([1, 2, 3, 4]);
+      assert.throws(() => foo.slice(0, 1), TypeError);
+
+      if (typeof BigUint64Array !== "undefined") {
+        class Bar extends Float16Array {
+          static get [Symbol.species]() { return BigUint64Array; }
+        }
+        const bar = new Bar([1, 2, 3, 4]);
+        assert.throws(() => bar.slice(0, 1), TypeError);
+      }
+    });
+
   });
 
   describe("#subarray()", () => {
@@ -1404,6 +1452,22 @@ describe("Float16Array", () => {
       assert( !(bar instanceof Bar) );
       assert( bar instanceof Float16Array );
       assert.equalFloat16ArrayValues( bar, [3, 4] );
+    });
+
+    it("SpeciesConstructor must return TypedArray", function () {
+      class Foo extends Float16Array {
+        static get [Symbol.species]() { return Array; }
+      }
+      const foo = new Foo([1, 2, 3, 4]);
+      assert.throws(() => foo.subarray(0, 1), TypeError);
+
+      if (typeof BigUint64Array !== "undefined") {
+        class Bar extends Float16Array {
+          static get [Symbol.species]() { return BigUint64Array; }
+        }
+        const bar = new Bar([1, 2, 3, 4]);
+        assert.throws(() => bar.subarray(0, 1), TypeError);
+      }
     });
 
   });
