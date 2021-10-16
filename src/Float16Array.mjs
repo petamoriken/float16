@@ -142,7 +142,7 @@ const handler = Object.freeze({
   },
 });
 
-/** limitation: see README.md for details */
+/** limitation: `Object.getPrototypeOf(Float16Array)` returns `Uint16Array` */
 export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/ecma262/#sec-typedarray */
@@ -906,9 +906,15 @@ Object.defineProperty(Float16Array, brand, {});
 
 const Float16ArrayPrototype = Float16Array.prototype;
 
+/** @see https://tc39.es/ecma262/#sec-typedarray.prototype.bytes_per_element */
+Object.defineProperty(Float16ArrayPrototype, "BYTES_PER_ELEMENT", { value: Uint16Array.BYTES_PER_ELEMENT });
+
 /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator */
 Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
   value: Float16ArrayPrototype.values,
   writable: true,
   configurable: true,
 });
+
+// To make `new Float16Array() instanceof Uint16Array` returns `false`
+Reflect.setPrototypeOf(Float16ArrayPrototype, TypedArrayPrototype);

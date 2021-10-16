@@ -222,32 +222,7 @@ hfround(1.337); // 1.3369140625
 ## `Float16Array` limitations (edge cases)
 
 <details>
-  <summary><code>Float16Array</code> has some limitations, because it is impossible to completely reproduce the behavior of <code>TypedArray</code>. Be careful when checking which <code>TypedArray</code> it is, and when using Web standards such as <code>structuredClone</code> and WebGL.</summary>
-
-  ### The `instanceof` operator
-
-  Since `Float16Array` is made by inheriting from `Uint16Array`, so you can't use the `instanceof` operator to check if it is a `Uint16Array` or not.
-
-  ```js
-  new Uint16Array(10) instanceof Uint16Array; // true
-  new Float16Array(10) instanceof Uint16Array; // true
-  ```
-
-  Actually, I could use `Proxy`'s `getPrototypeOf` handler to trap it, but that would be too complex and have some limitations.
-
-  In addition, it is a bad idea to use `instanceof` to detect the type of `TypedArray`, because it can't be used to detect the type of objects from other Realms, such as iframe and vm. It is recommended to use `Object#toString` or `@@toStringTag` for this purpose.
-
-  ```js
-  function isUint16Array(target) {
-    if (target === null || typeof target !== "object") {
-      return false;
-    }
-
-    return target[Symbol.toStringTag] === "Uint16Array";
-  }
-  ```
-
-  For Node.js, you can use `util.types` ([document](https://nodejs.org/api/util.html#util_util_types)) instead. Want to do a more solid `TypedArray` check for other environments? Then you can use [this code](https://gist.github.com/petamoriken/6982e7469994a8880bcbef6198203042).
+  <summary><code>Float16Array</code> has some limitations, because it is impossible to completely reproduce the behavior of <code>TypedArray</code>. Be careful when checking if it is a <code>TypedArray</code> or not by using `ArrayBuffer.isView`, and when using Web standards such as <code>structuredClone</code> and WebGL.</summary>
 
   ### Built-in functions
 
