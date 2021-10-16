@@ -45,7 +45,7 @@ describe("additional DataView methods", () => {
     } else if (typeof global !== "undefined" && typeof require !== "undefined") {
       AnotherRealmDataView = require("vm").runInNewContext("DataView");
     } else {
-      throw new Error("Unexpected environment.");
+      throw new Error("Unexpected environment");
     }
   });
 
