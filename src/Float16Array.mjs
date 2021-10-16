@@ -766,11 +766,12 @@ export class Float16Array extends Uint16Array {
 
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const uint16 = new Uint16Array(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
-    const subarray = uint16.subarray(...opts);
-
     const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
-    const array = new Constructor(subarray.buffer, subarray.byteOffset, subarray.length);
+
+    const uint16 = new Uint16Array(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
+    const uint16Subarray = uint16.subarray(...opts);
+
+    const array = new Constructor(uint16Subarray.buffer, uint16Subarray.byteOffset, uint16Subarray.length);
     assertSpeciesTypedArray(array);
 
     return array;
