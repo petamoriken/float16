@@ -222,7 +222,7 @@ hfround(1.337); // 1.3369140625
 ## `Float16Array` limitations (edge cases)
 
 <details>
-  <summary><code>Float16Array</code> has some limitations, because it is impossible to completely reproduce the behavior of <code>TypedArray</code>. Be careful when checking if it is a <code>TypedArray</code> or not by using `ArrayBuffer.isView`, and when using Web standards such as <code>structuredClone</code> and WebGL.</summary>
+  <summary><code>Float16Array</code> has some limitations, because it is impossible to completely reproduce the behavior of <code>TypedArray</code>. Be careful when checking if it is a <code>TypedArray</code> or not by using <code>ArrayBuffer.isView</code>, and when using Web standards such as <code>structuredClone</code> and WebGL.</summary>
 
   ### Built-in functions
 
