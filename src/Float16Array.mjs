@@ -423,9 +423,11 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withAt */
   withAt(index, value) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const relativeIndex = ToIntegerOrInfinity(index);
     const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
 
@@ -433,11 +435,11 @@ export class Float16Array extends Uint16Array {
       throw new RangeError("Invalid index");
     }
 
-    const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+    const uint16 = new Uint16Array(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
     const proxy = new Float16Array(uint16.slice().buffer);
-    const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+    const array = getFloat16BitsArray(proxy);
 
-    float16bitsArray[k] = roundToFloat16Bits(value);
+    array[k] = roundToFloat16Bits(value);
 
     return proxy;
   }
@@ -731,14 +733,16 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withReversed */
   withReversed() {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const proxy = new Float16Array(length);
-    const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+    const array = getFloat16BitsArray(proxy);
 
     for (let i = 0; i < length; ++i) {
-      float16bitsArray[i] = this[length - 1 - i];
+      array[i] = float16bitsArray[length - 1 - i];
     }
 
     return proxy;
@@ -782,9 +786,11 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSorted */
   withSorted(...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const uint16 = new Uint16Array(this.buffer, this.byteOffset, this.length);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const uint16 = new Uint16Array(float16bitsArray.buffer, float16bitsArray.byteOffset, float16bitsArray.length);
     return new Float16Array(uint16.slice().buffer).sort(...opts);
   }
 
@@ -847,9 +853,11 @@ export class Float16Array extends Uint16Array {
 
   /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSpliced */
   withSpliced(...opts) {
-    assertFloat16BitsArray(this);
+    assertFloat16Array(this);
 
-    const length = this.length;
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = float16bitsArray.length;
     const relativeStart = ToIntegerOrInfinity(opts[0]);
 
     let actualStart;
@@ -888,21 +896,21 @@ export class Float16Array extends Uint16Array {
 
     const newLength = length + insertCount - actualDeleteCount;
     const proxy = new Float16Array(newLength);
-    const float16bitsArray = getFloat16BitsArrayFromFloat16Array(proxy);
+    const array = getFloat16BitsArray(proxy);
 
     let k = 0;
     while (k < actualStart) {
-      float16bitsArray[k] = this[k];
+      array[k] = float16bitsArray[k];
       ++k;
     }
 
     for (const item of opts.slice(2)) {
-      float16bitsArray[k] = roundToFloat16Bits(item);
+      array[k] = roundToFloat16Bits(item);
       ++k;
     }
 
     while (k < newLength) {
-      float16bitsArray[k] = this[k + actualDeleteCount - insertCount];
+      array[k] = float16bitsArray[k + actualDeleteCount - insertCount];
       ++k;
     }
 
