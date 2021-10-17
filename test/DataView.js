@@ -2,7 +2,6 @@
 /* global assert getFloat16 setFloat16 */
 
 describe("additional DataView methods", () => {
-
   const data = [
     [0b0000000000000000, 0],
     [0b1000000000000000, -0],
@@ -42,7 +41,9 @@ describe("additional DataView methods", () => {
         });
       }
       AnotherRealmDataView = iframe.contentWindow.DataView;
-    } else if (typeof global !== "undefined" && typeof require !== "undefined") {
+    } else if (
+      typeof global !== "undefined" && typeof require !== "undefined"
+    ) {
       AnotherRealmDataView = require("vm").runInNewContext("DataView");
     } else {
       throw new Error("Unexpected environment");
@@ -50,15 +51,14 @@ describe("additional DataView methods", () => {
   });
 
   describe("getFloat16()", () => {
-
-    beforeEach( clear );
+    beforeEach(clear);
 
     it("property `name` is 'getFloat16'", () => {
-      assert( getFloat16.name === "getFloat16" );
+      assert(getFloat16.name === "getFloat16");
     });
 
     it("property `length` is 2", () => {
-      assert( getFloat16.length === 2 );
+      assert(getFloat16.length === 2);
     });
 
     it("first argument must be DataView instance", () => {
@@ -75,10 +75,10 @@ describe("additional DataView methods", () => {
     it("get values", () => {
       for (const [float16bits, value] of data) {
         dataView.setUint16(0, float16bits);
-        assert( Object.is( getFloat16(dataView, 0), value ) );
+        assert(Object.is(getFloat16(dataView, 0), value));
 
         dataView.setUint16(0, float16bits, true);
-        assert( Object.is( getFloat16(dataView, 0, true), value ) );
+        assert(Object.is(getFloat16(dataView, 0, true), value));
       }
     });
 
@@ -86,28 +86,28 @@ describe("additional DataView methods", () => {
       const float16bits = 0b1111111000000000;
 
       dataView.setUint16(0, float16bits);
-      assert( Number.isNaN( getFloat16(dataView, 0) ) );
+      assert(Number.isNaN(getFloat16(dataView, 0)));
 
       dataView.setUint16(0, float16bits, true);
-      assert( Number.isNaN( getFloat16(dataView, 0, true) ) );
+      assert(Number.isNaN(getFloat16(dataView, 0, true)));
     });
 
     it("work with DataView from anothor realm", () => {
-      assert.doesNotThrow(() => getFloat16(new AnotherRealmDataView(buffer), 0));
+      assert.doesNotThrow(() =>
+        getFloat16(new AnotherRealmDataView(buffer), 0)
+      );
     });
-
   });
 
   describe("setFloat16()", () => {
-
-    beforeEach( clear );
+    beforeEach(clear);
 
     it("property `name` is 'setFloat16'", () => {
-      assert( setFloat16.name === "setFloat16" );
+      assert(setFloat16.name === "setFloat16");
     });
 
     it("property `length` is 3", () => {
-      assert( setFloat16.length === 3 );
+      assert(setFloat16.length === 3);
     });
 
     it("first argument must be DataView instance", () => {
@@ -124,17 +124,17 @@ describe("additional DataView methods", () => {
     it("set values", () => {
       for (const [float16bits, value] of data) {
         setFloat16(dataView, 0, value);
-        assert( Object.is( dataView.getUint16(0), float16bits ) );
+        assert(Object.is(dataView.getUint16(0), float16bits));
 
         setFloat16(dataView, 0, value, true);
-        assert( Object.is( dataView.getUint16(0, true), float16bits ) );
+        assert(Object.is(dataView.getUint16(0, true), float16bits));
       }
     });
 
     it("work with DataView from anothor realm", () => {
-      assert.doesNotThrow(() => setFloat16(new AnotherRealmDataView(buffer), 0, 0));
+      assert.doesNotThrow(() =>
+        setFloat16(new AnotherRealmDataView(buffer), 0, 0)
+      );
     });
-
   });
-
 });
