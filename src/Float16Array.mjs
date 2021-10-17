@@ -7,7 +7,7 @@ import { createPrivateStorage } from "./_util/private.mjs";
 
 const brand = Symbol.for("__Float16Array__");
 
-const _ = createPrivateStorage();
+const _ = /** @type {(self: object) => { target: Uint16Array & { __float16bits: never } }} */ (createPrivateStorage());
 
 /**
  * @param {unknown} target
@@ -100,7 +100,7 @@ function copyToArray(float16bitsArray) {
   return array;
 }
 
-const TypedArrayPrototype = Reflect.getPrototypeOf(Uint8Array).prototype;
+const TypedArrayPrototype = /** @type {any} */ (Reflect.getPrototypeOf(Uint8Array)).prototype;
 
 const TypedArrayPrototypeGetters = new Set();
 for (const key of Reflect.ownKeys(TypedArrayPrototype)) {
@@ -167,8 +167,7 @@ export class Float16Array extends Uint16Array {
         length = input.length;
 
         const buffer = input.buffer;
-        /** @type {ArrayBufferConstructor} */
-        const BufferConstructor = !isSharedArrayBuffer(buffer) ? SpeciesConstructor(buffer, ArrayBuffer) : ArrayBuffer;
+        const BufferConstructor = !isSharedArrayBuffer(buffer) ? /** @type {ArrayBufferConstructor} */ (SpeciesConstructor(buffer, ArrayBuffer)) : ArrayBuffer;
         const data = new BufferConstructor(length * Float16Array.BYTES_PER_ELEMENT);
         super(data);
 
@@ -219,6 +218,7 @@ export class Float16Array extends Uint16Array {
           break;
 
         default:
+          // @ts-ignore
           super(...arguments);
       }
     }
@@ -226,7 +226,7 @@ export class Float16Array extends Uint16Array {
     const proxy = new Proxy(this, handler);
 
     // proxy private storage
-    _(proxy).target = this;
+    _(proxy).target = /** @type {any} */ (this);
 
     return proxy;
   }
@@ -262,7 +262,7 @@ export class Float16Array extends Uint16Array {
       }, thisArg).buffer);
     }
 
-    /** @type {ArrayLike<number>} */
+    /** @type {ArrayLike<any>} */
     let list;
     /** @type {number} */
     let length;
@@ -354,6 +354,7 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
+    /** @type {IterableIterator<number>} */
     const arrayIterator = Reflect.apply(super.values, float16bitsArray, []);
     return wrapInArrayIterator((function* () {
       for (const val of arrayIterator) {
@@ -371,10 +372,11 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
+    /** @type {IterableIterator<[number, number]>} */
     const arrayIterator = Reflect.apply(super.entries, float16bitsArray, []);
     return wrapInArrayIterator((function* () {
       for (const [i, val] of arrayIterator) {
-        yield [i, convertToNumber(val)];
+        yield /** @type {[number, number]} */ ([i, convertToNumber(val)]);
       }
     })());
   }
@@ -873,13 +875,14 @@ export class Float16Array extends Uint16Array {
 
     const array = copyToArray(float16bitsArray);
 
+    // @ts-ignore
     return array.toLocaleString(...opts);
   }
 
   /** @see https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag */
   get [Symbol.toStringTag]() {
     if (isFloat16Array(this)) {
-      return "Float16Array";
+      return /** @type {any} */ ("Float16Array");
     }
   }
 }

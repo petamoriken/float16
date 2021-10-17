@@ -49,8 +49,8 @@ export function LengthOfArrayLike(arrayLike) {
 /**
  * @see https://tc39.es/ecma262/#sec-speciesconstructor
  * @param {object} target
- * @param {Function} defaultConstructor
- * @returns {Function}
+ * @param {{ new(...args: any[]): any; }} defaultConstructor
+ * @returns {{ new(...args: any[]): any; }}
  */
 export function SpeciesConstructor(target, defaultConstructor) {
   if (!isObject(target)) {
