@@ -94,7 +94,7 @@ describe("additional DataView methods", () => {
 
     it("work with DataView from anothor realm", () => {
       assert.doesNotThrow(() =>
-        getFloat16(new AnotherRealmDataView(buffer), 0)
+        getFloat16(new AnotherRealmDataView(buffer), 0),
       );
     });
   });
@@ -133,7 +133,7 @@ describe("additional DataView methods", () => {
 
     it("work with DataView from anothor realm", () => {
       assert.doesNotThrow(() =>
-        setFloat16(new AnotherRealmDataView(buffer), 0, 0)
+        setFloat16(new AnotherRealmDataView(buffer), 0, 0),
       );
     });
   });
