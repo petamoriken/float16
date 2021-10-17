@@ -1,9 +1,9 @@
+/* eslint-disable object-curly-newline, sort-imports */
+
 import {
-  Float16Array,
-  getFloat16,
+  Float16Array, isFloat16Array,
+  getFloat16, setFloat16,
   hfround,
-  isFloat16Array,
-  setFloat16,
 } from "../../src/index.mjs";
 
 const float16 = new Float16Array([1.0, 1.1, 1.2]);
