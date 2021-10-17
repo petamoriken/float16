@@ -4,10 +4,12 @@
 import { execSync } from "child_process";
 
 const name = process.env.npm_package_name;
-const version = process.env.NPM_VERSION_SCRIPT === "1" ? `v${ process.env.npm_package_version }` : execSync("git describe").toString().trim();
+const version = process.env.NPM_VERSION_SCRIPT === "1"
+  ? `v${process.env.npm_package_version}`
+  : execSync("git describe").toString().trim();
 const license = process.env.npm_package_license;
 const homepage = process.env.npm_package_homepage;
-const banner = `/*! ${ name } ${ version } | ${ license } License - ${ homepage } */\n`;
+const banner = `/*! ${name} ${version} | ${license} License - ${homepage} */\n`;
 
 const test = process.env.NODE_ENV === "test";
 

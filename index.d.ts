@@ -65,7 +65,10 @@ export interface Float16Array {
    * @param thisArg An object to which the this keyword can refer in the callbackfn function.
    * If thisArg is omitted, undefined is used as the this value.
    */
-  every(callbackfn: (value: number, index: number, array: Float16Array) => unknown, thisArg?: any): boolean;
+  every(
+    callbackfn: (value: number, index: number, array: Float16Array) => unknown,
+    thisArg?: any,
+  ): boolean;
 
   /**
    * Returns the this object after filling the section identified by start and end with value
@@ -84,7 +87,10 @@ export interface Float16Array {
    * @param thisArg An object to which the this keyword can refer in the predicate function.
    * If thisArg is omitted, undefined is used as the this value.
    */
-  filter(predicate: (value: number, index: number, array: Float16Array) => any, thisArg?: any): Float16Array;
+  filter(
+    predicate: (value: number, index: number, array: Float16Array) => any,
+    thisArg?: any,
+  ): Float16Array;
 
   /**
    * Returns the value of the first element in the array where predicate is true, and undefined
@@ -95,7 +101,10 @@ export interface Float16Array {
    * @param thisArg If provided, it will be used as the this value for each invocation of
    * predicate. If it is not provided, undefined is used instead.
    */
-  find(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number | undefined;
+  find(
+    predicate: (value: number, index: number, obj: Float16Array) => boolean,
+    thisArg?: any,
+  ): number | undefined;
 
   /**
    * Returns the index of the first element in the array where predicate is true, and -1
@@ -106,7 +115,10 @@ export interface Float16Array {
    * @param thisArg If provided, it will be used as the this value for each invocation of
    * predicate. If it is not provided, undefined is used instead.
    */
-  findIndex(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number;
+  findIndex(
+    predicate: (value: number, index: number, obj: Float16Array) => boolean,
+    thisArg?: any,
+  ): number;
 
   /**
    * Returns the value of the last element in the array where predicate is true, and undefined
@@ -117,7 +129,10 @@ export interface Float16Array {
    * @param thisArg If provided, it will be used as the this value for each invocation of
    * predicate. If it is not provided, undefined is used instead.
    */
-  findLast(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number | undefined;
+  findLast(
+    predicate: (value: number, index: number, obj: Float16Array) => boolean,
+    thisArg?: any,
+  ): number | undefined;
 
   /**
    * Returns the index of the last element in the array where predicate is true, and -1
@@ -128,7 +143,10 @@ export interface Float16Array {
    * @param thisArg If provided, it will be used as the this value for each invocation of
    * predicate. If it is not provided, undefined is used instead.
    */
-  findLastIndex(predicate: (value: number, index: number, obj: Float16Array) => boolean, thisArg?: any): number;
+  findLastIndex(
+    predicate: (value: number, index: number, obj: Float16Array) => boolean,
+    thisArg?: any,
+  ): number;
 
   /**
    * Performs the specified action for each element in an array.
@@ -137,7 +155,10 @@ export interface Float16Array {
    * @param thisArg  An object to which the this keyword can refer in the callbackfn function.
    * If thisArg is omitted, undefined is used as the this value.
    */
-  forEach(callbackfn: (value: number, index: number, array: Float16Array) => void, thisArg?: any): void;
+  forEach(
+    callbackfn: (value: number, index: number, array: Float16Array) => void,
+    thisArg?: any,
+  ): void;
 
   /**
    * Determines whether an array includes a certain element, returning true or false as appropriate.
@@ -182,7 +203,10 @@ export interface Float16Array {
    * @param thisArg An object to which the this keyword can refer in the callbackfn function.
    * If thisArg is omitted, undefined is used as the this value.
    */
-  map(callbackfn: (value: number, index: number, array: Float16Array) => number, thisArg?: any): Float16Array;
+  map(
+    callbackfn: (value: number, index: number, array: Float16Array) => number,
+    thisArg?: any,
+  ): Float16Array;
 
   /**
    * Calls the specified callback function for all the elements in an array. The return value of
@@ -194,8 +218,23 @@ export interface Float16Array {
    * the accumulation. The first call to the callbackfn function provides this value as an argument
    * instead of an array value.
    */
-  reduce(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: Float16Array) => number): number;
-  reduce(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: Float16Array) => number, initialValue: number): number;
+  reduce(
+    callbackfn: (
+      previousValue: number,
+      currentValue: number,
+      currentIndex: number,
+      array: Float16Array,
+    ) => number,
+  ): number;
+  reduce(
+    callbackfn: (
+      previousValue: number,
+      currentValue: number,
+      currentIndex: number,
+      array: Float16Array,
+    ) => number,
+    initialValue: number,
+  ): number;
 
   /**
    * Calls the specified callback function for all the elements in an array. The return value of
@@ -207,7 +246,15 @@ export interface Float16Array {
    * the accumulation. The first call to the callbackfn function provides this value as an argument
    * instead of an array value.
    */
-  reduce<U>(callbackfn: (previousValue: U, currentValue: number, currentIndex: number, array: Float16Array) => U, initialValue: U): U;
+  reduce<U>(
+    callbackfn: (
+      previousValue: U,
+      currentValue: number,
+      currentIndex: number,
+      array: Float16Array,
+    ) => U,
+    initialValue: U,
+  ): U;
 
   /**
    * Calls the specified callback function for all the elements in an array, in descending order.
@@ -219,8 +266,23 @@ export interface Float16Array {
    * the accumulation. The first call to the callbackfn function provides this value as an
    * argument instead of an array value.
    */
-  reduceRight(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: Float16Array) => number): number;
-  reduceRight(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: Float16Array) => number, initialValue: number): number;
+  reduceRight(
+    callbackfn: (
+      previousValue: number,
+      currentValue: number,
+      currentIndex: number,
+      array: Float16Array,
+    ) => number,
+  ): number;
+  reduceRight(
+    callbackfn: (
+      previousValue: number,
+      currentValue: number,
+      currentIndex: number,
+      array: Float16Array,
+    ) => number,
+    initialValue: number,
+  ): number;
 
   /**
    * Calls the specified callback function for all the elements in an array, in descending order.
@@ -232,7 +294,15 @@ export interface Float16Array {
    * the accumulation. The first call to the callbackfn function provides this value as an argument
    * instead of an array value.
    */
-  reduceRight<U>(callbackfn: (previousValue: U, currentValue: number, currentIndex: number, array: Float16Array) => U, initialValue: U): U;
+  reduceRight<U>(
+    callbackfn: (
+      previousValue: U,
+      currentValue: number,
+      currentIndex: number,
+      array: Float16Array,
+    ) => U,
+    initialValue: U,
+  ): U;
 
   /**
    * Reverses the elements in an Array.
@@ -261,7 +331,10 @@ export interface Float16Array {
    * @param thisArg An object to which the this keyword can refer in the callbackfn function.
    * If thisArg is omitted, undefined is used as the this value.
    */
-  some(callbackfn: (value: number, index: number, array: Float16Array) => unknown, thisArg?: any): boolean;
+  some(
+    callbackfn: (value: number, index: number, array: Float16Array) => unknown,
+    thisArg?: any,
+  ): boolean;
 
   /**
    * Sorts an array.
@@ -296,11 +369,15 @@ export interface Float16Array {
 
 export interface Float16ArrayConstructor {
   readonly prototype: Float16Array;
-  new(): Float16Array;
-  new(length: number): Float16Array;
-  new(elements: Iterable<number>): Float16Array;
-  new(array: ArrayLike<number> | ArrayBufferLike): Float16Array;
-  new(buffer: ArrayBufferLike, byteOffset: number, length?: number): Float16Array;
+  new (): Float16Array;
+  new (length: number): Float16Array;
+  new (elements: Iterable<number>): Float16Array;
+  new (array: ArrayLike<number> | ArrayBufferLike): Float16Array;
+  new (
+    buffer: ArrayBufferLike,
+    byteOffset: number,
+    length?: number,
+  ): Float16Array;
 
   /**
    * The size in bytes of each element in the array.
@@ -325,7 +402,11 @@ export interface Float16ArrayConstructor {
    * @param mapfn A mapping function to call on every element of the array.
    * @param thisArg Value of 'this' used to invoke the mapfn.
    */
-  from<T>(elements: Iterable<T>, mapfn: (v: T, k: number) => number, thisArg?: any): Float16Array;
+  from<T>(
+    elements: Iterable<T>,
+    mapfn: (v: T, k: number) => number,
+    thisArg?: any,
+  ): Float16Array;
 
   /**
    * Creates an array from an array-like or iterable object.
@@ -339,7 +420,11 @@ export interface Float16ArrayConstructor {
    * @param mapfn A mapping function to call on every element of the array.
    * @param thisArg Value of 'this' used to invoke the mapfn.
    */
-  from<T>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => number, thisArg?: any): Float16Array;
+  from<T>(
+    arrayLike: ArrayLike<T>,
+    mapfn: (v: T, k: number) => number,
+    thisArg?: any,
+  ): Float16Array;
 }
 export declare const Float16Array: Float16ArrayConstructor;
 
@@ -356,7 +441,11 @@ export declare function isFloat16Array(value: unknown): value is Float16Array;
  * @param littleEndian If false or undefined, a big-endian value should be read,
  * otherwise a little-endian value should be read.
  */
-export declare function getFloat16(dataView: DataView, byteOffset: number, littleEndian?: boolean): number;
+export declare function getFloat16(
+  dataView: DataView,
+  byteOffset: number,
+  littleEndian?: boolean,
+): number;
 
 /**
  * Stores an Float16 value at the specified byte offset from the start of the view.
@@ -365,7 +454,12 @@ export declare function getFloat16(dataView: DataView, byteOffset: number, littl
  * @param littleEndian If false or undefined, a big-endian value should be written,
  * otherwise a little-endian value should be written.
  */
-export declare function setFloat16(dataView: DataView, byteOffset: number, value: number, littleEndian?: boolean): void;
+export declare function setFloat16(
+  dataView: DataView,
+  byteOffset: number,
+  value: number,
+  littleEndian?: boolean,
+): void;
 
 /**
  * Returns the nearest half precision float representation of a number.

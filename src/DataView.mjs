@@ -14,7 +14,7 @@ export function getFloat16(dataView, byteOffset, ...opts) {
     throw new TypeError("First argument to getFloat16 must be a DataView");
   }
 
-  return convertToNumber( dataView.getUint16(byteOffset, ...opts) );
+  return convertToNumber(dataView.getUint16(byteOffset, ...opts));
 }
 
 /**

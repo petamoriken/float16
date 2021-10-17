@@ -70,7 +70,8 @@ const {
 
 ### Deno
 
-You can get modules from the [deno.land/x](https://deno.land/x/float16) hosting service.
+You can get modules from the [deno.land/x](https://deno.land/x/float16) hosting
+service.
 
 ```ts
 import {
@@ -82,7 +83,8 @@ import {
 
 ### Browser
 
-Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package from your Web server with the JavaScript `Content-Type` HTTP header.
+Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package
+from your Web server with the JavaScript `Content-Type` HTTP header.
 
 ```html
 <!-- Module Scripts -->
@@ -110,51 +112,58 @@ Deliver a `browser/float16.mjs` or `browser/float16.js` file in the npm package 
 <details>
   <summary>Or, you can use <a href="https://www.jsdelivr.com/package/npm/@petamoriken/float16">jsDelivr CDN</a>.</summary>
 
-  ```html
-  <!-- Module Scripts -->
-  <script type="module">
-    import {
-      Float16Array, isFloat16Array,
-      getFloat16, setFloat16,
-      hfround,
-    } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
-  </script>
-  ```
+    ```html
+    <!-- Module Scripts -->
+    <script type="module">
+      import {
+        Float16Array, isFloat16Array,
+        getFloat16, setFloat16,
+        hfround,
+      } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
+    </script>
+    ```
 
-  ```html
-  <!-- Classic Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
-  <script>
-    const {
-      Float16Array, isFloat16Array,
-      getFloat16, setFloat16,
-      hfround,
-    } = float16;
-  </script>
-  ```
+    ```html
+    <!-- Classic Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
+    <script>
+      const {
+        Float16Array, isFloat16Array,
+        getFloat16, setFloat16,
+        hfround,
+      } = float16;
+    </script>
+    ```
+
 </details>
 
 ## Support engines
 
-**This package only uses up to ES2015 features** and does not use environment-dependent features (except for `inspect/`), so you can use it without any problems. It works fine with [the current officially supported versions of Node.js](https://github.com/nodejs/Release).
+**This package only uses up to ES2015 features** and does not use
+environment-dependent features (except for `inspect/`), so you can use it
+without any problems. It works fine with
+[the current officially supported versions of Node.js](https://github.com/nodejs/Release).
 
 `Float16Array` implemented by the `Proxy`, so IE11 is never supported.
 
 ### Pre-transpiled JavaScript files (CommonJS, IIFE)
 
-`lib/` and `browser/` directories in the npm package have JavaScript files already transpiled, and they have been tested automatically in the following environments:
+`lib/` and `browser/` directories in the npm package have JavaScript files
+already transpiled, and they have been tested automatically in the following
+environments:
 
-* Node.js: Active LTS
-* Firefox: last 2 versions and ESR
-* Chrome: last 2 versions
-* Edge: last 2 versions
-* Safari: last 2 versions
+- Node.js: Active LTS
+- Firefox: last 2 versions and ESR
+- Chrome: last 2 versions
+- Edge: last 2 versions
+- Safari: last 2 versions
 
 ## API
 
 ### `Float16Array`
 
-`Float16Array` is similar to `TypedArray` such as `Float32Array` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)).
+`Float16Array` is similar to `TypedArray` such as `Float32Array`
+([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)).
 
 ```js
 const array = new Float16Array([1.0, 1.1, 1.2]);
@@ -167,7 +176,8 @@ array.reduce((prev, current) => prev + current); // 3.298828125
 
 ### `isFloat16Array`
 
-`isFloat16Array` is a utility function to check whether the value given as an argument is an instance of `Float16Array` or not.
+`isFloat16Array` is a utility function to check whether the value given as an
+argument is an instance of `Float16Array` or not.
 
 ```ts
 declare function isFloat16Array(value: unknown): value is Float16Array;
@@ -181,7 +191,11 @@ isFloat16Array(new Uint16Array(10)); // false
 
 ### `DataView`
 
-`getFloat16` and `setFloat16` are similar to `DataView` methods such as `DataView#getFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/getFloat32)) and `DataView#setFloat32` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/setFloat32)).
+`getFloat16` and `setFloat16` are similar to `DataView` methods such as
+`DataView#getFloat32`
+([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/getFloat32))
+and `DataView#setFloat32`
+([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/setFloat32)).
 
 ```ts
 declare function getFloat16(view: DataView, byteOffset: number, littleEndian?: boolean): number;
@@ -207,7 +221,8 @@ view.getFloat16(0, true); // 3.140625
 
 ### `hfround`
 
-`hfround` is similar to `Math.fround` ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
+`hfround` is similar to `Math.fround`
+([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
 This function returns nearest half precision float representation of a number.
 
 ```ts
@@ -224,56 +239,71 @@ hfround(1.337); // 1.3369140625
 <details>
   <summary><code>Float16Array</code> has some limitations, because it is impossible to completely reproduce the behavior of <code>TypedArray</code>. Be careful when checking if it is a <code>TypedArray</code> or not by using <code>ArrayBuffer.isView</code>, and when using Web standards such as <code>structuredClone</code> and WebGL.</summary>
 
-  ### Built-in functions
+### Built-in functions
 
-  Built-in `TypedArray` objects use "internal slots" for built-in methods. Some limitations exist because the `Proxy` object can't trap internal slots ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
+Built-in `TypedArray` objects use "internal slots" for built-in methods. Some
+limitations exist because the `Proxy` object can't trap internal slots
+([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
 
-  This package isn't polyfill, in other words, it doesn't change native global functions and static/prototype methods.
+This package isn't polyfill, in other words, it doesn't change native global
+functions and static/prototype methods.
 
-  E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the `[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object such as `Float16Array` instance.
+E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the
+`[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object
+such as `Float16Array` instance.
 
-  ```js
-  ArrayBuffer.isView(new Float32Array(10)); // true
-  ArrayBuffer.isView(new Float16Array(10)); // false
-  ```
+    ```js
+    ArrayBuffer.isView(new Float32Array(10)); // true
+    ArrayBuffer.isView(new Float16Array(10)); // false
+    ```
 
-  ### The structured clone algorithm (Web Workers, IndexedDB, etc)
+### The structured clone algorithm (Web Workers, IndexedDB, etc)
 
-  The structured clone algorithm copies complex JavaScript objects. It is used internally when invoking `structuredClone()`, to transfer data between Web Workers via `postMessage()`, storing objects with IndexedDB, or copying objects for other APIs ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)).
+The structured clone algorithm copies complex JavaScript objects. It is used
+internally when invoking `structuredClone()`, to transfer data between Web
+Workers via `postMessage()`, storing objects with IndexedDB, or copying objects
+for other APIs
+([MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)).
 
-  It can't clone `Proxy` object such as `Float16Array` instance, you need to convert it to `Uint16Array` or deal with `ArrayBuffer` directly.
+It can't clone `Proxy` object such as `Float16Array` instance, you need to
+convert it to `Uint16Array` or deal with `ArrayBuffer` directly.
 
-  ```js
-  const array = new Float16Array([1.0, 1.1, 1.2]);
-  const cloned = structuredClone({ buffer: array.buffer });
-  ```
+    ```js
+    const array = new Float16Array([1.0, 1.1, 1.2]);
+    const cloned = structuredClone({ buffer: array.buffer });
+    ```
 
-  ### WebGL
+### WebGL
 
-  WebGL requires `Uint16Array` for buffer or texture data whose types are `gl.HALF_FLOAT` (WebGL 2) or `ext.HALF_FLOAT_OES` (WebGL 1 extension). Do not apply the `Float16Array` object directly to `gl.bufferData` or `gl.texImage2D` etc.
+WebGL requires `Uint16Array` for buffer or texture data whose types are
+`gl.HALF_FLOAT` (WebGL 2) or `ext.HALF_FLOAT_OES` (WebGL 1 extension). Do not
+apply the `Float16Array` object directly to `gl.bufferData` or `gl.texImage2D`
+etc.
 
-  ```js
-  // WebGL 2 example
-  const vertices = new Float16Array([
-    -0.5, -0.5,  0,
-     0.5, -0.5,  0,
-     0.5,  0.5,  0,
-  ]);
+    ```js
+    // WebGL 2 example
+    const vertices = new Float16Array([
+      -0.5, -0.5,  0,
+      0.5, -0.5,  0,
+      0.5,  0.5,  0,
+    ]);
 
-  const buffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
-  // wrap in Uint16Array
-  gl.bufferData(gl.ARRAY_BUFFER, new Uint16Array(vertices.buffer), gl.STATIC_DRAW);
-  gl.vertexAttribPointer(location, 3, gl.HALF_FLOAT, false, 0, 0);
+    // wrap in Uint16Array
+    gl.bufferData(gl.ARRAY_BUFFER, new Uint16Array(vertices.buffer), gl.STATIC_DRAW);
+    gl.vertexAttribPointer(location, 3, gl.HALF_FLOAT, false, 0, 0);
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, null);
-  gl.enableVertexAttribArray(location);
-  ```
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    gl.enableVertexAttribArray(location);
+    ```
 
-  ### Others
+### Others
 
-  See JSDoc comments in `src/Float16Array.mjs` for details. If you don't write hacky code, you shouldn't have any problems.
+See JSDoc comments in `src/Float16Array.mjs` for details. If you don't write
+hacky code, you shouldn't have any problems.
+
 </details>
 
 ## `Float16Array` custom inspection
@@ -282,33 +312,34 @@ hfround(1.337); // 1.3369140625
   <summary>Provides custom inspection for Node.js and Deno, which makes the results of <code>console.log</code> more readable.
   </summary>
 
-  ### Node.js
+### Node.js
 
-  ```js
-  // ES Modules
-  import { Float16Array } from "@petamoriken/float16";
-  import { customInspect } from "@petamoriken/float16/inspect";
+    ```js
+    // ES Modules
+    import { Float16Array } from "@petamoriken/float16";
+    import { customInspect } from "@petamoriken/float16/inspect";
 
-  Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
-  ```
+    Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
+    ```
 
-  ```js
-  // CommonJS
-  const { Float16Array } = require("@petamoriken/float16");
-  const { customInspect } = require("@petamoriken/float16/inspect");
+    ```js
+    // CommonJS
+    const { Float16Array } = require("@petamoriken/float16");
+    const { customInspect } = require("@petamoriken/float16/inspect");
 
-  Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
-  ```
+    Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
+    ```
 
-  ### Deno
+### Deno
 
-  ```ts
-  import { Float16Array } from "https://deno.land/x/float16/mod.ts";
-  import { customInspect } from "https://deno.land/x/float16/inspect.ts";
+    ```ts
+    import { Float16Array } from "https://deno.land/x/float16/mod.ts";
+    import { customInspect } from "https://deno.land/x/float16/inspect.ts";
 
-  // deno-lint-ignore no-explicit-any
-  (Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;
-  ```
+    // deno-lint-ignore no-explicit-any
+    (Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;
+    ```
+
 </details>
 
 ## Development
@@ -316,55 +347,61 @@ hfround(1.337); // 1.3369140625
 <details>
 <summary>Manual build and test:</summary>
 
-  ### Manual build
+### Manual build
 
-  First, download devDependencies.
+First, download devDependencies.
 
-  ```console
-  yarn
-  ```
+    ```console
+    yarn
+    ```
 
-  Build `lib/`, `browser/` files.
+Build `lib/`, `browser/` files.
 
-  ```console
-  yarn run build
-  ```
+    ```console
+    yarn run build
+    ```
 
-  Build `docs/` files (for browser test).
+Build `docs/` files (for browser test).
 
-  ```console
-  yarn run docs
-  ```
+    ```console
+    yarn run docs
+    ```
 
-  ### Test
+### Test
 
-  First, download devDependencies.
+First, download devDependencies.
 
-  ```console
-  yarn
-  ```
+    ```console
+    yarn
+    ```
 
-  #### Node.js test
+#### Node.js test
 
-  ```console
-  NODE_ENV=test yarn build:lib
-  yarn test
-  ```
+    ```console
+    NODE_ENV=test yarn build:lib
+    yarn test
+    ```
 
-  #### Browser test
+#### Browser test
 
-  ```console
-  NODE_ENV=test yarn build:browser
-  yarn docs
-  ```
+    ```console
+    NODE_ENV=test yarn build:browser
+    yarn docs
+    ```
 
-  Access `docs/test/index.html` with browsers.
+Access `docs/test/index.html` with browsers.
 
-  You can access current [test page](https://petamoriken.github.io/float16/test) ([power-assert version](https://petamoriken.github.io/float16/test/power)) in `master` branch.
+You can access current [test page](https://petamoriken.github.io/float16/test)
+([power-assert version](https://petamoriken.github.io/float16/test/power)) in
+`master` branch.
+
 </details>
 
 ## License
 
 MIT License
 
-This software contains productions that are distributed under [the Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0). Specifically, `index.d.ts` is modified from the original [TypeScript lib files](https://github.com/microsoft/TypeScript/tree/main/src/lib).
+This software contains productions that are distributed under
+[the Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0).
+Specifically, `index.d.ts` is modified from the original
+[TypeScript lib files](https://github.com/microsoft/TypeScript/tree/main/src/lib).
