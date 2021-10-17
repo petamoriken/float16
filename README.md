@@ -112,28 +112,28 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
 <details>
   <summary>Or, you can use <a href="https://www.jsdelivr.com/package/npm/@petamoriken/float16">jsDelivr CDN</a>.</summary>
 
-    ```html
-    <!-- Module Scripts -->
-    <script type="module">
-      import {
-        Float16Array, isFloat16Array,
-        getFloat16, setFloat16,
-        hfround,
-      } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
-    </script>
-    ```
+  ```html
+  <!-- Module Scripts -->
+  <script type="module">
+    import {
+      Float16Array, isFloat16Array,
+      getFloat16, setFloat16,
+      hfround,
+    } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
+  </script>
+  ```
 
-    ```html
-    <!-- Classic Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
-    <script>
-      const {
-        Float16Array, isFloat16Array,
-        getFloat16, setFloat16,
-        hfround,
-      } = float16;
-    </script>
-    ```
+  ```html
+  <!-- Classic Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
+  <script>
+    const {
+      Float16Array, isFloat16Array,
+      getFloat16, setFloat16,
+      hfround,
+    } = float16;
+  </script>
+  ```
 
 </details>
 
@@ -239,70 +239,70 @@ hfround(1.337); // 1.3369140625
 <details>
   <summary><code>Float16Array</code> has some limitations, because it is impossible to completely reproduce the behavior of <code>TypedArray</code>. Be careful when checking if it is a <code>TypedArray</code> or not by using <code>ArrayBuffer.isView</code>, and when using Web standards such as <code>structuredClone</code> and WebGL.</summary>
 
-### Built-in functions
+  ### Built-in functions
 
-Built-in `TypedArray` objects use "internal slots" for built-in methods. Some
-limitations exist because the `Proxy` object can't trap internal slots
-([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
+  Built-in `TypedArray` objects use "internal slots" for built-in methods. Some
+  limitations exist because the `Proxy` object can't trap internal slots
+  ([explanation](https://javascript.info/proxy#built-in-objects-internal-slots)).
 
-This package isn't polyfill, in other words, it doesn't change native global
-functions and static/prototype methods.
+  This package isn't polyfill, in other words, it doesn't change native global
+  functions and static/prototype methods.
 
-E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the
-`[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object
-such as `Float16Array` instance.
+  E.g. `ArrayBuffer.isView` is the butlt-in method that checks if it has the
+  `[[ViewedArrayBuffer]]` internal slot. It returns `false` for `Proxy` object
+  such as `Float16Array` instance.
 
-    ```js
-    ArrayBuffer.isView(new Float32Array(10)); // true
-    ArrayBuffer.isView(new Float16Array(10)); // false
-    ```
+  ```js
+  ArrayBuffer.isView(new Float32Array(10)); // true
+  ArrayBuffer.isView(new Float16Array(10)); // false
+  ```
 
-### The structured clone algorithm (Web Workers, IndexedDB, etc)
+  ### The structured clone algorithm (Web Workers, IndexedDB, etc)
 
-The structured clone algorithm copies complex JavaScript objects. It is used
-internally when invoking `structuredClone()`, to transfer data between Web
-Workers via `postMessage()`, storing objects with IndexedDB, or copying objects
-for other APIs
-([MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)).
+  The structured clone algorithm copies complex JavaScript objects. It is used
+  internally when invoking `structuredClone()`, to transfer data between Web
+  Workers via `postMessage()`, storing objects with IndexedDB, or copying objects
+  for other APIs
+  ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)).
 
-It can't clone `Proxy` object such as `Float16Array` instance, you need to
-convert it to `Uint16Array` or deal with `ArrayBuffer` directly.
+  It can't clone `Proxy` object such as `Float16Array` instance, you need to
+  convert it to `Uint16Array` or deal with `ArrayBuffer` directly.
 
-    ```js
-    const array = new Float16Array([1.0, 1.1, 1.2]);
-    const cloned = structuredClone({ buffer: array.buffer });
-    ```
+  ```js
+  const array = new Float16Array([1.0, 1.1, 1.2]);
+  const cloned = structuredClone({ buffer: array.buffer });
+  ```
 
-### WebGL
+  ### WebGL
 
-WebGL requires `Uint16Array` for buffer or texture data whose types are
-`gl.HALF_FLOAT` (WebGL 2) or `ext.HALF_FLOAT_OES` (WebGL 1 extension). Do not
-apply the `Float16Array` object directly to `gl.bufferData` or `gl.texImage2D`
-etc.
+  WebGL requires `Uint16Array` for buffer or texture data whose types are
+  `gl.HALF_FLOAT` (WebGL 2) or `ext.HALF_FLOAT_OES` (WebGL 1 extension). Do not
+  apply the `Float16Array` object directly to `gl.bufferData` or `gl.texImage2D`
+  etc.
 
-    ```js
-    // WebGL 2 example
-    const vertices = new Float16Array([
-      -0.5, -0.5,  0,
-      0.5, -0.5,  0,
-      0.5,  0.5,  0,
-    ]);
+  ```js
+  // WebGL 2 example
+  const vertices = new Float16Array([
+    -0.5, -0.5,  0,
+    0.5, -0.5,  0,
+    0.5,  0.5,  0,
+  ]);
 
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
-    // wrap in Uint16Array
-    gl.bufferData(gl.ARRAY_BUFFER, new Uint16Array(vertices.buffer), gl.STATIC_DRAW);
-    gl.vertexAttribPointer(location, 3, gl.HALF_FLOAT, false, 0, 0);
+  // wrap in Uint16Array
+  gl.bufferData(gl.ARRAY_BUFFER, new Uint16Array(vertices.buffer), gl.STATIC_DRAW);
+  gl.vertexAttribPointer(location, 3, gl.HALF_FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-    gl.enableVertexAttribArray(location);
-    ```
+  gl.bindBuffer(gl.ARRAY_BUFFER, null);
+  gl.enableVertexAttribArray(location);
+  ```
 
-### Others
+  ### Others
 
-See JSDoc comments in `src/Float16Array.mjs` for details. If you don't write
-hacky code, you shouldn't have any problems.
+  See JSDoc comments in `src/Float16Array.mjs` for details. If you don't write
+  hacky code, you shouldn't have any problems.
 
 </details>
 
@@ -312,88 +312,88 @@ hacky code, you shouldn't have any problems.
   <summary>Provides custom inspection for Node.js and Deno, which makes the results of <code>console.log</code> more readable.
   </summary>
 
-### Node.js
+  ### Node.js
 
-    ```js
-    // ES Modules
-    import { Float16Array } from "@petamoriken/float16";
-    import { customInspect } from "@petamoriken/float16/inspect";
+  ```js
+  // ES Modules
+  import { Float16Array } from "@petamoriken/float16";
+  import { customInspect } from "@petamoriken/float16/inspect";
 
-    Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
-    ```
+  Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
+  ```
 
-    ```js
-    // CommonJS
-    const { Float16Array } = require("@petamoriken/float16");
-    const { customInspect } = require("@petamoriken/float16/inspect");
+  ```js
+  // CommonJS
+  const { Float16Array } = require("@petamoriken/float16");
+  const { customInspect } = require("@petamoriken/float16/inspect");
 
-    Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
-    ```
+  Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
+  ```
 
-### Deno
+  ### Deno
 
-    ```ts
-    import { Float16Array } from "https://deno.land/x/float16/mod.ts";
-    import { customInspect } from "https://deno.land/x/float16/inspect.ts";
+  ```ts
+  import { Float16Array } from "https://deno.land/x/float16/mod.ts";
+  import { customInspect } from "https://deno.land/x/float16/inspect.ts";
 
-    // deno-lint-ignore no-explicit-any
-    (Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;
-    ```
+  // deno-lint-ignore no-explicit-any
+  (Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;
+  ```
 
 </details>
 
 ## Development
 
 <details>
-<summary>Manual build and test:</summary>
+  <summary>Manual build and test:</summary>
 
-### Manual build
+  ### Manual build
 
-First, download devDependencies.
+  First, download devDependencies.
 
-    ```console
-    yarn
-    ```
+  ```console
+  yarn
+  ```
 
-Build `lib/`, `browser/` files.
+  Build `lib/`, `browser/` files.
 
-    ```console
-    yarn run build
-    ```
+  ```console
+  yarn run build
+  ```
 
-Build `docs/` files (for browser test).
+  Build `docs/` files (for browser test).
 
-    ```console
-    yarn run docs
-    ```
+  ```console
+  yarn run docs
+  ```
 
-### Test
+  ### Test
 
-First, download devDependencies.
+  First, download devDependencies.
 
-    ```console
-    yarn
-    ```
+  ```console
+  yarn
+  ```
 
-#### Node.js test
+  #### Node.js test
 
-    ```console
-    NODE_ENV=test yarn build:lib
-    yarn test
-    ```
+  ```console
+  NODE_ENV=test yarn build:lib
+  yarn test
+  ```
 
-#### Browser test
+  #### Browser test
 
-    ```console
-    NODE_ENV=test yarn build:browser
-    yarn docs
-    ```
+  ```console
+  NODE_ENV=test yarn build:browser
+  yarn docs
+  ```
 
-Access `docs/test/index.html` with browsers.
+  Access `docs/test/index.html` with browsers.
 
-You can access current [test page](https://petamoriken.github.io/float16/test)
-([power-assert version](https://petamoriken.github.io/float16/test/power)) in
-`master` branch.
+  You can access current [test page](https://petamoriken.github.io/float16/test)
+  ([power-assert version](https://petamoriken.github.io/float16/test/power)) in
+  `master` branch.
 
 </details>
 
