@@ -27,14 +27,6 @@ export function isTypedArray(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is Uint16Array}
- */
-export function isUint16Array(value) {
-  return getTypedArrayPrototypeSymbolToStringTag.call(value) === "Uint16Array";
-}
-
-/**
- * @param {unknown} value
  * @returns {value is BigInt64Array|BigUint64Array}
  */
 export function isBigIntTypedArray(value) {
