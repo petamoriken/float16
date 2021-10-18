@@ -284,8 +284,8 @@ hfround(1.337); // 1.3369140625
   // WebGL 2 example
   const vertices = new Float16Array([
     -0.5, -0.5,  0,
-    0.5, -0.5,  0,
-    0.5,  0.5,  0,
+     0.5, -0.5,  0,
+     0.5,  0.5,  0,
   ]);
 
   const buffer = gl.createBuffer();

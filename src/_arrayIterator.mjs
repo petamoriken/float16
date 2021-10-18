@@ -2,9 +2,12 @@
 
 import { createPrivateStorage } from "./_util/private.mjs";
 
-const _ = /** @type {(self: object) => { iterator: Iterator<any> }} */ (createPrivateStorage());
+const _ =
+  /** @type {(self: object) => { iterator: Iterator<any> }} */ (createPrivateStorage());
 
-const IteratorPrototype = Reflect.getPrototypeOf(/** @type {any} */ (Reflect.getPrototypeOf([][Symbol.iterator]())));
+const IteratorPrototype = Reflect.getPrototypeOf(
+  /** @type {any} */ Reflect.getPrototypeOf([][Symbol.iterator]()),
+);
 
 /** @see https://tc39.es/ecma262/#sec-%arrayiteratorprototype%-object */
 const ArrayIteratorPrototype = Object.create(IteratorPrototype, {

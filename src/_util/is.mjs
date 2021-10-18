@@ -3,7 +3,8 @@
  * @returns {value is object}
  */
 export function isObject(value) {
-  return (value !== null && typeof value === "object") || typeof value === "function";
+  return (value !== null && typeof value === "object") ||
+    typeof value === "function";
 }
 
 /**
@@ -16,7 +17,11 @@ export function isObjectLike(value) {
 
 // Inspired by util.types implementation of Node.js
 /** @type {(this: unknown) => string} */
-const getTypedArrayPrototypeSymbolToStringTag = Reflect.getOwnPropertyDescriptor(/** @type {any} */ (Reflect.getPrototypeOf(Uint8Array)).prototype, Symbol.toStringTag).get;
+const getTypedArrayPrototypeSymbolToStringTag =
+  Reflect.getOwnPropertyDescriptor(
+    /** @type {any} */ (Reflect.getPrototypeOf(Uint8Array)).prototype,
+    Symbol.toStringTag,
+  ).get;
 
 /**
  * @param {unknown} value
@@ -32,7 +37,8 @@ export function isTypedArray(value) {
  */
 export function isBigIntTypedArray(value) {
   const typedArrayName = getTypedArrayPrototypeSymbolToStringTag.call(value);
-  return typedArrayName === "BigInt64Array" || typedArrayName === "BigUint64Array";
+  return typedArrayName === "BigInt64Array" ||
+    typedArrayName === "BigUint64Array";
 }
 
 /**
@@ -64,7 +70,8 @@ export function isArrayBuffer(value) {
  * @returns {value is SharedArrayBuffer}
  */
 export function isSharedArrayBuffer(value) {
-  return isObjectLike(value) && value[Symbol.toStringTag] === "SharedArrayBuffer";
+  return isObjectLike(value) &&
+    value[Symbol.toStringTag] === "SharedArrayBuffer";
 }
 
 /**
