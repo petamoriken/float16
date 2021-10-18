@@ -76,7 +76,7 @@ export function isSharedArrayBuffer(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is Iterable<any>}
+ * @returns {value is Iterable<unknown>}
  */
 export function isIterable(value) {
   return isObject(value) && typeof value[Symbol.iterator] === "function";
@@ -84,7 +84,7 @@ export function isIterable(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is any[]}
+ * @returns {value is unknown[]}
  */
 export function isOrdinaryArray(value) {
   if (!Array.isArray(value)) {

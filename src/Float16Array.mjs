@@ -45,6 +45,7 @@ export function isFloat16Array(target) {
 /**
  * @param {unknown} target
  * @throws {TypeError}
+ * @returns {asserts target is Float16Array}
  */
 function assertFloat16Array(target) {
   if (!isFloat16Array(target)) {
@@ -55,6 +56,7 @@ function assertFloat16Array(target) {
 /**
  * @param {unknown} target
  * @throws {TypeError}
+ * @returns {asserts target is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float16Array|Float32Array|Float64Array}
  */
 function assertSpeciesTypedArray(target) {
   if (isFloat16Array(target)) {
@@ -152,7 +154,7 @@ export class Float16Array extends Uint16Array {
 
     // object without ArrayBuffer
     } else if (isObject(input) && !isArrayBuffer(input)) {
-      /** @type {ArrayLike<number>} */
+      /** @type {ArrayLike<unknown>} */
       let list;
       /** @type {number} */
       let length;
@@ -262,7 +264,7 @@ export class Float16Array extends Uint16Array {
       }, thisArg).buffer);
     }
 
-    /** @type {ArrayLike<any>} */
+    /** @type {ArrayLike<unknown>} */
     let list;
     /** @type {number} */
     let length;
