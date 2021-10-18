@@ -705,7 +705,7 @@ export class Float16Array extends Uint16Array {
 
     Reflect.apply(super.reverse, float16bitsArray, []);
 
-    return /** @type {any} */ (this);
+    return this;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill */
