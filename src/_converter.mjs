@@ -50,7 +50,7 @@ for (let i = 0; i < 256; ++i) {
 /**
  * round a number to a half float number bits.
  *
- * @param {number} num - double float
+ * @param {unknown} num - double float
  * @returns {number} half float number bits
  */
 export function roundToFloat16Bits(num) {

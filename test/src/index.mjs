@@ -1,4 +1,4 @@
-/* eslint-disable object-curly-newline, sort-imports */
+/* eslint-disable sort-imports */
 
 import {
   Float16Array, isFloat16Array,
