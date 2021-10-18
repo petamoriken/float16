@@ -1,4 +1,4 @@
-// mocha@9.1.2 transpiled to javascript ES5
+// mocha@9.1.3 transpiled to javascript ES5
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -23026,7 +23026,6 @@
 	  var assignNewMochaID = utils.assignNewMochaID,
 	      clamp = utils.clamp,
 	      utilsConstants = utils.constants,
-	      createMap = utils.createMap,
 	      defineConstants = utils.defineConstants,
 	      getMochaID = utils.getMochaID,
 	      inherits = utils.inherits,
@@ -23099,11 +23098,6 @@
 	      }
 	    });
 	    this.reset();
-	    this.on('newListener', function (event) {
-	      if (deprecatedEvents[event]) {
-	        errors.deprecate('Event "' + event + '" is deprecated.  Please let the Mocha team know about your use case: https://git.io/v6Lwm');
-	      }
-	    });
 	  }
 	  /**
 	   * Inherit from `EventEmitter.prototype`.
@@ -23670,7 +23664,7 @@
 	   */
 	  {
 	    /**
-	     * Event emitted after a test file has been loaded Not emitted in browser.
+	     * Event emitted after a test file has been loaded. Not emitted in browser.
 	     */
 	    EVENT_FILE_POST_REQUIRE: 'post-require',
 
@@ -23685,75 +23679,60 @@
 	    EVENT_FILE_REQUIRE: 'require',
 
 	    /**
-	     * Event emitted when `global.run()` is called (use with `delay` option)
+	     * Event emitted when `global.run()` is called (use with `delay` option).
 	     */
 	    EVENT_ROOT_SUITE_RUN: 'run',
 
 	    /**
-	     * Namespace for collection of a `Suite`'s "after all" hooks
+	     * Namespace for collection of a `Suite`'s "after all" hooks.
 	     */
 	    HOOK_TYPE_AFTER_ALL: 'afterAll',
 
 	    /**
-	     * Namespace for collection of a `Suite`'s "after each" hooks
+	     * Namespace for collection of a `Suite`'s "after each" hooks.
 	     */
 	    HOOK_TYPE_AFTER_EACH: 'afterEach',
 
 	    /**
-	     * Namespace for collection of a `Suite`'s "before all" hooks
+	     * Namespace for collection of a `Suite`'s "before all" hooks.
 	     */
 	    HOOK_TYPE_BEFORE_ALL: 'beforeAll',
 
 	    /**
-	     * Namespace for collection of a `Suite`'s "before all" hooks
+	     * Namespace for collection of a `Suite`'s "before each" hooks.
 	     */
 	    HOOK_TYPE_BEFORE_EACH: 'beforeEach',
-	    // the following events are all deprecated
 
 	    /**
-	     * Emitted after an "after all" `Hook` has been added to a `Suite`. Deprecated
-	     */
-	    EVENT_SUITE_ADD_HOOK_AFTER_ALL: 'afterAll',
-
-	    /**
-	     * Emitted after an "after each" `Hook` has been added to a `Suite` Deprecated
-	     */
-	    EVENT_SUITE_ADD_HOOK_AFTER_EACH: 'afterEach',
-
-	    /**
-	     * Emitted after an "before all" `Hook` has been added to a `Suite` Deprecated
-	     */
-	    EVENT_SUITE_ADD_HOOK_BEFORE_ALL: 'beforeAll',
-
-	    /**
-	     * Emitted after an "before each" `Hook` has been added to a `Suite` Deprecated
-	     */
-	    EVENT_SUITE_ADD_HOOK_BEFORE_EACH: 'beforeEach',
-
-	    /**
-	     * Emitted after a child `Suite` has been added to a `Suite`. Deprecated
+	     * Emitted after a child `Suite` has been added to a `Suite`.
 	     */
 	    EVENT_SUITE_ADD_SUITE: 'suite',
 
 	    /**
-	     * Emitted after a `Test` has been added to a `Suite`. Deprecated
+	     * Emitted after an "after all" `Hook` has been added to a `Suite`.
+	     */
+	    EVENT_SUITE_ADD_HOOK_AFTER_ALL: 'afterAll',
+
+	    /**
+	     * Emitted after an "after each" `Hook` has been added to a `Suite`.
+	     */
+	    EVENT_SUITE_ADD_HOOK_AFTER_EACH: 'afterEach',
+
+	    /**
+	     * Emitted after an "before all" `Hook` has been added to a `Suite`.
+	     */
+	    EVENT_SUITE_ADD_HOOK_BEFORE_ALL: 'beforeAll',
+
+	    /**
+	     * Emitted after an "before each" `Hook` has been added to a `Suite`.
+	     */
+	    EVENT_SUITE_ADD_HOOK_BEFORE_EACH: 'beforeEach',
+
+	    /**
+	     * Emitted after a `Test` has been added to a `Suite`.
 	     */
 	    EVENT_SUITE_ADD_TEST: 'test'
 	  });
-	  /**
-	   * @summary There are no known use cases for these events.
-	   * @desc This is a `Set`-like object having all keys being the constant's string value and the value being `true`.
-	   * @todo Remove eventually
-	   * @type {Object<string,boolean>}
-	   * @ignore
-	   */
-
-	  var deprecatedEvents = Object.keys(constants).filter(function (constant) {
-	    return constant.substring(0, 15) === 'EVENT_SUITE_ADD';
-	  }).reduce(function (acc, constant) {
-	    acc[constants[constant]] = true;
-	    return acc;
-	  }, createMap());
 	  Suite.constants = constants;
 	});
 
@@ -27927,7 +27906,7 @@
 	});
 
 	var name = "mocha";
-	var version = "9.1.2";
+	var version = "9.1.3";
 	var homepage = "https://mochajs.org/";
 	var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
 	var _package = {
@@ -30835,7 +30814,13 @@
 	 */
 
 	commonjsGlobal.Mocha = mocha$1;
-	commonjsGlobal.mocha = mocha;
+	commonjsGlobal.mocha = mocha; // for bundlers: enable `import {describe, it} from 'mocha'`
+	// `bdd` interface only
+	// prettier-ignore
+
+	['describe', 'context', 'it', 'specify', 'xdescribe', 'xcontext', 'xit', 'xspecify', 'before', 'beforeEach', 'afterEach', 'after'].forEach(function (key) {
+	  mocha[key] = commonjsGlobal[key];
+	});
 	var browserEntry = mocha;
 
 	return browserEntry;
