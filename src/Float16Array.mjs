@@ -254,7 +254,7 @@ export class Float16Array extends NativeUint16Array {
           super(length);
         }
       } else { // ArrayLike
-        list = input;
+        list = /** @type {ArrayLike<unknown>} */ (input);
         length = LengthOfArrayLike(input);
         super(length);
       }
@@ -291,7 +291,7 @@ export class Float16Array extends NativeUint16Array {
     const proxy = new NativeProxy(this, handler);
 
     // proxy private storage
-    WeakMapPrototypeSet(targets, proxy, this);
+    WeakMapPrototypeSet(targets, proxy, /** @type {any} */ (this));
 
     return proxy;
   }
@@ -1021,6 +1021,7 @@ export class Float16Array extends NativeUint16Array {
 
     const array = copyToArray(float16bitsArray);
 
+    // @ts-ignore
     return ArrayPrototypeToLocaleString(array, ...opts);
   }
 

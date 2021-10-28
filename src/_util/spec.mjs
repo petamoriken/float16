@@ -53,7 +53,7 @@ export function LengthOfArrayLike(arrayLike) {
     throw NativeTypeError("This is not a object");
   }
 
-  return ToLength(arrayLike.length);
+  return ToLength(/** @type {any} */ (arrayLike).length);
 }
 
 /**

@@ -10,7 +10,7 @@ import {
 
 /**
  * @param {unknown} value
- * @returns {value is object}
+ * @returns {value is {}}
  */
 export function isObject(value) {
   return (value !== null && typeof value === "object") ||
@@ -19,7 +19,7 @@ export function isObject(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is object}
+ * @returns {value is {}}
  */
 export function isObjectLike(value) {
   return value !== null && typeof value === "object";

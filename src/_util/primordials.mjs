@@ -180,7 +180,7 @@ export const SetPrototypeHas = uncurryThis(SetPrototype.has);
 // WeakMap
 export const NativeWeakMap = WeakMap;
 const WeakMapPrototype = NativeWeakMap.prototype;
-/** @type {<K extends object, V>(weakMap: WeakMap<K, V>, key: K) => V} */
+/** @type {<K extends {}, V>(weakMap: WeakMap<K, V>, key: K) => V} */
 export const WeakMapPrototypeGet = uncurryThis(WeakMapPrototype.get);
-/** @type {<K extends object, V>(weakMap: WeakMap<K, V>, key: K, value: V) => WeakMap} */
+/** @type {<K extends {}, V>(weakMap: WeakMap<K, V>, key: K, value: V) => WeakMap} */
 export const WeakMapPrototypeSet = uncurryThis(WeakMapPrototype.set);

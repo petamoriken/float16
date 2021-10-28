@@ -8,7 +8,7 @@ import {
   WeakMapPrototypeSet,
 } from "./primordials.mjs";
 
-/** @type {WeakMap<object, Generator<any>>} */
+/** @type {WeakMap<{}, Generator<any>>} */
 const generators = new NativeWeakMap();
 
 /** @see https://tc39.es/ecma262/#sec-%arrayiteratorprototype%-object */

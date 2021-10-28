@@ -56,7 +56,7 @@ for (let i = 0; i < 256; ++i) {
  * @returns {number} half float number bits
  */
 export function roundToFloat16Bits(num) {
-  floatView[0] = num;
+  floatView[0] = /** @type {any} */ (num);
   const f = uint32View[0];
   const e = (f >> 23) & 0x1ff;
   return baseTable[e] + ((f & 0x007fffff) >> shiftTable[e]);
