@@ -751,7 +751,7 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(bar, [1, 2, 3, 4]);
     });
 
-    it("SpeciesConstructor must return TypedArray", function () {
+    it("SpeciesConstructor must return a TypedArray of the same Content Type", function () {
       class Foo extends Float16Array {
         static get [Symbol.species]() {
           return Array;
@@ -769,6 +769,20 @@ describe("Float16Array", () => {
         const bar = new Bar([1, 2, 3, 4]);
         assert.throws(() => bar.map((val) => val), TypeError);
       }
+    });
+
+    it("Constructor created TypedArray which was too small", function () {
+      class Foo extends Float16Array {
+        constructor(...args) {
+          if (typeof args[0] === "number") {
+            super(args[0] / 2, ...args.slice(1));
+          } else {
+            super(...args);
+          }
+        }
+      }
+      const foo = new Foo([1, 2, 3, 4]);
+      assert.throws(() => foo.map((val) => val), TypeError);
     });
   });
 
@@ -831,7 +845,7 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(bar, [1, 2, 3, 4]);
     });
 
-    it("SpeciesConstructor must return TypedArray", function () {
+    it("SpeciesConstructor must return a TypedArray of the same Content Type", function () {
       class Foo extends Float16Array {
         static get [Symbol.species]() {
           return Array;
@@ -1386,7 +1400,7 @@ describe("Float16Array", () => {
       assert(bar, [3, 4]);
     });
 
-    it("SpeciesConstructor must return TypedArray", function () {
+    it("SpeciesConstructor must return a TypedArray of the same Content Type", function () {
       class Foo extends Float16Array {
         static get [Symbol.species]() {
           return Array;
@@ -1404,6 +1418,20 @@ describe("Float16Array", () => {
         const bar = new Bar([1, 2, 3, 4]);
         assert.throws(() => bar.slice(0, 1), TypeError);
       }
+    });
+
+    it("Constructor created TypedArray which was too small", function () {
+      class Foo extends Float16Array {
+        constructor(...args) {
+          if (typeof args[0] === "number") {
+            super(args[0] / 2, ...args.slice(1));
+          } else {
+            super(...args);
+          }
+        }
+      }
+      const foo = new Foo([1, 2, 3, 4]);
+      assert.throws(() => foo.slice(0, 1), TypeError);
     });
   });
 
@@ -1465,7 +1493,7 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(bar, [3, 4]);
     });
 
-    it("SpeciesConstructor must return TypedArray", function () {
+    it("SpeciesConstructor must return a TypedArray of the same Content Type", function () {
       class Foo extends Float16Array {
         static get [Symbol.species]() {
           return Array;
