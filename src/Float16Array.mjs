@@ -147,12 +147,12 @@ function getFloat16BitsArray(float16) {
   }
 
   // from another Float16Array instance (a different version?)
-  const clone = new Float16Array(
-    TypedArrayPrototypeGetBuffer(float16),
-    TypedArrayPrototypeGetByteOffset(float16),
-    TypedArrayPrototypeGetLength(float16),
+  const cloned = new Float16Array(
+    float16.buffer,
+    float16.byteOffset,
+    float16.length,
   );
-  return WeakMapPrototypeGet(targets, clone);
+  return WeakMapPrototypeGet(targets, cloned);
 }
 
 /**
