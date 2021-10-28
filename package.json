@@ -59,7 +59,7 @@
     "docs:test": "mkdir -p docs/test && cp browser/float16.js docs/test/float16.js; yarn run docs:test:assets; yarn run docs:test:dependencies",
     "docs:test:assets": "cp test/*.js docs/test && tools/power; cp test/browser/*.html docs/test",
     "docs:test:dependencies": "cp node_modules/mocha/mocha.js node_modules/mocha/mocha.css node_modules/power-assert/build/power-assert.js docs/test",
-    "lint:eslint": "eslint *.js src/**/*.mjs test/**/*.js test/**/*.mjs",
+    "lint:eslint": "eslint src/**/*.mjs",
     "lint:unused": "find-unused-exports --module-glob 'src/**/*.mjs'",
     "prepublishOnly": "yarn run lint && yarn test",
     "refresh": "yarn run clean && yarn run build && yarn run docs",

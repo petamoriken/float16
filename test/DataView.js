@@ -1,6 +1,3 @@
-/* eslint-env mocha, browser, node */
-/* global assert getFloat16 setFloat16 */
-
 describe("additional DataView methods", () => {
   const data = [
     [0b0000000000000000, 0],

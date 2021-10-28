@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint-disable import/no-default-export */
-
 import { execSync } from "child_process";
 
 const name = process.env.npm_package_name;

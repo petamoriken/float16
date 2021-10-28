@@ -1,5 +1,3 @@
-/* eslint-disable sort-imports */
-
 import {
   Float16Array, isFloat16Array,
   getFloat16, setFloat16,
