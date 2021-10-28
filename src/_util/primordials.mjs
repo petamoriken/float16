@@ -87,6 +87,27 @@ export const TypedArrayPrototypeSlice = uncurryThis(TypedArrayPrototype.slice);
 export const TypedArrayPrototypeSubarray = uncurryThis(
   TypedArrayPrototype.subarray,
 );
+/** @type {((typedArray: TypedArray) => ArrayBuffer)} */
+export const TypedArrayPrototypeGetBuffer = uncurryThis(
+  Reflect.getOwnPropertyDescriptor(
+    TypedArrayPrototype,
+    "buffer",
+  ).get,
+);
+/** @type {((typedArray: TypedArray) => number)} */
+export const TypedArrayPrototypeGetByteOffset = uncurryThis(
+  Reflect.getOwnPropertyDescriptor(
+    TypedArrayPrototype,
+    "byteOffset",
+  ).get,
+);
+/** @type {((typedArray: TypedArray) => number)} */
+export const TypedArrayPrototypeGetLength = uncurryThis(
+  Reflect.getOwnPropertyDescriptor(
+    TypedArrayPrototype,
+    "length",
+  ).get,
+);
 /** @type {(target: unknown) => string} */
 export const TypedArrayPrototypeGetSymbolToStringTag = uncurryThis(
   Reflect.getOwnPropertyDescriptor(

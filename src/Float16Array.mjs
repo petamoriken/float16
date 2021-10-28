@@ -45,6 +45,9 @@ import {
   TypedArrayPrototypeCopyWithin,
   TypedArrayPrototypeEntries,
   TypedArrayPrototypeFill,
+  TypedArrayPrototypeGetBuffer,
+  TypedArrayPrototypeGetByteOffset,
+  TypedArrayPrototypeGetLength,
   TypedArrayPrototypeKeys,
   TypedArrayPrototypeReverse,
   TypedArrayPrototypeSet,
@@ -145,9 +148,9 @@ function getFloat16BitsArray(float16) {
 
   // from another Float16Array instance (a different version?)
   const clone = new Float16Array(
-    float16.buffer,
-    float16.byteOffset,
-    float16.length,
+    TypedArrayPrototypeGetBuffer(float16),
+    TypedArrayPrototypeGetByteOffset(float16),
+    TypedArrayPrototypeGetLength(float16),
   );
   return WeakMapPrototypeGet(targets, clone);
 }
@@ -157,7 +160,7 @@ function getFloat16BitsArray(float16) {
  * @returns {number[]}
  */
 function copyToArray(float16bitsArray) {
-  const length = float16bitsArray.length;
+  const length = TypedArrayPrototypeGetLength(float16bitsArray);
 
   const array = [];
   for (let i = 0; i < length; ++i) {
@@ -226,9 +229,9 @@ export class Float16Array extends NativeUint16Array {
         }
 
         list = input;
-        length = input.length;
+        length = TypedArrayPrototypeGetLength(input);
 
-        const buffer = input.buffer;
+        const buffer = TypedArrayPrototypeGetBuffer(input);
         const BufferConstructor = !isSharedArrayBuffer(buffer)
           ? /** @type {ArrayBufferConstructor} */ (SpeciesConstructor(
             buffer,
@@ -310,17 +313,20 @@ export class Float16Array extends NativeUint16Array {
     // for optimization
     if (Constructor === Float16Array) {
       if (isFloat16Array(src) && opts.length === 0) {
+        const float16bitsArray = getFloat16BitsArray(src);
         const uint16 = new NativeUint16Array(
-          src.buffer,
-          src.byteOffset,
-          src.length,
+          TypedArrayPrototypeGetBuffer(float16bitsArray),
+          TypedArrayPrototypeGetByteOffset(float16bitsArray),
+          TypedArrayPrototypeGetLength(float16bitsArray),
         );
-        return new Float16Array(uint16.slice().buffer);
+        return new Float16Array(
+          TypedArrayPrototypeGetBuffer(TypedArrayPrototypeSlice(uint16)),
+        );
       }
 
       if (opts.length === 0) {
         return new Float16Array(
-          Uint16ArrayFrom(src, roundToFloat16Bits).buffer,
+          TypedArrayPrototypeGetBuffer(Uint16ArrayFrom(src, roundToFloat16Bits)),
         );
       }
 
@@ -328,9 +334,11 @@ export class Float16Array extends NativeUint16Array {
       const thisArg = opts[1];
 
       return new Float16Array(
-        Uint16ArrayFrom(src, function (val, ...args) {
-          return roundToFloat16Bits(ReflectApply(mapFunc, this, [val, ...args]));
-        }, thisArg).buffer,
+        TypedArrayPrototypeGetBuffer(
+          Uint16ArrayFrom(src, function (val, ...args) {
+            return roundToFloat16Bits(ReflectApply(mapFunc, this, [val, ...args]));
+          }, thisArg),
+        ),
       );
     }
 
@@ -341,9 +349,12 @@ export class Float16Array extends NativeUint16Array {
 
     if (isIterable(src)) { // Iterable (TypedArray, Array)
       // for optimization
-      if (isOrdinaryArray(src) || isOrdinaryTypedArray(src)) {
+      if (isOrdinaryArray(src)) {
         list = src;
         length = src.length;
+      } else if (isOrdinaryTypedArray(src)) {
+        list = src;
+        length = TypedArrayPrototypeGetLength(src);
       } else {
         list = [...src];
         length = list.length;
@@ -452,7 +463,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const relativeIndex = ToIntegerOrInfinity(index);
     const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
 
@@ -468,7 +479,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
@@ -502,7 +513,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     const kept = [];
@@ -525,7 +536,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     if (length === 0 && opts.length === 0) {
       throw NativeTypeError("Reduce of empty array with no initial value");
     }
@@ -556,7 +567,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     if (length === 0 && opts.length === 0) {
       throw NativeTypeError("Reduce of empty array with no initial value");
     }
@@ -587,7 +598,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
@@ -600,7 +611,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
@@ -616,7 +627,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
@@ -634,7 +645,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     for (let i = length - 1; i >= 0; --i) {
@@ -650,7 +661,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     for (let i = length - 1; i >= 0; --i) {
@@ -668,7 +679,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
@@ -687,7 +698,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
@@ -727,7 +738,7 @@ export class Float16Array extends NativeUint16Array {
       );
     }
 
-    const targetLength = float16bitsArray.length;
+    const targetLength = TypedArrayPrototypeGetLength(float16bitsArray);
 
     const src = NativeObject(input);
     const srcLength = LengthOfArrayLike(src);
@@ -798,14 +809,18 @@ export class Float16Array extends NativeUint16Array {
     // for optimization
     if (Constructor === Float16Array) {
       const uint16 = new NativeUint16Array(
-        float16bitsArray.buffer,
-        float16bitsArray.byteOffset,
-        float16bitsArray.length,
+        TypedArrayPrototypeGetBuffer(float16bitsArray),
+        TypedArrayPrototypeGetByteOffset(float16bitsArray),
+        TypedArrayPrototypeGetLength(float16bitsArray),
       );
-      return new Float16Array(TypedArrayPrototypeSlice(uint16, ...opts).buffer);
+      return new Float16Array(
+        TypedArrayPrototypeGetBuffer(
+          TypedArrayPrototypeSlice(uint16, ...opts),
+        ),
+      );
     }
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
     const start = ToIntegerOrInfinity(opts[0]);
     const end = opts[1] === undefined ? length : ToIntegerOrInfinity(opts[1]);
 
@@ -853,16 +868,16 @@ export class Float16Array extends NativeUint16Array {
     const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
 
     const uint16 = new NativeUint16Array(
-      float16bitsArray.buffer,
-      float16bitsArray.byteOffset,
-      float16bitsArray.length,
+      TypedArrayPrototypeGetBuffer(float16bitsArray),
+      TypedArrayPrototypeGetByteOffset(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray),
     );
     const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...opts);
 
     const array = new Constructor(
-      uint16Subarray.buffer,
-      uint16Subarray.byteOffset,
-      uint16Subarray.length,
+      TypedArrayPrototypeGetBuffer(uint16Subarray),
+      TypedArrayPrototypeGetByteOffset(uint16Subarray),
+      TypedArrayPrototypeGetLength(uint16Subarray),
     );
     assertSpeciesTypedArray(array);
 
@@ -874,7 +889,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
 
     let from = ToIntegerOrInfinity(opts[0]);
     if (from === Infinity) {
@@ -905,7 +920,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
 
     let from = opts.length >= 1 ? ToIntegerOrInfinity(opts[0]) : length - 1;
     if (from === -Infinity) {
@@ -935,7 +950,7 @@ export class Float16Array extends NativeUint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = float16bitsArray.length;
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
 
     let from = ToIntegerOrInfinity(opts[0]);
     if (from === Infinity) {
