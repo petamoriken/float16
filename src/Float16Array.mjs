@@ -740,6 +740,12 @@ export class Float16Array extends NativeUint16Array {
       throw NativeRangeError("Offset is out of bounds");
     }
 
+    if (input == null) {
+      throw NativeTypeError(
+        "Cannot convert undefined or null to object"
+      );
+    }
+
     if (isBigIntTypedArray(input)) {
       throw new NativeTypeError(
         "Cannot mix BigInt and other types, use explicit conversions"

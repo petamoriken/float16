@@ -80,6 +80,8 @@ describe("Float16Array", () => {
 
   it("input empty or primitive", () => {
     assert.doesNotThrow(() => new Float16Array());
+    assert.doesNotThrow(() => new Float16Array(null));
+    assert.doesNotThrow(() => new Float16Array(undefined));
     assert.doesNotThrow(() => new Float16Array(0));
     assert.doesNotThrow(() => new Float16Array(4));
 
@@ -393,6 +395,17 @@ describe("Float16Array", () => {
 
     it("property `length` is 1", () => {
       assert(Float16Array.from.length === 1);
+    });
+
+    it("input empty or primitive", () => {
+      assert.doesNotThrow(() => Float16Array.from(0));
+      assert.doesNotThrow(() => Float16Array.from(4));
+      assert.doesNotThrow(() => Float16Array.from(-1));
+      assert.doesNotThrow(() => Float16Array.from(Symbol()));
+
+      assert.throws(() => Float16Array.from(), TypeError);
+      assert.throws(() => Float16Array.from(null), TypeError);
+      assert.throws(() => Float16Array.from(undefined), TypeError);
     });
 
     it("input Array or TypedArray", () => {
@@ -1130,6 +1143,17 @@ describe("Float16Array", () => {
 
     it("property `length` is 1", () => {
       assert(Float16Array.prototype.set.length === 1);
+    });
+
+    it("input empty or primitive", () => {
+      assert.doesNotThrow(() => new Float16Array(4).set(0));
+      assert.doesNotThrow(() => new Float16Array(4).set(4));
+      assert.doesNotThrow(() => new Float16Array(4).set(-1));
+      assert.doesNotThrow(() => new Float16Array(4).set(Symbol()));
+
+      assert.throws(() => new Float16Array(4).set(), TypeError);
+      assert.throws(() => new Float16Array(4).set(null), TypeError);
+      assert.throws(() => new Float16Array(4).set(undefined), TypeError);
     });
 
     it("set Array or TypedArray", () => {
