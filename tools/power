@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-env node */
-
 "use strict";
 
 const gray = "\x1b[90m";

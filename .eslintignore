@@ -1,3 +1,7 @@
 /browser
 /lib
 /docs
+/test
+/tools
+nightwatch.conf.js
+rollup.config.js

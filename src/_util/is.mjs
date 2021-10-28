@@ -1,3 +1,13 @@
+import {
+  ArrayIsArray,
+  MathTrunc,
+  NativeNumber,
+  NumberIsFinite,
+  SymbolIterator,
+  SymbolToStringTag,
+  TypedArrayPrototypeGetSymbolToStringTag,
+} from "./primordials.mjs";
+
 /**
  * @param {unknown} value
  * @returns {value is object}
@@ -16,19 +26,14 @@ export function isObjectLike(value) {
 }
 
 // Inspired by util.types implementation of Node.js
-/** @type {(this: unknown) => string} */
-const getTypedArrayPrototypeSymbolToStringTag =
-  Reflect.getOwnPropertyDescriptor(
-    /** @type {any} */ (Reflect.getPrototypeOf(Uint8Array)).prototype,
-    Symbol.toStringTag,
-  ).get;
+/** @typedef {Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array} TypedArray */
 
 /**
  * @param {unknown} value
- * @returns {value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array}
+ * @returns {value is TypedArray}
  */
 export function isTypedArray(value) {
-  return getTypedArrayPrototypeSymbolToStringTag.call(value) !== undefined;
+  return TypedArrayPrototypeGetSymbolToStringTag(value) !== undefined;
 }
 
 /**
@@ -36,25 +41,9 @@ export function isTypedArray(value) {
  * @returns {value is BigInt64Array|BigUint64Array}
  */
 export function isBigIntTypedArray(value) {
-  const typedArrayName = getTypedArrayPrototypeSymbolToStringTag.call(value);
+  const typedArrayName = TypedArrayPrototypeGetSymbolToStringTag(value);
   return typedArrayName === "BigInt64Array" ||
     typedArrayName === "BigUint64Array";
-}
-
-/**
- * @param {unknown} value
- * @returns {value is DataView}
- */
-export function isDataView(value) {
-  if (!ArrayBuffer.isView(value)) {
-    return false;
-  }
-
-  if (isTypedArray(value)) {
-    return false;
-  }
-
-  return true;
 }
 
 /**
@@ -62,7 +51,7 @@ export function isDataView(value) {
  * @returns {value is ArrayBuffer}
  */
 export function isArrayBuffer(value) {
-  return isObjectLike(value) && value[Symbol.toStringTag] === "ArrayBuffer";
+  return isObjectLike(value) && value[SymbolToStringTag] === "ArrayBuffer";
 }
 
 /**
@@ -71,7 +60,7 @@ export function isArrayBuffer(value) {
  */
 export function isSharedArrayBuffer(value) {
   return isObjectLike(value) &&
-    value[Symbol.toStringTag] === "SharedArrayBuffer";
+    value[SymbolToStringTag] === "SharedArrayBuffer";
 }
 
 /**
@@ -79,7 +68,7 @@ export function isSharedArrayBuffer(value) {
  * @returns {value is Iterable<unknown>}
  */
 export function isIterable(value) {
-  return isObject(value) && typeof value[Symbol.iterator] === "function";
+  return isObject(value) && typeof value[SymbolIterator] === "function";
 }
 
 /**
@@ -87,12 +76,12 @@ export function isIterable(value) {
  * @returns {value is unknown[]}
  */
 export function isOrdinaryArray(value) {
-  if (!Array.isArray(value)) {
+  if (!ArrayIsArray(value)) {
     return false;
   }
 
-  const iterator = value[Symbol.iterator]();
-  if (iterator[Symbol.toStringTag] !== "Array Iterator") {
+  const iterator = value[SymbolIterator]();
+  if (iterator[SymbolToStringTag] !== "Array Iterator") {
     return false;
   }
 
@@ -101,15 +90,15 @@ export function isOrdinaryArray(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array}
+ * @returns {value is TypedArray}
  */
 export function isOrdinaryTypedArray(value) {
   if (!isTypedArray(value)) {
     return false;
   }
 
-  const iterator = value[Symbol.iterator]();
-  if (iterator[Symbol.toStringTag] !== "Array Iterator") {
+  const iterator = value[SymbolIterator]();
+  if (iterator[SymbolToStringTag] !== "Array Iterator") {
     return false;
   }
 
@@ -125,16 +114,16 @@ export function isCanonicalIntegerIndexString(value) {
     return false;
   }
 
-  const number = Number(value);
+  const number = NativeNumber(value);
   if (value !== number + "") {
     return false;
   }
 
-  if (!Number.isFinite(number)) {
+  if (!NumberIsFinite(number)) {
     return false;
   }
 
-  if (number !== Math.trunc(number)) {
+  if (number !== MathTrunc(number)) {
     return false;
   }
 

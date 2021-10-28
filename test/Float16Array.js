@@ -1,6 +1,3 @@
-/* eslint-env mocha, browser, node, es2020 */
-/* global assert Float16Array isFloat16Array */
-
 describe("Float16Array", () => {
   let AnotherRealmFloat16Array;
 

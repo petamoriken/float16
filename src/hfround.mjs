@@ -1,4 +1,9 @@
-import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
+import {
+  NativeNumber,
+  NativeTypeError,
+  NumberIsFinite,
+} from "./_util/primordials.mjs";
 
 /**
  * returns the nearest half precision float representation of a number.
@@ -8,13 +13,13 @@ import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
  */
 export function hfround(num) {
   if (typeof num === "bigint") {
-    throw TypeError("Cannot convert a BigInt value to a number");
+    throw NativeTypeError("Cannot convert a BigInt value to a number");
   }
 
-  num = Number(num);
+  num = NativeNumber(num);
 
   // for optimization
-  if (!Number.isFinite(num) || num === 0) {
+  if (!NumberIsFinite(num) || num === 0) {
     return num;
   }
 

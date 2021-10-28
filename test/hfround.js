@@ -1,6 +1,3 @@
-/* eslint-env mocha, es2020 */
-/* global assert hfround */
-
 describe("hfround()", () => {
   const maxFloat16 = 65504;
   const minFloat16 = 2 ** -24;
