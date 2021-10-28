@@ -1,5 +1,10 @@
 import { isObject } from "./is.mjs";
 import {
+  CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER,
+  CONSTRUCTOR_IS_NOT_A_OBJECT,
+  THIS_IS_NOT_A_OBJECT,
+} from "./messages.mjs";
+import {
   MathTrunc,
   NativeNumber,
   NativeTypeError,
@@ -15,7 +20,7 @@ import {
  */
 export function ToIntegerOrInfinity(target) {
   if (typeof target === "bigint") {
-    throw NativeTypeError("Cannot convert a BigInt value to a number");
+    throw NativeTypeError(CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER);
   }
 
   const number = NativeNumber(target);
@@ -50,7 +55,7 @@ function ToLength(target) {
  */
 export function LengthOfArrayLike(arrayLike) {
   if (!isObject(arrayLike)) {
-    throw NativeTypeError("This is not a object");
+    throw NativeTypeError(THIS_IS_NOT_A_OBJECT);
   }
 
   return ToLength(/** @type {any} */ (arrayLike).length);
@@ -64,7 +69,7 @@ export function LengthOfArrayLike(arrayLike) {
  */
 export function SpeciesConstructor(target, defaultConstructor) {
   if (!isObject(target)) {
-    throw NativeTypeError("This is not a object");
+    throw NativeTypeError(THIS_IS_NOT_A_OBJECT);
   }
 
   const constructor = target.constructor;
@@ -72,7 +77,7 @@ export function SpeciesConstructor(target, defaultConstructor) {
     return defaultConstructor;
   }
   if (!isObject(constructor)) {
-    throw NativeTypeError("Constructor is not a object");
+    throw NativeTypeError(CONSTRUCTOR_IS_NOT_A_OBJECT);
   }
 
   const species = constructor[SymbolSpecies];

@@ -13,6 +13,16 @@ import {
   isTypedArray,
 } from "./_util/is.mjs";
 import {
+  CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT,
+  CANNOT_MIX_BIGINT_AND_OTHER_TYPES,
+  CONSTRUCTOR_IS_NOT_A_OBJECT,
+  OFFSET_IS_OUT_OF_BOUNDS,
+  REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
+  SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY,
+  THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY,
+  THIS_IS_NOT_A_FLOAT16ARRAY,
+} from "./_util/messages.mjs";
+import {
   ArrayPrototypeJoin,
   ArrayPrototypePush,
   ArrayPrototypeToLocaleString,
@@ -73,6 +83,7 @@ const targets = new NativeWeakMap();
 
 /**
  * @param {unknown} target
+ * @throws {TypeError}
  * @returns {boolean}
  */
 function hasFloat16ArrayBrand(target) {
@@ -90,7 +101,7 @@ function hasFloat16ArrayBrand(target) {
     return false;
   }
   if (!isObject(constructor)) {
-    throw NativeTypeError("Constructor is not a object");
+    throw NativeTypeError(CONSTRUCTOR_IS_NOT_A_OBJECT);
   }
 
   return ReflectHas(constructor, brand);
@@ -111,7 +122,7 @@ export function isFloat16Array(target) {
  */
 function assertFloat16Array(target) {
   if (!isFloat16Array(target)) {
-    throw new NativeTypeError("This is not a Float16Array");
+    throw NativeTypeError(THIS_IS_NOT_A_FLOAT16ARRAY);
   }
 }
 
@@ -126,12 +137,12 @@ function assertSpeciesTypedArray(target) {
   }
 
   if (!isTypedArray(target)) {
-    throw new NativeTypeError("SpeciesConstructor didn't return TypedArray");
+    throw NativeTypeError(SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY);
   }
 
   if (isBigIntTypedArray(target)) {
-    throw new NativeTypeError(
-      "Cannot mix BigInt and other types, use explicit conversions"
+    throw NativeTypeError(
+      CANNOT_MIX_BIGINT_AND_OTHER_TYPES
     );
   }
 }
@@ -223,8 +234,8 @@ export class Float16Array extends NativeUint16Array {
 
       if (isTypedArray(input)) { // TypedArray
         if (isBigIntTypedArray(input)) {
-          throw new NativeTypeError(
-            "Cannot mix BigInt and other types, use explicit conversions"
+          throw NativeTypeError(
+            CANNOT_MIX_BIGINT_AND_OTHER_TYPES
           );
         }
 
@@ -306,7 +317,7 @@ export class Float16Array extends NativeUint16Array {
 
     if (!ReflectHas(Constructor, brand)) {
       throw NativeTypeError(
-        "This constructor is not a subclass of Float16Array"
+        THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY
       );
     }
 
@@ -395,7 +406,7 @@ export class Float16Array extends NativeUint16Array {
 
     if (!ReflectHas(Constructor, brand)) {
       throw NativeTypeError(
-        "This constructor is not a subclass of Float16Array"
+        THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY
       );
     }
 
@@ -544,7 +555,7 @@ export class Float16Array extends NativeUint16Array {
 
     const length = TypedArrayPrototypeGetLength(float16bitsArray);
     if (length === 0 && opts.length === 0) {
-      throw NativeTypeError("Reduce of empty array with no initial value");
+      throw NativeTypeError(REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE);
     }
 
     let accumulator, start;
@@ -575,7 +586,7 @@ export class Float16Array extends NativeUint16Array {
 
     const length = TypedArrayPrototypeGetLength(float16bitsArray);
     if (length === 0 && opts.length === 0) {
-      throw NativeTypeError("Reduce of empty array with no initial value");
+      throw NativeTypeError(REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE);
     }
 
     let accumulator, start;
@@ -737,18 +748,18 @@ export class Float16Array extends NativeUint16Array {
 
     const targetOffset = ToIntegerOrInfinity(opts[0]);
     if (targetOffset < 0) {
-      throw NativeRangeError("Offset is out of bounds");
+      throw NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
     }
 
     if (input == null) {
       throw NativeTypeError(
-        "Cannot convert undefined or null to object"
+        CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT
       );
     }
 
     if (isBigIntTypedArray(input)) {
-      throw new NativeTypeError(
-        "Cannot mix BigInt and other types, use explicit conversions"
+      throw NativeTypeError(
+        CANNOT_MIX_BIGINT_AND_OTHER_TYPES
       );
     }
 
@@ -768,7 +779,7 @@ export class Float16Array extends NativeUint16Array {
     const srcLength = LengthOfArrayLike(src);
 
     if (targetOffset === Infinity || srcLength + targetOffset > targetLength) {
-      throw NativeRangeError("Offset is out of bounds");
+      throw NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
     }
 
     for (let i = 0; i < srcLength; ++i) {

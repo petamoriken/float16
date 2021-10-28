@@ -1,6 +1,10 @@
 // algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
 
-import { NativeArrayBuffer, NativeFloat32Array, NativeUint32Array } from "./primordials.mjs";
+import {
+  NativeArrayBuffer,
+  NativeFloat32Array,
+  NativeUint32Array,
+} from "./primordials.mjs";
 
 const buffer = new NativeArrayBuffer(4);
 const floatView = new NativeFloat32Array(buffer);

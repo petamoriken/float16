@@ -1,4 +1,5 @@
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
+import { CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER } from "./_util/messages.mjs";
 import {
   NativeNumber,
   NativeTypeError,
@@ -13,7 +14,7 @@ import {
  */
 export function hfround(num) {
   if (typeof num === "bigint") {
-    throw NativeTypeError("Cannot convert a BigInt value to a number");
+    throw NativeTypeError(CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER);
   }
 
   num = NativeNumber(num);
