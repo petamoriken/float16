@@ -1,50 +1,74 @@
 /* eslint-disable no-restricted-globals */
 
-const FunctionPrototypeBind = Function.prototype.bind;
-const FunctionPrototypeCall = Function.prototype.call;
-const uncurryThis = FunctionPrototypeBind.bind(FunctionPrototypeCall);
+const { bind, call } = Function.prototype;
+
+/** @type {(target: any) => any} */
+const uncurryThis = bind.bind(call);
+
+/** @type {(target: any, key: string | symbol) => any} */
+function uncurryThisGetter(target, key) {
+  return uncurryThis(
+    ReflectGetOwnPropertyDescriptor(
+      target,
+      key,
+    ).get,
+  );
+}
 
 // Reflect
-export const ReflectApply = Reflect.apply;
-export const ReflectGet = Reflect.get;
-export const ReflectGetOwnPropertyDescriptor = Reflect.getOwnPropertyDescriptor;
-export const ReflectGetPrototypeOf = Reflect.getPrototypeOf;
-export const ReflectHas = Reflect.has;
-export const ReflectOwnKeys = Reflect.ownKeys;
-export const ReflectSet = Reflect.set;
-export const ReflectSetPrototypeOf = Reflect.setPrototypeOf;
+export const {
+  apply: ReflectApply,
+  get: ReflectGet,
+  getOwnPropertyDescriptor: ReflectGetOwnPropertyDescriptor,
+  getPrototypeOf: ReflectGetPrototypeOf,
+  has: ReflectHas,
+  ownKeys: ReflectOwnKeys,
+  set: ReflectSet,
+  setPrototypeOf: ReflectSetPrototypeOf,
+} = Reflect;
 
 // Proxy
 export const NativeProxy = Proxy;
 
 // Number
 export const NativeNumber = Number;
-export const NumberIsFinite = Number.isFinite;
-export const NumberIsNaN = Number.isNaN;
+export const {
+  isFinite: NumberIsFinite,
+  isNaN: NumberIsNaN,
+} = NativeNumber;
 
 // Symbol
-export const SymbolIterator = Symbol.iterator;
-export const SymbolSpecies = Symbol.species;
-export const SymbolToStringTag = Symbol.toStringTag;
-export const SymbolFor = Symbol.for;
+export const {
+  iterator: SymbolIterator,
+  species: SymbolSpecies,
+  toStringTag: SymbolToStringTag,
+  for: SymbolFor,
+} = Symbol;
 
 // Array
-export const ArrayIsArray = Array.isArray;
-export const ArrayPrototypeJoin = uncurryThis(Array.prototype.join);
-export const ArrayPrototypePush = uncurryThis(Array.prototype.push);
+const NativeArray = Array;
+export const ArrayIsArray = NativeArray.isArray;
+const ArrayPrototype = NativeArray.prototype;
+/** @type {(array: Array<unknown>, separator?: string) => string} */
+export const ArrayPrototypeJoin = uncurryThis(ArrayPrototype.join);
+/** @type {<T>(array: Array<T>, ...items: T[]) => number} */
+export const ArrayPrototypePush = uncurryThis(ArrayPrototype.push);
+/** @type {(array: Array<unknown>) => string} */
 export const ArrayPrototypeToLocaleString = uncurryThis(
-  Array.prototype.toLocaleString,
+  ArrayPrototype.toLocaleString,
 );
 
 // Object
 export const NativeObject = Object;
-export const ObjectCreate = Object.create;
-export const ObjectDefineProperty = Object.defineProperty;
-export const ObjectFreeze = Object.freeze;
-export const ObjectIs = Object.is;
+export const {
+  create: ObjectCreate,
+  defineProperty: ObjectDefineProperty,
+  freeze: ObjectFreeze,
+  is: ObjectIs,
+} = NativeObject;
 /** @type {(object: object, key: PropertyKey) => boolean} */
-export const ObjectHasOwn = /** @type {any} */ (Object).hasOwn ||
-  uncurryThis(Object.prototype.hasOwnProperty);
+export const ObjectHasOwn = /** @type {any} */ (NativeObject).hasOwn ||
+  uncurryThis(NativeObject.prototype.hasOwnProperty);
 
 // Math
 export const MathTrunc = Math.trunc;
@@ -55,7 +79,7 @@ export const NativeArrayBuffer = ArrayBuffer;
 // TypedArray
 /** @typedef {Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array} TypedArray */
 /** @type {any} */
-const TypedArray = Reflect.getPrototypeOf(Uint8Array);
+const TypedArray = ReflectGetPrototypeOf(Uint8Array);
 export const TypedArrayPrototype = TypedArray.prototype;
 /** @type {(typedArray: TypedArray) => IterableIterator<number>} */
 export const TypedArrayPrototypeKeys = uncurryThis(TypedArrayPrototype.keys);
@@ -89,40 +113,34 @@ export const TypedArrayPrototypeSubarray = uncurryThis(
 );
 /** @type {((typedArray: TypedArray) => ArrayBuffer)} */
 export const TypedArrayPrototypeGetBuffer = uncurryThis(
-  Reflect.getOwnPropertyDescriptor(
+  ReflectGetOwnPropertyDescriptor(
     TypedArrayPrototype,
     "buffer",
   ).get,
 );
 /** @type {((typedArray: TypedArray) => number)} */
-export const TypedArrayPrototypeGetByteOffset = uncurryThis(
-  Reflect.getOwnPropertyDescriptor(
-    TypedArrayPrototype,
-    "byteOffset",
-  ).get,
+export const TypedArrayPrototypeGetByteOffset = uncurryThisGetter(
+  TypedArrayPrototype,
+  "byteOffset",
 );
 /** @type {((typedArray: TypedArray) => number)} */
-export const TypedArrayPrototypeGetLength = uncurryThis(
-  Reflect.getOwnPropertyDescriptor(
-    TypedArrayPrototype,
-    "length",
-  ).get,
+export const TypedArrayPrototypeGetLength = uncurryThisGetter(
+  TypedArrayPrototype,
+  "length",
 );
 /** @type {(target: unknown) => string} */
-export const TypedArrayPrototypeGetSymbolToStringTag = uncurryThis(
-  Reflect.getOwnPropertyDescriptor(
-    TypedArrayPrototype,
-    Symbol.toStringTag,
-  ).get,
+export const TypedArrayPrototypeGetSymbolToStringTag = uncurryThisGetter(
+  TypedArrayPrototype,
+  SymbolToStringTag,
 );
 
 // Uint16Array
 export const NativeUint16Array = Uint16Array;
-export const Uint16ArrayFrom = TypedArray.from.bind(Uint16Array);
+export const Uint16ArrayFrom = TypedArray.from.bind(NativeUint16Array);
 
 // Iterator
-export const IteratorPrototype = Reflect.getPrototypeOf(
-  /** @type {any} */ Reflect.getPrototypeOf([][Symbol.iterator]()),
+export const IteratorPrototype = ReflectGetPrototypeOf(
+  ReflectGetPrototypeOf([][SymbolIterator]()),
 );
 
 // Generator
@@ -131,13 +149,14 @@ const GeneratorPrototype = (function* () {}).constructor.prototype.prototype;
 export const GeneratorPrototypeNext = uncurryThis(GeneratorPrototype.next);
 
 // DataView
+const DataViewPrototype = DataView.prototype;
 /** @type {(dataView: DataView, byteOffset: number, littleEndian?: boolean) => number} */
 export const DataViewPrototypeGetUint16 = uncurryThis(
-  DataView.prototype.getUint16,
+  DataViewPrototype.getUint16,
 );
 /** @type {(dataView: DataView, byteOffset: number, value: number, littleEndian?: boolean) => void} */
 export const DataViewPrototypeSetUint16 = uncurryThis(
-  DataView.prototype.setUint16,
+  DataViewPrototype.setUint16,
 );
 
 // Error
@@ -146,14 +165,16 @@ export const NativeRangeError = RangeError;
 
 // Set
 export const NativeSet = Set;
+const SetPrototype = NativeSet.prototype;
 /** @type {<T>(set: Set<T>, value: T) => Set<T>} */
-export const SetPrototypeAdd = uncurryThis(Set.prototype.add);
+export const SetPrototypeAdd = uncurryThis(SetPrototype.add);
 /** @type {<T>(set: Set<T>, value: T) => boolean} */
-export const SetPrototypeHas = uncurryThis(Set.prototype.has);
+export const SetPrototypeHas = uncurryThis(SetPrototype.has);
 
 // WeakMap
 export const NativeWeakMap = WeakMap;
+const WeakMapPrototype = NativeWeakMap.prototype;
 /** @type {<K extends object, V>(weakMap: WeakMap<K, V>, key: K) => V} */
-export const WeakMapPrototypeGet = uncurryThis(WeakMap.prototype.get);
+export const WeakMapPrototypeGet = uncurryThis(WeakMapPrototype.get);
 /** @type {<K extends object, V>(weakMap: WeakMap<K, V>, key: K, value: V) => WeakMap} */
-export const WeakMapPrototypeSet = uncurryThis(WeakMap.prototype.set);
+export const WeakMapPrototypeSet = uncurryThis(WeakMapPrototype.set);

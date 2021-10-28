@@ -326,7 +326,9 @@ export class Float16Array extends NativeUint16Array {
 
       if (opts.length === 0) {
         return new Float16Array(
-          TypedArrayPrototypeGetBuffer(Uint16ArrayFrom(src, roundToFloat16Bits)),
+          TypedArrayPrototypeGetBuffer(
+            Uint16ArrayFrom(src, roundToFloat16Bits),
+          ),
         );
       }
 
@@ -336,7 +338,9 @@ export class Float16Array extends NativeUint16Array {
       return new Float16Array(
         TypedArrayPrototypeGetBuffer(
           Uint16ArrayFrom(src, function (val, ...args) {
-            return roundToFloat16Bits(ReflectApply(mapFunc, this, [val, ...args]));
+            return roundToFloat16Bits(
+              ReflectApply(mapFunc, this, [val, ...args]),
+            );
           }, thisArg),
         ),
       );
@@ -491,7 +495,9 @@ export class Float16Array extends NativeUint16Array {
 
       for (let i = 0; i < length; ++i) {
         const val = convertToNumber(float16bitsArray[i]);
-        array[i] = roundToFloat16Bits(ReflectApply(callback, thisArg, [val, i, this]));
+        array[i] = roundToFloat16Bits(
+          ReflectApply(callback, thisArg, [val, i, this]),
+        );
       }
 
       return proxy;
@@ -602,7 +608,11 @@ export class Float16Array extends NativeUint16Array {
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
-      ReflectApply(callback, thisArg, [convertToNumber(float16bitsArray[i]), i, this]);
+      ReflectApply(callback, thisArg, [
+        convertToNumber(float16bitsArray[i]),
+        i,
+        this,
+      ]);
     }
   }
 
@@ -684,7 +694,11 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = 0; i < length; ++i) {
       if (
-        !ReflectApply(callback, thisArg, [convertToNumber(float16bitsArray[i]), i, this])
+        !ReflectApply(callback, thisArg, [
+          convertToNumber(float16bitsArray[i]),
+          i,
+          this,
+        ])
       ) {
         return false;
       }
@@ -703,7 +717,11 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = 0; i < length; ++i) {
       if (
-        ReflectApply(callback, thisArg, [convertToNumber(float16bitsArray[i]), i, this])
+        ReflectApply(callback, thisArg, [
+          convertToNumber(float16bitsArray[i]),
+          i,
+          this,
+        ])
       ) {
         return true;
       }
