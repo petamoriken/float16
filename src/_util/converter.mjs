@@ -1,13 +1,13 @@
-/* eslint-disable no-restricted-globals */
-
 // algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
 
-const buffer = new ArrayBuffer(4);
-const floatView = new Float32Array(buffer);
-const uint32View = new Uint32Array(buffer);
+import { NativeArrayBuffer, NativeFloat32Array, NativeUint32Array } from "./primordials.mjs";
 
-const baseTable = new Uint32Array(512);
-const shiftTable = new Uint32Array(512);
+const buffer = new NativeArrayBuffer(4);
+const floatView = new NativeFloat32Array(buffer);
+const uint32View = new NativeUint32Array(buffer);
+
+const baseTable = new NativeUint32Array(512);
+const shiftTable = new NativeUint32Array(512);
 
 for (let i = 0; i < 256; ++i) {
   const e = i - 127;
@@ -62,9 +62,9 @@ export function roundToFloat16Bits(num) {
   return baseTable[e] + ((f & 0x007fffff) >> shiftTable[e]);
 }
 
-const mantissaTable = new Uint32Array(2048);
-const exponentTable = new Uint32Array(64);
-const offsetTable = new Uint32Array(64);
+const mantissaTable = new NativeUint32Array(2048);
+const exponentTable = new NativeUint32Array(64);
+const offsetTable = new NativeUint32Array(64);
 
 mantissaTable[0] = 0;
 for (let i = 1; i < 1024; ++i) {

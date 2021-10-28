@@ -138,6 +138,12 @@ export const TypedArrayPrototypeGetSymbolToStringTag = uncurryThisGetter(
 export const NativeUint16Array = Uint16Array;
 export const Uint16ArrayFrom = TypedArray.from.bind(NativeUint16Array);
 
+// Uint32Array
+export const NativeUint32Array = Uint32Array;
+
+// Float32Array
+export const NativeFloat32Array = Float32Array;
+
 // Iterator
 export const IteratorPrototype = ReflectGetPrototypeOf(
   ReflectGetPrototypeOf([][SymbolIterator]()),
