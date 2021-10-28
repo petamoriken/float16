@@ -97,18 +97,18 @@ export function SpeciesConstructor(target, defaultConstructor) {
  * @returns {-1 | 0 | 1}
  */
 export function defaultCompare(x, y) {
-  const isNaN_x = NumberIsNaN(x);
-  const isNaN_y = NumberIsNaN(y);
+  const isXNaN = NumberIsNaN(x);
+  const isYNaN = NumberIsNaN(y);
 
-  if (isNaN_x && isNaN_y) {
+  if (isXNaN && isYNaN) {
     return 0;
   }
 
-  if (isNaN_x) {
+  if (isXNaN) {
     return 1;
   }
 
-  if (isNaN_y) {
+  if (isYNaN) {
     return -1;
   }
 
@@ -121,14 +121,14 @@ export function defaultCompare(x, y) {
   }
 
   if (x === 0 && y === 0) {
-    const isPlusZero_x = ObjectIs(x, 0);
-    const isPlusZero_y = ObjectIs(y, 0);
+    const isXPlusZero = ObjectIs(x, 0);
+    const isYPlusZero = ObjectIs(y, 0);
 
-    if (!isPlusZero_x && isPlusZero_y) {
+    if (!isXPlusZero && isYPlusZero) {
       return -1;
     }
 
-    if (isPlusZero_x && !isPlusZero_y) {
+    if (isXPlusZero && !isYPlusZero) {
       return 1;
     }
   }

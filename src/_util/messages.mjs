@@ -5,6 +5,8 @@ export const THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY =
   "This constructor is not a subclass of Float16Array";
 export const SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY =
   "SpeciesConstructor didn't return TypedArray";
+export const DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL =
+  "Derived TypedArray constructor created an array which was too small";
 export const CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT =
   "Cannot convert undefined or null to object";
 export const CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER =

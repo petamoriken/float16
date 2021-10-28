@@ -16,6 +16,7 @@ import {
   CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT,
   CANNOT_MIX_BIGINT_AND_OTHER_TYPES,
   CONSTRUCTOR_IS_NOT_A_OBJECT,
+  DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL,
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY,
@@ -130,16 +131,30 @@ function assertFloat16Array(target) {
 
 /**
  * @param {unknown} target
+ * @param {number=} count
  * @throws {TypeError}
  * @returns {asserts target is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float16Array|Float32Array|Float64Array}
  */
-function assertSpeciesTypedArray(target) {
-  if (isFloat16Array(target)) {
-    return;
+function assertSpeciesTypedArray(target, count) {
+  const isTargetFloat16Array = isFloat16Array(target);
+  const isTargetTypedArray = isTypedArray(target);
+
+  if (!isTargetFloat16Array && !isTargetTypedArray) {
+    throw NativeTypeError(SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY);
   }
 
-  if (!isTypedArray(target)) {
-    throw NativeTypeError(SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY);
+  if (typeof count === "number") {
+    let length;
+    if (isTargetFloat16Array) {
+      const float16bitsArray = getFloat16BitsArray(target);
+      length = TypedArrayPrototypeGetLength(float16bitsArray);
+    } else {
+      length = TypedArrayPrototypeGetLength(target);
+    }
+
+    if (length < count) {
+      throw NativeTypeError(DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL);
+    }
   }
 
   if (isBigIntTypedArray(target)) {
@@ -517,7 +532,7 @@ export class Float16Array extends NativeUint16Array {
     }
 
     const array = new Constructor(length);
-    assertSpeciesTypedArray(array);
+    assertSpeciesTypedArray(array, length);
 
     for (let i = 0; i < length; ++i) {
       const val = convertToNumber(float16bitsArray[i]);
@@ -881,7 +896,7 @@ export class Float16Array extends NativeUint16Array {
 
     const count = final - k > 0 ? final - k : 0;
     const array = new Constructor(count);
-    assertSpeciesTypedArray(array);
+    assertSpeciesTypedArray(array, count);
 
     if (count === 0) {
       return array;
