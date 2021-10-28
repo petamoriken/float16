@@ -5,6 +5,7 @@ const FunctionPrototypeCall = Function.prototype.call;
 const uncurryThis = FunctionPrototypeBind.bind(FunctionPrototypeCall);
 
 // Reflect
+export const ReflectApply = Reflect.apply;
 export const ReflectGet = Reflect.get;
 export const ReflectGetOwnPropertyDescriptor = Reflect.getOwnPropertyDescriptor;
 export const ReflectGetPrototypeOf = Reflect.getPrototypeOf;

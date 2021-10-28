@@ -28,6 +28,7 @@ import {
   ObjectDefineProperty,
   ObjectFreeze,
   ObjectHasOwn,
+  ReflectApply,
   ReflectGet,
   ReflectGetOwnPropertyDescriptor,
   ReflectGetPrototypeOf,
@@ -328,7 +329,7 @@ export class Float16Array extends NativeUint16Array {
 
       return new Float16Array(
         Uint16ArrayFrom(src, function (val, ...args) {
-          return roundToFloat16Bits(mapFunc.call(this, val, ...args));
+          return roundToFloat16Bits(ReflectApply(mapFunc, this, [val, ...args]));
         }, thisArg).buffer,
       );
     }
@@ -362,7 +363,7 @@ export class Float16Array extends NativeUint16Array {
       const mapFunc = opts[0];
       const thisArg = opts[1];
       for (let i = 0; i < length; ++i) {
-        array[i] = mapFunc.call(thisArg, list[i], i);
+        array[i] = ReflectApply(mapFunc, thisArg, [list[i], i]);
       }
     }
 
@@ -479,7 +480,7 @@ export class Float16Array extends NativeUint16Array {
 
       for (let i = 0; i < length; ++i) {
         const val = convertToNumber(float16bitsArray[i]);
-        array[i] = roundToFloat16Bits(callback.call(thisArg, val, i, this));
+        array[i] = roundToFloat16Bits(ReflectApply(callback, thisArg, [val, i, this]));
       }
 
       return proxy;
@@ -490,7 +491,7 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = 0; i < length; ++i) {
       const val = convertToNumber(float16bitsArray[i]);
-      array[i] = callback.call(thisArg, val, i, this);
+      array[i] = ReflectApply(callback, thisArg, [val, i, this]);
     }
 
     return /** @type {any} */ (array);
@@ -507,7 +508,7 @@ export class Float16Array extends NativeUint16Array {
     const kept = [];
     for (let i = 0; i < length; ++i) {
       const val = convertToNumber(float16bitsArray[i]);
-      if (callback.call(thisArg, val, i, this)) {
+      if (ReflectApply(callback, thisArg, [val, i, this])) {
         ArrayPrototypePush(kept, val);
       }
     }
@@ -590,7 +591,7 @@ export class Float16Array extends NativeUint16Array {
     const thisArg = opts[0];
 
     for (let i = 0; i < length; ++i) {
-      callback.call(thisArg, convertToNumber(float16bitsArray[i]), i, this);
+      ReflectApply(callback, thisArg, [convertToNumber(float16bitsArray[i]), i, this]);
     }
   }
 
@@ -604,7 +605,7 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = 0; i < length; ++i) {
       const value = convertToNumber(float16bitsArray[i]);
-      if (callback.call(thisArg, value, i, this)) {
+      if (ReflectApply(callback, thisArg, [value, i, this])) {
         return value;
       }
     }
@@ -620,7 +621,7 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = 0; i < length; ++i) {
       const value = convertToNumber(float16bitsArray[i]);
-      if (callback.call(thisArg, value, i, this)) {
+      if (ReflectApply(callback, thisArg, [value, i, this])) {
         return i;
       }
     }
@@ -638,7 +639,7 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = length - 1; i >= 0; --i) {
       const value = convertToNumber(float16bitsArray[i]);
-      if (callback.call(thisArg, value, i, this)) {
+      if (ReflectApply(callback, thisArg, [value, i, this])) {
         return value;
       }
     }
@@ -654,7 +655,7 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = length - 1; i >= 0; --i) {
       const value = convertToNumber(float16bitsArray[i]);
-      if (callback.call(thisArg, value, i, this)) {
+      if (ReflectApply(callback, thisArg, [value, i, this])) {
         return i;
       }
     }
@@ -672,7 +673,7 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = 0; i < length; ++i) {
       if (
-        !callback.call(thisArg, convertToNumber(float16bitsArray[i]), i, this)
+        !ReflectApply(callback, thisArg, [convertToNumber(float16bitsArray[i]), i, this])
       ) {
         return false;
       }
@@ -691,7 +692,7 @@ export class Float16Array extends NativeUint16Array {
 
     for (let i = 0; i < length; ++i) {
       if (
-        callback.call(thisArg, convertToNumber(float16bitsArray[i]), i, this)
+        ReflectApply(callback, thisArg, [convertToNumber(float16bitsArray[i]), i, this])
       ) {
         return true;
       }
