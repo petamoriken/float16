@@ -1,25 +1,27 @@
 /* eslint-disable jsdoc/check-tag-names */
 
+import {
+  GeneratorPrototypeNext,
+  IteratorPrototype,
+  ObjectCreate,
+  SymbolToStringTag,
+} from "./_util/primordials.mjs";
 import { createPrivateStorage } from "./_util/private.mjs";
 
 const _ =
-  /** @type {(self: object) => { iterator: Iterator<any> }} */ (createPrivateStorage());
-
-const IteratorPrototype = Reflect.getPrototypeOf(
-  /** @type {any} */ Reflect.getPrototypeOf([][Symbol.iterator]()),
-);
+  /** @type {(self: object) => { generator: Iterator<any> }} */ (createPrivateStorage());
 
 /** @see https://tc39.es/ecma262/#sec-%arrayiteratorprototype%-object */
-const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
+const ArrayIteratorPrototype = ObjectCreate(IteratorPrototype, {
   next: {
     value: function next() {
-      return _(this).iterator.next();
+      return GeneratorPrototypeNext(_(this).generator);
     },
     writable: true,
     configurable: true,
   },
 
-  [Symbol.toStringTag]: {
+  [SymbolToStringTag]: {
     value: "Array Iterator",
     configurable: true,
   },
@@ -27,11 +29,11 @@ const ArrayIteratorPrototype = Object.create(IteratorPrototype, {
 
 /**
  * @template T
- * @param {Iterator<T>} iterator
+ * @param {Generator<T>} generator
  * @returns {IterableIterator<T>}
  */
-export function wrapInArrayIterator(iterator) {
-  const arrayIterator = Object.create(ArrayIteratorPrototype);
-  _(arrayIterator).iterator = iterator;
+export function wrapInArrayIterator(generator) {
+  const arrayIterator = ObjectCreate(ArrayIteratorPrototype);
+  _(arrayIterator).generator = generator;
   return arrayIterator;
 }

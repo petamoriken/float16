@@ -1,4 +1,12 @@
 import { isObject } from "./_util/is.mjs";
+import {
+  MathTrunc,
+  NativeNumber,
+  NativeTypeError,
+  NumberIsNaN,
+  ObjectIs,
+  SymbolSpecies,
+} from "./_util/primordials.mjs";
 
 /**
  * @see https://tc39.es/ecma262/#sec-tointegerorinfinity
@@ -7,16 +15,16 @@ import { isObject } from "./_util/is.mjs";
  */
 export function ToIntegerOrInfinity(target) {
   if (typeof target === "bigint") {
-    throw TypeError("Cannot convert a BigInt value to a number");
+    throw NativeTypeError("Cannot convert a BigInt value to a number");
   }
 
-  const number = Number(target);
+  const number = NativeNumber(target);
 
-  if (Number.isNaN(number) || number === 0) {
+  if (NumberIsNaN(number) || number === 0) {
     return 0;
   }
 
-  return Math.trunc(number);
+  return MathTrunc(number);
 }
 
 /**
@@ -30,7 +38,9 @@ function ToLength(target) {
     return 0;
   }
 
-  return length < Number.MAX_SAFE_INTEGER ? length : Number.MAX_SAFE_INTEGER;
+  return length < NativeNumber.MAX_SAFE_INTEGER
+    ? length
+    : NativeNumber.MAX_SAFE_INTEGER;
 }
 
 /**
@@ -40,7 +50,7 @@ function ToLength(target) {
  */
 export function LengthOfArrayLike(arrayLike) {
   if (!isObject(arrayLike)) {
-    throw TypeError("This is not a object");
+    throw NativeTypeError("This is not a object");
   }
 
   return ToLength(arrayLike.length);
@@ -54,7 +64,7 @@ export function LengthOfArrayLike(arrayLike) {
  */
 export function SpeciesConstructor(target, defaultConstructor) {
   if (!isObject(target)) {
-    throw TypeError("This is not a object");
+    throw NativeTypeError("This is not a object");
   }
 
   const constructor = target.constructor;
@@ -62,10 +72,10 @@ export function SpeciesConstructor(target, defaultConstructor) {
     return defaultConstructor;
   }
   if (!isObject(constructor)) {
-    throw TypeError("Constructor is not a object");
+    throw NativeTypeError("Constructor is not a object");
   }
 
-  const species = constructor[Symbol.species];
+  const species = constructor[SymbolSpecies];
   if (species == null) {
     return defaultConstructor;
   }
@@ -82,8 +92,8 @@ export function SpeciesConstructor(target, defaultConstructor) {
  * @returns {-1 | 0 | 1}
  */
 export function defaultCompare(x, y) {
-  const isNaN_x = Number.isNaN(x);
-  const isNaN_y = Number.isNaN(y);
+  const isNaN_x = NumberIsNaN(x);
+  const isNaN_y = NumberIsNaN(y);
 
   if (isNaN_x && isNaN_y) {
     return 0;
@@ -106,8 +116,8 @@ export function defaultCompare(x, y) {
   }
 
   if (x === 0 && y === 0) {
-    const isPlusZero_x = Object.is(x, 0);
-    const isPlusZero_y = Object.is(y, 0);
+    const isPlusZero_x = ObjectIs(x, 0);
+    const isPlusZero_y = ObjectIs(y, 0);
 
     if (!isPlusZero_x && isPlusZero_y) {
       return -1;

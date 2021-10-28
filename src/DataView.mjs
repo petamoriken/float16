@@ -1,5 +1,8 @@
 import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
-import { isDataView } from "./_util/is.mjs";
+import {
+  DataViewPrototypeGetUint16,
+  DataViewPrototypeSetUint16,
+} from "./_util/primordials.mjs";
 
 /**
  * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView.
@@ -10,11 +13,9 @@ import { isDataView } from "./_util/is.mjs";
  * @returns {number}
  */
 export function getFloat16(dataView, byteOffset, ...opts) {
-  if (!isDataView(dataView)) {
-    throw new TypeError("First argument to getFloat16 must be a DataView");
-  }
-
-  return convertToNumber(dataView.getUint16(byteOffset, ...opts));
+  return convertToNumber(
+    DataViewPrototypeGetUint16(dataView, byteOffset, ...opts),
+  );
 }
 
 /**
@@ -26,9 +27,10 @@ export function getFloat16(dataView, byteOffset, ...opts) {
  * @param {[boolean]} opts
  */
 export function setFloat16(dataView, byteOffset, value, ...opts) {
-  if (!isDataView(dataView)) {
-    throw new TypeError("First argument to setFloat16 must be a DataView");
-  }
-
-  dataView.setUint16(byteOffset, roundToFloat16Bits(value), ...opts);
+  return DataViewPrototypeSetUint16(
+    dataView,
+    byteOffset,
+    roundToFloat16Bits(value),
+    ...opts,
+  );
 }

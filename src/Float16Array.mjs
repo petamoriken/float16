@@ -6,7 +6,6 @@ import {
   ToIntegerOrInfinity,
   defaultCompare,
 } from "./_spec.mjs";
-import { hasOwn } from "./_util/hasOwn.mjs";
 import {
   isArrayBuffer,
   isBigIntTypedArray,
@@ -19,9 +18,49 @@ import {
   isSharedArrayBuffer,
   isTypedArray,
 } from "./_util/is.mjs";
+import {
+  ArrayPrototypeJoin,
+  ArrayPrototypePush,
+  ArrayPrototypeToLocaleString,
+  NativeArrayBuffer,
+  NativeObject,
+  NativeProxy,
+  NativeRangeError,
+  NativeSet,
+  NativeTypeError,
+  NativeUint16Array,
+  NumberIsNaN,
+  ObjectDefineProperty,
+  ObjectFreeze,
+  ObjectHasOwn,
+  ReflectGet,
+  ReflectGetOwnPropertyDescriptor,
+  ReflectGetPrototypeOf,
+  ReflectHas,
+  ReflectOwnKeys,
+  ReflectSet,
+  ReflectSetPrototypeOf,
+  SetPrototypeAdd,
+  SetPrototypeHas,
+  SymbolFor,
+  SymbolIterator,
+  SymbolToStringTag,
+  TypedArrayPrototype,
+  TypedArrayPrototypeCopyWithin,
+  TypedArrayPrototypeEntries,
+  TypedArrayPrototypeFill,
+  TypedArrayPrototypeKeys,
+  TypedArrayPrototypeReverse,
+  TypedArrayPrototypeSet,
+  TypedArrayPrototypeSlice,
+  TypedArrayPrototypeSort,
+  TypedArrayPrototypeSubarray,
+  TypedArrayPrototypeValues,
+  Uint16ArrayFrom,
+} from "./_util/primordials.mjs";
 import { createPrivateStorage } from "./_util/private.mjs";
 
-const brand = Symbol.for("__Float16Array__");
+const brand = SymbolFor("__Float16Array__");
 
 const _ =
   /** @type {(self: object) => { target: Uint16Array & { __float16bits: never } }} */ (createPrivateStorage());
@@ -35,7 +74,7 @@ function hasFloat16ArrayBrand(target) {
     return false;
   }
 
-  const prototype = Reflect.getPrototypeOf(target);
+  const prototype = ReflectGetPrototypeOf(target);
   if (!isObjectLike(prototype)) {
     return false;
   }
@@ -45,10 +84,10 @@ function hasFloat16ArrayBrand(target) {
     return false;
   }
   if (!isObject(constructor)) {
-    throw TypeError("Constructor is not a object");
+    throw NativeTypeError("Constructor is not a object");
   }
 
-  return Reflect.has(constructor, brand);
+  return ReflectHas(constructor, brand);
 }
 
 /**
@@ -66,7 +105,7 @@ export function isFloat16Array(target) {
  */
 function assertFloat16Array(target) {
   if (!isFloat16Array(target)) {
-    throw new TypeError("This is not a Float16Array");
+    throw new NativeTypeError("This is not a Float16Array");
   }
 }
 
@@ -81,11 +120,11 @@ function assertSpeciesTypedArray(target) {
   }
 
   if (!isTypedArray(target)) {
-    throw new TypeError("SpeciesConstructor didn't return TypedArray");
+    throw new NativeTypeError("SpeciesConstructor didn't return TypedArray");
   }
 
   if (isBigIntTypedArray(target)) {
-    throw new TypeError(
+    throw new NativeTypeError(
       "Cannot mix BigInt and other types, use explicit conversions",
     );
   }
@@ -96,9 +135,9 @@ function assertSpeciesTypedArray(target) {
  * @returns {Uint16Array & { __float16bits: never }}
  */
 function getFloat16BitsArray(float16) {
-  const target = _(float16).target;
-  if (target !== undefined) {
-    return target;
+  const storage = _(float16);
+  if (ObjectHasOwn(storage, "target")) {
+    return storage.target;
   }
 
   // from another Float16Array instance (a different version?)
@@ -125,48 +164,45 @@ function copyToArray(float16bitsArray) {
   return array;
 }
 
-const TypedArrayPrototype =
-  /** @type {any} */ (Reflect.getPrototypeOf(Uint8Array)).prototype;
-
-const TypedArrayPrototypeGetters = new Set();
-for (const key of Reflect.ownKeys(TypedArrayPrototype)) {
+const TypedArrayPrototypeGetters = new NativeSet();
+for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
   // @@toStringTag method is defined in Float16Array.prototype
-  if (key === Symbol.toStringTag) {
+  if (key === SymbolToStringTag) {
     continue;
   }
 
-  const descriptor = Object.getOwnPropertyDescriptor(TypedArrayPrototype, key);
-  if (hasOwn(descriptor, "get")) {
-    TypedArrayPrototypeGetters.add(key);
+  const descriptor = ReflectGetOwnPropertyDescriptor(TypedArrayPrototype, key);
+  if (ObjectHasOwn(descriptor, "get")) {
+    SetPrototypeAdd(TypedArrayPrototypeGetters, key);
   }
 }
 
 /** @type {ProxyHandler<Float16Array>} */
-const handler = Object.freeze({
+const handler = ObjectFreeze({
   get(target, key, receiver) {
-    if (isCanonicalIntegerIndexString(key) && hasOwn(target, key)) {
-      return convertToNumber(Reflect.get(target, key));
+    if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
+      return convertToNumber(ReflectGet(target, key));
     }
 
     // %TypedArray%.prototype getter properties cannot called by Proxy receiver
-    if (TypedArrayPrototypeGetters.has(key)) {
-      return Reflect.get(target, key);
+    if (SetPrototypeHas(TypedArrayPrototypeGetters, key)) {
+      return ReflectGet(target, key);
     }
 
-    return Reflect.get(target, key, receiver);
+    return ReflectGet(target, key, receiver);
   },
 
   set(target, key, value, receiver) {
-    if (isCanonicalIntegerIndexString(key) && hasOwn(target, key)) {
-      return Reflect.set(target, key, roundToFloat16Bits(value));
+    if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
+      return ReflectSet(target, key, roundToFloat16Bits(value));
     }
 
-    return Reflect.set(target, key, value, receiver);
+    return ReflectSet(target, key, value, receiver);
   },
 });
 
 /** limitation: `Object.getPrototypeOf(Float16Array)` returns `Uint16Array` */
-export class Float16Array extends Uint16Array {
+export class Float16Array extends NativeUint16Array {
   /** @see https://tc39.es/ecma262/#sec-typedarray */
   constructor(input, byteOffset, length) {
     if (isFloat16Array(input)) {
@@ -181,7 +217,7 @@ export class Float16Array extends Uint16Array {
 
       if (isTypedArray(input)) { // TypedArray
         if (isBigIntTypedArray(input)) {
-          throw new TypeError(
+          throw new NativeTypeError(
             "Cannot mix BigInt and other types, use explicit conversions",
           );
         }
@@ -193,9 +229,9 @@ export class Float16Array extends Uint16Array {
         const BufferConstructor = !isSharedArrayBuffer(buffer)
           ? /** @type {ArrayBufferConstructor} */ (SpeciesConstructor(
             buffer,
-            ArrayBuffer,
+            NativeArrayBuffer,
           ))
-          : ArrayBuffer;
+          : NativeArrayBuffer;
         const data = new BufferConstructor(
           length * Float16Array.BYTES_PER_ELEMENT,
         );
@@ -246,7 +282,7 @@ export class Float16Array extends Uint16Array {
       }
     }
 
-    const proxy = new Proxy(this, handler);
+    const proxy = new NativeProxy(this, handler);
 
     // proxy private storage
     _(proxy).target = /** @type {any} */ (this);
@@ -262,20 +298,26 @@ export class Float16Array extends Uint16Array {
   static from(src, ...opts) {
     const Constructor = this;
 
-    if (!Reflect.has(Constructor, brand)) {
-      throw TypeError("This constructor is not a subclass of Float16Array");
+    if (!ReflectHas(Constructor, brand)) {
+      throw NativeTypeError(
+        "This constructor is not a subclass of Float16Array",
+      );
     }
 
     // for optimization
     if (Constructor === Float16Array) {
       if (isFloat16Array(src) && opts.length === 0) {
-        const uint16 = new Uint16Array(src.buffer, src.byteOffset, src.length);
+        const uint16 = new NativeUint16Array(
+          src.buffer,
+          src.byteOffset,
+          src.length,
+        );
         return new Float16Array(uint16.slice().buffer);
       }
 
       if (opts.length === 0) {
         return new Float16Array(
-          Uint16Array.from(src, roundToFloat16Bits).buffer,
+          Uint16ArrayFrom(src, roundToFloat16Bits).buffer,
         );
       }
 
@@ -283,7 +325,7 @@ export class Float16Array extends Uint16Array {
       const thisArg = opts[1];
 
       return new Float16Array(
-        Uint16Array.from(src, function (val, ...args) {
+        Uint16ArrayFrom(src, function (val, ...args) {
           return roundToFloat16Bits(mapFunc.call(this, val, ...args));
         }, thisArg).buffer,
       );
@@ -333,8 +375,10 @@ export class Float16Array extends Uint16Array {
   static of(...items) {
     const Constructor = this;
 
-    if (!Reflect.has(Constructor, brand)) {
-      throw TypeError("This constructor is not a subclass of Float16Array");
+    if (!ReflectHas(Constructor, brand)) {
+      throw NativeTypeError(
+        "This constructor is not a subclass of Float16Array",
+      );
     }
 
     const length = items.length;
@@ -365,7 +409,7 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    return Reflect.apply(super.keys, float16bitsArray, []);
+    return TypedArrayPrototypeKeys(float16bitsArray);
   }
 
   /**
@@ -377,10 +421,8 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    /** @type {IterableIterator<number>} */
-    const arrayIterator = Reflect.apply(super.values, float16bitsArray, []);
     return wrapInArrayIterator((function* () {
-      for (const val of arrayIterator) {
+      for (const val of TypedArrayPrototypeValues(float16bitsArray)) {
         yield convertToNumber(val);
       }
     })());
@@ -395,12 +437,9 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    /** @type {IterableIterator<[number, number]>} */
-    const arrayIterator = Reflect.apply(super.entries, float16bitsArray, []);
-    /** @type {IterableIterator<[number, number]>} */
     return (wrapInArrayIterator((function* () {
-      for (const [i, val] of arrayIterator) {
-        yield [i, convertToNumber(val)];
+      for (const [i, val] of TypedArrayPrototypeEntries(float16bitsArray)) {
+        yield /** @type {[Number, number]} */ ([i, convertToNumber(val)]);
       }
     })()));
   }
@@ -467,7 +506,7 @@ export class Float16Array extends Uint16Array {
     for (let i = 0; i < length; ++i) {
       const val = convertToNumber(float16bitsArray[i]);
       if (callback.call(thisArg, val, i, this)) {
-        kept.push(val);
+        ArrayPrototypePush(kept, val);
       }
     }
 
@@ -485,7 +524,7 @@ export class Float16Array extends Uint16Array {
 
     const length = float16bitsArray.length;
     if (length === 0 && opts.length === 0) {
-      throw TypeError("Reduce of empty array with no initial value");
+      throw NativeTypeError("Reduce of empty array with no initial value");
     }
 
     let accumulator, start;
@@ -516,7 +555,7 @@ export class Float16Array extends Uint16Array {
 
     const length = float16bitsArray.length;
     if (length === 0 && opts.length === 0) {
-      throw TypeError("Reduce of empty array with no initial value");
+      throw NativeTypeError("Reduce of empty array with no initial value");
     }
 
     let accumulator, start;
@@ -666,11 +705,11 @@ export class Float16Array extends Uint16Array {
 
     const targetOffset = ToIntegerOrInfinity(opts[0]);
     if (targetOffset < 0) {
-      throw RangeError("Offset is out of bounds");
+      throw NativeRangeError("Offset is out of bounds");
     }
 
     if (isBigIntTypedArray(input)) {
-      throw new TypeError(
+      throw new NativeTypeError(
         "Cannot mix BigInt and other types, use explicit conversions",
       );
     }
@@ -678,19 +717,20 @@ export class Float16Array extends Uint16Array {
     // for optimization
     if (isFloat16Array(input)) {
       // peel off Proxy
-      return Reflect.apply(super.set, getFloat16BitsArray(this), [
+      return TypedArrayPrototypeSet(
+        getFloat16BitsArray(this),
         getFloat16BitsArray(input),
         targetOffset,
-      ]);
+      );
     }
 
     const targetLength = float16bitsArray.length;
 
-    const src = Object(input);
+    const src = NativeObject(input);
     const srcLength = LengthOfArrayLike(src);
 
     if (targetOffset === Infinity || srcLength + targetOffset > targetLength) {
-      throw RangeError("Offset is out of bounds");
+      throw NativeRangeError("Offset is out of bounds");
     }
 
     for (let i = 0; i < srcLength; ++i) {
@@ -703,7 +743,7 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    Reflect.apply(super.reverse, float16bitsArray, []);
+    TypedArrayPrototypeReverse(float16bitsArray);
 
     return this;
   }
@@ -713,10 +753,11 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    Reflect.apply(super.fill, float16bitsArray, [
+    TypedArrayPrototypeFill(
+      float16bitsArray,
       roundToFloat16Bits(value),
       ...opts,
-    ]);
+    );
 
     return this;
   }
@@ -726,7 +767,7 @@ export class Float16Array extends Uint16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    Reflect.apply(super.copyWithin, float16bitsArray, [target, start, ...opts]);
+    TypedArrayPrototypeCopyWithin(float16bitsArray, target, start, ...opts);
 
     return this;
   }
@@ -737,9 +778,9 @@ export class Float16Array extends Uint16Array {
     const float16bitsArray = getFloat16BitsArray(this);
 
     const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
-    Reflect.apply(super.sort, float16bitsArray, [(x, y) => {
+    TypedArrayPrototypeSort(float16bitsArray, (x, y) => {
       return compare(convertToNumber(x), convertToNumber(y));
-    }]);
+    });
 
     return this;
   }
@@ -753,12 +794,12 @@ export class Float16Array extends Uint16Array {
 
     // for optimization
     if (Constructor === Float16Array) {
-      const uint16 = new Uint16Array(
+      const uint16 = new NativeUint16Array(
         float16bitsArray.buffer,
         float16bitsArray.byteOffset,
         float16bitsArray.length,
       );
-      return new Float16Array(uint16.slice(...opts).buffer);
+      return new Float16Array(TypedArrayPrototypeSlice(uint16, ...opts).buffer);
     }
 
     const length = float16bitsArray.length;
@@ -808,12 +849,12 @@ export class Float16Array extends Uint16Array {
 
     const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
 
-    const uint16 = new Uint16Array(
+    const uint16 = new NativeUint16Array(
       float16bitsArray.buffer,
       float16bitsArray.byteOffset,
       float16bitsArray.length,
     );
-    const uint16Subarray = uint16.subarray(...opts);
+    const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...opts);
 
     const array = new Constructor(
       uint16Subarray.buffer,
@@ -846,7 +887,7 @@ export class Float16Array extends Uint16Array {
 
     for (let i = from; i < length; ++i) {
       if (
-        hasOwn(float16bitsArray, i) &&
+        ObjectHasOwn(float16bitsArray, i) &&
         convertToNumber(float16bitsArray[i]) === element
       ) {
         return i;
@@ -876,7 +917,7 @@ export class Float16Array extends Uint16Array {
 
     for (let i = from; i >= 0; --i) {
       if (
-        hasOwn(float16bitsArray, i) &&
+        ObjectHasOwn(float16bitsArray, i) &&
         convertToNumber(float16bitsArray[i]) === element
       ) {
         return i;
@@ -905,11 +946,11 @@ export class Float16Array extends Uint16Array {
       }
     }
 
-    const isNaN = Number.isNaN(element);
+    const isNaN = NumberIsNaN(element);
     for (let i = from; i < length; ++i) {
       const value = convertToNumber(float16bitsArray[i]);
 
-      if (isNaN && Number.isNaN(value)) {
+      if (isNaN && NumberIsNaN(value)) {
         return true;
       }
 
@@ -928,7 +969,7 @@ export class Float16Array extends Uint16Array {
 
     const array = copyToArray(float16bitsArray);
 
-    return array.join(...opts);
+    return ArrayPrototypeJoin(array, ...opts);
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring */
@@ -938,12 +979,11 @@ export class Float16Array extends Uint16Array {
 
     const array = copyToArray(float16bitsArray);
 
-    // @ts-ignore
-    return array.toLocaleString(...opts);
+    return ArrayPrototypeToLocaleString(array, ...opts);
   }
 
   /** @see https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag */
-  get [Symbol.toStringTag]() {
+  get [SymbolToStringTag]() {
     if (isFloat16Array(this)) {
       return /** @type {any} */ ("Float16Array");
     }
@@ -951,26 +991,26 @@ export class Float16Array extends Uint16Array {
 }
 
 /** @see https://tc39.es/ecma262/#sec-typedarray.bytes_per_element */
-Object.defineProperty(Float16Array, "BYTES_PER_ELEMENT", {
-  value: Uint16Array.BYTES_PER_ELEMENT,
+ObjectDefineProperty(Float16Array, "BYTES_PER_ELEMENT", {
+  value: NativeUint16Array.BYTES_PER_ELEMENT,
 });
 
 // limitation: It is peaked by `Object.getOwnPropertySymbols(Float16Array)` and `Reflect.ownKeys(Float16Array)`
-Object.defineProperty(Float16Array, brand, {});
+ObjectDefineProperty(Float16Array, brand, {});
 
 const Float16ArrayPrototype = Float16Array.prototype;
 
 /** @see https://tc39.es/ecma262/#sec-typedarray.prototype.bytes_per_element */
-Object.defineProperty(Float16ArrayPrototype, "BYTES_PER_ELEMENT", {
-  value: Uint16Array.BYTES_PER_ELEMENT,
+ObjectDefineProperty(Float16ArrayPrototype, "BYTES_PER_ELEMENT", {
+  value: NativeUint16Array.BYTES_PER_ELEMENT,
 });
 
 /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator */
-Object.defineProperty(Float16ArrayPrototype, Symbol.iterator, {
+ObjectDefineProperty(Float16ArrayPrototype, SymbolIterator, {
   value: Float16ArrayPrototype.values,
   writable: true,
   configurable: true,
 });
 
 // To make `new Float16Array() instanceof Uint16Array` returns `false`
-Reflect.setPrototypeOf(Float16ArrayPrototype, TypedArrayPrototype);
+ReflectSetPrototypeOf(Float16ArrayPrototype, TypedArrayPrototype);
