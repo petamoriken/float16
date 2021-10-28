@@ -76,6 +76,8 @@ import {
   defaultCompare,
 } from "./_util/spec.mjs";
 
+const BYTES_PER_ELEMENT = 2;
+
 const brand = SymbolFor("__Float16Array__");
 
 /** @type {WeakMap<Float16Array, Uint16Array & { __float16bits: never }>} */
@@ -250,7 +252,7 @@ export class Float16Array extends NativeUint16Array {
           ))
           : NativeArrayBuffer;
         const data = new BufferConstructor(
-          length * Float16Array.BYTES_PER_ELEMENT
+          length * BYTES_PER_ELEMENT
         );
         super(data);
       } else if (isIterable(input)) { // Iterable (Array)
@@ -1046,7 +1048,7 @@ export class Float16Array extends NativeUint16Array {
 
 /** @see https://tc39.es/ecma262/#sec-typedarray.bytes_per_element */
 ObjectDefineProperty(Float16Array, "BYTES_PER_ELEMENT", {
-  value: NativeUint16Array.BYTES_PER_ELEMENT,
+  value: BYTES_PER_ELEMENT,
 });
 
 // limitation: It is peaked by `Object.getOwnPropertySymbols(Float16Array)` and `Reflect.ownKeys(Float16Array)`
@@ -1056,7 +1058,7 @@ const Float16ArrayPrototype = Float16Array.prototype;
 
 /** @see https://tc39.es/ecma262/#sec-typedarray.prototype.bytes_per_element */
 ObjectDefineProperty(Float16ArrayPrototype, "BYTES_PER_ELEMENT", {
-  value: NativeUint16Array.BYTES_PER_ELEMENT,
+  value: BYTES_PER_ELEMENT,
 });
 
 /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator */
