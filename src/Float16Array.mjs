@@ -1,11 +1,5 @@
-import { wrapInArrayIterator } from "./_arrayIterator.mjs";
-import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
-import {
-  LengthOfArrayLike,
-  SpeciesConstructor,
-  ToIntegerOrInfinity,
-  defaultCompare,
-} from "./_spec.mjs";
+import { wrapInArrayIterator } from "./_util/arrayIterator.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
   isArrayBuffer,
   isBigIntTypedArray,
@@ -29,6 +23,7 @@ import {
   NativeSet,
   NativeTypeError,
   NativeUint16Array,
+  NativeWeakMap,
   NumberIsNaN,
   ObjectDefineProperty,
   ObjectFreeze,
@@ -57,13 +52,20 @@ import {
   TypedArrayPrototypeSubarray,
   TypedArrayPrototypeValues,
   Uint16ArrayFrom,
+  WeakMapPrototypeGet,
+  WeakMapPrototypeSet,
 } from "./_util/primordials.mjs";
-import { createPrivateStorage } from "./_util/private.mjs";
+import {
+  LengthOfArrayLike,
+  SpeciesConstructor,
+  ToIntegerOrInfinity,
+  defaultCompare,
+} from "./_util/spec.mjs";
 
 const brand = SymbolFor("__Float16Array__");
 
-const _ =
-  /** @type {(self: object) => { target: Uint16Array & { __float16bits: never } }} */ (createPrivateStorage());
+/** @type {WeakMap<Float16Array, Uint16Array & { __float16bits: never }>} */
+const targets = new NativeWeakMap();
 
 /**
  * @param {unknown} target
@@ -135,9 +137,9 @@ function assertSpeciesTypedArray(target) {
  * @returns {Uint16Array & { __float16bits: never }}
  */
 function getFloat16BitsArray(float16) {
-  const storage = _(float16);
-  if (ObjectHasOwn(storage, "target")) {
-    return storage.target;
+  const target = WeakMapPrototypeGet(targets, float16);
+  if (target !== undefined) {
+    return target;
   }
 
   // from another Float16Array instance (a different version?)
@@ -146,7 +148,7 @@ function getFloat16BitsArray(float16) {
     float16.byteOffset,
     float16.length,
   );
-  return _(clone).target;
+  return WeakMapPrototypeGet(targets, clone);
 }
 
 /**
@@ -285,7 +287,7 @@ export class Float16Array extends NativeUint16Array {
     const proxy = new NativeProxy(this, handler);
 
     // proxy private storage
-    _(proxy).target = /** @type {any} */ (this);
+    WeakMapPrototypeSet(targets, proxy, this);
 
     return proxy;
   }

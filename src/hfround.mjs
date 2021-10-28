@@ -1,4 +1,4 @@
-import { convertToNumber, roundToFloat16Bits } from "./_converter.mjs";
+import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
   NativeNumber,
   NativeTypeError,

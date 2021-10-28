@@ -1,4 +1,4 @@
-import { isObject } from "./_util/is.mjs";
+import { isObject } from "./is.mjs";
 import {
   MathTrunc,
   NativeNumber,
@@ -6,7 +6,7 @@ import {
   NumberIsNaN,
   ObjectIs,
   SymbolSpecies,
-} from "./_util/primordials.mjs";
+} from "./primordials.mjs";
 
 /**
  * @see https://tc39.es/ecma262/#sec-tointegerorinfinity

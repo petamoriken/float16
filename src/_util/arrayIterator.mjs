@@ -1,21 +1,22 @@
-/* eslint-disable jsdoc/check-tag-names */
-
 import {
   GeneratorPrototypeNext,
   IteratorPrototype,
+  NativeWeakMap,
   ObjectCreate,
   SymbolToStringTag,
-} from "./_util/primordials.mjs";
-import { createPrivateStorage } from "./_util/private.mjs";
+  WeakMapPrototypeGet,
+  WeakMapPrototypeSet,
+} from "./primordials.mjs";
 
-const _ =
-  /** @type {(self: object) => { generator: Iterator<any> }} */ (createPrivateStorage());
+/** @type {WeakMap<object, Generator<any>>} */
+const generators = new NativeWeakMap();
 
 /** @see https://tc39.es/ecma262/#sec-%arrayiteratorprototype%-object */
 const ArrayIteratorPrototype = ObjectCreate(IteratorPrototype, {
   next: {
     value: function next() {
-      return GeneratorPrototypeNext(_(this).generator);
+      const generator = WeakMapPrototypeGet(generators, this);
+      return GeneratorPrototypeNext(generator);
     },
     writable: true,
     configurable: true,
@@ -27,13 +28,9 @@ const ArrayIteratorPrototype = ObjectCreate(IteratorPrototype, {
   },
 });
 
-/**
- * @template T
- * @param {Generator<T>} generator
- * @returns {IterableIterator<T>}
- */
+/** @type {<T>(generator: Generator<T>) => IterableIterator<T>} */
 export function wrapInArrayIterator(generator) {
   const arrayIterator = ObjectCreate(ArrayIteratorPrototype);
-  _(arrayIterator).generator = generator;
+  WeakMapPrototypeSet(generators, arrayIterator, generator);
   return arrayIterator;
 }

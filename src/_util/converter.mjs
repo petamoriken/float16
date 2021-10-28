@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+
 // algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
 
 const buffer = new ArrayBuffer(4);
