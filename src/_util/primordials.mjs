@@ -10,8 +10,8 @@ function uncurryThisGetter(target, key) {
   return uncurryThis(
     ReflectGetOwnPropertyDescriptor(
       target,
-      key,
-    ).get,
+      key
+    ).get
   );
 }
 
@@ -55,7 +55,7 @@ export const ArrayPrototypeJoin = uncurryThis(ArrayPrototype.join);
 export const ArrayPrototypePush = uncurryThis(ArrayPrototype.push);
 /** @type {(array: Array<unknown>) => string} */
 export const ArrayPrototypeToLocaleString = uncurryThis(
-  ArrayPrototype.toLocaleString,
+  ArrayPrototype.toLocaleString
 );
 
 // Object
@@ -85,23 +85,23 @@ export const TypedArrayPrototype = TypedArray.prototype;
 export const TypedArrayPrototypeKeys = uncurryThis(TypedArrayPrototype.keys);
 /** @type {(typedArray: TypedArray) => IterableIterator<number>} */
 export const TypedArrayPrototypeValues = uncurryThis(
-  TypedArrayPrototype.values,
+  TypedArrayPrototype.values
 );
 /** @type {(typedArray: TypedArray) => IterableIterator<[number, number]>} */
 export const TypedArrayPrototypeEntries = uncurryThis(
-  TypedArrayPrototype.entries,
+  TypedArrayPrototype.entries
 );
 /** @type {(typedArray: TypedArray, array: ArrayLike<number>, offset?: number) => void} */
 export const TypedArrayPrototypeSet = uncurryThis(TypedArrayPrototype.set);
 /** @type {<T extends TypedArray>(typedArray: T) => T} */
 export const TypedArrayPrototypeReverse = uncurryThis(
-  TypedArrayPrototype.reverse,
+  TypedArrayPrototype.reverse
 );
 /** @type {<T extends TypedArray>(typedArray: T, value: number, start?: number, end?: number) => T} */
 export const TypedArrayPrototypeFill = uncurryThis(TypedArrayPrototype.fill);
 /** @type {<T extends TypedArray>(typedArray: T, target: number, start: number, end?: number) => T} */
 export const TypedArrayPrototypeCopyWithin = uncurryThis(
-  TypedArrayPrototype.copyWithin,
+  TypedArrayPrototype.copyWithin
 );
 /** @type {<T extends TypedArray>(typedArray: T, compareFn?: (a: number, b: number) => number) => T} */
 export const TypedArrayPrototypeSort = uncurryThis(TypedArrayPrototype.sort);
@@ -109,29 +109,29 @@ export const TypedArrayPrototypeSort = uncurryThis(TypedArrayPrototype.sort);
 export const TypedArrayPrototypeSlice = uncurryThis(TypedArrayPrototype.slice);
 /** @type {<T extends TypedArray>(typedArray: T, start?: number, end?: number) => T} */
 export const TypedArrayPrototypeSubarray = uncurryThis(
-  TypedArrayPrototype.subarray,
+  TypedArrayPrototype.subarray
 );
 /** @type {((typedArray: TypedArray) => ArrayBuffer)} */
 export const TypedArrayPrototypeGetBuffer = uncurryThis(
   ReflectGetOwnPropertyDescriptor(
     TypedArrayPrototype,
-    "buffer",
-  ).get,
+    "buffer"
+  ).get
 );
 /** @type {((typedArray: TypedArray) => number)} */
 export const TypedArrayPrototypeGetByteOffset = uncurryThisGetter(
   TypedArrayPrototype,
-  "byteOffset",
+  "byteOffset"
 );
 /** @type {((typedArray: TypedArray) => number)} */
 export const TypedArrayPrototypeGetLength = uncurryThisGetter(
   TypedArrayPrototype,
-  "length",
+  "length"
 );
 /** @type {(target: unknown) => string} */
 export const TypedArrayPrototypeGetSymbolToStringTag = uncurryThisGetter(
   TypedArrayPrototype,
-  SymbolToStringTag,
+  SymbolToStringTag
 );
 
 // Uint16Array
@@ -146,7 +146,7 @@ export const NativeFloat32Array = Float32Array;
 
 // Iterator
 export const IteratorPrototype = ReflectGetPrototypeOf(
-  ReflectGetPrototypeOf([][SymbolIterator]()),
+  ReflectGetPrototypeOf([][SymbolIterator]())
 );
 
 // Generator
@@ -158,11 +158,11 @@ export const GeneratorPrototypeNext = uncurryThis(GeneratorPrototype.next);
 const DataViewPrototype = DataView.prototype;
 /** @type {(dataView: DataView, byteOffset: number, littleEndian?: boolean) => number} */
 export const DataViewPrototypeGetUint16 = uncurryThis(
-  DataViewPrototype.getUint16,
+  DataViewPrototype.getUint16
 );
 /** @type {(dataView: DataView, byteOffset: number, value: number, littleEndian?: boolean) => void} */
 export const DataViewPrototypeSetUint16 = uncurryThis(
-  DataViewPrototype.setUint16,
+  DataViewPrototype.setUint16
 );
 
 // Error

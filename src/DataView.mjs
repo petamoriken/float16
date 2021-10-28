@@ -14,7 +14,7 @@ import {
  */
 export function getFloat16(dataView, byteOffset, ...opts) {
   return convertToNumber(
-    DataViewPrototypeGetUint16(dataView, byteOffset, ...opts),
+    DataViewPrototypeGetUint16(dataView, byteOffset, ...opts)
   );
 }
 
@@ -31,6 +31,6 @@ export function setFloat16(dataView, byteOffset, value, ...opts) {
     dataView,
     byteOffset,
     roundToFloat16Bits(value),
-    ...opts,
+    ...opts
   );
 }

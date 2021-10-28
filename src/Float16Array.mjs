@@ -131,7 +131,7 @@ function assertSpeciesTypedArray(target) {
 
   if (isBigIntTypedArray(target)) {
     throw new NativeTypeError(
-      "Cannot mix BigInt and other types, use explicit conversions",
+      "Cannot mix BigInt and other types, use explicit conversions"
     );
   }
 }
@@ -150,7 +150,7 @@ function getFloat16BitsArray(float16) {
   const cloned = new Float16Array(
     float16.buffer,
     float16.byteOffset,
-    float16.length,
+    float16.length
   );
   return WeakMapPrototypeGet(targets, cloned);
 }
@@ -224,7 +224,7 @@ export class Float16Array extends NativeUint16Array {
       if (isTypedArray(input)) { // TypedArray
         if (isBigIntTypedArray(input)) {
           throw new NativeTypeError(
-            "Cannot mix BigInt and other types, use explicit conversions",
+            "Cannot mix BigInt and other types, use explicit conversions"
           );
         }
 
@@ -235,11 +235,11 @@ export class Float16Array extends NativeUint16Array {
         const BufferConstructor = !isSharedArrayBuffer(buffer)
           ? /** @type {ArrayBufferConstructor} */ (SpeciesConstructor(
             buffer,
-            NativeArrayBuffer,
+            NativeArrayBuffer
           ))
           : NativeArrayBuffer;
         const data = new BufferConstructor(
-          length * Float16Array.BYTES_PER_ELEMENT,
+          length * Float16Array.BYTES_PER_ELEMENT
         );
         super(data);
       } else if (isIterable(input)) { // Iterable (Array)
@@ -306,7 +306,7 @@ export class Float16Array extends NativeUint16Array {
 
     if (!ReflectHas(Constructor, brand)) {
       throw NativeTypeError(
-        "This constructor is not a subclass of Float16Array",
+        "This constructor is not a subclass of Float16Array"
       );
     }
 
@@ -317,18 +317,18 @@ export class Float16Array extends NativeUint16Array {
         const uint16 = new NativeUint16Array(
           TypedArrayPrototypeGetBuffer(float16bitsArray),
           TypedArrayPrototypeGetByteOffset(float16bitsArray),
-          TypedArrayPrototypeGetLength(float16bitsArray),
+          TypedArrayPrototypeGetLength(float16bitsArray)
         );
         return new Float16Array(
-          TypedArrayPrototypeGetBuffer(TypedArrayPrototypeSlice(uint16)),
+          TypedArrayPrototypeGetBuffer(TypedArrayPrototypeSlice(uint16))
         );
       }
 
       if (opts.length === 0) {
         return new Float16Array(
           TypedArrayPrototypeGetBuffer(
-            Uint16ArrayFrom(src, roundToFloat16Bits),
-          ),
+            Uint16ArrayFrom(src, roundToFloat16Bits)
+          )
         );
       }
 
@@ -339,10 +339,10 @@ export class Float16Array extends NativeUint16Array {
         TypedArrayPrototypeGetBuffer(
           Uint16ArrayFrom(src, function (val, ...args) {
             return roundToFloat16Bits(
-              ReflectApply(mapFunc, this, [val, ...args]),
+              ReflectApply(mapFunc, this, [val, ...args])
             );
-          }, thisArg),
-        ),
+          }, thisArg)
+        )
       );
     }
 
@@ -395,7 +395,7 @@ export class Float16Array extends NativeUint16Array {
 
     if (!ReflectHas(Constructor, brand)) {
       throw NativeTypeError(
-        "This constructor is not a subclass of Float16Array",
+        "This constructor is not a subclass of Float16Array"
       );
     }
 
@@ -496,7 +496,7 @@ export class Float16Array extends NativeUint16Array {
       for (let i = 0; i < length; ++i) {
         const val = convertToNumber(float16bitsArray[i]);
         array[i] = roundToFloat16Bits(
-          ReflectApply(callback, thisArg, [val, i, this]),
+          ReflectApply(callback, thisArg, [val, i, this])
         );
       }
 
@@ -561,7 +561,7 @@ export class Float16Array extends NativeUint16Array {
         accumulator,
         convertToNumber(float16bitsArray[i]),
         i,
-        this,
+        this
       );
     }
 
@@ -592,7 +592,7 @@ export class Float16Array extends NativeUint16Array {
         accumulator,
         convertToNumber(float16bitsArray[i]),
         i,
-        this,
+        this
       );
     }
 
@@ -742,7 +742,7 @@ export class Float16Array extends NativeUint16Array {
 
     if (isBigIntTypedArray(input)) {
       throw new NativeTypeError(
-        "Cannot mix BigInt and other types, use explicit conversions",
+        "Cannot mix BigInt and other types, use explicit conversions"
       );
     }
 
@@ -752,7 +752,7 @@ export class Float16Array extends NativeUint16Array {
       return TypedArrayPrototypeSet(
         getFloat16BitsArray(this),
         getFloat16BitsArray(input),
-        targetOffset,
+        targetOffset
       );
     }
 
@@ -788,7 +788,7 @@ export class Float16Array extends NativeUint16Array {
     TypedArrayPrototypeFill(
       float16bitsArray,
       roundToFloat16Bits(value),
-      ...opts,
+      ...opts
     );
 
     return this;
@@ -829,12 +829,12 @@ export class Float16Array extends NativeUint16Array {
       const uint16 = new NativeUint16Array(
         TypedArrayPrototypeGetBuffer(float16bitsArray),
         TypedArrayPrototypeGetByteOffset(float16bitsArray),
-        TypedArrayPrototypeGetLength(float16bitsArray),
+        TypedArrayPrototypeGetLength(float16bitsArray)
       );
       return new Float16Array(
         TypedArrayPrototypeGetBuffer(
-          TypedArrayPrototypeSlice(uint16, ...opts),
-        ),
+          TypedArrayPrototypeSlice(uint16, ...opts)
+        )
       );
     }
 
@@ -888,14 +888,14 @@ export class Float16Array extends NativeUint16Array {
     const uint16 = new NativeUint16Array(
       TypedArrayPrototypeGetBuffer(float16bitsArray),
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
-      TypedArrayPrototypeGetLength(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray)
     );
     const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...opts);
 
     const array = new Constructor(
       TypedArrayPrototypeGetBuffer(uint16Subarray),
       TypedArrayPrototypeGetByteOffset(uint16Subarray),
-      TypedArrayPrototypeGetLength(uint16Subarray),
+      TypedArrayPrototypeGetLength(uint16Subarray)
     );
     assertSpeciesTypedArray(array);
 
