@@ -71,6 +71,7 @@ import {
   TypedArrayPrototypeValues,
   Uint16ArrayFrom,
   WeakMapPrototypeGet,
+  WeakMapPrototypeHas,
   WeakMapPrototypeSet,
 } from "./_util/primordials.mjs";
 import {
@@ -119,7 +120,8 @@ function hasFloat16ArrayBrand(target) {
  * @returns {target is Float16Array}
  */
 export function isFloat16Array(target) {
-  return hasFloat16ArrayBrand(target) && !isTypedArray(target);
+  return WeakMapPrototypeHas(float16bitsArrays, target) ||
+    (hasFloat16ArrayBrand(target) && !isTypedArray(target));
 }
 
 /**
@@ -170,6 +172,7 @@ function assertSpeciesTypedArray(target, count) {
 
 /**
  * @param {Float16Array} float16
+ * @throws {TypeError}
  * @returns {Uint16Array & { __float16bits: never }}
  */
 function getFloat16BitsArray(float16) {
@@ -183,14 +186,14 @@ function getFloat16BitsArray(float16) {
   }
 
   // @ts-ignore
-  if (IsDetachedBuffer(float16.buffer)) {
+  const buffer = float16.buffer;
+  if (IsDetachedBuffer(buffer)) {
     throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
   }
 
   // from another Float16Array instance (a different version?)
   const cloned = ReflectConstruct(Float16Array, [
-    // @ts-ignore
-    float16.buffer,
+    buffer,
     // @ts-ignore
     float16.byteOffset,
     // @ts-ignore

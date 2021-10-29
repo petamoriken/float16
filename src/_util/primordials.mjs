@@ -77,14 +77,14 @@ export const MathTrunc = Math.trunc;
 
 // ArrayBuffer
 export const NativeArrayBuffer = ArrayBuffer;
-/** @type {(buffer: ArrayBuffer, begin: number, end?: number) => number} */
+/** @type {(buffer: ArrayBuffer, begin?: number, end?: number) => number} */
 export const ArrayBufferPrototypeSlice = uncurryThis(NativeArrayBuffer.prototype.slice);
 /** @type {(buffer: ArrayBuffer) => ArrayBuffer} */
 export const ArrayBufferPrototypeGetByteLength = uncurryThisGetter(NativeArrayBuffer.prototype, "byteLength");
 
 // SharedArrayBuffer
 export const NativeSharedArrayBuffer = typeof SharedArrayBuffer !== "undefined" ? SharedArrayBuffer : null;
-/** @type {(buffer: SharedArrayBuffer, begin: number, end?: number) => number} */
+/** @type {(buffer: SharedArrayBuffer, begin?: number, end?: number) => number} */
 export const SharedArrayBufferPrototypeSlice = NativeSharedArrayBuffer
   && uncurryThis(NativeSharedArrayBuffer.prototype.slice);
 /** @type {(buffer: SharedArrayBuffer) => SharedArrayBuffer} */
@@ -197,5 +197,7 @@ export const NativeWeakMap = WeakMap;
 const WeakMapPrototype = NativeWeakMap.prototype;
 /** @type {<K extends {}, V>(weakMap: WeakMap<K, V>, key: K) => V} */
 export const WeakMapPrototypeGet = uncurryThis(WeakMapPrototype.get);
+/** @type {<K extends {}, V>(weakMap: WeakMap<K, V>, key: K) => boolean} */
+export const WeakMapPrototypeHas = uncurryThis(WeakMapPrototype.has);
 /** @type {<K extends {}, V>(weakMap: WeakMap<K, V>, key: K, value: V) => WeakMap} */
 export const WeakMapPrototypeSet = uncurryThis(WeakMapPrototype.set);

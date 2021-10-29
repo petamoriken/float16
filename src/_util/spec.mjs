@@ -93,7 +93,7 @@ export function SpeciesConstructor(target, defaultConstructor) {
 
 /**
  * @see https://tc39.es/ecma262/#sec-isdetachedbuffer
- * @param {ArrayBuffer | SharedArrayBuffer} buffer
+ * @param {ArrayBufferLike} buffer
  * @returns {boolean}
  */
 export function IsDetachedBuffer(buffer) {
