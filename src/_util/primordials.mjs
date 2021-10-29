@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 /* global SharedArrayBuffer */
 
-const { bind, call } = Function.prototype;
+const { bind, call } = Function;
 
 /** @type {(target: any) => any} */
 const uncurryThis = bind.bind(call);
@@ -77,6 +77,7 @@ export const MathTrunc = Math.trunc;
 
 // ArrayBuffer
 export const NativeArrayBuffer = ArrayBuffer;
+export const ArrayBufferIsView = NativeArrayBuffer.isView;
 /** @type {(buffer: ArrayBuffer, begin?: number, end?: number) => number} */
 export const ArrayBufferPrototypeSlice = uncurryThis(NativeArrayBuffer.prototype.slice);
 /** @type {(buffer: ArrayBuffer) => ArrayBuffer} */
@@ -165,9 +166,8 @@ export const IteratorPrototype = ReflectGetPrototypeOf(
 );
 
 // Generator
-const GeneratorPrototype = (function* () {}).constructor.prototype.prototype;
 /** @type {<T = unknown, TReturn = any, TNext = unknown>(generator: Generator<T, TReturn, TNext>, value?: TNext) => T} */
-export const GeneratorPrototypeNext = uncurryThis(GeneratorPrototype.next);
+export const GeneratorPrototypeNext = uncurryThis((function* () {})().next);
 
 // DataView
 const DataViewPrototype = DataView.prototype;

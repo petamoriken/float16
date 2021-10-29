@@ -25,6 +25,7 @@ import {
   THIS_IS_NOT_A_FLOAT16ARRAY,
 } from "./_util/messages.mjs";
 import {
+  ArrayBufferIsView,
   ArrayPrototypeJoin,
   ArrayPrototypePush,
   ArrayPrototypeToLocaleString,
@@ -121,7 +122,7 @@ function hasFloat16ArrayBrand(target) {
  */
 export function isFloat16Array(target) {
   return WeakMapPrototypeHas(float16bitsArrays, target) ||
-    (hasFloat16ArrayBrand(target) && !isTypedArray(target));
+    (hasFloat16ArrayBrand(target) && !ArrayBufferIsView(target));
 }
 
 /**
