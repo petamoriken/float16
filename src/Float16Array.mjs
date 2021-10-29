@@ -177,14 +177,14 @@ function getFloat16BitsArray(float16) {
   }
 
   // from another Float16Array instance (a different version?)
-  const cloned = new Float16Array(
+  const cloned = ReflectConstruct(Float16Array, [
     // @ts-ignore
     float16.buffer,
     // @ts-ignore
     float16.byteOffset,
     // @ts-ignore
-    float16.length
-  );
+    float16.length,
+  ], float16.constructor);
   return WeakMapPrototypeGet(targets, cloned);
 }
 
