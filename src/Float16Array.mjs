@@ -295,7 +295,6 @@ export class Float16Array {
 
       // set values
       for (let i = 0; i < length; ++i) {
-        // super (Uint16Array)
         float16bitsArray[i] = roundToFloat16Bits(list[i]);
       }
     } else { // primitive, ArrayBuffer
