@@ -18,6 +18,7 @@ function uncurryThisGetter(target, key) {
 // Reflect
 export const {
   apply: ReflectApply,
+  construct: ReflectConstruct,
   get: ReflectGet,
   getOwnPropertyDescriptor: ReflectGetOwnPropertyDescriptor,
   getPrototypeOf: ReflectGetPrototypeOf,
@@ -79,7 +80,7 @@ export const NativeArrayBuffer = ArrayBuffer;
 // TypedArray
 /** @typedef {Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array} TypedArray */
 /** @type {any} */
-const TypedArray = ReflectGetPrototypeOf(Uint8Array);
+export const TypedArray = ReflectGetPrototypeOf(Uint8Array);
 export const TypedArrayPrototype = TypedArray.prototype;
 /** @type {(typedArray: TypedArray) => IterableIterator<number>} */
 export const TypedArrayPrototypeKeys = uncurryThis(TypedArrayPrototype.keys);

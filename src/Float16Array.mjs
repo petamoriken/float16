@@ -40,6 +40,7 @@ import {
   ObjectFreeze,
   ObjectHasOwn,
   ReflectApply,
+  ReflectConstruct,
   ReflectGet,
   ReflectGetOwnPropertyDescriptor,
   ReflectGetPrototypeOf,
@@ -52,6 +53,7 @@ import {
   SymbolFor,
   SymbolIterator,
   SymbolToStringTag,
+  TypedArray,
   TypedArrayPrototype,
   TypedArrayPrototypeCopyWithin,
   TypedArrayPrototypeEntries,
@@ -176,8 +178,11 @@ function getFloat16BitsArray(float16) {
 
   // from another Float16Array instance (a different version?)
   const cloned = new Float16Array(
+    // @ts-ignore
     float16.buffer,
+    // @ts-ignore
     float16.byteOffset,
+    // @ts-ignore
     float16.length
   );
   return WeakMapPrototypeGet(targets, cloned);
@@ -235,14 +240,15 @@ const handler = ObjectFreeze({
   },
 });
 
-/** limitation: `Object.getPrototypeOf(Float16Array)` returns `Uint16Array` */
-export class Float16Array extends NativeUint16Array {
+export class Float16Array {
   /** @see https://tc39.es/ecma262/#sec-typedarray */
-  constructor(input, byteOffset, length) {
+  constructor(input, _byteOffset, _length) {
+    /** @type {Uint16Array & { __float16bits: never }} */
+    let float16bitsArray;
+
     if (isFloat16Array(input)) {
       // peel off Proxy
-      const float16bitsArray = getFloat16BitsArray(input);
-      super(float16bitsArray);
+      float16bitsArray = ReflectConstruct(NativeUint16Array, [getFloat16BitsArray(input)], new.target);
     } else if (isObject(input) && !isArrayBuffer(input)) { // object without ArrayBuffer
       /** @type {ArrayLike<unknown>} */
       let list;
@@ -269,57 +275,37 @@ export class Float16Array extends NativeUint16Array {
         const data = new BufferConstructor(
           length * BYTES_PER_ELEMENT
         );
-        super(data);
-      } else if (isIterable(input)) { // Iterable (Array)
-        // for optimization
-        if (isOrdinaryArray(input)) {
-          list = input;
-          length = input.length;
-          super(length);
-        } else {
-          list = [...input];
-          length = list.length;
-          super(length);
+        float16bitsArray = ReflectConstruct(NativeUint16Array, [data], new.target);
+      } else {
+        if (isIterable(input)) { // Iterable (Array)
+          // for optimization
+          if (isOrdinaryArray(input)) {
+            list = input;
+            length = input.length;
+          } else {
+            list = [...input];
+            length = list.length;
+          }
+        } else { // ArrayLike
+          list = /** @type {ArrayLike<unknown>} */ (input);
+          length = LengthOfArrayLike(input);
         }
-      } else { // ArrayLike
-        list = /** @type {ArrayLike<unknown>} */ (input);
-        length = LengthOfArrayLike(input);
-        super(length);
+        float16bitsArray = ReflectConstruct(NativeUint16Array, [length], new.target);
       }
 
       // set values
       for (let i = 0; i < length; ++i) {
         // super (Uint16Array)
-        this[i] = roundToFloat16Bits(list[i]);
+        float16bitsArray[i] = roundToFloat16Bits(list[i]);
       }
     } else { // primitive, ArrayBuffer
-      switch (arguments.length) {
-        case 0:
-          super();
-          break;
-
-        case 1:
-          super(input);
-          break;
-
-        case 2:
-          super(input, byteOffset);
-          break;
-
-        case 3:
-          super(input, byteOffset, length);
-          break;
-
-        default:
-          // @ts-ignore
-          super(...arguments);
-      }
+      float16bitsArray = ReflectConstruct(NativeUint16Array, arguments, new.target);
     }
 
-    const proxy = new NativeProxy(this, handler);
+    const proxy = new NativeProxy(/** @type {any} */ (float16bitsArray), handler);
 
     // proxy private storage
-    WeakMapPrototypeSet(targets, proxy, /** @type {any} */ (this));
+    WeakMapPrototypeSet(targets, proxy, float16bitsArray);
 
     return proxy;
   }
@@ -1068,6 +1054,9 @@ ObjectDefineProperty(Float16Array, "BYTES_PER_ELEMENT", {
 
 // limitation: It is peaked by `Object.getOwnPropertySymbols(Float16Array)` and `Reflect.ownKeys(Float16Array)`
 ObjectDefineProperty(Float16Array, brand, {});
+
+/** @see https://tc39.es/ecma262/#sec-properties-of-the-typedarray-constructors */
+ReflectSetPrototypeOf(Float16Array, TypedArray);
 
 const Float16ArrayPrototype = Float16Array.prototype;
 

@@ -1466,7 +1466,7 @@ describe("Float16Array", () => {
       }
     }
     const bar = new Bar([1, 2, 3, 4]);
-    assert.throws(() => bar.slice(), Error);
+    assert.throws(() => bar.slice(), TypeError);
   });
 
   describe("#subarray()", () => {

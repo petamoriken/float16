@@ -21,7 +21,6 @@
     "getter-return": "off",
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-debugger": "warn",
-    "no-undef": "error",
     "no-restricted-globals": [
       "error",
       "Array",
@@ -73,6 +72,11 @@
         "selector": "ForInStatement",
         "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
       }
+    ],
+    "no-undef": "error",
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
     ],
     "object-curly-spacing": ["error", "always"],
     "quotes": ["error", "double", "avoid-escape"],
