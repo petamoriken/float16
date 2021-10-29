@@ -153,14 +153,14 @@ function assertSpeciesTypedArray(target, count) {
     }
 
     if (length < count) {
-      throw NativeTypeError(DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL);
+      throw NativeTypeError(
+        DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL
+      );
     }
   }
 
   if (isBigIntTypedArray(target)) {
-    throw NativeTypeError(
-      CANNOT_MIX_BIGINT_AND_OTHER_TYPES
-    );
+    throw NativeTypeError(CANNOT_MIX_BIGINT_AND_OTHER_TYPES);
   }
 }
 
