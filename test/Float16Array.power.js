@@ -3242,7 +3242,7 @@ describe('Float16Array', () => {
             3,
             4
         ]);
-        assert.throws(() => bar.slice(), Error);
+        assert.throws(() => bar.slice(), TypeError);
     });
     describe('#subarray()', () => {
         it('property `name` is \'subarray\'', () => {
