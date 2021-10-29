@@ -783,6 +783,23 @@ describe("Float16Array", () => {
       }
       const foo = new Foo([1, 2, 3, 4]);
       assert.throws(() => foo.map((val) => val), TypeError);
+
+      class Bar extends Float16Array {
+        static get [Symbol.species]() {
+          return Baz;
+        }
+      }
+      class Baz extends Uint16Array {
+        constructor(...args) {
+          if (typeof args[0] === "number") {
+            super(args[0] / 2, ...args.slice(1));
+          } else {
+            super(...args);
+          }
+        }
+      }
+      const bar = new Bar([1, 2, 3, 4]);
+      assert.throws(() => bar.map((val) => val), TypeError);
     });
   });
 
@@ -1431,8 +1448,25 @@ describe("Float16Array", () => {
         }
       }
       const foo = new Foo([1, 2, 3, 4]);
-      assert.throws(() => foo.slice(0, 1), TypeError);
+      assert.throws(() => foo.slice(), TypeError);
     });
+
+    class Bar extends Float16Array {
+      static get [Symbol.species]() {
+        return Baz;
+      }
+    }
+    class Baz extends Uint16Array {
+      constructor(...args) {
+        if (typeof args[0] === "number") {
+          super(args[0] / 2, ...args.slice(1));
+        } else {
+          super(...args);
+        }
+      }
+    }
+    const bar = new Bar([1, 2, 3, 4]);
+    assert.throws(() => bar.slice(), Error);
   });
 
   describe("#subarray()", () => {
