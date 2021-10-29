@@ -1,12 +1,14 @@
 /* eslint-disable no-restricted-globals */
 /* global SharedArrayBuffer */
 
-const { bind, call } = Function;
+/** @type {(target: Function) => (thisArg: any, ...args: any[]) => any} */
+function uncurryThis(target) {
+  return (thisArg, ...args) => {
+    return ReflectApply(target, thisArg, args);
+  };
+}
 
-/** @type {(target: any) => any} */
-const uncurryThis = bind.bind(call);
-
-/** @type {(target: any, key: string | symbol) => any} */
+/** @type {(target: any, key: string | symbol) => (thisArg: any, ...args: any[]) => any} */
 function uncurryThisGetter(target, key) {
   return uncurryThis(
     ReflectGetOwnPropertyDescriptor(
@@ -96,6 +98,7 @@ export const SharedArrayBufferPrototypeGetByteLength = NativeSharedArrayBuffer
 /** @typedef {Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array} TypedArray */
 /** @type {any} */
 export const TypedArray = ReflectGetPrototypeOf(Uint8Array);
+const TypedArrayFrom = TypedArray.from;
 export const TypedArrayPrototype = TypedArray.prototype;
 /** @type {(typedArray: TypedArray) => IterableIterator<number>} */
 export const TypedArrayPrototypeKeys = uncurryThis(TypedArrayPrototype.keys);
@@ -150,7 +153,10 @@ export const TypedArrayPrototypeGetSymbolToStringTag = uncurryThisGetter(
 
 // Uint16Array
 export const NativeUint16Array = Uint16Array;
-export const Uint16ArrayFrom = TypedArray.from.bind(NativeUint16Array);
+/** @type {Uint16ArrayConstructor["from"]} */
+export const Uint16ArrayFrom = (...args) => {
+  return ReflectApply(TypedArrayFrom, NativeUint16Array, args);
+};
 
 // Uint32Array
 export const NativeUint32Array = Uint32Array;
