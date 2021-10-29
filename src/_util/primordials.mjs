@@ -128,11 +128,9 @@ export const TypedArrayPrototypeSubarray = uncurryThis(
   TypedArrayPrototype.subarray
 );
 /** @type {((typedArray: TypedArray) => ArrayBuffer)} */
-export const TypedArrayPrototypeGetBuffer = uncurryThis(
-  ReflectGetOwnPropertyDescriptor(
-    TypedArrayPrototype,
-    "buffer"
-  ).get
+export const TypedArrayPrototypeGetBuffer = uncurryThisGetter(
+  TypedArrayPrototype,
+  "buffer"
 );
 /** @type {((typedArray: TypedArray) => number)} */
 export const TypedArrayPrototypeGetByteOffset = uncurryThisGetter(
