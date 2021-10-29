@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-globals */
+/* global SharedArrayBuffer */
 
 const { bind, call } = Function.prototype;
 
@@ -76,6 +77,19 @@ export const MathTrunc = Math.trunc;
 
 // ArrayBuffer
 export const NativeArrayBuffer = ArrayBuffer;
+/** @type {(buffer: ArrayBuffer, begin: number, end?: number) => number} */
+export const ArrayBufferPrototypeSlice = uncurryThis(NativeArrayBuffer.prototype.slice);
+/** @type {(buffer: ArrayBuffer) => ArrayBuffer} */
+export const ArrayBufferPrototypeGetByteLength = uncurryThisGetter(NativeArrayBuffer.prototype, "byteLength");
+
+// SharedArrayBuffer
+export const NativeSharedArrayBuffer = typeof SharedArrayBuffer !== "undefined" ? SharedArrayBuffer : null;
+/** @type {(buffer: SharedArrayBuffer, begin: number, end?: number) => number} */
+export const SharedArrayBufferPrototypeSlice = NativeSharedArrayBuffer
+  && uncurryThis(NativeSharedArrayBuffer.prototype.slice);
+/** @type {(buffer: SharedArrayBuffer) => SharedArrayBuffer} */
+export const SharedArrayBufferPrototypeGetByteLength = NativeSharedArrayBuffer
+  && uncurryThisGetter(NativeSharedArrayBuffer.prototype, "byteLength");
 
 // TypedArray
 /** @typedef {Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array} TypedArray */

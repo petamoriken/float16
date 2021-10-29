@@ -1,8 +1,11 @@
 import {
+  ArrayBufferPrototypeGetByteLength,
   ArrayIsArray,
   MathTrunc,
   NativeNumber,
+  NativeSharedArrayBuffer,
   NumberIsFinite,
+  SharedArrayBufferPrototypeGetByteLength,
   SymbolIterator,
   SymbolToStringTag,
   TypedArrayPrototypeGetSymbolToStringTag,
@@ -51,7 +54,12 @@ export function isBigIntTypedArray(value) {
  * @returns {value is ArrayBuffer}
  */
 export function isArrayBuffer(value) {
-  return isObjectLike(value) && value[SymbolToStringTag] === "ArrayBuffer";
+  try {
+    ArrayBufferPrototypeGetByteLength(/** @type {any} */ (value));
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 /**
@@ -59,8 +67,16 @@ export function isArrayBuffer(value) {
  * @returns {value is SharedArrayBuffer}
  */
 export function isSharedArrayBuffer(value) {
-  return isObjectLike(value) &&
-    value[SymbolToStringTag] === "SharedArrayBuffer";
+  if (NativeSharedArrayBuffer === null) {
+    return false;
+  }
+
+  try {
+    SharedArrayBufferPrototypeGetByteLength(/** @type {any} */ (value));
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 /**

@@ -7,6 +7,7 @@ export const SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY =
   "SpeciesConstructor didn't return TypedArray";
 export const DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL =
   "Derived TypedArray constructor created an array which was too small";
+export const THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED = "This buffer has already been detached";
 export const CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT =
   "Cannot convert undefined or null to object";
 export const CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER =

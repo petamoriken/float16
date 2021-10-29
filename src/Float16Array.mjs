@@ -20,6 +20,7 @@ import {
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY,
+  THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED,
   THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY,
   THIS_IS_NOT_A_FLOAT16ARRAY,
 } from "./_util/messages.mjs";
@@ -73,6 +74,7 @@ import {
   WeakMapPrototypeSet,
 } from "./_util/primordials.mjs";
 import {
+  IsDetachedBuffer,
   LengthOfArrayLike,
   SpeciesConstructor,
   ToIntegerOrInfinity,
@@ -84,7 +86,7 @@ const BYTES_PER_ELEMENT = 2;
 const brand = SymbolFor("__Float16Array__");
 
 /** @type {WeakMap<Float16Array, Uint16Array & { __float16bits: never }>} */
-const targets = new NativeWeakMap();
+const float16bitsArrays = new NativeWeakMap();
 
 /**
  * @param {unknown} target
@@ -171,9 +173,18 @@ function assertSpeciesTypedArray(target, count) {
  * @returns {Uint16Array & { __float16bits: never }}
  */
 function getFloat16BitsArray(float16) {
-  const target = WeakMapPrototypeGet(targets, float16);
-  if (target !== undefined) {
-    return target;
+  const float16bitsArray = WeakMapPrototypeGet(float16bitsArrays, float16);
+  if (float16bitsArray !== undefined) {
+    const buffer = TypedArrayPrototypeGetBuffer(float16bitsArray);
+    if (IsDetachedBuffer(buffer)) {
+      throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+    }
+    return float16bitsArray;
+  }
+
+  // @ts-ignore
+  if (IsDetachedBuffer(float16.buffer)) {
+    throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
   }
 
   // from another Float16Array instance (a different version?)
@@ -185,7 +196,7 @@ function getFloat16BitsArray(float16) {
     // @ts-ignore
     float16.length,
   ], float16.constructor);
-  return WeakMapPrototypeGet(targets, cloned);
+  return WeakMapPrototypeGet(float16bitsArrays, cloned);
 }
 
 /**
@@ -256,12 +267,6 @@ export class Float16Array {
       let length;
 
       if (isTypedArray(input)) { // TypedArray
-        if (isBigIntTypedArray(input)) {
-          throw NativeTypeError(
-            CANNOT_MIX_BIGINT_AND_OTHER_TYPES
-          );
-        }
-
         list = input;
         length = TypedArrayPrototypeGetLength(input);
 
@@ -272,6 +277,15 @@ export class Float16Array {
             NativeArrayBuffer
           ))
           : NativeArrayBuffer;
+
+        if (IsDetachedBuffer(buffer)) {
+          throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+        }
+
+        if (isBigIntTypedArray(input)) {
+          throw NativeTypeError(CANNOT_MIX_BIGINT_AND_OTHER_TYPES);
+        }
+
         const data = new BufferConstructor(
           length * BYTES_PER_ELEMENT
         );
@@ -304,7 +318,7 @@ export class Float16Array {
     const proxy = new NativeProxy(/** @type {any} */ (float16bitsArray), handler);
 
     // proxy private storage
-    WeakMapPrototypeSet(targets, proxy, float16bitsArray);
+    WeakMapPrototypeSet(float16bitsArrays, proxy, float16bitsArray);
 
     return proxy;
   }
@@ -775,6 +789,13 @@ export class Float16Array {
       );
     }
 
+    if (isTypedArray(input)) {
+      const buffer = TypedArrayPrototypeGetBuffer(input);
+      if (IsDetachedBuffer(buffer)) {
+        throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+      }
+    }
+
     const targetLength = TypedArrayPrototypeGetLength(float16bitsArray);
 
     const src = NativeObject(input);
@@ -885,6 +906,11 @@ export class Float16Array {
 
     if (count === 0) {
       return array;
+    }
+
+    const buffer = TypedArrayPrototypeGetBuffer(float16bitsArray);
+    if (IsDetachedBuffer(buffer)) {
+      throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
     }
 
     let n = 0;

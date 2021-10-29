@@ -5,11 +5,14 @@ import {
   THIS_IS_NOT_A_OBJECT,
 } from "./messages.mjs";
 import {
+  ArrayBufferPrototypeSlice,
   MathTrunc,
   NativeNumber,
+  NativeSharedArrayBuffer,
   NativeTypeError,
   NumberIsNaN,
   ObjectIs,
+  SharedArrayBufferPrototypeSlice,
   SymbolSpecies,
 } from "./primordials.mjs";
 
@@ -86,6 +89,27 @@ export function SpeciesConstructor(target, defaultConstructor) {
   }
 
   return species;
+}
+
+/**
+ * @see https://tc39.es/ecma262/#sec-isdetachedbuffer
+ * @param {ArrayBuffer | SharedArrayBuffer} buffer
+ * @returns {boolean}
+ */
+export function IsDetachedBuffer(buffer) {
+  try {
+    ArrayBufferPrototypeSlice(buffer, 0, 0);
+    return false;
+  } catch (e) {/* empty */}
+
+  if (NativeSharedArrayBuffer !== null) {
+    try {
+      SharedArrayBufferPrototypeSlice(/** @type {SharedArrayBuffer} */ (buffer), 0, 0);
+      return false;
+    } catch (e) {/* empty */}
+  }
+
+  return true;
 }
 
 /**
