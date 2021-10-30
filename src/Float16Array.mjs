@@ -254,6 +254,16 @@ const handler = ObjectFreeze(/** @type {ProxyHandler<Float16Array>} */ ({
     return ReflectSet(target, key, value, receiver);
   },
 
+  getOwnPropertyDescriptor(target, key) {
+    if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
+      const descriptor = ReflectGetOwnPropertyDescriptor(target, key);
+      descriptor.value = convertToNumber(descriptor.value);
+      return descriptor;
+    }
+
+    return ReflectGetOwnPropertyDescriptor(target, key);
+  },
+
   defineProperty(target, key, descriptor) {
     if (
       isCanonicalIntegerIndexString(key) &&
