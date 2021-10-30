@@ -1,7 +1,7 @@
 # <a href="https://git.io/float16">float16</a>
 
 <p align="center">
-  half precision floating point for JavaScript<br>
+  IEEE 754 half-precision floating-point for JavaScript<br>
   See <a href="https://esdiscuss.org/topic/float16array">the archive of the ES Discuss Float16Array topic</a> for details
 </p>
 
@@ -139,12 +139,13 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
 
 ## Support engines
 
-**This package only uses up to ES2015 features** and does not use
+**This package only requires ES2015 features** and does not use
 environment-dependent features (except for `inspect/`), so you can use it
 without any problems. It works fine with
 [the current officially supported versions of Node.js](https://github.com/nodejs/Release).
 
-`Float16Array` implemented by the `Proxy`, so IE11 is never supported.
+`Float16Array` implemented by `Proxy` and `Reflect`, so IE11 is never supported
+even if you use polyfills.
 
 ### Pre-transpiled JavaScript files (CommonJS, IIFE)
 
@@ -223,7 +224,7 @@ view.getFloat16(0, true); // 3.140625
 
 `hfround` is similar to `Math.fround`
 ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
-This function returns nearest half precision float representation of a number.
+This function returns nearest half-precision float representation of a number.
 
 ```ts
 declare function hfround(x: number): number;

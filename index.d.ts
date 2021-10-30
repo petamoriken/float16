@@ -462,7 +462,7 @@ export declare function setFloat16(
 ): void;
 
 /**
- * Returns the nearest half precision float representation of a number.
+ * Returns the nearest half-precision float representation of a number.
  * @param x A numeric expression.
  */
 export declare function hfround(x: number): number;
