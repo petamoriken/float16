@@ -1,8 +1,8 @@
 import { isObject } from "./is.mjs";
 import {
   CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER,
-  CONSTRUCTOR_IS_NOT_A_OBJECT,
-  THIS_IS_NOT_A_OBJECT,
+  THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT,
+  THIS_IS_NOT_AN_OBJECT,
 } from "./messages.mjs";
 import {
   ArrayBufferPrototypeSlice,
@@ -58,7 +58,7 @@ function ToLength(target) {
  */
 export function LengthOfArrayLike(arrayLike) {
   if (!isObject(arrayLike)) {
-    throw NativeTypeError(THIS_IS_NOT_A_OBJECT);
+    throw NativeTypeError(THIS_IS_NOT_AN_OBJECT);
   }
 
   return ToLength(/** @type {any} */ (arrayLike).length);
@@ -72,7 +72,7 @@ export function LengthOfArrayLike(arrayLike) {
  */
 export function SpeciesConstructor(target, defaultConstructor) {
   if (!isObject(target)) {
-    throw NativeTypeError(THIS_IS_NOT_A_OBJECT);
+    throw NativeTypeError(THIS_IS_NOT_AN_OBJECT);
   }
 
   const constructor = target.constructor;
@@ -80,7 +80,7 @@ export function SpeciesConstructor(target, defaultConstructor) {
     return defaultConstructor;
   }
   if (!isObject(constructor)) {
-    throw NativeTypeError(CONSTRUCTOR_IS_NOT_A_OBJECT);
+    throw NativeTypeError(THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT);
   }
 
   const species = constructor[SymbolSpecies];

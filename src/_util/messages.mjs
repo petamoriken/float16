@@ -1,13 +1,15 @@
-export const CONSTRUCTOR_IS_NOT_A_OBJECT = "Constructor is not a object";
-export const THIS_IS_NOT_A_OBJECT = "This is not a object";
-export const THIS_IS_NOT_A_FLOAT16ARRAY = "This is not a Float16Array";
+export const THIS_IS_NOT_AN_OBJECT = "This is not an object";
+export const THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT = "This is not a Float16Array object";
 export const THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY =
   "This constructor is not a subclass of Float16Array";
-export const SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY =
-  "SpeciesConstructor didn't return TypedArray";
-export const DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL =
-  "Derived TypedArray constructor created an array which was too small";
-export const THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED = "This buffer has already been detached";
+export const THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT =
+  "The constructor property value is not an object";
+export const SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT =
+  "Species constructor didn't return TypedArray object";
+export const DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH =
+  "Derived constructor created TypedArray object which was too small length";
+export const ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER =
+  "Attempting to access detached ArrayBuffer";
 export const CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT =
   "Cannot convert undefined or null to object";
 export const CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER =

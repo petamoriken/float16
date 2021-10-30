@@ -13,16 +13,16 @@ import {
   isTypedArray,
 } from "./_util/is.mjs";
 import {
+  ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER,
   CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT,
   CANNOT_MIX_BIGINT_AND_OTHER_TYPES,
-  CONSTRUCTOR_IS_NOT_A_OBJECT,
-  DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL,
+  DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH,
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
-  SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY,
-  THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED,
+  SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
+  THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT,
   THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY,
-  THIS_IS_NOT_A_FLOAT16ARRAY,
+  THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT,
 } from "./_util/messages.mjs";
 import {
   ArrayBufferIsView,
@@ -111,7 +111,7 @@ function hasFloat16ArrayBrand(target) {
     return false;
   }
   if (!isObject(constructor)) {
-    throw NativeTypeError(CONSTRUCTOR_IS_NOT_A_OBJECT);
+    throw NativeTypeError(THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT);
   }
 
   return ReflectHas(constructor, brand);
@@ -133,7 +133,7 @@ export function isFloat16Array(target) {
  */
 function assertFloat16Array(target) {
   if (!isFloat16Array(target)) {
-    throw NativeTypeError(THIS_IS_NOT_A_FLOAT16ARRAY);
+    throw NativeTypeError(THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT);
   }
 }
 
@@ -148,7 +148,7 @@ function assertSpeciesTypedArray(target, count) {
   const isTargetTypedArray = isTypedArray(target);
 
   if (!isTargetFloat16Array && !isTargetTypedArray) {
-    throw NativeTypeError(SPECIESCONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY);
+    throw NativeTypeError(SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT);
   }
 
   if (typeof count === "number") {
@@ -162,7 +162,7 @@ function assertSpeciesTypedArray(target, count) {
 
     if (length < count) {
       throw NativeTypeError(
-        DERIVED_TYPEDARRAY_CONSTRUCTOR_CREATED_AN_ARRAY_WHICH_WAS_TOO_SMALL
+        DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH
       );
     }
   }
@@ -182,7 +182,7 @@ function getFloat16BitsArray(float16) {
   if (float16bitsArray !== undefined) {
     const buffer = TypedArrayPrototypeGetBuffer(float16bitsArray);
     if (IsDetachedBuffer(buffer)) {
-      throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+      throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
     }
     return float16bitsArray;
   }
@@ -190,7 +190,7 @@ function getFloat16BitsArray(float16) {
   // @ts-ignore
   const buffer = float16.buffer;
   if (IsDetachedBuffer(buffer)) {
-    throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+    throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
   }
 
   // from another Float16Array instance (a different version?)
@@ -306,7 +306,7 @@ export class Float16Array {
           : NativeArrayBuffer;
 
         if (IsDetachedBuffer(buffer)) {
-          throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+          throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
         }
 
         if (isBigIntTypedArray(input)) {
@@ -819,7 +819,7 @@ export class Float16Array {
     if (isTypedArray(input)) {
       const buffer = TypedArrayPrototypeGetBuffer(input);
       if (IsDetachedBuffer(buffer)) {
-        throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+        throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
       }
     }
 
@@ -937,7 +937,7 @@ export class Float16Array {
 
     const buffer = TypedArrayPrototypeGetBuffer(float16bitsArray);
     if (IsDetachedBuffer(buffer)) {
-      throw NativeTypeError(THIS_BUFFER_HAS_ALREADY_BEEN_DETACHED);
+      throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
     }
 
     let n = 0;
