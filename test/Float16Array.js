@@ -150,6 +150,19 @@ describe("Float16Array", () => {
     assert.throws(() => Object.defineProperty(float16, "-0", { value: 4 }), TypeError);
   });
 
+  it("delete properties", () => {
+    const float16 = new Float16Array(1);
+
+    float16[0] = 1.337;
+    float16.foo = 1;
+
+    delete float16[0];
+    assert(float16[0] === 1.3369140625);
+
+    assert(delete float16.foo);
+    assert(!Object.prototype.hasOwnProperty.call(float16.foo));
+  });
+
   it("check own keys", () => {
     const float16 = new Float16Array([1, 2]);
     assert.deepStrictEqual(Reflect.ownKeys(float16), ["0", "1"]);
