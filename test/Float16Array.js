@@ -174,7 +174,8 @@ describe("Float16Array", () => {
     delete float16[0];
     assert(float16[0] === 1.3369140625);
 
-    assert(delete float16.foo);
+    delete float16.foo;
+    assert(float16.foo === undefined);
     assert(!Object.prototype.hasOwnProperty.call(float16, "foo"));
   });
 
