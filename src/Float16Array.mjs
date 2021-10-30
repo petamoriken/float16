@@ -43,6 +43,7 @@ import {
   ObjectHasOwn,
   ReflectApply,
   ReflectConstruct,
+  ReflectDefineProperty,
   ReflectGet,
   ReflectGetOwnPropertyDescriptor,
   ReflectGetPrototypeOf,
@@ -231,8 +232,7 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
   }
 }
 
-/** @type {ProxyHandler<Float16Array>} */
-const handler = ObjectFreeze({
+const handler = ObjectFreeze(/** @type {ProxyHandler<Float16Array>} */ ({
   get(target, key, receiver) {
     if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
       return convertToNumber(ReflectGet(target, key));
@@ -253,7 +253,20 @@ const handler = ObjectFreeze({
 
     return ReflectSet(target, key, value, receiver);
   },
-});
+
+  defineProperty(target, key, descriptor) {
+    if (
+      isCanonicalIntegerIndexString(key) &&
+      ObjectHasOwn(target, key) &&
+      ObjectHasOwn(descriptor, "value")
+    ) {
+      descriptor.value = roundToFloat16Bits(descriptor.value);
+      return ReflectDefineProperty(target, key, descriptor);
+    }
+
+    return ReflectDefineProperty(target, key, descriptor);
+  },
+}));
 
 export class Float16Array {
   /** @see https://tc39.es/ecma262/#sec-typedarray */

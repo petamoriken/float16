@@ -22,6 +22,7 @@ function uncurryThisGetter(target, key) {
 export const {
   apply: ReflectApply,
   construct: ReflectConstruct,
+  defineProperty: ReflectDefineProperty,
   get: ReflectGet,
   getOwnPropertyDescriptor: ReflectGetOwnPropertyDescriptor,
   getPrototypeOf: ReflectGetPrototypeOf,
