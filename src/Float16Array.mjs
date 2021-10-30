@@ -219,7 +219,8 @@ function copyToArray(float16bitsArray) {
   return array;
 }
 
-const TypedArrayPrototypeGetters = new NativeSet();
+/** @type {Set<string | symbol>} */
+const TypedArrayPrototypeGetterKeys = new NativeSet();
 for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
   // @@toStringTag method is defined in Float16Array.prototype
   if (key === SymbolToStringTag) {
@@ -228,7 +229,7 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
 
   const descriptor = ReflectGetOwnPropertyDescriptor(TypedArrayPrototype, key);
   if (ObjectHasOwn(descriptor, "get")) {
-    SetPrototypeAdd(TypedArrayPrototypeGetters, key);
+    SetPrototypeAdd(TypedArrayPrototypeGetterKeys, key);
   }
 }
 
@@ -239,7 +240,7 @@ const handler = ObjectFreeze(/** @type {ProxyHandler<Float16Array>} */ ({
     }
 
     // %TypedArray%.prototype getter properties cannot called by Proxy receiver
-    if (SetPrototypeHas(TypedArrayPrototypeGetters, key)) {
+    if (SetPrototypeHas(TypedArrayPrototypeGetterKeys, key)) {
       return ReflectGet(target, key);
     }
 
