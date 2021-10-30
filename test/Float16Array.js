@@ -1,4 +1,6 @@
 describe("Float16Array", () => {
+
+  let detach;
   let AnotherRealmFloat16Array;
 
   before(async function () {
@@ -25,6 +27,13 @@ describe("Float16Array", () => {
 
       assert.deepStrictEqual(float16, array);
     };
+
+    if (typeof structuredClone !== "undefined") {
+      detach = (buffer) => {
+        structuredClone(buffer, { transfer: [buffer] });
+        return buffer;
+      };
+    }
 
     if (typeof window !== "undefined") {
       const iframe = document.getElementById("realm");
@@ -166,7 +175,7 @@ describe("Float16Array", () => {
     assert(float16[0] === 1.3369140625);
 
     assert(delete float16.foo);
-    assert(!Object.prototype.hasOwnProperty.call(float16.foo));
+    assert(!Object.prototype.hasOwnProperty.call(float16, "foo"));
   });
 
   it("check own keys", () => {
@@ -340,6 +349,17 @@ describe("Float16Array", () => {
       assert(float16.buffer !== buffer);
     });
 
+    it("input TypedArray with detached ArrayBuffer", function () {
+      if (detach === undefined) {
+        this.skip();
+      }
+
+      const float32 = new Float32Array(4);
+      detach(float32.buffer);
+
+      assert.throws(() => new Float16Array(float32), TypeError);
+    });
+
     it("input Iterable", () => {
       const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
       const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
@@ -390,6 +410,17 @@ describe("Float16Array", () => {
       // Safari 13 bug
       // assert( float16_2.buffer instanceof FooArrayBuffer );
       assert(float16_2.buffer !== buffer);
+    });
+
+    it("input Float16Array with detached ArrayBuffer", function () {
+      if (detach === undefined) {
+        this.skip();
+      }
+
+      const float16 = new Float16Array(4);
+      detach(float16.buffer);
+
+      assert.throws(() => new Float16Array(float16), TypeError);
     });
 
     it("input Float16Array from another realm", function () {
@@ -447,6 +478,15 @@ describe("Float16Array", () => {
       assert(float16_2.byteLength === 4);
       assert(float16_2.length === 2);
       assert.equalFloat16ArrayValues(float16_2, [1.099609375, 1.19921875]);
+    });
+
+    it("input detached ArrayBuffer", function () {
+      if (detach === undefined) {
+        this.skip();
+      }
+
+      const detachedBuffer = detach(new ArrayBuffer(4));
+      assert.throws(() => new Float16Array(detachedBuffer), TypeError);
     });
   });
 
@@ -1272,6 +1312,19 @@ describe("Float16Array", () => {
       assert.throws(() => float16.set(new BigUint64Array()), TypeError);
     });
 
+    it("set TypedArray with detached ArrayBuffer", function () {
+      if (detach === undefined) {
+        this.skip();
+      }
+
+      const float16 = new Float16Array(4);
+
+      const float32 = new Float32Array(2);
+      detach(float32.buffer);
+
+      assert.throws(() => float16.set(float32, 0), TypeError);
+    });
+
     it("set ArrayLike", () => {
       const float16 = new Float16Array([1, 2, 3, 4, 5]);
       const arrayLike = { 0: 10, 1: 11, length: 2 };
@@ -1310,6 +1363,19 @@ describe("Float16Array", () => {
 
       assert(float16.set(new AnotherRealmFloat16Array(array), 2) === undefined);
       assert.equalFloat16ArrayValues(float16, [1, 2, 10, 11, 5]);
+    });
+
+    it("set TypedArray with detached ArrayBuffer", function () {
+      if (detach === undefined) {
+        this.skip();
+      }
+
+      const float16 = new Float16Array(4);
+
+      const float16_2 = new Float16Array(2);
+      detach(float16_2.buffer);
+
+      assert.throws(() => float16.set(float16_2, 0), TypeError);
     });
 
     it("check out of Range", () => {
@@ -1730,38 +1796,42 @@ describe("Float16Array", () => {
 });
 
 describe("isFloat16Array", () => {
+
   let AnotherRealmFloat16Array;
 
   before(async function () {
-    this.timeout(15000);
-
     if (typeof window !== "undefined") {
-      const iframe = document.createElement("iframe");
-      iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
-      iframe.style.display = "none";
-      document.body.parentElement.appendChild(iframe);
-      try {
-        await new Promise((resolve, reject) => {
-          const script = document.createElement("script");
-          script.src = "float16.js";
+      const iframe = document.getElementById("realm");
+      const iWindow = iframe.contentWindow;
+      const iDocument = iframe.contentDocument;
 
-          const id = setTimeout(reject, 10000);
-          script.onload = () => {
-            clearTimeout(id);
-            resolve();
-          };
-          script.onerror = () => {
-            clearTimeout(id);
-            reject();
-          };
+      let success = false;
+      if (
+        iDocument.readyState !== "complete" ||
+        iDocument.getElementById("float16") === null
+      ) {
+        try {
+          await new Promise((resolve, reject) => {
+            const id = setTimeout(
+              () => reject(new Error("Timeout Error")),
+              10000,
+            );
+            iframe.addEventListener("load", () => {
+              clearTimeout(id);
+              resolve();
+            }, { once: true });
+          });
+          success = true;
+        } catch (e) {
+          // ignore error
+          console.error(e);
+        }
+      } else {
+        success = true;
+      }
 
-          iframe.contentDocument.body.appendChild(script);
-        });
-        AnotherRealmFloat16Array = iframe.contentWindow.float16.Float16Array;
-      } catch (e) {
-        // empty
-      } finally {
-        iframe.remove();
+      if (success) {
+        AnotherRealmFloat16Array = iWindow.float16.Float16Array;
       }
     }
   });

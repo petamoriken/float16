@@ -187,13 +187,14 @@ function getFloat16BitsArray(float16) {
     return float16bitsArray;
   }
 
+  // from another Float16Array instance (a different version?)
   // @ts-ignore
   const buffer = float16.buffer;
+
   if (IsDetachedBuffer(buffer)) {
     throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
   }
 
-  // from another Float16Array instance (a different version?)
   const cloned = ReflectConstruct(Float16Array, [
     buffer,
     // @ts-ignore
