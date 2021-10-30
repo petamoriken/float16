@@ -190,7 +190,7 @@ isFloat16Array(new Float32Array(10)); // false
 isFloat16Array(new Uint16Array(10)); // false
 ```
 
-### `DataView`
+### `getFloat16`, `setFloat16`
 
 `getFloat16` and `setFloat16` are similar to `DataView` methods such as
 `DataView#getFloat32`
@@ -346,7 +346,7 @@ hfround(1.337); // 1.3369140625
 ## Development
 
 <details>
-  <summary>Manual build and test:</summary>
+  <summary>Manual build and test</summary>
 
   ### Manual build
 
