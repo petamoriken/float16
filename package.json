@@ -1,6 +1,6 @@
 {
   "name": "@petamoriken/float16",
-  "version": "3.5.4",
+  "version": "3.5.5",
   "description": "IEEE 754 half-precision floating-point for JavaScript",
   "keywords": [
     "float16",
