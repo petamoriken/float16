@@ -189,6 +189,11 @@ export const NativeTypeError = TypeError;
 export const NativeRangeError = RangeError;
 
 // Set
+/**
+ * Do not construct with arguments to avoid calling the "add" method
+ *
+ * @type {{new <T = any>(): Set<T>}}
+ */
 export const NativeSet = Set;
 const SetPrototype = NativeSet.prototype;
 /** @type {<T>(set: Set<T>, value: T) => Set<T>} */
@@ -197,6 +202,11 @@ export const SetPrototypeAdd = uncurryThis(SetPrototype.add);
 export const SetPrototypeHas = uncurryThis(SetPrototype.has);
 
 // WeakMap
+/**
+ * Do not construct with arguments to avoid calling the "set" method
+ *
+ * @type {{new <K extends {}, V>(): WeakMap<K, V>}}
+ */
 export const NativeWeakMap = WeakMap;
 const WeakMapPrototype = NativeWeakMap.prototype;
 /** @type {<K extends {}, V>(weakMap: WeakMap<K, V>, key: K) => V} */
