@@ -111,18 +111,24 @@ describe("Float16Array", () => {
 
   it("get own property descriptors", () => {
     const float16 = new Float16Array(1);
+    const float32 = new Float32Array(1);
 
-    float16[0] = 1.337;
+    float16[0] = float32[0] = 1.5;
 
     assert.deepStrictEqual(
       Object.getOwnPropertyDescriptors(float16),
-      {
-        "0": { value: 1.3369140625, writable: true, enumerable: true, configurable: true },
-      }
+      Object.getOwnPropertyDescriptors(float32),
     );
   });
 
-  it("define properties", () => {
+  it("define properties", function () {
+    // Safari 13 bug
+    const float32 = new Float32Array(1);
+    Object.defineProperty(float32, 0, { value: 1 });
+    if (float32[0] !== 1) {
+      this.skip();
+    }
+
     const float16 = new Float16Array(5);
 
     Object.defineProperty(float16, 0, { value: 1.337 });
