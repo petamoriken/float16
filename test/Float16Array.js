@@ -78,219 +78,6 @@ describe("Float16Array", () => {
     assert(Float16Array.BYTES_PER_ELEMENT === 2);
   });
 
-  it("input empty or primitive", () => {
-    assert.doesNotThrow(() => new Float16Array());
-    assert.doesNotThrow(() => new Float16Array(null));
-    assert.doesNotThrow(() => new Float16Array(undefined));
-    assert.doesNotThrow(() => new Float16Array(0));
-    assert.doesNotThrow(() => new Float16Array(4));
-
-    assert.throws(() => new Float16Array(-1), Error);
-    assert.throws(() => new Float16Array(Symbol()), TypeError);
-  });
-
-  it("input Array or TypedArray", () => {
-    const array = [1, 1.1, 1.2, 1.3];
-    const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
-
-    const float16_1 = new Float16Array(array);
-
-    assert(float16_1.BYTES_PER_ELEMENT === 2);
-    assert(float16_1.byteOffset === 0);
-    assert(float16_1.byteLength === 8);
-    assert(float16_1.length === 4);
-    assert.equalFloat16ArrayValues(float16_1, checkArray);
-
-    const float16_2 = new Float16Array(new Float32Array(array));
-
-    assert(float16_2.BYTES_PER_ELEMENT === 2);
-    assert(float16_2.byteOffset === 0);
-    assert(float16_2.byteLength === 8);
-    assert(float16_2.length === 4);
-    assert.equalFloat16ArrayValues(float16_2, checkArray);
-  });
-
-  it("input BigInt TypedArray", function () {
-    // Safari 13 doesn't have BigInt
-    if (typeof BigUint64Array === "undefined") {
-      this.skip();
-    }
-
-    assert.throws(() => new Float16Array(new BigUint64Array()), TypeError);
-  });
-
-  it("input custom Array", () => {
-    class FooArray extends Array {}
-    const array = FooArray.from([1, 1.1, 1.2, 1.3]);
-    const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
-
-    const float16_1 = new Float16Array(array);
-
-    assert(float16_1.BYTES_PER_ELEMENT === 2);
-    assert(float16_1.byteOffset === 0);
-    assert(float16_1.byteLength === 8);
-    assert(float16_1.length === 4);
-    assert.equalFloat16ArrayValues(float16_1, checkArray);
-
-    class BarArray extends Array {
-      *[Symbol.iterator]() {
-        for (let i = 0, l = this.length; i < l; ++i) {
-          yield this[i];
-        }
-      }
-    }
-    const array2 = BarArray.from([1, 1.1, 1.2, 1.3]);
-
-    const float16_2 = new Float16Array(array2);
-
-    assert(float16_2.BYTES_PER_ELEMENT === 2);
-    assert(float16_2.byteOffset === 0);
-    assert(float16_2.byteLength === 8);
-    assert(float16_2.length === 4);
-    assert.equalFloat16ArrayValues(float16_2, checkArray);
-  });
-
-  it("input TypedArray with custom ArrayBuffer", () => {
-    class FooArrayBuffer extends ArrayBuffer {}
-    const buffer = new FooArrayBuffer(16);
-
-    const float16 = new Float16Array(new Float32Array(buffer));
-
-    assert(float16.BYTES_PER_ELEMENT === 2);
-    assert(float16.byteOffset === 0);
-    assert(float16.byteLength === 8);
-    assert(float16.length === 4);
-    assert(float16.buffer instanceof FooArrayBuffer);
-    assert(float16.buffer !== buffer);
-  });
-
-  it("input TypedArray with custom SharedArrayBuffer", function () {
-    if (typeof SharedArrayBuffer === "undefined") {
-      this.skip();
-    }
-
-    class FooSharedArrayBuffer extends SharedArrayBuffer {}
-    const buffer = new FooSharedArrayBuffer(16);
-
-    const float16 = new Float16Array(new Float32Array(buffer));
-
-    assert(float16.BYTES_PER_ELEMENT === 2);
-    assert(float16.byteOffset === 0);
-    assert(float16.byteLength === 8);
-    assert(float16.length === 4);
-    assert(!(float16.buffer instanceof FooSharedArrayBuffer));
-    assert(float16.buffer !== buffer);
-  });
-
-  it("input Iterable", () => {
-    const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
-    const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
-
-    const float16 = new Float16Array(iterable);
-
-    assert(float16.BYTES_PER_ELEMENT === 2);
-    assert(float16.byteOffset === 0);
-    assert(float16.byteLength === 8);
-    assert(float16.length === 4);
-    assert.equalFloat16ArrayValues(float16, checkArray);
-  });
-
-  it("input ArrayLike", () => {
-    const arrayLike = { "0": 1, "1": 1.1, "2": 1.2, "3": 1.3, length: 4 };
-    const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
-
-    const float16 = new Float16Array(arrayLike);
-
-    assert(float16.BYTES_PER_ELEMENT === 2);
-    assert(float16.byteOffset === 0);
-    assert(float16.byteLength === 8);
-    assert(float16.length === 4);
-    assert.equalFloat16ArrayValues(float16, checkArray);
-  });
-
-  it("input Float16Array", () => {
-    const array = [1, 1.1, 1.2, 1.3];
-    const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
-
-    const float16_1 = new Float16Array(new Float16Array(array));
-
-    assert(float16_1.BYTES_PER_ELEMENT === 2);
-    assert(float16_1.byteOffset === 0);
-    assert(float16_1.byteLength === 8);
-    assert(float16_1.length === 4);
-    assert.equalFloat16ArrayValues(float16_1, checkArray);
-
-    class FooArrayBuffer extends ArrayBuffer {}
-    const buffer = new FooArrayBuffer(16);
-
-    const float16_2 = new Float16Array(new Float16Array(buffer));
-
-    assert(float16_2.BYTES_PER_ELEMENT === 2);
-    assert(float16_2.byteOffset === 0);
-    assert(float16_2.byteLength === 16);
-    assert(float16_2.length === 8);
-    // Safari 13 bug
-    // assert( float16_2.buffer instanceof FooArrayBuffer );
-    assert(float16_2.buffer !== buffer);
-  });
-
-  it("input Float16Array from another realm", function () {
-    if (AnotherRealmFloat16Array === undefined) {
-      this.skip();
-    }
-
-    const array = [1, 1.1, 1.2, 1.3];
-    const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
-
-    const float16_1 = new Float16Array(new AnotherRealmFloat16Array(array));
-
-    assert(float16_1.BYTES_PER_ELEMENT === 2);
-    assert(float16_1.byteOffset === 0);
-    assert(float16_1.byteLength === 8);
-    assert(float16_1.length === 4);
-    assert.equalFloat16ArrayValues(float16_1, checkArray);
-
-    class FooArrayBuffer extends ArrayBuffer {}
-    const buffer = new FooArrayBuffer(16);
-
-    const float16_2 = new Float16Array(new AnotherRealmFloat16Array(buffer));
-
-    assert(float16_2.BYTES_PER_ELEMENT === 2);
-    assert(float16_2.byteOffset === 0);
-    assert(float16_2.byteLength === 16);
-    assert(float16_2.length === 8);
-    // Safari 13 bug
-    // assert( float16_2.buffer instanceof FooArrayBuffer );
-    assert(float16_2.buffer !== buffer);
-  });
-
-  it("input ArrayBuffer", () => {
-    const buffer = new Uint16Array([15360, 15462, 15564, 15667]).buffer;
-
-    const float16_1 = new Float16Array(buffer);
-
-    assert(float16_1.BYTES_PER_ELEMENT === 2);
-    assert(float16_1.buffer === buffer);
-    assert(float16_1.byteOffset === 0);
-    assert(float16_1.byteLength === 8);
-    assert(float16_1.length === 4);
-    assert.equalFloat16ArrayValues(float16_1, [
-      1,
-      1.099609375,
-      1.19921875,
-      1.2998046875,
-    ]);
-
-    const float16_2 = new Float16Array(buffer, 2, 2);
-
-    assert(float16_2.BYTES_PER_ELEMENT === 2);
-    assert(float16_2.buffer === buffer);
-    assert(float16_2.byteOffset === 2);
-    assert(float16_2.byteLength === 4);
-    assert(float16_2.length === 2);
-    assert.equalFloat16ArrayValues(float16_2, [1.099609375, 1.19921875]);
-  });
-
   it("set & get values", () => {
     const float16 = new Float16Array(4);
 
@@ -301,6 +88,7 @@ describe("Float16Array", () => {
 
     assert.equalFloat16ArrayValues(float16, [1.3369140625, Infinity, 0, NaN]);
 
+    // not number key
     float16.foo = "foo";
     assert(float16.foo === "foo");
 
@@ -321,6 +109,39 @@ describe("Float16Array", () => {
     assert(float16["-0"] === undefined);
   });
 
+  it("define properties", () => {
+    const float16 = new Float16Array(5);
+
+    Object.defineProperty(float16, 0, { value: 1.337 });
+    Object.defineProperty(float16, 1, { value: Number.MAX_VALUE });
+    Object.defineProperty(float16, 2, { value: Number.MIN_VALUE });
+    Object.defineProperty(float16, 3, { value: "aaa" });
+    Object.defineProperty(float16, 4, {});
+
+    assert.equalFloat16ArrayValues(float16, [1.3369140625, Infinity, 0, NaN, 0]);
+
+    // not number key
+    Object.defineProperty(float16, "foo", { value: "foo" });
+    assert(float16.foo === "foo");
+
+    // not integer
+    assert.throws(() => Object.defineProperty(float16, 0.5, { value: 1 }), TypeError);
+
+    // out of range
+    assert.throws(() => Object.defineProperty(float16, 10, { value: 2 }), TypeError);
+
+    // Infinity
+    assert.throws(() => Object.defineProperty(float16, Infinity, { value: 3 }), TypeError);
+
+    // "-0"
+    assert.throws(() => Object.defineProperty(float16, "-0", { value: 4 }), TypeError);
+  });
+
+  it("check own keys", () => {
+    const float16 = new Float16Array([1, 2]);
+    assert.deepStrictEqual(Reflect.ownKeys(float16), ["0", "1"]);
+  });
+
   it("iterate", () => {
     const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
@@ -328,13 +149,6 @@ describe("Float16Array", () => {
     for (const val of float16) {
       assert(val === checkArray.shift());
     }
-  });
-
-  it("return undefined when access out of range number key", () => {
-    const float16 = new Float16Array(4);
-    float16[10] = 42;
-
-    assert(float16[10] === undefined);
   });
 
   it("can't be frozen with elements", () => {
@@ -355,11 +169,6 @@ describe("Float16Array", () => {
 
     float16.map = "map";
     assert(typeof float16.map === "function");
-  });
-
-  it("check ownKeys", () => {
-    const float16 = new Float16Array([1, 2]);
-    assert.deepStrictEqual(Reflect.ownKeys(float16), ["0", "1"]);
   });
 
   it("`instanceof` operator", () => {
@@ -386,6 +195,221 @@ describe("Float16Array", () => {
     };
 
     assert(float16.sum() === 6);
+  });
+
+  describe("constructor", () => {
+    it("input empty or primitive", () => {
+      assert.doesNotThrow(() => new Float16Array());
+      assert.doesNotThrow(() => new Float16Array(null));
+      assert.doesNotThrow(() => new Float16Array(undefined));
+      assert.doesNotThrow(() => new Float16Array(0));
+      assert.doesNotThrow(() => new Float16Array(4));
+
+      assert.throws(() => new Float16Array(-1), Error);
+      assert.throws(() => new Float16Array(Symbol()), TypeError);
+    });
+
+    it("input Array or TypedArray", () => {
+      const array = [1, 1.1, 1.2, 1.3];
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16_1 = new Float16Array(array);
+
+      assert(float16_1.BYTES_PER_ELEMENT === 2);
+      assert(float16_1.byteOffset === 0);
+      assert(float16_1.byteLength === 8);
+      assert(float16_1.length === 4);
+      assert.equalFloat16ArrayValues(float16_1, checkArray);
+
+      const float16_2 = new Float16Array(new Float32Array(array));
+
+      assert(float16_2.BYTES_PER_ELEMENT === 2);
+      assert(float16_2.byteOffset === 0);
+      assert(float16_2.byteLength === 8);
+      assert(float16_2.length === 4);
+      assert.equalFloat16ArrayValues(float16_2, checkArray);
+    });
+
+    it("input BigInt TypedArray", function () {
+      // Safari 13 doesn't have BigInt
+      if (typeof BigUint64Array === "undefined") {
+        this.skip();
+      }
+
+      assert.throws(() => new Float16Array(new BigUint64Array()), TypeError);
+    });
+
+    it("input custom Array", () => {
+      class FooArray extends Array {}
+      const array = FooArray.from([1, 1.1, 1.2, 1.3]);
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16_1 = new Float16Array(array);
+
+      assert(float16_1.BYTES_PER_ELEMENT === 2);
+      assert(float16_1.byteOffset === 0);
+      assert(float16_1.byteLength === 8);
+      assert(float16_1.length === 4);
+      assert.equalFloat16ArrayValues(float16_1, checkArray);
+
+      class BarArray extends Array {
+        *[Symbol.iterator]() {
+          for (let i = 0, l = this.length; i < l; ++i) {
+            yield this[i];
+          }
+        }
+      }
+      const array2 = BarArray.from([1, 1.1, 1.2, 1.3]);
+
+      const float16_2 = new Float16Array(array2);
+
+      assert(float16_2.BYTES_PER_ELEMENT === 2);
+      assert(float16_2.byteOffset === 0);
+      assert(float16_2.byteLength === 8);
+      assert(float16_2.length === 4);
+      assert.equalFloat16ArrayValues(float16_2, checkArray);
+    });
+
+    it("input TypedArray with custom ArrayBuffer", () => {
+      class FooArrayBuffer extends ArrayBuffer {}
+      const buffer = new FooArrayBuffer(16);
+
+      const float16 = new Float16Array(new Float32Array(buffer));
+
+      assert(float16.BYTES_PER_ELEMENT === 2);
+      assert(float16.byteOffset === 0);
+      assert(float16.byteLength === 8);
+      assert(float16.length === 4);
+      assert(float16.buffer instanceof FooArrayBuffer);
+      assert(float16.buffer !== buffer);
+    });
+
+    it("input TypedArray with custom SharedArrayBuffer", function () {
+      if (typeof SharedArrayBuffer === "undefined") {
+        this.skip();
+      }
+
+      class FooSharedArrayBuffer extends SharedArrayBuffer {}
+      const buffer = new FooSharedArrayBuffer(16);
+
+      const float16 = new Float16Array(new Float32Array(buffer));
+
+      assert(float16.BYTES_PER_ELEMENT === 2);
+      assert(float16.byteOffset === 0);
+      assert(float16.byteLength === 8);
+      assert(float16.length === 4);
+      assert(!(float16.buffer instanceof FooSharedArrayBuffer));
+      assert(float16.buffer !== buffer);
+    });
+
+    it("input Iterable", () => {
+      const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16 = new Float16Array(iterable);
+
+      assert(float16.BYTES_PER_ELEMENT === 2);
+      assert(float16.byteOffset === 0);
+      assert(float16.byteLength === 8);
+      assert(float16.length === 4);
+      assert.equalFloat16ArrayValues(float16, checkArray);
+    });
+
+    it("input ArrayLike", () => {
+      const arrayLike = { "0": 1, "1": 1.1, "2": 1.2, "3": 1.3, length: 4 };
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16 = new Float16Array(arrayLike);
+
+      assert(float16.BYTES_PER_ELEMENT === 2);
+      assert(float16.byteOffset === 0);
+      assert(float16.byteLength === 8);
+      assert(float16.length === 4);
+      assert.equalFloat16ArrayValues(float16, checkArray);
+    });
+
+    it("input Float16Array", () => {
+      const array = [1, 1.1, 1.2, 1.3];
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16_1 = new Float16Array(new Float16Array(array));
+
+      assert(float16_1.BYTES_PER_ELEMENT === 2);
+      assert(float16_1.byteOffset === 0);
+      assert(float16_1.byteLength === 8);
+      assert(float16_1.length === 4);
+      assert.equalFloat16ArrayValues(float16_1, checkArray);
+
+      class FooArrayBuffer extends ArrayBuffer {}
+      const buffer = new FooArrayBuffer(16);
+
+      const float16_2 = new Float16Array(new Float16Array(buffer));
+
+      assert(float16_2.BYTES_PER_ELEMENT === 2);
+      assert(float16_2.byteOffset === 0);
+      assert(float16_2.byteLength === 16);
+      assert(float16_2.length === 8);
+      // Safari 13 bug
+      // assert( float16_2.buffer instanceof FooArrayBuffer );
+      assert(float16_2.buffer !== buffer);
+    });
+
+    it("input Float16Array from another realm", function () {
+      if (AnotherRealmFloat16Array === undefined) {
+        this.skip();
+      }
+
+      const array = [1, 1.1, 1.2, 1.3];
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16_1 = new Float16Array(new AnotherRealmFloat16Array(array));
+
+      assert(float16_1.BYTES_PER_ELEMENT === 2);
+      assert(float16_1.byteOffset === 0);
+      assert(float16_1.byteLength === 8);
+      assert(float16_1.length === 4);
+      assert.equalFloat16ArrayValues(float16_1, checkArray);
+
+      class FooArrayBuffer extends ArrayBuffer {}
+      const buffer = new FooArrayBuffer(16);
+
+      const float16_2 = new Float16Array(new AnotherRealmFloat16Array(buffer));
+
+      assert(float16_2.BYTES_PER_ELEMENT === 2);
+      assert(float16_2.byteOffset === 0);
+      assert(float16_2.byteLength === 16);
+      assert(float16_2.length === 8);
+      // Safari 13 bug
+      // assert( float16_2.buffer instanceof FooArrayBuffer );
+      assert(float16_2.buffer !== buffer);
+    });
+
+    it("input ArrayBuffer", () => {
+      const buffer = new Uint16Array([15360, 15462, 15564, 15667]).buffer;
+
+      const float16_1 = new Float16Array(buffer);
+
+      assert(float16_1.BYTES_PER_ELEMENT === 2);
+      assert(float16_1.buffer === buffer);
+      assert(float16_1.byteOffset === 0);
+      assert(float16_1.byteLength === 8);
+      assert(float16_1.length === 4);
+      assert.equalFloat16ArrayValues(float16_1, [
+        1,
+        1.099609375,
+        1.19921875,
+        1.2998046875,
+      ]);
+
+      const float16_2 = new Float16Array(buffer, 2, 2);
+
+      assert(float16_2.BYTES_PER_ELEMENT === 2);
+      assert(float16_2.buffer === buffer);
+      assert(float16_2.byteOffset === 2);
+      assert(float16_2.byteLength === 4);
+      assert(float16_2.length === 2);
+      assert.equalFloat16ArrayValues(float16_2, [1.099609375, 1.19921875]);
+    });
   });
 
   describe(".from()", () => {
