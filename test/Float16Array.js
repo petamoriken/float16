@@ -123,12 +123,12 @@ describe("Float16Array", () => {
 
   it("define properties", function () {
     // Safari 13 bug
-    const float32 = new Float32Array(1);
-    Object.defineProperty(float32, 0, { value: 1 });
-    if (float32[0] !== 1) {
+    try {
+      const float32 = new Float32Array(1);
+      Object.defineProperty(float32, 0, { value: 1 });
+    } catch (e) {
       this.skip();
     }
-
     const float16 = new Float16Array(5);
 
     Object.defineProperty(float16, 0, { value: 1.337 });
@@ -183,9 +183,15 @@ describe("Float16Array", () => {
     }
   });
 
-  it("can't be frozen with elements", () => {
+  it("can't be frozen with elements", function () {
+    // Safari 13 bug
+    try {
+      Object.freeze(new Proxy({ foo: 1 }, { defineProperty() { return false; } }));
+      this.skip();
+    } catch (e) {/* empty */}
+
     assert.doesNotThrow(() => Object.freeze(new Float16Array()));
-    assert.throws(() => Object.freeze(new Float16Array(10)), TypeError);
+    assert.throws(() => Object.freeze(new Float16Array(4)), TypeError);
   });
 
   it("can't change property & prototype property if it frozen", function () {
