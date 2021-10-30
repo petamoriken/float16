@@ -109,6 +109,19 @@ describe("Float16Array", () => {
     assert(float16["-0"] === undefined);
   });
 
+  it("get own property descriptors", () => {
+    const float16 = new Float16Array(1);
+
+    float16[0] = 1.337;
+
+    assert.deepStrictEqual(
+      Object.getOwnPropertyDescriptors(float16),
+      {
+        "0": { value: 1.3369140625, writable: true, enumerable: true, configurable: true },
+      }
+    );
+  });
+
   it("define properties", () => {
     const float16 = new Float16Array(5);
 
