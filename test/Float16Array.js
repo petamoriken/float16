@@ -1421,6 +1421,21 @@ describe("Float16Array", () => {
       assert(float16.fill(1, 1, 4) === float16);
       assert.equalFloat16ArrayValues(float16, [0, 1, 1, 1, 0]);
     });
+
+    it("check modified Array.prototype [@@iterator]", () => {
+      const original = Array.prototype[Symbol.iterator];
+
+      try {
+        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+
+        const float16 = new Float16Array(5);
+
+        assert(float16.fill(1, 1, 4) === float16);
+        assert.equalFloat16ArrayValues(float16, [0, 1, 1, 1, 0]);
+      } finally {
+        Array.prototype[Symbol.iterator] = original;
+      }
+    });
   });
 
   describe("#copyWithin()", () => {
@@ -1596,6 +1611,23 @@ describe("Float16Array", () => {
     }
     const bar = new Bar([1, 2, 3, 4]);
     assert.throws(() => bar.slice(), TypeError);
+
+    it("check modified Array.prototype [@@iterator]", () => {
+      const original = Array.prototype[Symbol.iterator];
+
+      try {
+        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+
+        const float16 = new Float16Array([1, 2, 3]);
+
+        const sliced = float16.slice();
+        assert(sliced instanceof Float16Array);
+        assert.equalFloat16ArrayValues(float16, sliced);
+        assert(float16.buffer !== sliced.buffer);
+      } finally {
+        Array.prototype[Symbol.iterator] = original;
+      }
+    });
   });
 
   describe("#subarray()", () => {
@@ -1673,6 +1705,23 @@ describe("Float16Array", () => {
         }
         const bar = new Bar([1, 2, 3, 4]);
         assert.throws(() => bar.subarray(0, 1), TypeError);
+      }
+    });
+
+    it("check modified Array.prototype [@@iterator]", () => {
+      const original = Array.prototype[Symbol.iterator];
+
+      try {
+        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+
+        const float16 = new Float16Array([1, 2, 3]);
+
+        const subarray = float16.subarray();
+        assert(subarray instanceof Float16Array);
+        assert.equalFloat16ArrayValues(float16, subarray);
+        assert(float16.buffer === subarray.buffer);
+      } finally {
+        Array.prototype[Symbol.iterator] = original;
       }
     });
   });
@@ -1753,6 +1802,21 @@ describe("Float16Array", () => {
       assert(float16.join() === "1,2,3");
       assert(float16.join("|") === "1|2|3");
     });
+
+    it("check modified Array.prototype [@@iterator]", () => {
+      const original = Array.prototype[Symbol.iterator];
+
+      try {
+        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+
+        const float16 = new Float16Array([1, 2, 3]);
+
+        assert(float16.join() === "1,2,3");
+        assert(float16.join("|") === "1|2|3");
+      } finally {
+        Array.prototype[Symbol.iterator] = original;
+      }
+    });
   });
 
   describe("#toLocaleString()", () => {
@@ -1767,6 +1831,19 @@ describe("Float16Array", () => {
     it("same as Array", () => {
       const float16 = new Float16Array([1, 2, 3]);
       assert(float16.toLocaleString() === [1, 2, 3].toLocaleString());
+    });
+
+    it("check modified Array.prototype [@@iterator]", () => {
+      const original = Array.prototype[Symbol.iterator];
+
+      try {
+        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+
+        const float16 = new Float16Array([1, 2, 3]);
+        assert(float16.toLocaleString() === [1, 2, 3].toLocaleString());
+      } finally {
+        Array.prototype[Symbol.iterator] = original;
+      }
     });
   });
 
