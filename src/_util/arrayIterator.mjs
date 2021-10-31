@@ -6,6 +6,7 @@ import {
   NativeArrayPrototypeSymbolIterator,
   NativeWeakMap,
   ObjectCreate,
+  ObjectFreeze,
   SymbolIterator,
   SymbolToStringTag,
   WeakMapPrototypeGet,
@@ -13,7 +14,7 @@ import {
 } from "./primordials.mjs";
 
 /**
- * Wrap with the SafeArrayIterator If Array.prototype [@@iterator] has been modified
+ * Wrap ArrayIterator If Array.prototype [@@iterator] has been modified
  *
  * @type {<T>(array: T[]) => Iterable<T>}
  */
@@ -23,15 +24,17 @@ export function toSafe(array) {
   }
 
   const arrayIterator = ArrayPrototypeSymbolIterator(array);
-  return /** @type {any} */ ({
+  return ObjectFreeze(/** @type {any} */ ({
     next() {
       return ArrayIteratorPrototypeNext(arrayIterator);
     },
+    return: undefined,
+    throw: undefined,
 
     [SymbolIterator]() {
       return this;
     },
-  });
+  }));
 }
 
 /** @type {WeakMap<{}, Generator<any>>} */
