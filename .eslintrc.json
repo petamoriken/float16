@@ -70,7 +70,15 @@
       "error",
       {
         "selector": "ForInStatement",
-        "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
+        "message": "Do not use ForInStatement"
+      },
+      {
+        "selector": "FunctionDeclaration ForOfStatement, FunctionExpression ForOfStatement, ArrowFunctionExpression ForOfStatement",
+        "message": "Do not use ForOfStatement in function"
+      },
+      {
+        "selector": "SpreadElement[argument.callee.name!=toSafe]",
+        "message": "Use `toSafe` utility function to account for the case that Array.prototype [@@iterator] has been modified"
       }
     ],
     "no-undef": "error",

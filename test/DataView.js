@@ -26,8 +26,6 @@ describe("additional DataView methods", () => {
   let AnotherRealmDataView;
 
   before(async function () {
-    this.timeout(15000);
-
     if (typeof window !== "undefined") {
       const iframe = document.getElementById("realm");
       if (iframe.contentDocument.readyState !== "complete") {
@@ -94,6 +92,18 @@ describe("additional DataView methods", () => {
         getFloat16(new AnotherRealmDataView(buffer), 0),
       );
     });
+
+    it("check modified Array.prototype [@@iterator]", () => {
+      const original = Array.prototype[Symbol.iterator];
+
+      try {
+        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+
+        assert.doesNotThrow(() => getFloat16(dataView, 0));
+      } finally {
+        Array.prototype[Symbol.iterator] = original;
+      }
+    });
   });
 
   describe("setFloat16()", () => {
@@ -132,6 +142,18 @@ describe("additional DataView methods", () => {
       assert.doesNotThrow(() =>
         setFloat16(new AnotherRealmDataView(buffer), 0, 0),
       );
+    });
+
+    it("check modified Array.prototype [@@iterator]", () => {
+      const original = Array.prototype[Symbol.iterator];
+
+      try {
+        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+
+        assert.doesNotThrow(() => setFloat16(dataView, 0, 0));
+      } finally {
+        Array.prototype[Symbol.iterator] = original;
+      }
     });
   });
 });

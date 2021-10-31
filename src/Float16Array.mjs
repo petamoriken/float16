@@ -1,4 +1,4 @@
-import { wrapInArrayIterator } from "./_util/arrayIterator.mjs";
+import { toSafe, wrapGenerator } from "./_util/arrayIterator.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
   isArrayBuffer,
@@ -123,7 +123,7 @@ function hasFloat16ArrayBrand(target) {
  */
 export function isFloat16Array(target) {
   return WeakMapPrototypeHas(float16bitsArrays, target) ||
-    (hasFloat16ArrayBrand(target) && !ArrayBufferIsView(target));
+    (!ArrayBufferIsView(target) && hasFloat16ArrayBrand(target));
 }
 
 /**
@@ -287,7 +287,6 @@ export class Float16Array {
     let float16bitsArray;
 
     if (isFloat16Array(input)) {
-      // peel off Proxy
       float16bitsArray = ReflectConstruct(NativeUint16Array, [getFloat16BitsArray(input)], new.target);
     } else if (isObject(input) && !isArrayBuffer(input)) { // object without ArrayBuffer
       /** @type {ArrayLike<unknown>} */
@@ -326,6 +325,7 @@ export class Float16Array {
             list = input;
             length = input.length;
           } else {
+            // eslint-disable-next-line no-restricted-syntax
             list = [...input];
             length = list.length;
           }
@@ -395,7 +395,7 @@ export class Float16Array {
         TypedArrayPrototypeGetBuffer(
           Uint16ArrayFrom(src, function (val, ...args) {
             return roundToFloat16Bits(
-              ReflectApply(mapFunc, this, [val, ...args])
+              ReflectApply(mapFunc, this, [val, ...toSafe(args)])
             );
           }, thisArg)
         )
@@ -416,6 +416,7 @@ export class Float16Array {
         list = src;
         length = TypedArrayPrototypeGetLength(src);
       } else {
+        // eslint-disable-next-line no-restricted-syntax
         list = [...src];
         length = list.length;
       }
@@ -495,7 +496,8 @@ export class Float16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    return wrapInArrayIterator((function* () {
+    return wrapGenerator((function* () {
+      // eslint-disable-next-line no-restricted-syntax
       for (const val of TypedArrayPrototypeValues(float16bitsArray)) {
         yield convertToNumber(val);
       }
@@ -511,11 +513,12 @@ export class Float16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    return (wrapInArrayIterator((function* () {
+    return wrapGenerator((function* () {
+      // eslint-disable-next-line no-restricted-syntax
       for (const [i, val] of TypedArrayPrototypeEntries(float16bitsArray)) {
         yield /** @type {[Number, number]} */ ([i, convertToNumber(val)]);
       }
-    })()));
+    })());
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.at */
@@ -857,7 +860,7 @@ export class Float16Array {
     TypedArrayPrototypeFill(
       float16bitsArray,
       roundToFloat16Bits(value),
-      ...opts
+      ...toSafe(opts)
     );
 
     return this;
@@ -868,7 +871,7 @@ export class Float16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    TypedArrayPrototypeCopyWithin(float16bitsArray, target, start, ...opts);
+    TypedArrayPrototypeCopyWithin(float16bitsArray, target, start, ...toSafe(opts));
 
     return this;
   }
@@ -902,7 +905,7 @@ export class Float16Array {
       );
       return new Float16Array(
         TypedArrayPrototypeGetBuffer(
-          TypedArrayPrototypeSlice(uint16, ...opts)
+          TypedArrayPrototypeSlice(uint16, ...toSafe(opts))
         )
       );
     }
@@ -964,7 +967,7 @@ export class Float16Array {
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
       TypedArrayPrototypeGetLength(float16bitsArray)
     );
-    const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...opts);
+    const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...toSafe(opts));
 
     const array = new Constructor(
       TypedArrayPrototypeGetBuffer(uint16Subarray),
@@ -1079,7 +1082,7 @@ export class Float16Array {
 
     const array = copyToArray(float16bitsArray);
 
-    return ArrayPrototypeJoin(array, ...opts);
+    return ArrayPrototypeJoin(array, ...toSafe(opts));
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring */
@@ -1090,7 +1093,7 @@ export class Float16Array {
     const array = copyToArray(float16bitsArray);
 
     // @ts-ignore
-    return ArrayPrototypeToLocaleString(array, ...opts);
+    return ArrayPrototypeToLocaleString(array, ...toSafe(opts));
   }
 
   /** @see https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag */

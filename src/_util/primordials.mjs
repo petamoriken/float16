@@ -50,19 +50,6 @@ export const {
   for: SymbolFor,
 } = Symbol;
 
-// Array
-const NativeArray = Array;
-export const ArrayIsArray = NativeArray.isArray;
-const ArrayPrototype = NativeArray.prototype;
-/** @type {(array: Array<unknown>, separator?: string) => string} */
-export const ArrayPrototypeJoin = uncurryThis(ArrayPrototype.join);
-/** @type {<T>(array: Array<T>, ...items: T[]) => number} */
-export const ArrayPrototypePush = uncurryThis(ArrayPrototype.push);
-/** @type {(array: Array<unknown>) => string} */
-export const ArrayPrototypeToLocaleString = uncurryThis(
-  ArrayPrototype.toLocaleString
-);
-
 // Object
 export const NativeObject = Object;
 export const {
@@ -74,6 +61,22 @@ export const {
 /** @type {(object: object, key: PropertyKey) => boolean} */
 export const ObjectHasOwn = /** @type {any} */ (NativeObject).hasOwn ||
   uncurryThis(NativeObject.prototype.hasOwnProperty);
+
+// Array
+const NativeArray = Array;
+export const ArrayIsArray = NativeArray.isArray;
+const ArrayPrototype = NativeArray.prototype;
+/** @type {(array: ArrayLike<unknown>, separator?: string) => string} */
+export const ArrayPrototypeJoin = uncurryThis(ArrayPrototype.join);
+/** @type {<T>(array: T[], ...items: T[]) => number} */
+export const ArrayPrototypePush = uncurryThis(ArrayPrototype.push);
+/** @type {(array: ArrayLike<unknown>) => string} */
+export const ArrayPrototypeToLocaleString = uncurryThis(
+  ArrayPrototype.toLocaleString
+);
+export const NativeArrayPrototypeSymbolIterator = ArrayPrototype[SymbolIterator];
+/** @type {<T>(array: T[]) => IterableIterator<T>} */
+export const ArrayPrototypeSymbolIterator = uncurryThis(NativeArrayPrototypeSymbolIterator);
 
 // Math
 export const MathTrunc = Math.trunc;
@@ -165,14 +168,18 @@ export const NativeUint32Array = Uint32Array;
 // Float32Array
 export const NativeFloat32Array = Float32Array;
 
-// Iterator
-export const IteratorPrototype = ReflectGetPrototypeOf(
-  ReflectGetPrototypeOf([][SymbolIterator]())
-);
+// ArrayIterator
+/** @type {any} */
+const ArrayIteratorPrototype = ReflectGetPrototypeOf([][SymbolIterator]());
+/** @type {<T>(arrayIterator: IterableIterator<T>) => IteratorResult<T>} */
+export const ArrayIteratorPrototypeNext = uncurryThis(ArrayIteratorPrototype.next);
 
 // Generator
 /** @type {<T = unknown, TReturn = any, TNext = unknown>(generator: Generator<T, TReturn, TNext>, value?: TNext) => T} */
 export const GeneratorPrototypeNext = uncurryThis((function* () {})().next);
+
+// Iterator
+export const IteratorPrototype = ReflectGetPrototypeOf(ArrayIteratorPrototype);
 
 // DataView
 const DataViewPrototype = DataView.prototype;
