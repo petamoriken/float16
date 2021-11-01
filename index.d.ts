@@ -44,7 +44,7 @@ export interface Float16Array {
    * Access item by relative indexing.
    * @param index index to access.
    */
-  at(index: number): number;
+  at(index: number): number | undefined;
 
   /**
    * Returns the this object after copying a section of the array identified by start and end
@@ -150,9 +150,9 @@ export interface Float16Array {
 
   /**
    * Performs the specified action for each element in an array.
-   * @param callbackfn  A function that accepts up to three arguments. forEach calls the
+   * @param callbackfn A function that accepts up to three arguments. forEach calls the
    * callbackfn function one time for each element in the array.
-   * @param thisArg  An object to which the this keyword can refer in the callbackfn function.
+   * @param thisArg An object to which the this keyword can refer in the callbackfn function.
    * If thisArg is omitted, undefined is used as the this value.
    */
   forEach(
@@ -171,7 +171,7 @@ export interface Float16Array {
    * Returns the index of the first occurrence of a value in an array.
    * @param searchElement The value to locate in the array.
    * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the
-   *  search starts at index 0.
+   * search starts at index 0.
    */
   indexOf(searchElement: number, fromIndex?: number): number;
 
