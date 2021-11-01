@@ -78,9 +78,9 @@ import {
 } from "./_util/primordials.mjs";
 import {
   IsDetachedBuffer,
-  LengthOfArrayLike,
   SpeciesConstructor,
   ToIntegerOrInfinity,
+  ToLength,
   defaultCompare,
 } from "./_util/spec.mjs";
 
@@ -331,7 +331,7 @@ export class Float16Array {
           }
         } else { // ArrayLike
           list = /** @type {ArrayLike<unknown>} */ (input);
-          length = LengthOfArrayLike(input);
+          length = ToLength(list.length);
         }
         float16bitsArray = ReflectConstruct(NativeUint16Array, [length], new.target);
       }
@@ -421,8 +421,13 @@ export class Float16Array {
         length = list.length;
       }
     } else { // ArrayLike
-      list = src;
-      length = LengthOfArrayLike(src);
+      if (src == null) {
+        throw NativeTypeError(
+          CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT
+        );
+      }
+      list = NativeObject(src);
+      length = ToLength(list.length);
     }
 
     const array = new Constructor(length);
@@ -831,7 +836,7 @@ export class Float16Array {
     const targetLength = TypedArrayPrototypeGetLength(float16bitsArray);
 
     const src = NativeObject(input);
-    const srcLength = LengthOfArrayLike(src);
+    const srcLength = ToLength(src.length);
 
     if (targetOffset === Infinity || srcLength + targetOffset > targetLength) {
       throw NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);

@@ -14,6 +14,8 @@ import {
   SymbolSpecies,
 } from "./primordials.mjs";
 
+const MAX_SAFE_INTEGER = NativeNumber.MAX_SAFE_INTEGER;
+
 /**
  * @see https://tc39.es/ecma262/#sec-tointegerorinfinity
  * @param {unknown} target
@@ -38,28 +40,15 @@ export function ToIntegerOrInfinity(target) {
  * @param {unknown} target
  * @returns {number}
  */
-function ToLength(target) {
+export function ToLength(target) {
   const length = ToIntegerOrInfinity(target);
   if (length < 0) {
     return 0;
   }
 
-  return length < NativeNumber.MAX_SAFE_INTEGER
+  return length < MAX_SAFE_INTEGER
     ? length
-    : NativeNumber.MAX_SAFE_INTEGER;
-}
-
-/**
- * @see https://tc39.es/ecma262/#sec-lengthofarraylike
- * @param {object} arrayLike
- * @returns {number}
- */
-export function LengthOfArrayLike(arrayLike) {
-  if (!isObject(arrayLike)) {
-    throw NativeTypeError(THIS_IS_NOT_AN_OBJECT);
-  }
-
-  return ToLength(/** @type {any} */ (arrayLike).length);
+    : MAX_SAFE_INTEGER;
 }
 
 /**
