@@ -593,6 +593,12 @@ describe("Float16Array", () => {
 
       assert(foo3 instanceof Foo);
       assert.equalFloat16ArrayValues(foo3, checkArray);
+
+      const float32 = new Float32Array([1, 1.1, 1.2, 1.3]);
+      const foo4 = Foo.from(float32);
+
+      assert(foo4 instanceof Foo);
+      assert.equalFloat16ArrayValues(foo4, checkArray);
     });
 
     it("check mapFn callback arguments", () => {
