@@ -501,10 +501,11 @@ describe("Float16Array", () => {
     });
 
     it("input empty or primitive", () => {
-      assert.doesNotThrow(() => Float16Array.from(0));
-      assert.doesNotThrow(() => Float16Array.from(4));
-      assert.doesNotThrow(() => Float16Array.from(-1));
-      assert.doesNotThrow(() => Float16Array.from(Symbol()));
+      assert.equalFloat16ArrayValues(Float16Array.from(0), []);
+      assert.equalFloat16ArrayValues(Float16Array.from(4), []);
+      assert.equalFloat16ArrayValues(Float16Array.from(-1), []);
+      assert.equalFloat16ArrayValues(Float16Array.from(Symbol()), []);
+      assert.equalFloat16ArrayValues(Float16Array.from("123"), [1, 2, 3]);
 
       assert.throws(() => Float16Array.from(), TypeError);
       assert.throws(() => Float16Array.from(null), TypeError);
