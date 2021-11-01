@@ -101,6 +101,7 @@ export const SharedArrayBufferPrototypeGetByteLength = NativeSharedArrayBuffer
 export const TypedArray = ReflectGetPrototypeOf(Uint8Array);
 const TypedArrayFrom = TypedArray.from;
 export const TypedArrayPrototype = TypedArray.prototype;
+export const NativeTypedArrayPrototypeSymbolIterator = TypedArrayPrototype[SymbolIterator];
 /** @type {(typedArray: TypedArray) => IterableIterator<number>} */
 export const TypedArrayPrototypeKeys = uncurryThis(TypedArrayPrototype.keys);
 /** @type {(typedArray: TypedArray) => IterableIterator<number>} */

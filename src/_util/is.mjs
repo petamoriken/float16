@@ -2,8 +2,10 @@ import {
   ArrayBufferPrototypeGetByteLength,
   ArrayIsArray,
   MathTrunc,
+  NativeArrayPrototypeSymbolIterator,
   NativeNumber,
   NativeSharedArrayBuffer,
+  NativeTypedArrayPrototypeSymbolIterator,
   NumberIsFinite,
   SharedArrayBufferPrototypeGetByteLength,
   SymbolIterator,
@@ -81,11 +83,10 @@ export function isSharedArrayBuffer(value) {
 
 /**
  * @param {unknown} value
- * @throws {TypeError}
  * @returns {value is Iterable<unknown>}
  */
 export function isIterable(value) {
-  return typeof value[SymbolIterator] === "function";
+  return value != null && typeof value[SymbolIterator] === "function";
 }
 
 /**
@@ -97,12 +98,13 @@ export function isOrdinaryArray(value) {
     return false;
   }
 
-  const iterator = value[SymbolIterator]();
-  if (iterator[SymbolToStringTag] !== "Array Iterator") {
-    return false;
+  if (value[SymbolIterator] === NativeArrayPrototypeSymbolIterator) {
+    return true;
   }
 
-  return true;
+  // for other realms
+  const iterator = value[SymbolIterator]();
+  return iterator[SymbolToStringTag] === "Array Iterator";
 }
 
 /**
@@ -114,12 +116,13 @@ export function isOrdinaryTypedArray(value) {
     return false;
   }
 
-  const iterator = value[SymbolIterator]();
-  if (iterator[SymbolToStringTag] !== "Array Iterator") {
-    return false;
+  if (value[SymbolIterator] === NativeTypedArrayPrototypeSymbolIterator) {
+    return true;
   }
 
-  return true;
+  // for other realms
+  const iterator = value[SymbolIterator]();
+  return iterator[SymbolToStringTag] === "Array Iterator";
 }
 
 /**
@@ -140,9 +143,5 @@ export function isCanonicalIntegerIndexString(value) {
     return false;
   }
 
-  if (number !== MathTrunc(number)) {
-    return false;
-  }
-
-  return true;
+  return number === MathTrunc(number);
 }
