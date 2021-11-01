@@ -1,4 +1,4 @@
-import { isObject } from "./is.mjs";
+import { isObject, isSharedArrayBuffer } from "./is.mjs";
 import {
   CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER,
   THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT,
@@ -8,11 +8,9 @@ import {
   ArrayBufferPrototypeSlice,
   MathTrunc,
   NativeNumber,
-  NativeSharedArrayBuffer,
   NativeTypeError,
   NumberIsNaN,
   ObjectIs,
-  SharedArrayBufferPrototypeSlice,
   SymbolSpecies,
 } from "./primordials.mjs";
 
@@ -97,17 +95,14 @@ export function SpeciesConstructor(target, defaultConstructor) {
  * @returns {boolean}
  */
 export function IsDetachedBuffer(buffer) {
+  if (isSharedArrayBuffer(buffer)) {
+    return false;
+  }
+
   try {
     ArrayBufferPrototypeSlice(buffer, 0, 0);
     return false;
   } catch (e) {/* empty */}
-
-  if (NativeSharedArrayBuffer !== null) {
-    try {
-      SharedArrayBufferPrototypeSlice(/** @type {SharedArrayBuffer} */ (buffer), 0, 0);
-      return false;
-    } catch (e) {/* empty */}
-  }
 
   return true;
 }

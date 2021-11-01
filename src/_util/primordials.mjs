@@ -91,9 +91,6 @@ export const ArrayBufferPrototypeGetByteLength = uncurryThisGetter(NativeArrayBu
 
 // SharedArrayBuffer
 export const NativeSharedArrayBuffer = typeof SharedArrayBuffer !== "undefined" ? SharedArrayBuffer : null;
-/** @type {(buffer: SharedArrayBuffer, begin?: number, end?: number) => number} */
-export const SharedArrayBufferPrototypeSlice = NativeSharedArrayBuffer
-  && uncurryThis(NativeSharedArrayBuffer.prototype.slice);
 /** @type {(buffer: SharedArrayBuffer) => SharedArrayBuffer} */
 export const SharedArrayBufferPrototypeGetByteLength = NativeSharedArrayBuffer
   && uncurryThisGetter(NativeSharedArrayBuffer.prototype, "byteLength");
