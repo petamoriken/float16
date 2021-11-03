@@ -29,6 +29,7 @@ import {
   ArrayPrototypeJoin,
   ArrayPrototypePush,
   ArrayPrototypeToLocaleString,
+  FunctionPrototypeSymbolHasInstance,
   NativeArrayBuffer,
   NativeObject,
   NativeProxy,
@@ -235,13 +236,17 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
 }
 
 const handler = ObjectFreeze(/** @type {ProxyHandler<Float16Array>} */ ({
+  /** limitation: If the getter property is the same as %TypedArray%.prototype, the receiver is not passed */
   get(target, key, receiver) {
     if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
       return convertToNumber(ReflectGet(target, key));
     }
 
     // %TypedArray%.prototype getter properties cannot called by Proxy receiver
-    if (SetPrototypeHas(TypedArrayPrototypeGetterKeys, key)) {
+    if (
+      SetPrototypeHas(TypedArrayPrototypeGetterKeys, key) &&
+      FunctionPrototypeSymbolHasInstance(TypedArray, target)
+    ) {
       return ReflectGet(target, key);
     }
 
