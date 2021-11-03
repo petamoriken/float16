@@ -27,6 +27,7 @@ import {
   ArrayBufferIsView,
   ArrayPrototypeJoin,
   ArrayPrototypePush,
+  ArrayPrototypeSlice,
   ArrayPrototypeToLocaleString,
   NativeArrayBuffer,
   NativeObject,
@@ -977,6 +978,73 @@ export class Float16Array {
     }
 
     return /** @type {any} */ (array);
+  }
+
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSpliced */
+  withSpliced(...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
+    const relativeStart = ToIntegerOrInfinity(opts[0]);
+
+    let actualStart;
+    if (relativeStart === -Infinity) {
+      actualStart = 0;
+    } else if (relativeStart < 0) {
+      actualStart = length + relativeStart > 0 ? length + relativeStart : 0;
+    } else {
+      actualStart = relativeStart < length ? relativeStart : length;
+    }
+
+    let insertCount, actualDeleteCount;
+    switch (opts.length) {
+      case 0:
+        insertCount = 0;
+        actualDeleteCount = 0;
+        break;
+
+      case 1:
+        insertCount = 0;
+        actualDeleteCount = length - actualStart;
+        break;
+
+      default: {
+        const dc = ToIntegerOrInfinity(opts[1]);
+        insertCount = opts.length - 2;
+        if (dc < 0) {
+          actualDeleteCount = 0;
+        } else if (dc > length - actualStart) {
+          actualDeleteCount = length - actualStart;
+        } else {
+          actualDeleteCount = dc;
+        }
+      }
+    }
+
+    // don't use SpeciesConstructor
+    const newLength = length + insertCount - actualDeleteCount;
+    const proxy = new Float16Array(newLength);
+    const array = getFloat16BitsArray(proxy);
+
+    let k = 0;
+    while (k < actualStart) {
+      array[k] = float16bitsArray[k];
+      ++k;
+    }
+
+    const items = ArrayPrototypeSlice(opts, 2);
+    for (let i = 0, l = items.length; i < l; ++i) {
+      array[k] = roundToFloat16Bits(items[i]);
+      ++k;
+    }
+
+    while (k < newLength) {
+      array[k] = float16bitsArray[k + actualDeleteCount - insertCount];
+      ++k;
+    }
+
+    return proxy;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray */

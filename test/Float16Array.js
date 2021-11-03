@@ -1755,6 +1755,49 @@ describe("Float16Array", () => {
     });
   });
 
+  describe("#withSpliced()", () => {
+    it("property `name` is 'withSpliced'", () => {
+      assert(Float16Array.prototype.withSpliced.name === "withSpliced");
+    });
+
+    it("property `length` is 0", () => {
+      assert(Float16Array.prototype.withSpliced.length === 0);
+    });
+
+    it("get spliced Array", () => {
+      const float16_1 = new Float16Array([1, 2, 3]);
+      const float16_2 = float16_1.withSpliced();
+
+      assert(float16_1.buffer !== float16_2.buffer);
+      assert.equalFloat16ArrayValues(float16_1, float16_2);
+
+      const float16_3 = float16_1.withSpliced(1);
+
+      assert(float16_1.buffer !== float16_3.buffer);
+      assert.equalFloat16ArrayValues(float16_3, [1]);
+
+      const float16_4 = float16_1.withSpliced(1, -1);
+
+      assert(float16_1.buffer !== float16_4.buffer);
+      assert.equalFloat16ArrayValues(float16_4, [1, 2, 3]);
+
+      const float16_5 = float16_1.withSpliced(1, 10);
+
+      assert(float16_1.buffer !== float16_5.buffer);
+      assert.equalFloat16ArrayValues(float16_5, [1]);
+
+      const float16_6 = float16_1.withSpliced(1, 1);
+
+      assert(float16_1.buffer !== float16_6.buffer);
+      assert.equalFloat16ArrayValues(float16_6, [1, 3]);
+
+      const float16_7 = float16_1.withSpliced(1, 1, 5, 6);
+
+      assert(float16_1.buffer !== float16_7.buffer);
+      assert.equalFloat16ArrayValues(float16_7, [1, 5, 6, 3]);
+    });
+  });
+
   describe("#subarray()", () => {
     it("property `name` is 'subarray'", () => {
       assert(Float16Array.prototype.subarray.name === "subarray");
