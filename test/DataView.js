@@ -89,7 +89,7 @@ describe("additional DataView methods", () => {
 
     it("work with DataView from anothor realm", () => {
       assert.doesNotThrow(() =>
-        getFloat16(new AnotherRealmDataView(buffer), 0),
+        getFloat16(new AnotherRealmDataView(buffer), 0)
       );
     });
 
@@ -97,7 +97,9 @@ describe("additional DataView methods", () => {
       const original = Array.prototype[Symbol.iterator];
 
       try {
-        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+        Array.prototype[Symbol.iterator] = function () {
+          return original.call(this);
+        };
 
         assert.doesNotThrow(() => getFloat16(dataView, 0));
       } finally {
@@ -140,7 +142,7 @@ describe("additional DataView methods", () => {
 
     it("work with DataView from anothor realm", () => {
       assert.doesNotThrow(() =>
-        setFloat16(new AnotherRealmDataView(buffer), 0, 0),
+        setFloat16(new AnotherRealmDataView(buffer), 0, 0)
       );
     });
 
@@ -148,7 +150,9 @@ describe("additional DataView methods", () => {
       const original = Array.prototype[Symbol.iterator];
 
       try {
-        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+        Array.prototype[Symbol.iterator] = function () {
+          return original.call(this);
+        };
 
         assert.doesNotThrow(() => setFloat16(dataView, 0, 0));
       } finally {
