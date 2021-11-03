@@ -826,6 +826,60 @@ describe("Float16Array", () => {
     });
   });
 
+  describe("#withAt()", () => {
+    it("property `name` is 'withAt'", () => {
+      assert(Float16Array.prototype.withAt.name === "withAt");
+    });
+
+    it("property `length` is 1", () => {
+      assert(Float16Array.prototype.withAt.length === 2);
+    });
+
+    it("withAt", () => {
+      const float16_1 = new Float16Array([1, 2, 3]);
+      const float16_2 = float16_1.withAt(1, 4);
+
+      assert(float16_1.buffer !== float16_2.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
+      assert.equalFloat16ArrayValues(float16_2, [1, 4, 3]);
+
+      const float16_3 = float16_1.withAt(-1, 4);
+
+      assert(float16_1.buffer !== float16_3.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
+      assert.equalFloat16ArrayValues(float16_3, [1, 2, 4]);
+
+      const float16_4 = float16_1.withAt(0, "aaa");
+
+      assert(float16_1.buffer !== float16_4.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
+      assert.equalFloat16ArrayValues(float16_4, [NaN, 2, 3]);
+    });
+
+    it("throw Error with invalid index", () => {
+      const float16 = new Float16Array([1, 2, 3]);
+
+      // out of range
+      assert.throws(() => {
+        float16.withAt(5, 0);
+      }, RangeError);
+      assert.throws(() => {
+        float16.withAt(-5, 0);
+      }, RangeError);
+
+      assert.throws(() => {
+        float16.withAt(Symbol(), 0);
+      }, TypeError);
+
+      // Safari 13 doesn't have BigInt
+      if (typeof BigInt !== "undefined") {
+        assert.throws(() => {
+          float16.withAt(BigInt(0), 0);
+        }, TypeError);
+      }
+    });
+  });
+
   describe("#map()", () => {
     it("property `name` is 'map'", () => {
       assert(Float16Array.prototype.map.name === "map");

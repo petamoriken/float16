@@ -525,6 +525,39 @@ export class Float16Array {
     return convertToNumber(float16bitsArray[k]);
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withAt */
+  withAt(index, value) {
+    assertFloat16Array(this);
+
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
+    const relativeIndex = ToIntegerOrInfinity(index);
+    const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
+
+    if (k < 0 || k >= length) {
+      throw new NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
+    }
+
+    const uint16 = new NativeUint16Array(
+      TypedArrayPrototypeGetBuffer(float16bitsArray),
+      TypedArrayPrototypeGetByteOffset(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray)
+    );
+
+    // don't use SpeciesConstructor
+    const proxy = new Float16Array(
+      TypedArrayPrototypeGetBuffer(
+        TypedArrayPrototypeSlice(uint16)
+      )
+    );
+    const array = getFloat16BitsArray(proxy);
+
+    array[k] = roundToFloat16Bits(value);
+
+    return proxy;
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map */
   map(callback, ...opts) {
     assertFloat16Array(this);
