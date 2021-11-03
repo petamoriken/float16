@@ -1,5 +1,4 @@
 describe("Float16Array", () => {
-
   let detach;
   let AnotherRealmFloat16Array;
 
@@ -146,23 +145,41 @@ describe("Float16Array", () => {
     Object.defineProperty(float16, 3, { value: "aaa" });
     Object.defineProperty(float16, 4, {});
 
-    assert.equalFloat16ArrayValues(float16, [1.3369140625, Infinity, 0, NaN, 0]);
+    assert.equalFloat16ArrayValues(float16, [
+      1.3369140625,
+      Infinity,
+      0,
+      NaN,
+      0,
+    ]);
 
     // not number key
     Object.defineProperty(float16, "foo", { value: "foo" });
     assert(float16.foo === "foo");
 
     // not integer
-    assert.throws(() => Object.defineProperty(float16, 0.5, { value: 1 }), TypeError);
+    assert.throws(
+      () => Object.defineProperty(float16, 0.5, { value: 1 }),
+      TypeError,
+    );
 
     // out of range
-    assert.throws(() => Object.defineProperty(float16, 10, { value: 2 }), TypeError);
+    assert.throws(
+      () => Object.defineProperty(float16, 10, { value: 2 }),
+      TypeError,
+    );
 
     // Infinity
-    assert.throws(() => Object.defineProperty(float16, Infinity, { value: 3 }), TypeError);
+    assert.throws(
+      () => Object.defineProperty(float16, Infinity, { value: 3 }),
+      TypeError,
+    );
 
     // "-0"
-    assert.throws(() => Object.defineProperty(float16, "-0", { value: 4 }), TypeError);
+    assert.throws(
+      () => Object.defineProperty(float16, "-0", { value: 4 }),
+      TypeError,
+    );
   });
 
   it("delete properties", () => {
@@ -196,9 +213,15 @@ describe("Float16Array", () => {
   it("can't be frozen with elements", function () {
     // Safari 13 bug
     try {
-      Object.freeze(new Proxy({ foo: 1 }, { defineProperty() { return false; } }));
+      Object.freeze(
+        new Proxy({ foo: 1 }, {
+          defineProperty() {
+            return false;
+          },
+        }),
+      );
       this.skip();
-    } catch (e) {/* empty */}
+    } catch (e) { /* empty */ }
 
     assert.doesNotThrow(() => Object.freeze(new Float16Array()));
     assert.throws(() => Object.freeze(new Float16Array(4)), TypeError);
@@ -1433,7 +1456,9 @@ describe("Float16Array", () => {
       const original = Array.prototype[Symbol.iterator];
 
       try {
-        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+        Array.prototype[Symbol.iterator] = function () {
+          return original.call(this);
+        };
 
         const float16 = new Float16Array(5);
 
@@ -1623,7 +1648,9 @@ describe("Float16Array", () => {
       const original = Array.prototype[Symbol.iterator];
 
       try {
-        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+        Array.prototype[Symbol.iterator] = function () {
+          return original.call(this);
+        };
 
         const float16 = new Float16Array([1, 2, 3]);
 
@@ -1719,7 +1746,9 @@ describe("Float16Array", () => {
       const original = Array.prototype[Symbol.iterator];
 
       try {
-        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+        Array.prototype[Symbol.iterator] = function () {
+          return original.call(this);
+        };
 
         const float16 = new Float16Array([1, 2, 3]);
 
@@ -1814,7 +1843,9 @@ describe("Float16Array", () => {
       const original = Array.prototype[Symbol.iterator];
 
       try {
-        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+        Array.prototype[Symbol.iterator] = function () {
+          return original.call(this);
+        };
 
         const float16 = new Float16Array([1, 2, 3]);
 
@@ -1844,7 +1875,9 @@ describe("Float16Array", () => {
       const original = Array.prototype[Symbol.iterator];
 
       try {
-        Array.prototype[Symbol.iterator] = function () { return original.call(this) };
+        Array.prototype[Symbol.iterator] = function () {
+          return original.call(this);
+        };
 
         const float16 = new Float16Array([1, 2, 3]);
         assert(float16.toLocaleString() === [1, 2, 3].toLocaleString());
@@ -1881,7 +1914,6 @@ describe("Float16Array", () => {
 });
 
 describe("isFloat16Array", () => {
-
   let AnotherRealmFloat16Array;
 
   before(async function () {

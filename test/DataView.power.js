@@ -185,7 +185,7 @@ describe('additional DataView methods', () => {
             assert(_rec7._expr(_rec7._capt(_rec7._capt(_rec7._capt(setFloat16, 'arguments/0/left/object').name, 'arguments/0/left') === 'setFloat16', 'arguments/0'), {
                 content: 'assert(setFloat16.name === "setFloat16")',
                 filepath: 'test/DataView.js',
-                line: 113
+                line: 115
             }));
         });
         it('property `length` is 3', () => {
@@ -193,7 +193,7 @@ describe('additional DataView methods', () => {
             assert(_rec8._expr(_rec8._capt(_rec8._capt(_rec8._capt(setFloat16, 'arguments/0/left/object').length, 'arguments/0/left') === 3, 'arguments/0'), {
                 content: 'assert(setFloat16.length === 3)',
                 filepath: 'test/DataView.js',
-                line: 117
+                line: 119
             }));
         });
         it('first argument must be DataView instance', () => {
@@ -214,13 +214,13 @@ describe('additional DataView methods', () => {
                 assert(_rec9._expr(_rec9._capt(_rec9._capt(Object, 'arguments/0/callee/object').is(_rec9._capt(_rec9._capt(dataView, 'arguments/0/arguments/0/callee/object').getUint16(0), 'arguments/0/arguments/0'), _rec9._capt(float16bits, 'arguments/0/arguments/1')), 'arguments/0'), {
                     content: 'assert(Object.is(dataView.getUint16(0), float16bits))',
                     filepath: 'test/DataView.js',
-                    line: 134
+                    line: 136
                 }));
                 setFloat16(dataView, 0, value, true);
                 assert(_rec10._expr(_rec10._capt(_rec10._capt(Object, 'arguments/0/callee/object').is(_rec10._capt(_rec10._capt(dataView, 'arguments/0/arguments/0/callee/object').getUint16(0, true), 'arguments/0/arguments/0'), _rec10._capt(float16bits, 'arguments/0/arguments/1')), 'arguments/0'), {
                     content: 'assert(Object.is(dataView.getUint16(0, true), float16bits))',
                     filepath: 'test/DataView.js',
-                    line: 137
+                    line: 139
                 }));
             }
         });
