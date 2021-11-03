@@ -894,6 +894,25 @@ export class Float16Array {
     return this;
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSorted */
+  withSorted(...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const uint16 = new NativeUint16Array(
+      TypedArrayPrototypeGetBuffer(float16bitsArray),
+      TypedArrayPrototypeGetByteOffset(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray)
+    );
+
+    // don't use SpeciesConstructor
+    return new Float16Array(
+      TypedArrayPrototypeGetBuffer(
+        TypedArrayPrototypeSlice(uint16)
+      )
+    ).sort(...toSafe(opts));
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice */
   slice(start, end) {
     assertFloat16Array(this);
