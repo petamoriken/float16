@@ -8,7 +8,5 @@ updates:
       timezone: "Asia/Tokyo"
     allow:
       - dependency-type: direct
-      - dependency-type: indirect
-        dependency-name: "caniuse-lite"
     versioning-strategy: increase
     open-pull-requests-limit: 10
