@@ -41,8 +41,8 @@ export interface Float16Array {
   values(): IterableIterator<number>;
 
   /**
-   * Access item by relative indexing.
-   * @param index index to access.
+   * Returns the item located at the specified index.
+   * @param index The zero-based index of the desired code unit. A negative index will count back from the last item.
    */
   at(index: number): number | undefined;
 
@@ -361,6 +361,11 @@ export interface Float16Array {
    * Returns a string representation of an array.
    */
   toString(): string;
+
+  /**
+   * Returns the primitive value of the specified object.
+   */
+  valueOf(): Float16Array;
 
   readonly [Symbol.toStringTag]: "Float16Array";
 
