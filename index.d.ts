@@ -124,8 +124,8 @@ export interface Float16Array {
    * Returns the value of the last element in the array where predicate is true, and undefined
    * otherwise.
    * @param predicate find calls predicate once for each element of the array, in descending
-   * order, until it finds one where predicate returns true. If such an element is found, find
-   * immediately returns that element value. Otherwise, find returns undefined.
+   * order, until it finds one where predicate returns true. If such an element is found, findLast
+   * immediately returns that element value. Otherwise, findLast returns undefined.
    * @param thisArg If provided, it will be used as the this value for each invocation of
    * predicate. If it is not provided, undefined is used instead.
    */
@@ -139,7 +139,7 @@ export interface Float16Array {
    * otherwise.
    * @param predicate find calls predicate once for each element of the array, in descending
    * order, until it finds one where predicate returns true. If such an element is found,
-   * findIndex immediately returns that element index. Otherwise, findIndex returns -1.
+   * findLastIndex immediately returns that element index. Otherwise, findLastIndex returns -1.
    * @param thisArg If provided, it will be used as the this value for each invocation of
    * predicate. If it is not provided, undefined is used instead.
    */
@@ -235,17 +235,6 @@ export interface Float16Array {
     ) => number,
     initialValue: number,
   ): number;
-
-  /**
-   * Calls the specified callback function for all the elements in an array. The return value of
-   * the callback function is the accumulated result, and is provided as an argument in the next
-   * call to the callback function.
-   * @param callbackfn A function that accepts up to four arguments. The reduce method calls the
-   * callbackfn function one time for each element in the array.
-   * @param initialValue If initialValue is specified, it is used as the initial value to start
-   * the accumulation. The first call to the callbackfn function provides this value as an argument
-   * instead of an array value.
-   */
   reduce<U>(
     callbackfn: (
       previousValue: U,
@@ -283,17 +272,6 @@ export interface Float16Array {
     ) => number,
     initialValue: number,
   ): number;
-
-  /**
-   * Calls the specified callback function for all the elements in an array, in descending order.
-   * The return value of the callback function is the accumulated result, and is provided as an
-   * argument in the next call to the callback function.
-   * @param callbackfn A function that accepts up to four arguments. The reduceRight method calls
-   * the callbackfn function one time for each element in the array.
-   * @param initialValue If initialValue is specified, it is used as the initial value to start
-   * the accumulation. The first call to the callbackfn function provides this value as an argument
-   * instead of an array value.
-   */
   reduceRight<U>(
     callbackfn: (
       previousValue: U,
