@@ -50,12 +50,6 @@ export const {
   toStringTag: SymbolToStringTag,
   for: SymbolFor,
 } = NativeSymbol;
-const SymbolHasInstance = NativeSymbol.hasInstance;
-
-// Function
-export const FunctionPrototypeSymbolHasInstance = uncurryThis(
-  Function.prototype[SymbolHasInstance]
-);
 
 // Object
 export const NativeObject = Object;
@@ -65,9 +59,11 @@ export const {
   freeze: ObjectFreeze,
   is: ObjectIs,
 } = NativeObject;
+const ObjectPrototype = NativeObject.prototype;
+export const ObjectPrototypeIsPrototypeOf = uncurryThis(ObjectPrototype.isPrototypeOf);
 /** @type {(object: object, key: PropertyKey) => boolean} */
 export const ObjectHasOwn = /** @type {any} */ (NativeObject).hasOwn ||
-  uncurryThis(NativeObject.prototype.hasOwnProperty);
+  uncurryThis(ObjectPrototype.hasOwnProperty);
 
 // Array
 const NativeArray = Array;

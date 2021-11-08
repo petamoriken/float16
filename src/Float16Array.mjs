@@ -29,7 +29,6 @@ import {
   ArrayPrototypeJoin,
   ArrayPrototypePush,
   ArrayPrototypeToLocaleString,
-  FunctionPrototypeSymbolHasInstance,
   NativeArrayBuffer,
   NativeObject,
   NativeProxy,
@@ -42,6 +41,7 @@ import {
   ObjectDefineProperty,
   ObjectFreeze,
   ObjectHasOwn,
+  ObjectPrototypeIsPrototypeOf,
   ReflectApply,
   ReflectConstruct,
   ReflectDefineProperty,
@@ -245,7 +245,7 @@ const handler = ObjectFreeze(/** @type {ProxyHandler<Float16Array>} */ ({
     // %TypedArray%.prototype getter properties cannot called by Proxy receiver
     if (
       SetPrototypeHas(TypedArrayPrototypeGetterKeys, key) &&
-      FunctionPrototypeSymbolHasInstance(TypedArray, target)
+      ObjectPrototypeIsPrototypeOf(TypedArrayPrototype, target)
     ) {
       return ReflectGet(target, key);
     }
