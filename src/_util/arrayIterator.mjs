@@ -6,7 +6,6 @@ import {
   NativeArrayPrototypeSymbolIterator,
   NativeWeakMap,
   ObjectCreate,
-  ObjectFreeze,
   SymbolIterator,
   SymbolToStringTag,
   WeakMapPrototypeGet,
@@ -24,17 +23,19 @@ export function toSafe(array) {
   }
 
   const arrayIterator = ArrayPrototypeSymbolIterator(array);
-  return ObjectFreeze(/** @type {any} */ ({
-    next() {
-      return ArrayIteratorPrototypeNext(arrayIterator);
+  return ObjectCreate(null, {
+    next: {
+      value: function next() {
+        return ArrayIteratorPrototypeNext(arrayIterator);
+      },
     },
-    return: undefined,
-    throw: undefined,
 
-    [SymbolIterator]() {
-      return this;
+    [SymbolIterator]: {
+      value: function values() {
+        return this;
+      },
     },
-  }));
+  });
 }
 
 /** @type {WeakMap<{}, Generator<any>>} */
