@@ -43,13 +43,12 @@ export const {
 } = NativeNumber;
 
 // Symbol
-const NativeSymbol = Symbol;
 export const {
   iterator: SymbolIterator,
   species: SymbolSpecies,
   toStringTag: SymbolToStringTag,
   for: SymbolFor,
-} = NativeSymbol;
+} = Symbol;
 
 // Object
 export const NativeObject = Object;
