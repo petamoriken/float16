@@ -999,6 +999,86 @@ describe("Float16Array", () => {
     });
   });
 
+  describe("#filterReject()", () => {
+    it("property `name` is 'filterReject'", () => {
+      assert(Float16Array.prototype.filterReject.name === "filterReject");
+    });
+
+    it("property `length` is 1", () => {
+      assert(Float16Array.prototype.filterReject.length === 1);
+    });
+
+    it("check callback arguments", () => {
+      const float16 = new Float16Array([1]);
+      const thisArg = {};
+
+      float16.filterReject(function (val, key, f16) {
+        assert(val === 1);
+        assert(key === 0);
+        assert(f16 === float16);
+        assert(this === thisArg);
+      }, thisArg);
+    });
+
+    it("reject even value", () => {
+      const float16_1 = new Float16Array([1, 2, 3, 4]);
+      const float16_2 = float16_1.filterReject((val) => val % 2 === 0);
+
+      assert(float16_2 instanceof Float16Array);
+      assert.equalFloat16ArrayValues(float16_2, [1, 3]);
+    });
+
+    it("respect @@species", () => {
+      let step = 0;
+      class Foo extends Float16Array {
+        constructor(...args) {
+          super(...args);
+          if (step === 0) {
+            assert(args.length === 1);
+            assert.deepStrictEqual(args[0], [1, 2, 3, 4]);
+            ++step;
+          } else {
+            assert(args.length === 1);
+            assert.deepStrictEqual(args[0], [1, 2, 3, 4]);
+          }
+        }
+      }
+      const foo = new Foo([1, 2, 3, 4]).filterReject(() => false);
+      assert(foo instanceof Foo);
+      assert.equalFloat16ArrayValues(foo, [1, 2, 3, 4]);
+
+      class Bar extends Float16Array {
+        static get [Symbol.species]() {
+          return Float16Array;
+        }
+      }
+      const bar = new Bar([1, 2, 3, 4]).filterReject(() => false);
+      assert(!(bar instanceof Bar));
+      assert(bar instanceof Float16Array);
+      assert.equalFloat16ArrayValues(bar, [1, 2, 3, 4]);
+    });
+
+    it("SpeciesConstructor must return a TypedArray of the same Content Type", function () {
+      class Foo extends Float16Array {
+        static get [Symbol.species]() {
+          return Array;
+        }
+      }
+      const foo = new Foo([1, 2, 3, 4]);
+      assert.throws(() => foo.filterReject(() => true), TypeError);
+
+      if (typeof BigUint64Array !== "undefined") {
+        class Bar extends Float16Array {
+          static get [Symbol.species]() {
+            return BigUint64Array;
+          }
+        }
+        const bar = new Bar([1, 2, 3, 4]);
+        assert.throws(() => bar.filterReject(() => true), TypeError);
+      }
+    });
+  });
+
   describe("#reduce()", () => {
     it("property `name` is 'reduce'", () => {
       assert(Float16Array.prototype.reduce.name === "reduce");
