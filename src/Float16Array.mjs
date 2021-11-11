@@ -544,16 +544,16 @@ export class Float16Array {
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
       TypedArrayPrototypeGetLength(float16bitsArray)
     );
-    const proxy = new Float16Array(
+    const cloned = new Float16Array(
       TypedArrayPrototypeGetBuffer(
         TypedArrayPrototypeSlice(uint16)
       )
     );
-    const array = getFloat16BitsArray(proxy);
+    const array = getFloat16BitsArray(cloned);
 
     array[k] = roundToFloat16Bits(value);
 
-    return proxy;
+    return cloned;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map */
@@ -876,17 +876,22 @@ export class Float16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const length = TypedArrayPrototypeGetLength(float16bitsArray);
-
     // don't use SpeciesConstructor
-    const proxy = new Float16Array(length);
-    const array = getFloat16BitsArray(proxy);
+    const uint16 = new NativeUint16Array(
+      TypedArrayPrototypeGetBuffer(float16bitsArray),
+      TypedArrayPrototypeGetByteOffset(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray)
+    );
+    const cloned = new Float16Array(
+      TypedArrayPrototypeGetBuffer(
+        TypedArrayPrototypeSlice(uint16)
+      )
+    );
 
-    for (let i = 0; i < length; ++i) {
-      array[i] = float16bitsArray[length - 1 - i];
-    }
+    const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
+    TypedArrayPrototypeReverse(clonedFloat16bitsArray);
 
-    return proxy;
+    return cloned;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill */
@@ -937,11 +942,19 @@ export class Float16Array {
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
       TypedArrayPrototypeGetLength(float16bitsArray)
     );
-    return new Float16Array(
+    const cloned = new Float16Array(
       TypedArrayPrototypeGetBuffer(
         TypedArrayPrototypeSlice(uint16)
       )
-    ).sort(...toSafe(opts));
+    );
+
+    const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
+    const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
+    TypedArrayPrototypeSort(clonedFloat16bitsArray, (x, y) => {
+      return compare(convertToNumber(x), convertToNumber(y));
+    });
+
+    return cloned;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice */
