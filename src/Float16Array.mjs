@@ -528,7 +528,6 @@ export class Float16Array {
   /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withAt */
   withAt(index, value) {
     assertFloat16Array(this);
-
     const float16bitsArray = getFloat16BitsArray(this);
 
     const length = TypedArrayPrototypeGetLength(float16bitsArray);
@@ -539,13 +538,12 @@ export class Float16Array {
       throw new NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
     }
 
+    // don't use SpeciesConstructor
     const uint16 = new NativeUint16Array(
       TypedArrayPrototypeGetBuffer(float16bitsArray),
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
       TypedArrayPrototypeGetLength(float16bitsArray)
     );
-
-    // don't use SpeciesConstructor
     const proxy = new Float16Array(
       TypedArrayPrototypeGetBuffer(
         TypedArrayPrototypeSlice(uint16)
@@ -933,13 +931,12 @@ export class Float16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
+    // don't use SpeciesConstructor
     const uint16 = new NativeUint16Array(
       TypedArrayPrototypeGetBuffer(float16bitsArray),
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
       TypedArrayPrototypeGetLength(float16bitsArray)
     );
-
-    // don't use SpeciesConstructor
     return new Float16Array(
       TypedArrayPrototypeGetBuffer(
         TypedArrayPrototypeSlice(uint16)

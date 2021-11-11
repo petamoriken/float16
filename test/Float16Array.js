@@ -1599,14 +1599,14 @@ describe("Float16Array", () => {
     it("check custom compare", () => {
       const float16 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
 
-      assert(float16.sort((x, y) => x - y) === float16);
+      assert(float16.sort((x, y) => y - x) === float16);
       assert.equalFloat16ArrayValues(float16, [
-        -Infinity,
-        -2,
-        -1,
-        1,
-        2,
         Infinity,
+        2,
+        1,
+        -1,
+        -2,
+        -Infinity,
       ]);
     });
   });
@@ -1661,7 +1661,7 @@ describe("Float16Array", () => {
 
     it("check custom compare", () => {
       const float16_1 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
-      const float16_2 = float16_1.withSorted();
+      const float16_2 = float16_1.withSorted((x, y) => y - x);
 
       assert(float16_1.buffer !== float16_2.buffer);
       assert.equalFloat16ArrayValues(float16_1, [
@@ -1673,12 +1673,12 @@ describe("Float16Array", () => {
         -Infinity,
       ]);
       assert.equalFloat16ArrayValues(float16_2, [
-        -Infinity,
-        -2,
-        -1,
-        1,
-        2,
         Infinity,
+        2,
+        1,
+        -1,
+        -2,
+        -Infinity,
       ]);
     });
   });
