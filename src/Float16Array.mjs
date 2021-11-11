@@ -1,4 +1,5 @@
 import { toSafe, wrapGenerator } from "./_util/arrayIterator.mjs";
+import { toArray } from "./_util/asyncIterator.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
   isArrayBuffer,
@@ -16,13 +17,14 @@ import {
   CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT,
   CANNOT_MIX_BIGINT_AND_OTHER_TYPES,
   DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH,
-  ITERATOR_PROPERTY_IS_NOT_CALLABLE,
   OFFSET_IS_OUT_OF_BOUNDS,
+  PROPERTY_IS_NOT_CALLABLE,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
   THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT,
   THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY,
   THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT,
+  UNEXPECTED_NON_FUNCTION_IS_GIVEN,
 } from "./_util/messages.mjs";
 import {
   ArrayBufferIsView,
@@ -42,6 +44,8 @@ import {
   ObjectFreeze,
   ObjectHasOwn,
   ObjectPrototypeIsPrototypeOf,
+  PromisePrototypeThen,
+  PromiseReject,
   ReflectApply,
   ReflectConstruct,
   ReflectDefineProperty,
@@ -326,7 +330,7 @@ export class Float16Array {
       } else {
         const iterator = input[SymbolIterator];
         if (iterator != null && typeof iterator !== "function") {
-          throw NativeTypeError(ITERATOR_PROPERTY_IS_NOT_CALLABLE);
+          throw NativeTypeError(PROPERTY_IS_NOT_CALLABLE);
         }
 
         if (iterator != null) { // Iterable (Array)
@@ -377,9 +381,16 @@ export class Float16Array {
       );
     }
 
+    const mapFn = opts[0];
+    if (mapFn !== undefined && typeof mapFn !== "function") {
+      throw NativeTypeError(UNEXPECTED_NON_FUNCTION_IS_GIVEN);
+    }
+
+    const mapping = mapFn !== undefined;
+
     // for optimization
     if (Constructor === Float16Array) {
-      if (isFloat16Array(src) && opts.length === 0) {
+      if (isFloat16Array(src) && !mapping) {
         const float16bitsArray = getFloat16BitsArray(src);
         const uint16 = new NativeUint16Array(
           TypedArrayPrototypeGetBuffer(float16bitsArray),
@@ -391,7 +402,7 @@ export class Float16Array {
         );
       }
 
-      if (opts.length === 0) {
+      if (!mapping) {
         return new Float16Array(
           TypedArrayPrototypeGetBuffer(
             Uint16ArrayFrom(src, roundToFloat16Bits)
@@ -399,16 +410,13 @@ export class Float16Array {
         );
       }
 
-      const mapFunc = opts[0];
-      const thisArg = opts[1];
-
       return new Float16Array(
         TypedArrayPrototypeGetBuffer(
           Uint16ArrayFrom(src, function (val, ...args) {
             return roundToFloat16Bits(
-              ReflectApply(mapFunc, this, [val, ...toSafe(args)])
+              ReflectApply(mapFn, this, [val, ...toSafe(args)])
             );
-          }, thisArg)
+          }, opts[1])
         )
       );
     }
@@ -420,7 +428,7 @@ export class Float16Array {
 
     const iterator = src[SymbolIterator];
     if (iterator != null && typeof iterator !== "function") {
-      throw NativeTypeError(ITERATOR_PROPERTY_IS_NOT_CALLABLE);
+      throw NativeTypeError(PROPERTY_IS_NOT_CALLABLE);
     }
 
     if (iterator != null) { // Iterable (TypedArray, Array)
@@ -448,19 +456,63 @@ export class Float16Array {
 
     const array = new Constructor(length);
 
-    if (opts.length === 0) {
+    if (!mapping) {
       for (let i = 0; i < length; ++i) {
         array[i] = /** @type {number} */ (list[i]);
       }
     } else {
-      const mapFunc = opts[0];
-      const thisArg = opts[1];
       for (let i = 0; i < length; ++i) {
-        array[i] = ReflectApply(mapFunc, thisArg, [list[i], i]);
+        array[i] = ReflectApply(mapFn, opts[1], [list[i], i]);
       }
     }
 
     return array;
+  }
+
+  /**
+   * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
+   *
+   * @see https://jschoi.org/21/es-array-async-from/#sec-%typedarray%.fromAsync
+   */
+  static fromAsync(src, ...opts) {
+    const Constructor = this;
+
+    if (!ReflectHas(Constructor, brand)) {
+      return PromiseReject(NativeTypeError(
+        THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY
+      ));
+    }
+
+    const mapFn = opts[0];
+    if (mapFn !== undefined && typeof mapFn !== "function") {
+      return PromiseReject(NativeTypeError(
+        UNEXPECTED_NON_FUNCTION_IS_GIVEN)
+      );
+    }
+
+    return PromisePrototypeThen(
+      // @ts-ignore
+      toArray(src, ...toSafe(opts)),
+      (/** @type {any[]} */ list) => {
+        // for optimization
+        if (Constructor === Float16Array) {
+          return new Float16Array(
+            TypedArrayPrototypeGetBuffer(
+              Uint16ArrayFrom(list, roundToFloat16Bits)
+            )
+          );
+        }
+
+        const length = list.length;
+        const array = new Constructor(length);
+
+        for (let i = 0; i < length; ++i) {
+          array[i] = /** @type {number} */ (list[i]);
+        }
+
+        return array;
+      }
+    );
   }
 
   /**

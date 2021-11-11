@@ -656,6 +656,125 @@ describe("Float16Array", () => {
     });
   });
 
+  describe(".fromAsync()", () => {
+    it("property `name` is 'fromAsync'", () => {
+      assert(Float16Array.fromAsync.name === "fromAsync");
+    });
+
+    it("property `length` is 1", () => {
+      assert(Float16Array.fromAsync.length === 1);
+    });
+
+    it("input empty or primitive", async () => {
+      assert.equalFloat16ArrayValues(await Float16Array.fromAsync(0), []);
+      assert.equalFloat16ArrayValues(await Float16Array.fromAsync(4), []);
+      assert.equalFloat16ArrayValues(await Float16Array.fromAsync(-1), []);
+      assert.equalFloat16ArrayValues(await Float16Array.fromAsync(Symbol()), []);
+      assert.equalFloat16ArrayValues(await Float16Array.fromAsync("123"), [1, 2, 3]);
+
+      // power-assert doen't support assert.rejects
+      // assert.rejects(() => Float16Array.fromAsync(), TypeError);
+      // assert.rejects(() => Float16Array.fromAsync(null), TypeError);
+      // assert.rejects(() => Float16Array.fromAsync(undefined), TypeError);
+    });
+
+    it("input Array or TypedArray", async () => {
+      const array = [1, 1.1, 1.2, 1.3];
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16_1 = await Float16Array.fromAsync(array);
+
+      assert(float16_1 instanceof Float16Array);
+      assert.equalFloat16ArrayValues(float16_1, checkArray);
+
+      const float16_2 = await Float16Array.fromAsync(new Float32Array(array));
+
+      assert(float16_2 instanceof Float16Array);
+      assert.equalFloat16ArrayValues(float16_2, checkArray);
+    });
+
+    it("input Iterable", async () => {
+      const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16 = await Float16Array.fromAsync(iterable);
+
+      assert(float16 instanceof Float16Array);
+      assert.equalFloat16ArrayValues(float16, checkArray);
+    });
+
+    it("input AsyncIterable", async () => {
+      const asyncIterable = (async function*() { yield* [1, 1.1, 1.2, 1.3] })();
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const float16 = await Float16Array.fromAsync(asyncIterable);
+
+      assert(float16 instanceof Float16Array);
+      assert.equalFloat16ArrayValues(float16, checkArray);
+    });
+
+    it("call from subclass", async () => {
+      class Foo extends Float16Array {}
+
+      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+
+      const array = [1, 1.1, 1.2, 1.3];
+      const foo1 = await Foo.fromAsync(array);
+
+      assert(foo1 instanceof Foo);
+      assert.equalFloat16ArrayValues(foo1, checkArray);
+
+      const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
+      const foo2 = await Foo.fromAsync(iterable);
+
+      assert(foo2 instanceof Foo);
+      assert.equalFloat16ArrayValues(foo2, checkArray);
+
+      const arrayLike = { 0: 1, 1: 1.1, 2: 1.2, 3: 1.3, length: 4 };
+      const foo3 = await Foo.fromAsync(arrayLike);
+
+      assert(foo3 instanceof Foo);
+      assert.equalFloat16ArrayValues(foo3, checkArray);
+
+      const float32 = new Float32Array([1, 1.1, 1.2, 1.3]);
+      const foo4 = await Foo.fromAsync(float32);
+
+      assert(foo4 instanceof Foo);
+      assert.equalFloat16ArrayValues(foo4, checkArray);
+    });
+
+    it("check mapFn callback arguments", async () => {
+      const thisArg = {};
+      const checkArray = [2];
+
+      const float16 = await Float16Array.fromAsync([1], function (val, key) {
+        assert(val === 1);
+        assert(key === 0);
+        assert(this === thisArg);
+        assert(arguments.length === 2);
+
+        return 2;
+      }, thisArg);
+
+      assert(float16 instanceof Float16Array);
+      assert.equalFloat16ArrayValues(float16, checkArray);
+
+      class Foo extends Float16Array {}
+
+      const foo = await Foo.fromAsync([1], function (val, key) {
+        assert(val === 1);
+        assert(key === 0);
+        assert(this === thisArg);
+        assert(arguments.length === 2);
+
+        return 2;
+      }, thisArg);
+
+      assert(foo instanceof Foo);
+      assert.equalFloat16ArrayValues(foo, checkArray);
+    });
+  });
+
   describe(".of()", () => {
     it("property `name` is 'of'", () => {
       assert(Float16Array.of.name === "of");

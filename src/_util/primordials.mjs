@@ -45,6 +45,7 @@ export const {
 // Symbol
 export const {
   iterator: SymbolIterator,
+  asyncIterator: SymbolAsyncIterator,
   species: SymbolSpecies,
   toStringTag: SymbolToStringTag,
   for: SymbolFor,
@@ -190,6 +191,25 @@ export const DataViewPrototypeGetUint16 = uncurryThis(
 /** @type {(dataView: DataView, byteOffset: number, value: number, littleEndian?: boolean) => void} */
 export const DataViewPrototypeSetUint16 = uncurryThis(
   DataViewPrototype.setUint16
+);
+
+export const NativePromise = Promise;
+const {
+  resolve: NativePromiseResolve,
+  reject: NativePromiseReject,
+} = NativePromise;
+export const PromiseResolve = (...args) => {
+  return ReflectApply(NativePromiseResolve, NativePromise, args);
+};
+export const PromiseReject = (...args) => {
+  return ReflectApply(NativePromiseReject, NativePromise, args);
+};
+const PromisePrototype = NativePromise.prototype;
+export const PromisePrototypeThen = uncurryThis(
+  PromisePrototype.then
+);
+export const PromisePrototypeCatch = uncurryThis(
+  PromisePrototype.catch
 );
 
 // Error
