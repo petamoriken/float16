@@ -4,7 +4,6 @@ import {
   isArrayBuffer,
   isBigIntTypedArray,
   isCanonicalIntegerIndexString,
-  isIterable,
   isObject,
   isObjectLike,
   isOrdinaryArray,
@@ -17,6 +16,7 @@ import {
   CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT,
   CANNOT_MIX_BIGINT_AND_OTHER_TYPES,
   DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH,
+  ITERATOR_PROPERTY_IS_NOT_CALLABLE,
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
@@ -324,12 +324,18 @@ export class Float16Array {
         );
         float16bitsArray = ReflectConstruct(NativeUint16Array, [data], new.target);
       } else {
-        if (isIterable(input)) { // Iterable (Array)
+        const iterator = input[SymbolIterator];
+        if (iterator != null && typeof iterator !== "function") {
+          throw NativeTypeError(ITERATOR_PROPERTY_IS_NOT_CALLABLE);
+        }
+
+        if (iterator != null) { // Iterable (Array)
           // for optimization
           if (isOrdinaryArray(input)) {
             list = input;
             length = input.length;
           } else {
+            // @ts-ignore
             // eslint-disable-next-line no-restricted-syntax
             list = [...input];
             length = list.length;
@@ -412,7 +418,12 @@ export class Float16Array {
     /** @type {number} */
     let length;
 
-    if (isIterable(src)) { // Iterable (TypedArray, Array)
+    const iterator = src[SymbolIterator];
+    if (iterator != null && typeof iterator !== "function") {
+      throw NativeTypeError(ITERATOR_PROPERTY_IS_NOT_CALLABLE);
+    }
+
+    if (iterator != null) { // Iterable (TypedArray, Array)
       // for optimization
       if (isOrdinaryArray(src)) {
         list = src;

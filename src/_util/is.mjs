@@ -83,14 +83,6 @@ export function isSharedArrayBuffer(value) {
 
 /**
  * @param {unknown} value
- * @returns {value is Iterable<unknown>}
- */
-export function isIterable(value) {
-  return value != null && typeof value[SymbolIterator] === "function";
-}
-
-/**
- * @param {unknown} value
  * @returns {value is unknown[]}
  */
 export function isOrdinaryArray(value) {
