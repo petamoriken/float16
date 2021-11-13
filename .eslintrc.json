@@ -81,6 +81,10 @@
       {
         "selector": "SpreadElement[argument.callee.name!=toSafe]",
         "message": "Use `toSafe` utility function to account for the case that Array.prototype [@@iterator] has been modified"
+      },
+      {
+        "selector": "CallExpression[callee.type=MemberExpression]",
+        "message": "Do not call methods directly, use primordials"
       }
     ],
     "no-undef": "error",

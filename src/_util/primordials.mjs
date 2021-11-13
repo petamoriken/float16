@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-globals */
+/* eslint-disable no-restricted-globals, no-restricted-syntax */
 /* global SharedArrayBuffer */
 
 /** @type {(target: Function) => (thisArg: any, ...args: any[]) => any} */

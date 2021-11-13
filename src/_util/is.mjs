@@ -95,6 +95,7 @@ export function isOrdinaryArray(value) {
   }
 
   // for other realms
+  // eslint-disable-next-line no-restricted-syntax
   const iterator = value[SymbolIterator]();
   return iterator[SymbolToStringTag] === "Array Iterator";
 }
@@ -113,6 +114,7 @@ export function isOrdinaryTypedArray(value) {
   }
 
   // for other realms
+  // eslint-disable-next-line no-restricted-syntax
   const iterator = value[SymbolIterator]();
   return iterator[SymbolToStringTag] === "Array Iterator";
 }
