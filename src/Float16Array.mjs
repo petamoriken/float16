@@ -189,8 +189,7 @@ function getFloat16BitsArray(float16) {
   }
 
   // from another Float16Array instance (a different version?)
-  // @ts-ignore
-  const buffer = float16.buffer;
+  const buffer = /** @type {any} */ (float16).buffer;
 
   if (IsDetachedBuffer(buffer)) {
     throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
@@ -198,10 +197,8 @@ function getFloat16BitsArray(float16) {
 
   const cloned = ReflectConstruct(Float16Array, [
     buffer,
-    // @ts-ignore
-    float16.byteOffset,
-    // @ts-ignore
-    float16.length,
+    /** @type {any} */ (float16).byteOffset,
+    /** @type {any} */ (float16).length,
   ], float16.constructor);
   return WeakMapPrototypeGet(float16bitsArrays, cloned);
 }
@@ -335,9 +332,8 @@ export class Float16Array {
             list = input;
             length = input.length;
           } else {
-            // @ts-ignore
             // eslint-disable-next-line no-restricted-syntax
-            list = [...input];
+            list = [... /** @type {Iterable<unknown>} */ (input)];
             length = list.length;
           }
         } else { // ArrayLike
@@ -1113,7 +1109,6 @@ export class Float16Array {
 
     const array = copyToArray(float16bitsArray);
 
-    // @ts-ignore
     return ArrayPrototypeToLocaleString(array, ...toSafe(opts));
   }
 
