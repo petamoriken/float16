@@ -232,7 +232,7 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
   }
 }
 
-const handler = ObjectFreeze(/** @type {ProxyHandler<Float16Array>} */ ({
+const handler = ObjectFreeze(/** @type {ProxyHandler<Uint16Array & { __float16bits: never }>} */ ({
   /** limitation: If the getter property is the same as %TypedArray%.prototype, the receiver is not passed */
   get(target, key, receiver) {
     if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
@@ -351,7 +351,8 @@ export class Float16Array {
       float16bitsArray = ReflectConstruct(NativeUint16Array, arguments, new.target);
     }
 
-    const proxy = new NativeProxy(/** @type {any} */ (float16bitsArray), handler);
+    /** @type {Float16Array} */
+    const proxy = /** @type {any} */ (new NativeProxy(float16bitsArray, handler));
 
     // proxy private storage
     WeakMapPrototypeSet(float16bitsArrays, proxy, float16bitsArray);
