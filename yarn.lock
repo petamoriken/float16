@@ -624,10 +624,10 @@ babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
-babel-plugin-replace-import-extension@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-replace-import-extension/-/babel-plugin-replace-import-extension-1.1.1.tgz#210c92eebe9744d71c51598fe202fda4227c36cc"
-  integrity sha512-iSw8H3OpZGFfz95x/Sq4F1zB87MfhzhTT1C1Xhn1ghLv1ahmGu9aej20BvqLlKxr6+/VN65VHeJG0NI8gi5tWQ==
+babel-plugin-replace-import-extension@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-replace-import-extension/-/babel-plugin-replace-import-extension-1.1.2.tgz#7a6847280622d624d0966283d377f4956a4c4c11"
+  integrity sha512-ZUR48wUUwCx8t1ets8DvQyPDlraHIDMtGXypkZ6B02y0ACwu5d4eWNxzSQX7ihkf/weBdHPl2DB5g1rquDNvZw==
 
 balanced-match@^1.0.0:
   version "1.0.2"
