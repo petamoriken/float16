@@ -525,8 +525,8 @@ export class Float16Array {
     return convertToNumber(float16bitsArray[k]);
   }
 
-  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withAt */
-  withAt(index, value) {
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.with */
+  with(index, value) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
@@ -871,8 +871,8 @@ export class Float16Array {
     return this;
   }
 
-  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withReversed */
-  withReversed() {
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toReversed */
+  toReversed() {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
@@ -931,8 +931,8 @@ export class Float16Array {
     return this;
   }
 
-  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSorted */
-  withSorted(...opts) {
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toSorted */
+  toSorted(...opts) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
@@ -1023,8 +1023,8 @@ export class Float16Array {
     return /** @type {any} */ (array);
   }
 
-  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.withSpliced */
-  withSpliced(...opts) {
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toSpliced */
+  toSpliced(...opts) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 

@@ -826,30 +826,30 @@ describe("Float16Array", () => {
     });
   });
 
-  describe("#withAt()", () => {
-    it("property `name` is 'withAt'", () => {
-      assert(Float16Array.prototype.withAt.name === "withAt");
+  describe("#with()", () => {
+    it("property `name` is 'with'", () => {
+      assert(Float16Array.prototype.with.name === "with");
     });
 
     it("property `length` is 1", () => {
-      assert(Float16Array.prototype.withAt.length === 2);
+      assert(Float16Array.prototype.with.length === 2);
     });
 
-    it("withAt", () => {
+    it("with", () => {
       const float16_1 = new Float16Array([1, 2, 3]);
-      const float16_2 = float16_1.withAt(1, 4);
+      const float16_2 = float16_1.with(1, 4);
 
       assert(float16_1.buffer !== float16_2.buffer);
       assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
       assert.equalFloat16ArrayValues(float16_2, [1, 4, 3]);
 
-      const float16_3 = float16_1.withAt(-1, 4);
+      const float16_3 = float16_1.with(-1, 4);
 
       assert(float16_1.buffer !== float16_3.buffer);
       assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
       assert.equalFloat16ArrayValues(float16_3, [1, 2, 4]);
 
-      const float16_4 = float16_1.withAt(0, "aaa");
+      const float16_4 = float16_1.with(0, "aaa");
 
       assert(float16_1.buffer !== float16_4.buffer);
       assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
@@ -861,20 +861,20 @@ describe("Float16Array", () => {
 
       // out of range
       assert.throws(() => {
-        float16.withAt(5, 0);
+        float16.with(5, 0);
       }, RangeError);
       assert.throws(() => {
-        float16.withAt(-5, 0);
+        float16.with(-5, 0);
       }, RangeError);
 
       assert.throws(() => {
-        float16.withAt(Symbol(), 0);
+        float16.with(Symbol(), 0);
       }, TypeError);
 
       // Safari 13 doesn't have BigInt
       if (typeof BigInt !== "undefined") {
         assert.throws(() => {
-          float16.withAt(BigInt(0), 0);
+          float16.with(BigInt(0), 0);
         }, TypeError);
       }
     });
@@ -1490,18 +1490,18 @@ describe("Float16Array", () => {
     });
   });
 
-  describe("#withReversed()", () => {
+  describe("#toReversed()", () => {
     it("property `name` is 'reverse'", () => {
-      assert(Float16Array.prototype.withReversed.name === "withReversed");
+      assert(Float16Array.prototype.toReversed.name === "toReversed");
     });
 
     it("property `length` is 0", () => {
-      assert(Float16Array.prototype.withReversed.length === 0);
+      assert(Float16Array.prototype.toReversed.length === 0);
     });
 
-    it("withReversed", () => {
+    it("toReversed", () => {
       const float16_1 = new Float16Array([1, 2, 3]);
-      const float16_2 = float16_1.withReversed();
+      const float16_2 = float16_1.toReversed();
 
       assert(float16_1.buffer !== float16_2.buffer);
       assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
@@ -1611,13 +1611,13 @@ describe("Float16Array", () => {
     });
   });
 
-  describe("#withSorted()", () => {
-    it("property `name` is 'withSorted'", () => {
-      assert(Float16Array.prototype.withSorted.name === "withSorted");
+  describe("#toSorted()", () => {
+    it("property `name` is 'toSorted'", () => {
+      assert(Float16Array.prototype.toSorted.name === "toSorted");
     });
 
     it("property `length` is 0", () => {
-      assert(Float16Array.prototype.withSorted.length === 0);
+      assert(Float16Array.prototype.toSorted.length === 0);
     });
 
     it("check default compare", () => {
@@ -1632,7 +1632,7 @@ describe("Float16Array", () => {
         Infinity,
         -Infinity,
       ]);
-      const float16_2 = float16_1.withSorted();
+      const float16_2 = float16_1.toSorted();
 
       assert(float16_1.buffer !== float16_2.buffer);
       assert.equalFloat16ArrayValues(float16_1, [
@@ -1661,7 +1661,7 @@ describe("Float16Array", () => {
 
     it("check custom compare", () => {
       const float16_1 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
-      const float16_2 = float16_1.withSorted((x, y) => y - x);
+      const float16_2 = float16_1.toSorted((x, y) => y - x);
 
       assert(float16_1.buffer !== float16_2.buffer);
       assert.equalFloat16ArrayValues(float16_1, [
@@ -1809,43 +1809,43 @@ describe("Float16Array", () => {
     });
   });
 
-  describe("#withSpliced()", () => {
-    it("property `name` is 'withSpliced'", () => {
-      assert(Float16Array.prototype.withSpliced.name === "withSpliced");
+  describe("#toSpliced()", () => {
+    it("property `name` is 'toSpliced'", () => {
+      assert(Float16Array.prototype.toSpliced.name === "toSpliced");
     });
 
     it("property `length` is 0", () => {
-      assert(Float16Array.prototype.withSpliced.length === 0);
+      assert(Float16Array.prototype.toSpliced.length === 0);
     });
 
     it("get spliced Array", () => {
       const float16_1 = new Float16Array([1, 2, 3]);
-      const float16_2 = float16_1.withSpliced();
+      const float16_2 = float16_1.toSpliced();
 
       assert(float16_1.buffer !== float16_2.buffer);
       assert.equalFloat16ArrayValues(float16_1, float16_2);
 
-      const float16_3 = float16_1.withSpliced(1);
+      const float16_3 = float16_1.toSpliced(1);
 
       assert(float16_1.buffer !== float16_3.buffer);
       assert.equalFloat16ArrayValues(float16_3, [1]);
 
-      const float16_4 = float16_1.withSpliced(1, -1);
+      const float16_4 = float16_1.toSpliced(1, -1);
 
       assert(float16_1.buffer !== float16_4.buffer);
       assert.equalFloat16ArrayValues(float16_4, [1, 2, 3]);
 
-      const float16_5 = float16_1.withSpliced(1, 10);
+      const float16_5 = float16_1.toSpliced(1, 10);
 
       assert(float16_1.buffer !== float16_5.buffer);
       assert.equalFloat16ArrayValues(float16_5, [1]);
 
-      const float16_6 = float16_1.withSpliced(1, 1);
+      const float16_6 = float16_1.toSpliced(1, 1);
 
       assert(float16_1.buffer !== float16_6.buffer);
       assert.equalFloat16ArrayValues(float16_6, [1, 3]);
 
-      const float16_7 = float16_1.withSpliced(1, 1, 5, 6);
+      const float16_7 = float16_1.toSpliced(1, 1, 5, 6);
 
       assert(float16_1.buffer !== float16_7.buffer);
       assert.equalFloat16ArrayValues(float16_7, [1, 5, 6, 3]);
