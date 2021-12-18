@@ -37,7 +37,7 @@ export function isObjectLike(value) {
  * @param {unknown} value
  * @returns {value is TypedArray}
  */
-export function isTypedArray(value) {
+export function isNativeTypedArray(value) {
   return TypedArrayPrototypeGetSymbolToStringTag(value) !== undefined;
 }
 
@@ -45,7 +45,7 @@ export function isTypedArray(value) {
  * @param {unknown} value
  * @returns {value is BigInt64Array|BigUint64Array}
  */
-export function isBigIntTypedArray(value) {
+export function isNativeBigIntTypedArray(value) {
   const typedArrayName = TypedArrayPrototypeGetSymbolToStringTag(value);
   return typedArrayName === "BigInt64Array" ||
     typedArrayName === "BigUint64Array";
@@ -104,8 +104,8 @@ export function isOrdinaryArray(value) {
  * @param {unknown} value
  * @returns {value is TypedArray}
  */
-export function isOrdinaryTypedArray(value) {
-  if (!isTypedArray(value)) {
+export function isOrdinaryNativeTypedArray(value) {
+  if (!isNativeTypedArray(value)) {
     return false;
   }
 

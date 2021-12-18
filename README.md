@@ -53,7 +53,7 @@ yarn add @petamoriken/float16
 ```js
 // ES Modules
 import {
-  Float16Array, isFloat16Array,
+  Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
   hfround,
 } from "@petamoriken/float16";
@@ -62,7 +62,7 @@ import {
 ```js
 // CommonJS
 const {
-  Float16Array, isFloat16Array,
+  Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
   hfround,
 } = require("@petamoriken/float16");
@@ -75,7 +75,7 @@ service.
 
 ```ts
 import {
-  Float16Array, isFloat16Array,
+  Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
   hfround,
 } from "https://deno.land/x/float16/mod.ts";
@@ -90,7 +90,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
 <!-- Module Scripts -->
 <script type="module">
   import {
-    Float16Array, isFloat16Array,
+    Float16Array, isFloat16Array, isTypedArray,
     getFloat16, setFloat16,
     hfround,
   } from "DEST/TO/float16.mjs";
@@ -102,7 +102,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
 <script src="DEST/TO/float16.js"></script>
 <script>
   const {
-    Float16Array, isFloat16Array,
+    Float16Array, isFloat16Array, isTypedArray,
     getFloat16, setFloat16,
     hfround,
   } = float16;
@@ -116,7 +116,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
   <!-- Module Scripts -->
   <script type="module">
     import {
-      Float16Array, isFloat16Array,
+      Float16Array, isFloat16Array, isTypedArray,
       getFloat16, setFloat16,
       hfround,
     } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
@@ -128,7 +128,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
   <script src="https://cdn.jsdelivr.net/npm/@petamoriken/float16/browser/float16.min.js"></script>
   <script>
     const {
-      Float16Array, isFloat16Array,
+      Float16Array, isFloat16Array, isTypedArray,
       getFloat16, setFloat16,
       hfround,
     } = float16;
@@ -188,6 +188,22 @@ declare function isFloat16Array(value: unknown): value is Float16Array;
 isFloat16Array(new Float16Array(10)); // true
 isFloat16Array(new Float32Array(10)); // false
 isFloat16Array(new Uint16Array(10)); // false
+```
+
+### `isTypedArray`
+
+`isFloat16Array` is a utility function to check whether the value given as an
+argument is an instance of a type of `TypedArray` or not.
+Unlike `util.types.isTypedArray` in Node.js, this returns `true` for `Float16Array`.
+
+```ts
+declare function isTypedArray(value: unknown): value is Float16Array;
+```
+
+```js
+isTypedArray(new Float16Array(10)); // true
+isTypedArray(new Float32Array(10)); // true
+isTypedArray(new Uint16Array(10)); // true
 ```
 
 ### `getFloat16`, `setFloat16`

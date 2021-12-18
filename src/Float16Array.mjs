@@ -1,15 +1,15 @@
 import { toSafe, wrapGenerator } from "./_util/arrayIterator.mjs";
+import { brand, hasFloat16ArrayBrand } from "./_util/brand.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
   isArrayBuffer,
-  isBigIntTypedArray,
   isCanonicalIntegerIndexString,
+  isNativeBigIntTypedArray,
+  isNativeTypedArray,
   isObject,
-  isObjectLike,
   isOrdinaryArray,
-  isOrdinaryTypedArray,
+  isOrdinaryNativeTypedArray,
   isSharedArrayBuffer,
-  isTypedArray,
 } from "./_util/is.mjs";
 import {
   ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER,
@@ -20,7 +20,6 @@ import {
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
-  THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT,
   THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY,
   THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT,
 } from "./_util/messages.mjs";
@@ -47,14 +46,12 @@ import {
   ReflectDefineProperty,
   ReflectGet,
   ReflectGetOwnPropertyDescriptor,
-  ReflectGetPrototypeOf,
   ReflectHas,
   ReflectOwnKeys,
   ReflectSet,
   ReflectSetPrototypeOf,
   SetPrototypeAdd,
   SetPrototypeHas,
-  SymbolFor,
   SymbolIterator,
   SymbolToStringTag,
   TypedArray,
@@ -87,36 +84,8 @@ import {
 
 const BYTES_PER_ELEMENT = 2;
 
-const brand = SymbolFor("__Float16Array__");
-
 /** @type {WeakMap<Float16Array, Uint16Array & { __float16bits: never }>} */
 const float16bitsArrays = new NativeWeakMap();
-
-/**
- * @param {unknown} target
- * @throws {TypeError}
- * @returns {boolean}
- */
-function hasFloat16ArrayBrand(target) {
-  if (!isObjectLike(target)) {
-    return false;
-  }
-
-  const prototype = ReflectGetPrototypeOf(target);
-  if (!isObjectLike(prototype)) {
-    return false;
-  }
-
-  const constructor = prototype.constructor;
-  if (constructor === undefined) {
-    return false;
-  }
-  if (!isObject(constructor)) {
-    throw NativeTypeError(THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT);
-  }
-
-  return ReflectHas(constructor, brand);
-}
 
 /**
  * @param {unknown} target
@@ -146,7 +115,7 @@ function assertFloat16Array(target) {
  */
 function assertSpeciesTypedArray(target, count) {
   const isTargetFloat16Array = isFloat16Array(target);
-  const isTargetTypedArray = isTypedArray(target);
+  const isTargetTypedArray = isNativeTypedArray(target);
 
   if (!isTargetFloat16Array && !isTargetTypedArray) {
     throw NativeTypeError(SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT);
@@ -168,7 +137,7 @@ function assertSpeciesTypedArray(target, count) {
     }
   }
 
-  if (isBigIntTypedArray(target)) {
+  if (isNativeBigIntTypedArray(target)) {
     throw NativeTypeError(CANNOT_MIX_BIGINT_AND_OTHER_TYPES);
   }
 }
@@ -296,7 +265,7 @@ export class Float16Array {
       /** @type {number} */
       let length;
 
-      if (isTypedArray(input)) { // TypedArray
+      if (isNativeTypedArray(input)) { // TypedArray
         list = input;
         length = TypedArrayPrototypeGetLength(input);
 
@@ -312,7 +281,7 @@ export class Float16Array {
           throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
         }
 
-        if (isBigIntTypedArray(input)) {
+        if (isNativeBigIntTypedArray(input)) {
           throw NativeTypeError(CANNOT_MIX_BIGINT_AND_OTHER_TYPES);
         }
 
@@ -425,7 +394,7 @@ export class Float16Array {
       if (isOrdinaryArray(src)) {
         list = src;
         length = src.length;
-      } else if (isOrdinaryTypedArray(src)) {
+      } else if (isOrdinaryNativeTypedArray(src)) {
         list = src;
         length = TypedArrayPrototypeGetLength(src);
       } else {
@@ -823,7 +792,7 @@ export class Float16Array {
       );
     }
 
-    if (isBigIntTypedArray(input)) {
+    if (isNativeBigIntTypedArray(input)) {
       throw NativeTypeError(
         CANNOT_MIX_BIGINT_AND_OTHER_TYPES
       );
@@ -839,7 +808,7 @@ export class Float16Array {
       );
     }
 
-    if (isTypedArray(input)) {
+    if (isNativeTypedArray(input)) {
       const buffer = TypedArrayPrototypeGetBuffer(input);
       if (IsDetachedBuffer(buffer)) {
         throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
