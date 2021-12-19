@@ -192,7 +192,7 @@ isFloat16Array(new Uint16Array(10)); // false
 
 ### `isTypedArray`
 
-`isFloat16Array` is a utility function to check whether the value given as an
+`isTypedArray` is a utility function to check whether the value given as an
 argument is an instance of a type of `TypedArray` or not.
 Unlike `util.types.isTypedArray` in Node.js, this returns `true` for `Float16Array`.
 
