@@ -197,7 +197,7 @@ argument is an instance of a type of `TypedArray` or not. Unlike
 `util.types.isTypedArray` in Node.js, this returns `true` for `Float16Array`.
 
 ```ts
-declare function isTypedArray(value: unknown): value is Float16Array;
+declare function isTypedArray(value: unknown): value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float16Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array;
 ```
 
 ```js
