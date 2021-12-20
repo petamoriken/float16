@@ -167,12 +167,14 @@ environments:
 ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)).
 
 ```js
-const array = new Float16Array([1.0, 1.1, 1.2]);
-for (const val of array) {
-  console.log(val); // => 1, 1.099609375, 1.19921875
+const array = new Float16Array([1.0, 1.1, 1.2, 1.3]);
+for (const value of array) {
+  // 1, 1.099609375, 1.19921875, 1.2998046875
+  console.log(value);
 }
 
-array.reduce((prev, current) => prev + current); // 3.298828125
+// Float16Array(4) [ 2, 2.19921875, 2.3984375, 2.599609375 ]
+array.map((value) => value * 2);
 ```
 
 ### `isFloat16Array`
@@ -180,14 +182,16 @@ array.reduce((prev, current) => prev + current); // 3.298828125
 `isFloat16Array` is a utility function to check whether the value given as an
 argument is an instance of `Float16Array` or not.
 
-```ts
-declare function isFloat16Array(value: unknown): value is Float16Array;
-```
-
 ```js
-isFloat16Array(new Float16Array(10)); // true
-isFloat16Array(new Float32Array(10)); // false
-isFloat16Array(new Uint16Array(10)); // false
+const buffer = new ArrayBuffer(256);
+
+// true
+isFloat16Array(new Float16Array(buffer));
+
+// false
+isFloat16Array(new Float32Array(buffer));
+isFloat16Array(new Uint16Array(buffer));
+isFloat16Array(new DataView(buffer));
 ```
 
 ### `isTypedArray`
@@ -196,14 +200,16 @@ isFloat16Array(new Uint16Array(10)); // false
 argument is an instance of a type of `TypedArray` or not. Unlike
 `util.types.isTypedArray` in Node.js, this returns `true` for `Float16Array`.
 
-```ts
-declare function isTypedArray(value: unknown): value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float16Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array;
-```
-
 ```js
-isTypedArray(new Float16Array(10)); // true
-isTypedArray(new Float32Array(10)); // true
-isTypedArray(new Uint16Array(10)); // true
+const buffer = new ArrayBuffer(256);
+
+// true
+isTypedArray(new Float16Array(buffer));
+isTypedArray(new Float32Array(buffer));
+isTypedArray(new Uint16Array(buffer));
+
+// false
+isTypedArray(new DataView(buffer));
 ```
 
 ### `getFloat16`, `setFloat16`
@@ -220,7 +226,7 @@ declare function setFloat16(view: DataView, byteOffset: number, value: number, l
 ```
 
 ```js
-const buffer = new ArrayBuffer(10);
+const buffer = new ArrayBuffer(256);
 const view = new DataView(buffer);
 
 view.setUint16(0, 0x1234);
