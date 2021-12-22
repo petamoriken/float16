@@ -11,6 +11,7 @@ on:
       - master
 
 permissions:
+  actions: write
   contents: read
 
 jobs:
@@ -90,6 +91,12 @@ jobs:
           (github.actor != github.repository_owner && github.actor != 'dependabot[bot]')
         name: Check PR actor
         run: exit 1
+
+      - if: |
+          github.actor == 'dependabot[bot]' &&
+          (contains(github.head_ref, 'types/') || contains(github.head_ref, 'eslint') || contains(github.head_ref, 'find-unused-exports') || contains(github.head_ref, 'concurrently'))
+        name: Check PR dependencies in case of Dependabot actor
+        uses: andymckay/cancel-action@0.2
 
       - if: github.event_name != 'pull_request_target'
         uses: actions/checkout@v2

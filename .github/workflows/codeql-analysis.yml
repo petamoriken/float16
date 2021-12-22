@@ -11,12 +11,16 @@ on:
       - master
 
 permissions:
-  actions: read
+  actions: write
   contents: read
   security-events: write
 
 jobs:
   analyze:
+    - if: github.actor == 'dependabot[bot]'
+      name: Cancel in case of dependencies update
+      uses: andymckay/cancel-action@0.2
+
     name: Analyze
     runs-on: ubuntu-latest
     if: |
