@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: syossan27/purge-github-readme-image@v1.0.0
+      - uses: syossan27/purge-github-readme-imagev1.0.0
         with:
           repository: ${{ github.repository }}
           token: ${{ secrets.GITHUB_TOKEN }}
