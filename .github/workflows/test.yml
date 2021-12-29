@@ -91,7 +91,11 @@ jobs:
           github.actor == 'dependabot[bot]' &&
           (contains(github.head_ref, 'types/') || contains(github.head_ref, 'eslint') || contains(github.head_ref, 'find-unused-exports') || contains(github.head_ref, 'concurrently'))
         name: Check PR dependencies in case of Dependabot actor
+<<<<<<< HEAD
         run: exit 0
+=======
+        run: andymckay/cancel-action@0.2
+>>>>>>> e1a6ce1 (Update browser test)
 
       - if: |
           github.event_name == 'pull_request_target' &&
