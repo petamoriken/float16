@@ -89,7 +89,7 @@ jobs:
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' && (
       github.actor == github.repository_owner ||
-      !(github.actor == 'dependabot[bot]' && ((contains(github.head_ref, 'types/') || contains(github.head_ref, 'eslint') || contains(github.head_ref, 'find-unused-exports') || contains(github.head_ref, 'concurrently')))))
+      (github.actor == 'dependabot[bot]' && !((contains(github.head_ref, 'types/') || contains(github.head_ref, 'eslint') || contains(github.head_ref, 'find-unused-exports') || contains(github.head_ref, 'concurrently')))))
       )
     steps:
       - if: github.event_name != 'pull_request_target'
