@@ -84,25 +84,14 @@ jobs:
   browser_test:
     name: Unit Test (Browser)
     runs-on: ubuntu-latest
-
+    if: |
+      github.event_name == 'schedule' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && (
+      github.actor == github.repository_owner ||
+      !(github.actor == 'dependabot[bot]' && ((contains(github.head_ref, 'types/') || contains(github.head_ref, 'eslint') || contains(github.head_ref, 'find-unused-exports') || contains(github.head_ref, 'concurrently')))))
+      )
     steps:
-      - if: |
-          github.event_name == 'pull_request_target' &&
-          github.actor == 'dependabot[bot]' &&
-          (contains(github.head_ref, 'types/') || contains(github.head_ref, 'eslint') || contains(github.head_ref, 'find-unused-exports') || contains(github.head_ref, 'concurrently'))
-        name: Check PR dependencies in case of Dependabot actor
-<<<<<<< HEAD
-        run: exit 0
-=======
-        run: andymckay/cancel-action@0.2
->>>>>>> e1a6ce1 (Update browser test)
-
-      - if: |
-          github.event_name == 'pull_request_target' &&
-          (github.actor != github.repository_owner && github.actor != 'dependabot[bot]')
-        name: Check PR actors for weirdness
-        run: exit 1
-
       - if: github.event_name != 'pull_request_target'
         uses: actions/checkout@v2
         with:
