@@ -1,4 +1,5 @@
 import {
+  ArrayIteratorPrototype,
   ArrayIteratorPrototypeNext,
   ArrayPrototypeSymbolIterator,
   GeneratorPrototypeNext,
@@ -6,8 +7,10 @@ import {
   NativeArrayPrototypeSymbolIterator,
   NativeWeakMap,
   ObjectCreate,
+  ObjectDefineProperty,
+  ReflectGetOwnPropertyDescriptor,
+  ReflectOwnKeys,
   SymbolIterator,
-  SymbolToStringTag,
   WeakMapPrototypeGet,
   WeakMapPrototypeSet,
 } from "./primordials.mjs";
@@ -51,12 +54,17 @@ const DummyArrayIteratorPrototype = ObjectCreate(IteratorPrototype, {
     writable: true,
     configurable: true,
   },
-
-  [SymbolToStringTag]: {
-    value: "Array Iterator",
-    configurable: true,
-  },
 });
+
+for (const key of ReflectOwnKeys(ArrayIteratorPrototype)) {
+  // next method has already defined
+  if (key === "next") {
+    continue;
+  }
+
+  // Copy ArrayIteratorPrototype descriptors to DummyArrayIteratorPrototype
+  ObjectDefineProperty(DummyArrayIteratorPrototype, key, ReflectGetOwnPropertyDescriptor(ArrayIteratorPrototype, key));
+}
 
 /** @type {<T>(generator: Generator<T>) => IterableIterator<T>} */
 export function wrapGenerator(generator) {

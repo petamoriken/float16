@@ -170,7 +170,7 @@ export const NativeFloat32Array = Float32Array;
 
 // ArrayIterator
 /** @type {any} */
-const ArrayIteratorPrototype = ReflectGetPrototypeOf([][SymbolIterator]());
+export const ArrayIteratorPrototype = ReflectGetPrototypeOf([][SymbolIterator]());
 /** @type {<T>(arrayIterator: IterableIterator<T>) => IteratorResult<T>} */
 export const ArrayIteratorPrototypeNext = uncurryThis(ArrayIteratorPrototype.next);
 
