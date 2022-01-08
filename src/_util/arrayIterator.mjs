@@ -20,7 +20,7 @@ import {
  *
  * @type {<T>(array: T[]) => Iterable<T>}
  */
-export function toSafe(array) {
+export function safe(array) {
   if (array[SymbolIterator] === NativeArrayPrototypeSymbolIterator) {
     return array;
   }
@@ -67,7 +67,7 @@ for (const key of ReflectOwnKeys(ArrayIteratorPrototype)) {
 }
 
 /** @type {<T>(generator: Generator<T>) => IterableIterator<T>} */
-export function wrapGenerator(generator) {
+export function wrap(generator) {
   const dummy = ObjectCreate(DummyArrayIteratorPrototype);
   WeakMapPrototypeSet(generators, dummy, generator);
   return dummy;
