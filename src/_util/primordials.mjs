@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals, no-restricted-syntax */
 /* global SharedArrayBuffer */
 
-/** @type {(target: Function) => (thisArg: any, ...args: any[]) => any} */
+/** @type {<T extends (...args: any) => any>(target: T) => (thisArg: ThisType<T>, ...args: any[]) => any} */
 function uncurryThis(target) {
   return (thisArg, ...args) => {
     return ReflectApply(target, thisArg, args);
