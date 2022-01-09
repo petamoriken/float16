@@ -15,6 +15,24 @@ import {
   WeakMapPrototypeSet,
 } from "./primordials.mjs";
 
+/** @type {WeakMap<{}, IterableIterator<any>>} */
+const arrayIterators = new NativeWeakMap();
+
+const SafeIteratorPrototype = ObjectCreate(null, {
+  next: {
+    value: function next() {
+      const arrayIterator = WeakMapPrototypeGet(arrayIterators, this);
+      return ArrayIteratorPrototypeNext(arrayIterator);
+    },
+  },
+
+  [SymbolIterator]: {
+    value: function values() {
+      return this;
+    },
+  },
+});
+
 /**
  * Wrap ArrayIterator If Array.prototype [@@iterator] has been modified
  *
@@ -25,20 +43,9 @@ export function safe(array) {
     return array;
   }
 
-  const arrayIterator = ArrayPrototypeSymbolIterator(array);
-  return ObjectCreate(null, {
-    next: {
-      value: function next() {
-        return ArrayIteratorPrototypeNext(arrayIterator);
-      },
-    },
-
-    [SymbolIterator]: {
-      value: function values() {
-        return this;
-      },
-    },
-  });
+  const safe = ObjectCreate(SafeIteratorPrototype);
+  WeakMapPrototypeSet(arrayIterators, safe, ArrayPrototypeSymbolIterator(array));
+  return safe;
 }
 
 /** @type {WeakMap<{}, Generator<any>>} */
