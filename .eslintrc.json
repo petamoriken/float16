@@ -80,7 +80,7 @@
       },
       {
         "selector": "SpreadElement[argument.callee.name!=safeIfNeeded]",
-        "message": "Use `safe` utility function to account for the case that Array.prototype [@@iterator] has been modified"
+        "message": "Use `safeIfNeeded` utility function to account for the case that Array.prototype [@@iterator] has been modified"
       },
       {
         "selector": "CallExpression[callee.type=MemberExpression]",
