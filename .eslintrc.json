@@ -79,7 +79,7 @@
         "message": "Do not use ForOfStatement in function"
       },
       {
-        "selector": "SpreadElement[argument.callee.name!=safe]",
+        "selector": "SpreadElement[argument.callee.name!=safeIfNeeded]",
         "message": "Use `safe` utility function to account for the case that Array.prototype [@@iterator] has been modified"
       },
       {

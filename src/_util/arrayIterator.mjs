@@ -34,11 +34,11 @@ const SafeIteratorPrototype = ObjectCreate(null, {
 });
 
 /**
- * Wrap ArrayIterator If Array.prototype [@@iterator] has been modified
+ * Wrap the Array around the SafeIterator If Array.prototype [@@iterator] has been modified
  *
  * @type {<T>(array: T[]) => Iterable<T>}
  */
-export function safe(array) {
+export function safeIfNeeded(array) {
   if (array[SymbolIterator] === NativeArrayPrototypeSymbolIterator) {
     return array;
   }
@@ -73,7 +73,11 @@ for (const key of ReflectOwnKeys(ArrayIteratorPrototype)) {
   ObjectDefineProperty(DummyArrayIteratorPrototype, key, ReflectGetOwnPropertyDescriptor(ArrayIteratorPrototype, key));
 }
 
-/** @type {<T>(generator: Generator<T>) => IterableIterator<T>} */
+/**
+ * Wrap the Generator around the dummy ArrayIterator
+ *
+ * @type {<T>(generator: Generator<T>) => IterableIterator<T>}
+ */
 export function wrap(generator) {
   const dummy = ObjectCreate(DummyArrayIteratorPrototype);
   WeakMapPrototypeSet(generators, dummy, generator);

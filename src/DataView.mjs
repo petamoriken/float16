@@ -1,4 +1,4 @@
-import { safe } from "./_util/arrayIterator.mjs";
+import { safeIfNeeded } from "./_util/arrayIterator.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
   DataViewPrototypeGetUint16,
@@ -15,7 +15,7 @@ import {
  */
 export function getFloat16(dataView, byteOffset, ...opts) {
   return convertToNumber(
-    DataViewPrototypeGetUint16(dataView, byteOffset, ...safe(opts))
+    DataViewPrototypeGetUint16(dataView, byteOffset, ...safeIfNeeded(opts))
   );
 }
 
@@ -32,6 +32,6 @@ export function setFloat16(dataView, byteOffset, value, ...opts) {
     dataView,
     byteOffset,
     roundToFloat16Bits(value),
-    ...safe(opts)
+    ...safeIfNeeded(opts)
   );
 }

@@ -1,4 +1,4 @@
-import { safe, wrap } from "./_util/arrayIterator.mjs";
+import { safeIfNeeded, wrap } from "./_util/arrayIterator.mjs";
 import { brand, hasFloat16ArrayBrand } from "./_util/brand.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
@@ -372,7 +372,7 @@ export class Float16Array {
         TypedArrayPrototypeGetBuffer(
           Uint16ArrayFrom(src, function (val, ...args) {
             return roundToFloat16Bits(
-              ReflectApply(mapFunc, this, [val, ...safe(args)])
+              ReflectApply(mapFunc, this, [val, ...safeIfNeeded(args)])
             );
           }, thisArg)
         )
@@ -847,7 +847,7 @@ export class Float16Array {
     TypedArrayPrototypeFill(
       float16bitsArray,
       roundToFloat16Bits(value),
-      ...safe(opts)
+      ...safeIfNeeded(opts)
     );
 
     return this;
@@ -858,7 +858,7 @@ export class Float16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    TypedArrayPrototypeCopyWithin(float16bitsArray, target, start, ...safe(opts));
+    TypedArrayPrototypeCopyWithin(float16bitsArray, target, start, ...safeIfNeeded(opts));
 
     return this;
   }
@@ -892,7 +892,7 @@ export class Float16Array {
       );
       return new Float16Array(
         TypedArrayPrototypeGetBuffer(
-          TypedArrayPrototypeSlice(uint16, ...safe(opts))
+          TypedArrayPrototypeSlice(uint16, ...safeIfNeeded(opts))
         )
       );
     }
@@ -954,7 +954,7 @@ export class Float16Array {
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
       TypedArrayPrototypeGetLength(float16bitsArray)
     );
-    const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...safe(opts));
+    const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...safeIfNeeded(opts));
 
     const array = new Constructor(
       TypedArrayPrototypeGetBuffer(uint16Subarray),
@@ -1069,7 +1069,7 @@ export class Float16Array {
 
     const array = copyToArray(float16bitsArray);
 
-    return ArrayPrototypeJoin(array, ...safe(opts));
+    return ArrayPrototypeJoin(array, ...safeIfNeeded(opts));
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring */
@@ -1079,7 +1079,7 @@ export class Float16Array {
 
     const array = copyToArray(float16bitsArray);
 
-    return ArrayPrototypeToLocaleString(array, ...safe(opts));
+    return ArrayPrototypeToLocaleString(array, ...safeIfNeeded(opts));
   }
 
   /** @see https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag */
