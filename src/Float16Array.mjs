@@ -84,7 +84,9 @@ import {
 
 const BYTES_PER_ELEMENT = 2;
 
-/** @type {WeakMap<Float16Array, Uint16Array & { __float16bits: never }>} */
+/** @typedef {Uint16Array & { __float16bits: never }} Float16BitsArray */
+
+/** @type {WeakMap<Float16Array, Float16BitsArray>} */
 const float16bitsArrays = new NativeWeakMap();
 
 /**
@@ -145,7 +147,7 @@ function assertSpeciesTypedArray(target, count) {
 /**
  * @param {Float16Array} float16
  * @throws {TypeError}
- * @returns {Uint16Array & { __float16bits: never }}
+ * @returns {Float16BitsArray}
  */
 function getFloat16BitsArray(float16) {
   const float16bitsArray = WeakMapPrototypeGet(float16bitsArrays, float16);
@@ -173,7 +175,7 @@ function getFloat16BitsArray(float16) {
 }
 
 /**
- * @param {Uint16Array & { __float16bits: never }} float16bitsArray
+ * @param {Float16BitsArray} float16bitsArray
  * @returns {number[]}
  */
 function copyToArray(float16bitsArray) {
@@ -201,7 +203,7 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
   }
 }
 
-const handler = ObjectFreeze(/** @type {ProxyHandler<Uint16Array & { __float16bits: never }>} */ ({
+const handler = ObjectFreeze(/** @type {ProxyHandler<Float16BitsArray>} */ ({
   /** limitation: If the getter property is the same as %TypedArray%.prototype, the receiver is not passed */
   get(target, key, receiver) {
     if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
@@ -254,7 +256,7 @@ const handler = ObjectFreeze(/** @type {ProxyHandler<Uint16Array & { __float16bi
 export class Float16Array {
   /** @see https://tc39.es/ecma262/#sec-typedarray */
   constructor(input, _byteOffset, _length) {
-    /** @type {Uint16Array & { __float16bits: never }} */
+    /** @type {Float16BitsArray} */
     let float16bitsArray;
 
     if (isFloat16Array(input)) {
