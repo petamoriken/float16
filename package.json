@@ -39,6 +39,7 @@
     }
   },
   "main": "./lib/index.cjs",
+  "browser": "./browser/float16.js",
   "module": "./src/index.mjs",
   "types": "index.d.ts",
   "files": [
