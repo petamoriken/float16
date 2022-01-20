@@ -54,7 +54,7 @@ for (let i = 0; i < 256; ++i) {
 }
 
 /**
- * round a number to a half float number bits.
+ * round a number to a half float number bits
  *
  * @param {unknown} num - double float
  * @returns {number} half float number bits
@@ -70,15 +70,14 @@ const mantissaTable = new NativeUint32Array(2048);
 const exponentTable = new NativeUint32Array(64);
 const offsetTable = new NativeUint32Array(64);
 
-mantissaTable[0] = 0;
 for (let i = 1; i < 1024; ++i) {
   let m = i << 13;    // zero pad mantissa bits
   let e = 0;          // zero exponent
 
   // normalized
   while((m & 0x00800000) === 0) {
-    e -= 0x00800000;  // decrement exponent
     m <<= 1;
+    e -= 0x00800000;  // decrement exponent
   }
 
   m &= ~0x00800000;   // clear leading 1 bit
@@ -90,7 +89,6 @@ for (let i = 1024; i < 2048; ++i) {
   mantissaTable[i] = 0x38000000 + ((i - 1024) << 13);
 }
 
-exponentTable[0] = 0;
 for (let i = 1; i < 31; ++i) {
   exponentTable[i] = i << 23;
 }
@@ -101,17 +99,14 @@ for (let i = 33; i < 63; ++i) {
 }
 exponentTable[63] = 0xc7800000;
 
-offsetTable[0] = 0;
 for (let i = 1; i < 64; ++i) {
-  if (i === 32) {
-    offsetTable[i] = 0;
-  } else {
+  if (i !== 32) {
     offsetTable[i] = 1024;
   }
 }
 
 /**
- * convert a half float number bits to a number.
+ * convert a half float number bits to a number
  *
  * @param {number} float16bits - half float number bits
  * @returns {number} double float
