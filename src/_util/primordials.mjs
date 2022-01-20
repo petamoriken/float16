@@ -86,10 +86,11 @@ export const MathTrunc = Math.trunc;
 // ArrayBuffer
 export const NativeArrayBuffer = ArrayBuffer;
 export const ArrayBufferIsView = NativeArrayBuffer.isView;
+const ArrayBufferPrototype = NativeArrayBuffer.prototype;
 /** @type {(buffer: ArrayBuffer, begin?: number, end?: number) => number} */
-export const ArrayBufferPrototypeSlice = uncurryThis(NativeArrayBuffer.prototype.slice);
+export const ArrayBufferPrototypeSlice = uncurryThis(ArrayBufferPrototype.slice);
 /** @type {(buffer: ArrayBuffer) => ArrayBuffer} */
-export const ArrayBufferPrototypeGetByteLength = uncurryThisGetter(NativeArrayBuffer.prototype, "byteLength");
+export const ArrayBufferPrototypeGetByteLength = uncurryThisGetter(ArrayBufferPrototype, "byteLength");
 
 // SharedArrayBuffer
 export const NativeSharedArrayBuffer = typeof SharedArrayBuffer !== "undefined" ? SharedArrayBuffer : null;
