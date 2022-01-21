@@ -6,7 +6,7 @@ import {
 } from "./_util/primordials.mjs";
 
 /**
- * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView.
+ * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView
  *
  * @param {DataView} dataView
  * @param {number} byteOffset
@@ -20,7 +20,7 @@ export function getFloat16(dataView, byteOffset, ...opts) {
 }
 
 /**
- * stores an unsigned 16-bit float value at the specified byte offset from the start of the DataView.
+ * stores an unsigned 16-bit float value at the specified byte offset from the start of the DataView
  *
  * @param {DataView} dataView
  * @param {number} byteOffset

@@ -7,7 +7,7 @@ import {
 } from "./_util/primordials.mjs";
 
 /**
- * returns the nearest half-precision float representation of a number.
+ * returns the nearest half-precision float representation of a number
  *
  * @param {number} num
  * @returns {number}
