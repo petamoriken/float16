@@ -32,15 +32,15 @@ import {
   NativeObject,
   NativeProxy,
   NativeRangeError,
-  NativeSet,
   NativeTypeError,
   NativeUint16Array,
   NativeWeakMap,
+  NativeWeakSet,
   NumberIsNaN,
   ObjectDefineProperty,
   ObjectFreeze,
   ObjectHasOwn,
-  ObjectPrototypeIsPrototypeOf,
+  ObjectPrototype__lookupGetter__,
   ReflectApply,
   ReflectConstruct,
   ReflectDefineProperty,
@@ -50,8 +50,6 @@ import {
   ReflectOwnKeys,
   ReflectSet,
   ReflectSetPrototypeOf,
-  SetPrototypeAdd,
-  SetPrototypeHas,
   SymbolIterator,
   SymbolToStringTag,
   TypedArray,
@@ -73,6 +71,8 @@ import {
   WeakMapPrototypeGet,
   WeakMapPrototypeHas,
   WeakMapPrototypeSet,
+  WeakSetPrototypeAdd,
+  WeakSetPrototypeHas,
 } from "./_util/primordials.mjs";
 import {
   IsDetachedBuffer,
@@ -189,8 +189,8 @@ function copyToArray(float16bitsArray) {
   return array;
 }
 
-/** @type {Set<string | symbol>} */
-const TypedArrayPrototypeGetterKeys = new NativeSet();
+/** @type {WeakSet<Function>} */
+const TypedArrayPrototypeGetters = new NativeWeakSet();
 for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
   // @@toStringTag method is defined in Float16Array.prototype
   if (key === SymbolToStringTag) {
@@ -199,7 +199,7 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
 
   const descriptor = ReflectGetOwnPropertyDescriptor(TypedArrayPrototype, key);
   if (ObjectHasOwn(descriptor, "get")) {
-    SetPrototypeAdd(TypedArrayPrototypeGetterKeys, key);
+    WeakSetPrototypeAdd(TypedArrayPrototypeGetters, descriptor.get);
   }
 }
 
@@ -211,10 +211,7 @@ const handler = ObjectFreeze(/** @type {ProxyHandler<Float16BitsArray>} */ ({
     }
 
     // %TypedArray%.prototype getter properties cannot called by Proxy receiver
-    if (
-      SetPrototypeHas(TypedArrayPrototypeGetterKeys, key) &&
-      ObjectPrototypeIsPrototypeOf(TypedArrayPrototype, target)
-    ) {
+    if (WeakSetPrototypeHas(TypedArrayPrototypeGetters, ObjectPrototype__lookupGetter__(target, key))) {
       return ReflectGet(target, key);
     }
 

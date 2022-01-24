@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-globals, no-restricted-syntax */
 /* global SharedArrayBuffer */
 
+import { CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT } from "./messages.mjs";
+
 /** @type {<T extends (...args: any) => any>(target: T) => (thisArg: ThisType<T>, ...args: any[]) => any} */
 function uncurryThis(target) {
   return (thisArg, ...args) => {
@@ -59,7 +61,24 @@ export const {
   is: ObjectIs,
 } = NativeObject;
 const ObjectPrototype = NativeObject.prototype;
-export const ObjectPrototypeIsPrototypeOf = uncurryThis(ObjectPrototype.isPrototypeOf);
+/** @type {(object: object, key: PropertyKey) => any} */
+export const ObjectPrototype__lookupGetter__ = /** @type {any} */ (ObjectPrototype).__lookupGetter__
+  ? uncurryThis(/** @type {any} */ (ObjectPrototype).__lookupGetter__)
+  : (object, key) => {
+    if (object == null) {
+      throw NativeTypeError(
+        CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT
+      );
+    }
+
+    let target = NativeObject(object);
+    do {
+      const descriptor = ReflectGetOwnPropertyDescriptor(target, key);
+      if (descriptor !== undefined && ObjectHasOwn(descriptor, "get")) {
+        return descriptor.get;
+      }
+    } while ((target = ReflectGetPrototypeOf(target)) !== null);
+  };
 /** @type {(object: object, key: PropertyKey) => boolean} */
 export const ObjectHasOwn = /** @type {any} */ (NativeObject).hasOwn ||
   uncurryThis(ObjectPrototype.hasOwnProperty);
@@ -197,18 +216,18 @@ export const DataViewPrototypeSetUint16 = uncurryThis(
 export const NativeTypeError = TypeError;
 export const NativeRangeError = RangeError;
 
-// Set
+// WeakSet
 /**
  * Do not construct with arguments to avoid calling the "add" method
  *
- * @type {{new <T = any>(): Set<T>}}
+ * @type {{new <T extends {}>(): WeakSet<T>}}
  */
-export const NativeSet = Set;
-const SetPrototype = NativeSet.prototype;
-/** @type {<T>(set: Set<T>, value: T) => Set<T>} */
-export const SetPrototypeAdd = uncurryThis(SetPrototype.add);
-/** @type {<T>(set: Set<T>, value: T) => boolean} */
-export const SetPrototypeHas = uncurryThis(SetPrototype.has);
+export const NativeWeakSet = WeakSet;
+const WEakSetPrototype = NativeWeakSet.prototype;
+/** @type {<T extends {}>(set: WeakSet<T>, value: T) => Set<T>} */
+export const WeakSetPrototypeAdd = uncurryThis(WEakSetPrototype.add);
+/** @type {<T extends {}>(set: WeakSet<T>, value: T) => boolean} */
+export const WeakSetPrototypeHas = uncurryThis(WEakSetPrototype.has);
 
 // WeakMap
 /**
