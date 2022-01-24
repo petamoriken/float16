@@ -204,7 +204,6 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
 }
 
 const handler = ObjectFreeze(/** @type {ProxyHandler<Float16BitsArray>} */ ({
-  /** limitation: If the getter property is the same as %TypedArray%.prototype, the receiver is not passed */
   get(target, key, receiver) {
     if (isCanonicalIntegerIndexString(key) && ObjectHasOwn(target, key)) {
       return convertToNumber(ReflectGet(target, key));
