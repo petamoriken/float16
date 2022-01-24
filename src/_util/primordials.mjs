@@ -61,7 +61,7 @@ export const {
   is: ObjectIs,
 } = NativeObject;
 const ObjectPrototype = NativeObject.prototype;
-/** @type {(object: object, key: PropertyKey) => any} */
+/** @type {(object: object, key: PropertyKey) => Function | undefined} */
 export const ObjectPrototype__lookupGetter__ = /** @type {any} */ (ObjectPrototype).__lookupGetter__
   ? uncurryThis(/** @type {any} */ (ObjectPrototype).__lookupGetter__)
   : (object, key) => {
