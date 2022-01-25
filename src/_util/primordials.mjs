@@ -223,11 +223,11 @@ export const NativeRangeError = RangeError;
  * @type {{new <T extends {}>(): WeakSet<T>}}
  */
 export const NativeWeakSet = WeakSet;
-const WEakSetPrototype = NativeWeakSet.prototype;
+const WeakSetPrototype = NativeWeakSet.prototype;
 /** @type {<T extends {}>(set: WeakSet<T>, value: T) => Set<T>} */
-export const WeakSetPrototypeAdd = uncurryThis(WEakSetPrototype.add);
+export const WeakSetPrototypeAdd = uncurryThis(WeakSetPrototype.add);
 /** @type {<T extends {}>(set: WeakSet<T>, value: T) => boolean} */
-export const WeakSetPrototypeHas = uncurryThis(WEakSetPrototype.has);
+export const WeakSetPrototypeHas = uncurryThis(WeakSetPrototype.has);
 
 // WeakMap
 /**
