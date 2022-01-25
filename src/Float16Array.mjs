@@ -192,7 +192,7 @@ function copyToArray(float16bitsArray) {
 /** @type {WeakSet<Function>} */
 const TypedArrayPrototypeGetters = new NativeWeakSet();
 for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
-  // @@toStringTag method is defined in Float16Array.prototype
+  // @@toStringTag getter property is defined in Float16Array.prototype
   if (key === SymbolToStringTag) {
     continue;
   }
