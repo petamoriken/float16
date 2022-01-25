@@ -153,9 +153,11 @@ function getFloat16BitsArray(float16) {
   const float16bitsArray = WeakMapPrototypeGet(float16bitsArrays, float16);
   if (float16bitsArray !== undefined) {
     const buffer = TypedArrayPrototypeGetBuffer(float16bitsArray);
+
     if (IsDetachedBuffer(buffer)) {
       throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
     }
+
     return float16bitsArray;
   }
 
