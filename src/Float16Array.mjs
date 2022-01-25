@@ -198,7 +198,7 @@ for (const key of ReflectOwnKeys(TypedArrayPrototype)) {
   }
 
   const descriptor = ReflectGetOwnPropertyDescriptor(TypedArrayPrototype, key);
-  if (ObjectHasOwn(descriptor, "get")) {
+  if (ObjectHasOwn(descriptor, "get") && typeof descriptor.get === "function") {
     WeakSetPrototypeAdd(TypedArrayPrototypeGetters, descriptor.get);
   }
 }
