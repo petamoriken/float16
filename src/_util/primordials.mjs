@@ -74,8 +74,12 @@ export const ObjectPrototype__lookupGetter__ = /** @type {any} */ (ObjectPrototy
     let target = NativeObject(object);
     do {
       const descriptor = ReflectGetOwnPropertyDescriptor(target, key);
-      if (descriptor !== undefined && ObjectHasOwn(descriptor, "get")) {
-        return descriptor.get;
+      if (descriptor !== undefined) {
+        if (ObjectHasOwn(descriptor, "get")) {
+          return descriptor.get;
+        }
+
+        return;
       }
     } while ((target = ReflectGetPrototypeOf(target)) !== null);
   };
