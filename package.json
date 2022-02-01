@@ -84,7 +84,7 @@
     "espower-cli": "^1.1.0",
     "espower-loader": "^1.2.2",
     "exorcist": "^2.0.0",
-    "find-unused-exports": "^2.0.0",
+    "find-unused-exports": "^3.0.0",
     "http-server": "^14.1.0",
     "mocha": "^9.2.0",
     "nightwatch": "^2.0.2",
