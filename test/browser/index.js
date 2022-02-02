@@ -18,10 +18,10 @@ module.exports = {
       .findElements("#mocha-report .test .error");
 
     const result = elements.value;
-    const failed = result.length !== 0;
-    client.verify.ok(!failed, "Check error elements");
+    const success = result == null;
 
-    if (!failed === 0) {
+    client.verify.ok(success, "Check error elements");
+    if (success) {
       return;
     }
 
