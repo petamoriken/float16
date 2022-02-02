@@ -11,14 +11,23 @@ const { TARGET_URL } = process.env;
 module.exports = {
   /** @param {import("nightwatch").NightwatchBrowser} client */
   async ["Browser Test"](client) {
-    const elements = await client.url(
-      TARGET_URL || "http://127.0.0.1:8000/power.html",
-    )
-      .waitForElementPresent("#mocha-report .suite:nth-of-type(4)", 30000)
-      .findElements("#mocha-report .test .error");
+    let elements = null;
+    let success = false;
 
-    const result = elements.value;
-    const success = result == null;
+    try {
+      elements = await client.url(
+        TARGET_URL || "http://127.0.0.1:8000/power.html",
+      )
+        .waitForElementPresent("#mocha-report .suite:nth-of-type(4)", 30000)
+        .findElements("#mocha-report .test .error");
+    } catch (e) {
+      if (e.name === "NoSuchElementError") {
+        success = true;
+      } else {
+        // unexpected error
+        throw e;
+      }
+    }
 
     client.verify.ok(success, "Check error elements");
     if (success) {
@@ -26,6 +35,7 @@ module.exports = {
     }
 
     // show error log
+    const result = elements.value;
     for (const element of result) {
       const id = element.getId();
       const { value: error } = await client.elementIdText(id);
