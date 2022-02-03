@@ -35,8 +35,7 @@ module.exports = {
     }
 
     // show error log
-    const result = elements.value;
-    for (const element of result) {
+    for (const element of elements) {
       const id = element.getId();
       const { value: error } = await client.elementIdText(id);
       client.verify.ok(false, `\n\n${red}${error}${reset}\n\n`);
