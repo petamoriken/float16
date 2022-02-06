@@ -11,11 +11,11 @@ const { TARGET_URL } = process.env;
 module.exports = {
   /** @param {import("nightwatch").NightwatchBrowser} client */
   async ["Browser Test"](client) {
-    let elements = null;
+    let response = null;
     let success = false;
 
     try {
-      elements = await client.url(
+      response = await client.url(
         TARGET_URL || "http://127.0.0.1:8000/power.html",
       )
         .waitForElementPresent("#mocha-report .suite:nth-of-type(4)", 30000)
@@ -35,7 +35,7 @@ module.exports = {
     }
 
     // show error log
-    for (const element of elements) {
+    for (const element of response.value) {
       const id = element.getId();
       const { value: error } = await client.elementIdText(id);
       client.verify.ok(false, `\n\n${red}${error}${reset}\n\n`);
