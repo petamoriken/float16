@@ -867,10 +867,10 @@ caw@^2.0.1:
     tunnel-agent "^0.6.0"
     url-to-options "^1.0.1"
 
-chai-nightwatch@0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/chai-nightwatch/-/chai-nightwatch-0.5.2.tgz#2901778f215852a22f264d1a62e705cd1a662bd5"
-  integrity sha512-t/sgWZ5liEDpILNXGOBa/LSSWRh7s6HrWbShGi+VDM7BX6oljsui+qLlKHJvU+R/klOcSOU6HLytkuPRlj8Whw==
+chai-nightwatch@0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/chai-nightwatch/-/chai-nightwatch-0.5.3.tgz#980ecf63dde5a04e7f3524370682c7ff01178ffb"
+  integrity sha512-38ixH/mqpY6IwnZkz6xPqx8aB5/KVR+j6VPugcir3EGOsphnWXrPH/mUt8Jp+ninL6ghY0AaJDQ10hSfCPGy/g==
   dependencies:
     assertion-error "1.1.0"
 
@@ -3306,15 +3306,15 @@ nightwatch-saucelabs-endsauce@^1.0.5:
   dependencies:
     saucelabs "^6.0.0"
 
-nightwatch@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.0.4.tgz#4749f93726c7c98be1579ec2ea8afee5de4c06f9"
-  integrity sha512-CWt5PAQrJqH3Fen9RO0t8zGHf70J3/rMDIxcob5BGo3GtMlUmwJ+Sz14jqubkash3TUs7T0Osy5V9zSqRf3AYw==
+nightwatch@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.0.6.tgz#303623ab5eb0b7b3a2e4ec3710591a33dad4f5a2"
+  integrity sha512-H+qyjlqEs26i8ZjJucBaG/MqBN59PnEnji7OUdUk7uBgT5n2ezE1EOej2D1KFZSyLGSk4oanp9PqVTtVk4Py9g==
   dependencies:
     "@nightwatch/chai" "5.0.1"
     assertion-error "1.1.0"
     boxen "5.1.2"
-    chai-nightwatch "0.5.2"
+    chai-nightwatch "0.5.3"
     ci-info "^3.2.0"
     didyoumean "^1.2.2"
     dotenv "10.0.0"
