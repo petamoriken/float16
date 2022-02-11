@@ -10,36 +10,28 @@ const { TARGET_URL } = process.env;
 /** @type {import("nightwatch").NightwatchTestFunctions} */
 module.exports = {
   /** @param {import("nightwatch").NightwatchBrowser} client */
-  async ["Browser Test"](client) {
-    let response = null;
-    let success = false;
-
-    try {
-      response = await client.url(
-        TARGET_URL || "http://127.0.0.1:8000/power.html",
-      )
-        .waitForElementPresent("#mocha-report .suite:nth-of-type(4)", 30000)
-        .findElements("#mocha-report .test .error");
-    } catch (e) {
-      if (e.name === "NoSuchElementError") {
-        success = true;
-      } else {
-        // unexpected error
-        throw e;
+  ["Browser Test"](client) {
+    client.url(TARGET_URL || "http://127.0.0.1:8000/power.html")
+    .waitForElementPresent("#mocha-report .suite:nth-of-type(4)", 30000)
+    .elements("css selector", "#mocha-report .test .error", async (result) => {
+      // unexpected error
+      client.verify.ok(result.status === 0, "Check unexpected error");
+      if (result.status === 0) {
+        throw result.value;
       }
-    }
 
-    client.verify.ok(success, "Check error elements");
-    if (success) {
-      return;
-    }
+      const success = result.value == null || result.value.length === 0;
+      client.verify.ok(success, "Check error elements");
+      if (success) {
+        return;
+      }
 
-    // show error log
-    for (const element of response.value) {
-      const id = element.getId();
-      const { value: error } = await client.elementIdText(id);
-      client.verify.ok(false, `\n\n${red}${error}${reset}\n\n`);
-    }
+      // show error log
+      for (const element of result.value) {
+        const { value: error } = await client.elementIdText(element.ELEMENT);
+        client.verify.ok(false, `\n\n${red}${error}${reset}\n\n`);
+      }
+    });
   },
 
   afterEach(client, done) {
