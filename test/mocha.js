@@ -1,4 +1,4 @@
-// mocha@9.2.0 transpiled to javascript ES5
+// mocha@9.2.1 transpiled to javascript ES5
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -25533,6 +25533,11 @@
 
 	  exports.inlineDiffs = false;
 	  /**
+	   * Truncate diffs longer than this value to avoid slow performance
+	   */
+
+	  exports.maxDiffSize = 8192;
+	  /**
 	   * Default color map.
 	   */
 
@@ -25658,17 +25663,22 @@
 
 	  var generateDiff = exports.generateDiff = function (actual, expected) {
 	    try {
-	      var diffSize = 2048;
+	      var maxLen = exports.maxDiffSize;
+	      var skipped = 0;
 
-	      if (actual.length > diffSize) {
-	        actual = actual.substring(0, diffSize) + ' ... Lines skipped';
+	      if (maxLen > 0) {
+	        skipped = Math.max(actual.length - maxLen, expected.length - maxLen);
+	        actual = actual.slice(0, maxLen);
+	        expected = expected.slice(0, maxLen);
 	      }
 
-	      if (expected.length > diffSize) {
-	        expected = expected.substring(0, diffSize) + ' ... Lines skipped';
+	      var result = exports.inlineDiffs ? inlineDiff(actual, expected) : unifiedDiff(actual, expected);
+
+	      if (skipped > 0) {
+	        result = "".concat(result, "\n      [mocha] output truncated to ").concat(maxLen, " characters, see \"maxDiffSize\" reporter-option\n");
 	      }
 
-	      return exports.inlineDiffs ? inlineDiff(actual, expected) : unifiedDiff(actual, expected);
+	      return result;
 	    } catch (err) {
 	      var msg = '\n      ' + color('diff added', '+ expected') + ' ' + color('diff removed', '- actual:  failed to generate Mocha diff') + '\n';
 	      return msg;
@@ -25784,6 +25794,12 @@
 	    this.options = options || {};
 	    this.runner = runner;
 	    this.stats = runner.stats; // assigned so Reporters keep a closer reference
+
+	    var maxDiffSizeOpt = this.options.reporterOption && this.options.reporterOption.maxDiffSize;
+
+	    if (maxDiffSizeOpt !== undefined && !isNaN(Number(maxDiffSizeOpt))) {
+	      exports.maxDiffSize = Number(maxDiffSizeOpt);
+	    }
 
 	    runner.on(EVENT_TEST_PASS, function (test) {
 	      if (test.duration > test.slow()) {
@@ -28308,7 +28324,7 @@
 	});
 
 	var name = "mocha";
-	var version = "9.2.0";
+	var version = "9.2.1";
 	var homepage = "https://mochajs.org/";
 	var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
 	var _package = {
