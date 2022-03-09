@@ -411,10 +411,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/nightwatch@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.0.0.tgz#a92a11109d9fc70911ba0b15671ae49d2131a791"
-  integrity sha512-De7oMrNeuZmMQqVIIvCpcnIIfPh9lUFjuJdfVycyZqIZXVrxq6rqk7UG3oWKTxQyDhDk+4d44UVcWc4ng1+++Q==
+"@types/nightwatch@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.0.1.tgz#679b41cbc7e95021f8cf9d94b4a91c9847b7608c"
+  integrity sha512-ueansds0v5sI0Ye6Q8EfLps0k96LJkyFpegdBMaj/4hUEY0QLkONDd0k47d8LWP0L5srFlvDxwqQ6AvndGAg9w==
   dependencies:
     "@types/selenium-webdriver" "*"
 
