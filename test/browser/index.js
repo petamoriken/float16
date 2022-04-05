@@ -34,8 +34,8 @@ module.exports = {
     });
   },
 
-  afterEach(client, done) {
+  afterEach(client) {
+    client.endSauce();
     client.end();
-    client.endSauce(done);
   },
 };

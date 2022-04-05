@@ -21,9 +21,6 @@ module.exports = {
 
   test_settings: {
     default: {
-      username: SAUCE_USERNAME,
-      access_key: SAUCE_ACCESS_KEY,
-      sauce_region: "us-west-1",
       use_ssl: true,
       silent: true,
 
@@ -43,11 +40,15 @@ module.exports = {
         acceptSslCerts: true,
 
         // SauceLabs options
-        extendedDebugging: true,
-        build: GITHUB_EVENT_NAME === "push"
-          ? `build-${GITHUB_RUN_NUMBER}`
-          : undefined,
-        public: "public",
+        "sauce:options" : {
+          username: SAUCE_USERNAME,
+          accessKey: SAUCE_ACCESS_KEY,
+          extendedDebugging: true,
+          build: GITHUB_EVENT_NAME === "push"
+            ? `build-${GITHUB_RUN_NUMBER}`
+            : undefined,
+          public: "public",
+        },
       },
     },
 
