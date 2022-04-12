@@ -80,7 +80,7 @@
     "browserslist": "^4.20.2",
     "concurrently": "^7.1.0",
     "eslint": "^8.12.0",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.2.0",
     "espower-cli": "^1.1.0",
     "espower-loader": "^1.2.2",
