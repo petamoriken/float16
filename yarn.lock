@@ -3195,10 +3195,10 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-nightwatch-saucelabs-endsauce@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/nightwatch-saucelabs-endsauce/-/nightwatch-saucelabs-endsauce-1.1.2.tgz#063349a5aeb87576ea979d3add28655624759715"
-  integrity sha512-7JELmQSx+GofWrvWAAec/td4w6spbfSRTLPlTL6GaVTYTzQZuWNTYHq95Uu1H+VF5A8zlTH/FbH/W2qiduKaAA==
+nightwatch-saucelabs-endsauce@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/nightwatch-saucelabs-endsauce/-/nightwatch-saucelabs-endsauce-1.1.3.tgz#730c5125b266e2b156e5e39b33abeb1795cf324e"
+  integrity sha512-JgudF39Ce4TZ9zH9qhgluBpmxthfSvhSuRusG0zs/udr2u1IlAOWKKqK7Li4NPAeo82qvYiqySt6cZjN6mlexA==
   dependencies:
     saucelabs "^7.1.3"
 
