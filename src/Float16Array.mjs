@@ -17,6 +17,7 @@ import {
   CANNOT_MIX_BIGINT_AND_OTHER_TYPES,
   DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH,
   ITERATOR_PROPERTY_IS_NOT_CALLABLE,
+  MAXIMUM_ALLOWED_LENGTH_EXCEEDED,
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
@@ -29,6 +30,7 @@ import {
   ArrayPrototypePush,
   ArrayPrototypeSlice,
   ArrayPrototypeToLocaleString,
+  MAX_SAFE_INTEGER,
   NativeArrayBuffer,
   NativeObject,
   NativeProxy,
@@ -1067,6 +1069,9 @@ export class Float16Array {
 
     // don't use SpeciesConstructor
     const newLength = length + insertCount - actualDeleteCount;
+    if (newLength > MAX_SAFE_INTEGER) {
+      throw NativeTypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+    }
     const proxy = new Float16Array(newLength);
     const array = getFloat16BitsArray(proxy);
 
