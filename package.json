@@ -17,7 +17,7 @@
     "ponyfill",
     "shim"
   ],
-  "homepage": "https://git.io/float16",
+  "homepage": "https://github.com/petamoriken/float16",
   "bugs": {
     "url": "https://github.com/petamoriken/float16/issues"
   },
