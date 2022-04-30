@@ -1,4 +1,4 @@
-# <a href="https://git.io/float16">float16</a>
+# <a href="https://github.com/petamoriken/float16">float16</a>
 
 <p align="center">
   IEEE 754 half-precision floating-point for JavaScript<br>
