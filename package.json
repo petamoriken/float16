@@ -89,7 +89,7 @@
     "http-server": "^14.1.0",
     "mocha": "^10.0.0",
     "nightwatch": "^2.1.4",
-    "nightwatch-saucelabs-endsauce": "^1.2.0",
+    "nightwatch-saucelabs-endsauce": "^1.2.1",
     "nyc": "^15.1.0",
     "power-assert": "^1.4.2",
     "rollup": "^2.71.1",
