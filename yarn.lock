@@ -326,11 +326,6 @@
     pathval "1.1.1"
     type-detect "4.0.8"
 
-"@nightwatch/ejs@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@nightwatch/ejs/-/ejs-3.2.0.tgz#cc9a069d7f7fe35d94b21c346b031af10bff4570"
-  integrity sha512-NbJzBXGjh7gzG9nCYtbpdHrqQ3CnMt1FUBj8PomVyc1q5+qBFS8z3aLvBGWPt1leHmRK6d4TZn/jsS0XKmVGQQ==
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -429,10 +424,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/nightwatch@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.0.7.tgz#850552a93d7a6425cdf5fa917d02757d049c734b"
-  integrity sha512-2sRSUhoEjtPFs+eZbgrBNWy+XvD+Z3rZwzTyUkhAeTVxAAKpbyCciueUVsoBN7Izx4JYirVnw4nHHD+1j+IGIA==
+"@types/nightwatch@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.0.8.tgz#4250e7647d03fffce009b436847b080f6fdc1495"
+  integrity sha512-QxWcHZjdkNRU+524zOkwt5N809pcBklymGVfCGIzWPdf0s2Y573pXNkIomQ4ZFjxyvPevg8izZflQ7DMyeE8HA==
   dependencies:
     "@types/selenium-webdriver" "*"
 
@@ -617,6 +612,11 @@ async@^2.6.2:
   integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
   dependencies:
     lodash "^4.17.14"
+
+async@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
+  integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
 
 asynckit@^0.4.0:
   version "0.4.0"
@@ -884,7 +884,7 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
+chalk@^4.0.0, chalk@^4.0.2, chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -1368,6 +1368,13 @@ eastasianwidth@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/eastasianwidth/-/eastasianwidth-0.2.0.tgz#696ce2ec0aa0e6ea93a397ffcf24aa7840c827cb"
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
+
+ejs@^3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.8.tgz#758d32910c78047585c7ef1f92f9ee041c1c190b"
+  integrity sha512-/sXZeMlhS0ArkfX2Aw780gJzXSMPnKjtspYZv+f3NiKLlubezAHDU5+9xz6gd3/NhG3txQCo6xlglmTS+oTGEQ==
+  dependencies:
+    jake "^10.8.5"
 
 electron-to-chromium@^1.4.118:
   version "1.4.118"
@@ -1919,6 +1926,13 @@ file-type@^6.1.0:
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-6.2.0.tgz#e50cd75d356ffed4e306dc4f5bcf52a79903a919"
   integrity sha512-YPcTBDV+2Tm0VqjybVd32MHdlEGAtuxS3VAYsumFokDSMG+ROT5wawGlnHDoz7bfMcMDt9hxuXvXwoKUx2fkOg==
 
+filelist@^1.0.1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/filelist/-/filelist-1.0.4.tgz#f78978a1e944775ff9e62e744424f215e58352b5"
+  integrity sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==
+  dependencies:
+    minimatch "^5.0.1"
+
 filename-reserved-regex@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/filename-reserved-regex/-/filename-reserved-regex-2.0.0.tgz#abf73dfab735d045440abfea2d91f389ebbfa229"
@@ -2145,7 +2159,7 @@ glob-parent@^6.0.1:
   dependencies:
     is-glob "^4.0.3"
 
-glob@7.2.0, glob@^7.0.0, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
+glob@7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
   integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
@@ -2154,6 +2168,18 @@ glob@7.2.0, glob@^7.0.0, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
     inflight "^1.0.4"
     inherits "2"
     minimatch "^3.0.4"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
+glob@^7.0.0, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.3.tgz#b8df0fb802bbfa8e89bd1d938b4e16578ed44f2b"
+  integrity sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.1.1"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
@@ -2694,6 +2720,16 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+jake@^10.8.5:
+  version "10.8.5"
+  resolved "https://registry.yarnpkg.com/jake/-/jake-10.8.5.tgz#f2183d2c59382cb274226034543b9c03b8164c46"
+  integrity sha512-sVpxYeuAhWt0OTWITwT98oyV0GsXyMlXCF+3L1SuafBVUIr/uILGRB+NqwkzhgXKvoJpDIpQvqkUALgdmQsQxw==
+  dependencies:
+    async "^3.2.3"
+    chalk "^4.0.2"
+    filelist "^1.0.1"
+    minimatch "^3.0.4"
+
 js-cleanup@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/js-cleanup/-/js-cleanup-1.2.0.tgz#8dbc65954b1d38b255f1e8cf02cd17b3f7a053f9"
@@ -3093,12 +3129,19 @@ minimatch@5.0.1:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimatch@^3.0.0, minimatch@^3.0.4, minimatch@^3.1.2:
+minimatch@^3.0.0, minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
+
+minimatch@^5.0.1:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.1.0.tgz#1717b464f4971b144f6aabe8f2d0b8e4511e09c7"
+  integrity sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==
+  dependencies:
+    brace-expansion "^2.0.1"
 
 minimist@1.2.6, minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.6"
@@ -3237,21 +3280,21 @@ nightwatch-saucelabs-endsauce@^1.2.1:
   dependencies:
     saucelabs "^7.1.3"
 
-nightwatch@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.1.5.tgz#507186d91fb98645671d7cebbc326e90a9674f97"
-  integrity sha512-REk6jg3SWFz/GjHTqpy8m3Bzv4aXwwrkBXvwnkaEfQ3Dw6NfcHYOj1wxtRDlzZB+XYR6ZrsBm484LLzFELXYRg==
+nightwatch@^2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.1.7.tgz#d52e0c3f975fbeb8d588075b1281480c654b1013"
+  integrity sha512-NUOMAT4v52/byBYukrZYPHZlw42XYPzU7K17bGJrTSgZcZ6U2rn2Xqjmi+WgUbKiYCFJXGS1VX0VoOljVOjgYQ==
   dependencies:
     "@nightwatch/chai" "5.0.2"
-    "@nightwatch/ejs" "3.2.0"
     assertion-error "1.1.0"
     boxen "5.1.2"
     chai-nightwatch "0.5.3"
     ci-info "3.3.0"
     didyoumean "1.2.2"
     dotenv "10.0.0"
+    ejs "^3.1.8"
     envinfo "7.8.1"
-    glob "7.2.0"
+    glob "^7.2.3"
     lodash.clone "3.0.3"
     lodash.defaultsdeep "4.6.1"
     lodash.merge "4.6.2"
@@ -3262,7 +3305,7 @@ nightwatch@^2.1.5:
     ora "5.4.1"
     selenium-webdriver "4.1.1"
     semver "7.3.5"
-    stacktrace-parser "0.1.10"
+    stacktrace-parser "^0.1.10"
     strip-ansi "6.0.1"
 
 no-case@^3.0.4:
@@ -4255,7 +4298,7 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-stacktrace-parser@0.1.10:
+stacktrace-parser@^0.1.10:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/stacktrace-parser/-/stacktrace-parser-0.1.10.tgz#29fb0cae4e0d0b85155879402857a1639eb6051a"
   integrity sha512-KJP1OCML99+8fhOHxwwzyWrlUuVX5GQ0ZpJTd1DFXhdkrvg1szxfHhawXUZ3g9TkXORQd4/WG68jMlQZ2p8wlg==
