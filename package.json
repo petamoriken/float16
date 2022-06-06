@@ -86,7 +86,7 @@
     "espower-loader": "^1.2.2",
     "exorcist": "^2.0.0",
     "find-unused-exports": "^3.0.0",
-    "http-server": "^14.1.0",
+    "http-server": "^14.1.1",
     "mocha": "^10.0.0",
     "nightwatch": "^2.1.7",
     "nightwatch-saucelabs-endsauce": "^1.2.1",
