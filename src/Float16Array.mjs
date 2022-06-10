@@ -536,6 +536,8 @@ export class Float16Array {
     const relativeIndex = ToIntegerOrInfinity(index);
     const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
 
+    const number = +value;
+
     if (k < 0 || k >= length) {
       throw new NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
     }
@@ -553,7 +555,7 @@ export class Float16Array {
     );
     const array = getFloat16BitsArray(cloned);
 
-    array[k] = roundToFloat16Bits(value);
+    array[k] = roundToFloat16Bits(number);
 
     return cloned;
   }
