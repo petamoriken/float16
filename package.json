@@ -96,5 +96,5 @@
     "rollup-plugin-cleanup": "^3.2.1",
     "source-map-support": "^0.5.21"
   },
-  "packageManager": "yarn@1.22.17"
+  "packageManager": "yarn@1.22.19"
 }
