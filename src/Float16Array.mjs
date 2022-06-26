@@ -1063,13 +1063,13 @@ export class Float16Array {
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.join */
-  join(...opts) {
+  join(separator) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
     const array = copyToArray(float16bitsArray);
 
-    return ArrayPrototypeJoin(array, ...safeIfNeeded(opts));
+    return ArrayPrototypeJoin(array, separator);
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring */
