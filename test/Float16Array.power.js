@@ -3200,10 +3200,10 @@ describe('Float16Array', () => {
                 line: 1543
             }));
         });
-        it('property `length` is 0', () => {
+        it('property `length` is 2', () => {
             var _rec279 = new _PowerAssertRecorder1();
-            assert(_rec279._expr(_rec279._capt(_rec279._capt(_rec279._capt(_rec279._capt(_rec279._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').slice, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
-                content: 'assert(Float16Array.prototype.slice.length === 0)',
+            assert(_rec279._expr(_rec279._capt(_rec279._capt(_rec279._capt(_rec279._capt(_rec279._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').slice, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
+                content: 'assert(Float16Array.prototype.slice.length === 2)',
                 filepath: 'test/Float16Array.js',
                 line: 1547
             }));
@@ -3447,10 +3447,10 @@ describe('Float16Array', () => {
                 line: 1669
             }));
         });
-        it('property `length` is 0', () => {
+        it('property `length` is 2', () => {
             var _rec295 = new _PowerAssertRecorder1();
-            assert(_rec295._expr(_rec295._capt(_rec295._capt(_rec295._capt(_rec295._capt(_rec295._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').subarray, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
-                content: 'assert(Float16Array.prototype.subarray.length === 0)',
+            assert(_rec295._expr(_rec295._capt(_rec295._capt(_rec295._capt(_rec295._capt(_rec295._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').subarray, 'arguments/0/left/object').length, 'arguments/0/left') === 2, 'arguments/0'), {
+                content: 'assert(Float16Array.prototype.subarray.length === 2)',
                 filepath: 'test/Float16Array.js',
                 line: 1673
             }));

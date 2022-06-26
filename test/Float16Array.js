@@ -1543,8 +1543,8 @@ describe("Float16Array", () => {
       assert(Float16Array.prototype.slice.name === "slice");
     });
 
-    it("property `length` is 0", () => {
-      assert(Float16Array.prototype.slice.length === 0);
+    it("property `length` is 2", () => {
+      assert(Float16Array.prototype.slice.length === 2);
     });
 
     it("get slice", () => {
@@ -1669,8 +1669,8 @@ describe("Float16Array", () => {
       assert(Float16Array.prototype.subarray.name === "subarray");
     });
 
-    it("property `length` is 0", () => {
-      assert(Float16Array.prototype.subarray.length === 0);
+    it("property `length` is 2", () => {
+      assert(Float16Array.prototype.subarray.length === 2);
     });
 
     it("get subarray", () => {
