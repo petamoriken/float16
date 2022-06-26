@@ -864,13 +864,13 @@ export class Float16Array {
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort */
-  sort(...opts) {
+  sort(compareFn) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
-    const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
+    const sortCompare = compareFn !== undefined ? compareFn : defaultCompare;
     TypedArrayPrototypeSort(float16bitsArray, (x, y) => {
-      return compare(convertToNumber(x), convertToNumber(y));
+      return sortCompare(convertToNumber(x), convertToNumber(y));
     });
 
     return this;
