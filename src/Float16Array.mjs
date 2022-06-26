@@ -538,7 +538,7 @@ export class Float16Array {
     const number = +value;
 
     if (k < 0 || k >= length) {
-      throw new NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
+      throw NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
     }
 
     // don't use SpeciesConstructor
@@ -1050,32 +1050,23 @@ export class Float16Array {
     }
 
     let actualDeleteCount;
-    switch (arguments.length) {
-      case 0:
-        actualDeleteCount = 0;
-        break;
-
-      case 1:
-        actualDeleteCount = length - actualStart;
-        break;
-
-      default: {
-        const dc = ToIntegerOrInfinity(deleteCount);
-        if (dc < 0) {
-          actualDeleteCount = 0;
-        } else if (dc > length - actualStart) {
-          actualDeleteCount = length - actualStart;
-        } else {
-          actualDeleteCount = dc;
-        }
-      }
+    const argumentLength = arguments.length;
+    if (argumentLength === 0) {
+      actualDeleteCount = 0;
+    } else if (argumentLength === 1) {
+      actualDeleteCount = length - actualStart;
+    } else {
+      const dc = ToIntegerOrInfinity(deleteCount);
+      actualDeleteCount = dc < 0 ? 0 :
+        dc > length - actualStart ? length - actualStart : dc;
     }
 
-    // don't use SpeciesConstructor
     const newLength = length + insertCount - actualDeleteCount;
     if (newLength > MAX_SAFE_INTEGER) {
       throw NativeTypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
     }
+
+    // don't use SpeciesConstructor
     const proxy = new Float16Array(newLength);
     const array = getFloat16BitsArray(proxy);
 
