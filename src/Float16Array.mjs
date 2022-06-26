@@ -877,7 +877,7 @@ export class Float16Array {
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice */
-  slice(...opts) {
+  slice(start, end) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
@@ -892,31 +892,31 @@ export class Float16Array {
       );
       return new Float16Array(
         TypedArrayPrototypeGetBuffer(
-          TypedArrayPrototypeSlice(uint16, ...safeIfNeeded(opts))
+          TypedArrayPrototypeSlice(uint16, start, end)
         )
       );
     }
 
     const length = TypedArrayPrototypeGetLength(float16bitsArray);
-    const start = ToIntegerOrInfinity(opts[0]);
-    const end = opts[1] === undefined ? length : ToIntegerOrInfinity(opts[1]);
+    const relativeStart = ToIntegerOrInfinity(start);
+    const relativeEnd = end === undefined ? length : ToIntegerOrInfinity(end);
 
     let k;
-    if (start === -Infinity) {
+    if (relativeStart === -Infinity) {
       k = 0;
-    } else if (start < 0) {
-      k = length + start > 0 ? length + start : 0;
+    } else if (relativeStart < 0) {
+      k = length + relativeStart > 0 ? length + relativeStart : 0;
     } else {
-      k = length < start ? length : start;
+      k = length < relativeStart ? length : relativeStart;
     }
 
     let final;
-    if (end === -Infinity) {
+    if (relativeEnd === -Infinity) {
       final = 0;
-    } else if (end < 0) {
-      final = length + end > 0 ? length + end : 0;
+    } else if (relativeEnd < 0) {
+      final = length + relativeEnd > 0 ? length + relativeEnd : 0;
     } else {
-      final = length < end ? length : end;
+      final = length < relativeEnd ? length : relativeEnd;
     }
 
     const count = final - k > 0 ? final - k : 0;
@@ -943,7 +943,7 @@ export class Float16Array {
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray */
-  subarray(...opts) {
+  subarray(begin, end) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
@@ -954,7 +954,7 @@ export class Float16Array {
       TypedArrayPrototypeGetByteOffset(float16bitsArray),
       TypedArrayPrototypeGetLength(float16bitsArray)
     );
-    const uint16Subarray = TypedArrayPrototypeSubarray(uint16, ...safeIfNeeded(opts));
+    const uint16Subarray = TypedArrayPrototypeSubarray(uint16, begin, end);
 
     const array = new Constructor(
       TypedArrayPrototypeGetBuffer(uint16Subarray),
