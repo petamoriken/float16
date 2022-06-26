@@ -1828,8 +1828,8 @@ describe("Float16Array", () => {
       assert(Float16Array.prototype.join.name === "join");
     });
 
-    it("property `length` is 0", () => {
-      assert(Float16Array.prototype.join.length === 0);
+    it("property `length` is 1", () => {
+      assert(Float16Array.prototype.join.length === 1);
     });
 
     it("check join", () => {
