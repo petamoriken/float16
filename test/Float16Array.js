@@ -1616,8 +1616,8 @@ describe("Float16Array", () => {
       assert(Float16Array.prototype.toSorted.name === "toSorted");
     });
 
-    it("property `length` is 0", () => {
-      assert(Float16Array.prototype.toSorted.length === 0);
+    it("property `length` is 1", () => {
+      assert(Float16Array.prototype.toSorted.length === 1);
     });
 
     it("check default compare", () => {
@@ -1814,8 +1814,8 @@ describe("Float16Array", () => {
       assert(Float16Array.prototype.toSpliced.name === "toSpliced");
     });
 
-    it("property `length` is 0", () => {
-      assert(Float16Array.prototype.toSpliced.length === 0);
+    it("property `length` is 2", () => {
+      assert(Float16Array.prototype.toSpliced.length === 2);
     });
 
     it("get spliced Array", () => {

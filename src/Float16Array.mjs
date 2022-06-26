@@ -28,7 +28,6 @@ import {
   ArrayBufferIsView,
   ArrayPrototypeJoin,
   ArrayPrototypePush,
-  ArrayPrototypeSlice,
   ArrayPrototypeToLocaleString,
   MAX_SAFE_INTEGER,
   NativeArrayBuffer,
@@ -936,7 +935,7 @@ export class Float16Array {
   }
 
   /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toSorted */
-  toSorted(...opts) {
+  toSorted(compareFn) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
@@ -953,9 +952,9 @@ export class Float16Array {
     );
 
     const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
-    const compare = opts[0] !== undefined ? opts[0] : defaultCompare;
+    const sortCompare = compareFn !== undefined ? compareFn : defaultCompare;
     TypedArrayPrototypeSort(clonedFloat16bitsArray, (x, y) => {
-      return compare(convertToNumber(x), convertToNumber(y));
+      return sortCompare(convertToNumber(x), convertToNumber(y));
     });
 
     return cloned;
@@ -1028,12 +1027,12 @@ export class Float16Array {
   }
 
   /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toSpliced */
-  toSpliced(...opts) {
+  toSpliced(start, deleteCount, ...items) {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
     const length = TypedArrayPrototypeGetLength(float16bitsArray);
-    const relativeStart = ToIntegerOrInfinity(opts[0]);
+    const relativeStart = ToIntegerOrInfinity(start);
 
     let actualStart;
     if (relativeStart === -Infinity) {
@@ -1044,21 +1043,19 @@ export class Float16Array {
       actualStart = relativeStart < length ? relativeStart : length;
     }
 
-    let insertCount, actualDeleteCount;
-    switch (opts.length) {
+    const insertCount = items.length;
+    let actualDeleteCount;
+    switch (arguments.length) {
       case 0:
-        insertCount = 0;
         actualDeleteCount = 0;
         break;
 
       case 1:
-        insertCount = 0;
         actualDeleteCount = length - actualStart;
         break;
 
       default: {
-        const dc = ToIntegerOrInfinity(opts[1]);
-        insertCount = opts.length - 2;
+        const dc = ToIntegerOrInfinity(deleteCount);
         if (dc < 0) {
           actualDeleteCount = 0;
         } else if (dc > length - actualStart) {
@@ -1083,8 +1080,7 @@ export class Float16Array {
       ++k;
     }
 
-    const items = ArrayPrototypeSlice(opts, 2);
-    for (let i = 0, l = items.length; i < l; ++i) {
+    for (let i = 0; i < insertCount; ++i) {
       array[k] = roundToFloat16Bits(items[i]);
       ++k;
     }

@@ -95,8 +95,6 @@ const ArrayPrototype = NativeArray.prototype;
 export const ArrayPrototypeJoin = uncurryThis(ArrayPrototype.join);
 /** @type {<T>(array: T[], ...items: T[]) => number} */
 export const ArrayPrototypePush = uncurryThis(ArrayPrototype.push);
-/** @type {<T>(array: T[], start?: number, end?: number) => T[]} */
-export const ArrayPrototypeSlice = uncurryThis(ArrayPrototype.slice);
 /** @type {(array: ArrayLike<unknown>, ...opts: any[]) => string} */
 export const ArrayPrototypeToLocaleString = uncurryThis(
   ArrayPrototype.toLocaleString
