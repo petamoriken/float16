@@ -1044,6 +1044,11 @@ export class Float16Array {
     }
 
     const insertCount = items.length;
+    const converedItems = [];
+    for (let i = 0; i < insertCount; ++i) {
+      converedItems[i] = +items[i];
+    }
+
     let actualDeleteCount;
     switch (arguments.length) {
       case 0:
@@ -1081,7 +1086,7 @@ export class Float16Array {
     }
 
     for (let i = 0; i < insertCount; ++i) {
-      array[k] = roundToFloat16Bits(items[i]);
+      array[k] = roundToFloat16Bits(converedItems[i]);
       ++k;
     }
 
