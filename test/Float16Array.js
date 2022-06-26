@@ -1492,8 +1492,8 @@ describe("Float16Array", () => {
       assert(Float16Array.prototype.sort.name === "sort");
     });
 
-    it("property `length` is 0", () => {
-      assert(Float16Array.prototype.sort.length === 0);
+    it("property `length` is 1", () => {
+      assert(Float16Array.prototype.sort.length === 1);
     });
 
     it("check default compare", () => {

@@ -3128,10 +3128,10 @@ describe('Float16Array', () => {
                 line: 1492
             }));
         });
-        it('property `length` is 0', () => {
+        it('property `length` is 1', () => {
             var _rec275 = new _PowerAssertRecorder1();
-            assert(_rec275._expr(_rec275._capt(_rec275._capt(_rec275._capt(_rec275._capt(_rec275._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').sort, 'arguments/0/left/object').length, 'arguments/0/left') === 0, 'arguments/0'), {
-                content: 'assert(Float16Array.prototype.sort.length === 0)',
+            assert(_rec275._expr(_rec275._capt(_rec275._capt(_rec275._capt(_rec275._capt(_rec275._capt(Float16Array, 'arguments/0/left/object/object/object').prototype, 'arguments/0/left/object/object').sort, 'arguments/0/left/object').length, 'arguments/0/left') === 1, 'arguments/0'), {
+                content: 'assert(Float16Array.prototype.sort.length === 1)',
                 filepath: 'test/Float16Array.js',
                 line: 1496
             }));
