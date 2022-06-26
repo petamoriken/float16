@@ -1,29 +1,20 @@
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
-import { CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER } from "./_util/messages.mjs";
-import {
-  NativeNumber,
-  NativeTypeError,
-  NumberIsFinite,
-} from "./_util/primordials.mjs";
+import { NumberIsFinite } from "./_util/primordials.mjs";
 
 /**
  * returns the nearest half-precision float representation of a number
  *
- * @param {number} num
+ * @param {number} x
  * @returns {number}
  */
-export function hfround(num) {
-  if (typeof num === "bigint") {
-    throw NativeTypeError(CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER);
-  }
-
-  num = NativeNumber(num);
+export function hfround(x) {
+  const number = +x;
 
   // for optimization
-  if (!NumberIsFinite(num) || num === 0) {
-    return num;
+  if (!NumberIsFinite(number) || number === 0) {
+    return number;
   }
 
-  const x16 = roundToFloat16Bits(num);
+  const x16 = roundToFloat16Bits(number);
   return convertToNumber(x16);
 }

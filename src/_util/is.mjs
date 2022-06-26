@@ -3,7 +3,6 @@ import {
   ArrayIsArray,
   MathTrunc,
   NativeArrayPrototypeSymbolIterator,
-  NativeNumber,
   NativeSharedArrayBuffer,
   NativeTypedArrayPrototypeSymbolIterator,
   NumberIsFinite,
@@ -128,7 +127,7 @@ export function isCanonicalIntegerIndexString(value) {
     return false;
   }
 
-  const number = NativeNumber(value);
+  const number = +value;
   if (value !== number + "") {
     return false;
   }

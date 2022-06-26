@@ -12,8 +12,6 @@ export const ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER =
   "Attempting to access detached ArrayBuffer";
 export const CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT =
   "Cannot convert undefined or null to object";
-export const CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER =
-  "Cannot convert a BigInt value to a number";
 export const CANNOT_MIX_BIGINT_AND_OTHER_TYPES =
   "Cannot mix BigInt and other types, use explicit conversions";
 export const ITERATOR_PROPERTY_IS_NOT_CALLABLE = "@@iterator property is not callable";

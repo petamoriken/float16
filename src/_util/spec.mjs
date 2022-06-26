@@ -1,20 +1,17 @@
 import { isObject, isSharedArrayBuffer } from "./is.mjs";
 import {
-  CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER,
   THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT,
   THIS_IS_NOT_AN_OBJECT,
 } from "./messages.mjs";
 import {
   ArrayBufferPrototypeSlice,
+  MAX_SAFE_INTEGER,
   MathTrunc,
-  NativeNumber,
   NativeTypeError,
   NumberIsNaN,
   ObjectIs,
   SymbolSpecies,
 } from "./primordials.mjs";
-
-const MAX_SAFE_INTEGER = NativeNumber.MAX_SAFE_INTEGER;
 
 /**
  * @see https://tc39.es/ecma262/#sec-tointegerorinfinity
@@ -22,11 +19,7 @@ const MAX_SAFE_INTEGER = NativeNumber.MAX_SAFE_INTEGER;
  * @returns {number}
  */
 export function ToIntegerOrInfinity(target) {
-  if (typeof target === "bigint") {
-    throw NativeTypeError(CANNOT_CONVERT_A_BIGINT_VALUE_TO_A_NUMBER);
-  }
-
-  const number = NativeNumber(target);
+  const number = +target;
 
   if (NumberIsNaN(number) || number === 0) {
     return 0;
