@@ -2842,15 +2842,15 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jszip@^3.6.0:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.7.1.tgz#bd63401221c15625a1228c556ca8a68da6fda3d9"
-  integrity sha512-ghL0tz1XG9ZEmRMcEN2vt7xabrDdqHHeykgARpmZ0BiIctWxM47Vt63ZO2dnp4QYt/xJVLLy5Zv1l/xRdh2byg==
+jszip@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.10.0.tgz#faf3db2b4b8515425e34effcdbb086750a346061"
+  integrity sha512-LDfVtOLtOxb9RXkYOwPyNBTQDL4eUbqahtoY6x07GiDJHwSYvn8sHHIw8wINImV3MqbMNve2gSuM1DDqEKk09Q==
   dependencies:
     lie "~3.3.0"
     pako "~1.0.2"
     readable-stream "~2.3.6"
-    set-immediate-shim "~1.0.1"
+    setimmediate "^1.0.5"
 
 keyv@3.0.0:
   version "3.0.0"
@@ -2984,6 +2984,11 @@ lodash.defaultsdeep@4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
   integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
+
+lodash.escape@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/lodash.escape/-/lodash.escape-4.0.1.tgz#c9044690c21e04294beaa517712fded1fa88de98"
+  integrity sha512-nXEOnb/jK9g0DYMr1/Xvq6l5xMD7GDG55+GSYIYmS0G4tBk/hURD4JR9WCavs04t33WmJx9kCyp9vJ+mr4BOUw==
 
 lodash.flattendeep@^4.4.0:
   version "4.4.0"
@@ -3321,10 +3326,10 @@ nightwatch-saucelabs-endsauce@^1.2.1:
   dependencies:
     saucelabs "^7.1.3"
 
-nightwatch@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.2.2.tgz#ded0ad7425c5dc146f1668eb8404e19f49c784cd"
-  integrity sha512-tKEnIxElHlzvRfPqpfxZunE2fO64tdJtIogqF22yMKAru6IOpZTzEKQ+E/38hhkTv9jqtgGzkMNycm9nSPb6dQ==
+nightwatch@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.2.3.tgz#07291c03130df5a39aa9ae2babd718048078866f"
+  integrity sha512-W2effHkwoSu+eSXsnkraiUW/CdO9B9+yiSqDeUZ3h9vL3WZmA/hfzC4ZQnrWzXJd4qvj2CsgCeKo9njSvlplog==
   dependencies:
     "@nightwatch/chai" "5.0.2"
     ansi-to-html "^0.7.2"
@@ -3340,6 +3345,7 @@ nightwatch@^2.2.2:
     glob "^7.2.3"
     lodash.clone "3.0.3"
     lodash.defaultsdeep "4.6.1"
+    lodash.escape "^4.0.1"
     lodash.merge "4.6.2"
     minimatch "3.0.4"
     minimist "1.2.6"
@@ -3347,7 +3353,7 @@ nightwatch@^2.2.2:
     mocha "9.2.2"
     open "^8.4.0"
     ora "5.4.1"
-    selenium-webdriver "4.1.1"
+    selenium-webdriver "^4.3.1"
     semver "7.3.5"
     stacktrace-parser "^0.1.10"
     strip-ansi "6.0.1"
@@ -4140,14 +4146,14 @@ seek-bzip@^1.0.5:
   dependencies:
     commander "^2.8.1"
 
-selenium-webdriver@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.1.1.tgz#da083177d811f36614950e809e2982570f67d02e"
-  integrity sha512-Fr9e9LC6zvD6/j7NO8M1M/NVxFX67abHcxDJoP5w2KN/Xb1SyYLjMVPGgD14U2TOiKe4XKHf42OmFw9g2JgCBQ==
+selenium-webdriver@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.3.1.tgz#5e9c6c4adee65e57776b5bd4c07c59b65b8f056d"
+  integrity sha512-TjH/ls1WKRQoFEHcqtn6UtwcLnA3yvx08v9cSSFYvyhp8hJWRtbe9ae2I8uXPisEZ2EaGKKoxBZ4EHv0BJM15g==
   dependencies:
-    jszip "^3.6.0"
+    jszip "^3.10.0"
     tmp "^0.2.1"
-    ws ">=7.4.6"
+    ws ">=8.7.0"
 
 semver@7.3.5:
   version "7.3.5"
@@ -4194,10 +4200,10 @@ set-blocking@^2.0.0:
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
   integrity sha1-BF+XgtARrppoA93TgrJDkrPYkPc=
 
-set-immediate-shim@~1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/set-immediate-shim/-/set-immediate-shim-1.0.1.tgz#4b2b1b27eb808a9f8dcc481a58e5e56f599f3f61"
-  integrity sha1-SysbJ+uAip+NzEgaWOXlb1mfP2E=
+setimmediate@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
+  integrity sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==
 
 shebang-command@^2.0.0:
   version "2.0.0"
@@ -4834,10 +4840,10 @@ write-file-atomic@^3.0.0:
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
 
-ws@>=7.4.6:
-  version "8.4.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.4.2.tgz#18e749868d8439f2268368829042894b6907aa0b"
-  integrity sha512-Kbk4Nxyq7/ZWqr/tarI9yIt/+iNNFOjBXEWgTb4ydaNHBNGgvf2QHbS9fdfsndfjFlFwEd4Al+mw83YkaD10ZA==
+ws@>=8.7.0:
+  version "8.8.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.8.1.tgz#5dbad0feb7ade8ecc99b830c1d77c913d4955ff0"
+  integrity sha512-bGy2JzvzkPowEJV++hF07hAD6niYSr0JzBNo/J29WsB57A2r7Wlc1UFcTR9IzrPvuNVO4B8LGqF8qcpsVOhJCA==
 
 xtend@^4.0.0:
   version "4.0.2"
