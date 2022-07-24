@@ -55,63 +55,63 @@ module.exports = {
     chrome: {
       desiredCapabilities: {
         browserName: "chrome",
-        version: "latest",
+        browserVersion: "latest",
       },
     },
 
     chrome_old: {
       desiredCapabilities: {
         browserName: "chrome",
-        version: "latest-1",
+        browserVersion: "latest-1",
       },
     },
 
     firefox: {
       desiredCapabilities: {
         browserName: "firefox",
-        version: "latest",
+        browserVersion: "latest",
       },
     },
 
     firefox_old: {
       desiredCapabilities: {
         browserName: "firefox",
-        version: "latest-1",
+        browserVersion: "latest-1",
       },
     },
 
     firefox_esr: {
       desiredCapabilities: {
         browserName: "firefox",
-        version: FIREFOX_ESR_VERSION,
+        browserVersion: FIREFOX_ESR_VERSION,
       },
     },
 
     edge: {
       desiredCapabilities: {
         browserName: "MicrosoftEdge",
-        version: "latest",
+        browserVersion: "latest",
       },
     },
 
     edge_old: {
       desiredCapabilities: {
         browserName: "MicrosoftEdge",
-        version: "latest-1",
+        browserVersion: "latest-1",
       },
     },
 
     safari: {
       desiredCapabilities: {
         browserName: "safari",
-        version: "latest",
+        browserVersion: "latest",
       },
     },
 
     safari_old: {
       desiredCapabilities: {
         browserName: "safari",
-        version: "latest-1",
+        browserVersion: "latest-1",
       },
     },
   },
