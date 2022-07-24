@@ -53,6 +53,23 @@ jobs:
 
       - run: deno run test/src/index.mjs
 
+  src_test_bun:
+    name: ES Modules Test (Bun)
+    runs-on: ubuntu-latest
+
+    steps:
+      - if: github.event_name != 'pull_request_target'
+        uses: actions/checkout@v2
+
+      - if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - run: curl -fsSL https://bun.sh/install | bash
+
+      - run: ~/.bun/bin/bun test/src/index.mjs
+
   lib_test:
     name: Unit Test (Node.js)
     runs-on: ubuntu-latest

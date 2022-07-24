@@ -38,6 +38,8 @@
 
 ## Install
 
+### Node.js
+
 ```console
 npm install @petamoriken/float16
 ```
@@ -46,9 +48,15 @@ npm install @petamoriken/float16
 yarn add @petamoriken/float16
 ```
 
+### Bun
+
+```console
+bun add @petamoriken/float16
+```
+
 ## Import
 
-### Node.js or Bundler (webpack, rollup.js, esbuild, etc)
+### Node.js, Bun or Bundler (webpack, rollup.js, esbuild, etc)
 
 ```js
 // ES Modules
