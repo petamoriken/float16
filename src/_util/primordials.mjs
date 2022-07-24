@@ -39,7 +39,7 @@ export const NativeProxy = Proxy;
 
 // Number
 export const {
-  MAX_SAFE_INTEGER: MAX_SAFE_INTEGER,
+  MAX_SAFE_INTEGER,
   isFinite: NumberIsFinite,
   isNaN: NumberIsNaN,
 } = Number;
