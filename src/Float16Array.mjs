@@ -17,7 +17,6 @@ import {
   CANNOT_MIX_BIGINT_AND_OTHER_TYPES,
   DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH,
   ITERATOR_PROPERTY_IS_NOT_CALLABLE,
-  MAXIMUM_ALLOWED_LENGTH_EXCEEDED,
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
@@ -29,7 +28,6 @@ import {
   ArrayPrototypeJoin,
   ArrayPrototypePush,
   ArrayPrototypeToLocaleString,
-  MAX_SAFE_INTEGER,
   NativeArrayBuffer,
   NativeObject,
   NativeProxy,
@@ -1024,69 +1022,6 @@ export class Float16Array {
     }
 
     return /** @type {any} */ (array);
-  }
-
-  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toSpliced */
-  toSpliced(start, deleteCount, ...items) {
-    assertFloat16Array(this);
-    const float16bitsArray = getFloat16BitsArray(this);
-
-    const length = TypedArrayPrototypeGetLength(float16bitsArray);
-    const relativeStart = ToIntegerOrInfinity(start);
-
-    let actualStart;
-    if (relativeStart === -Infinity) {
-      actualStart = 0;
-    } else if (relativeStart < 0) {
-      actualStart = length + relativeStart > 0 ? length + relativeStart : 0;
-    } else {
-      actualStart = relativeStart < length ? relativeStart : length;
-    }
-
-    const insertCount = items.length;
-    const converedItems = [];
-    for (let i = 0; i < insertCount; ++i) {
-      converedItems[i] = +items[i];
-    }
-
-    let actualDeleteCount;
-    const argumentLength = arguments.length;
-    if (argumentLength === 0) {
-      actualDeleteCount = 0;
-    } else if (argumentLength === 1) {
-      actualDeleteCount = length - actualStart;
-    } else {
-      const dc = ToIntegerOrInfinity(deleteCount);
-      actualDeleteCount = dc < 0 ? 0 :
-        dc > length - actualStart ? length - actualStart : dc;
-    }
-
-    const newLength = length + insertCount - actualDeleteCount;
-    if (newLength > MAX_SAFE_INTEGER) {
-      throw NativeTypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
-    }
-
-    // don't use SpeciesConstructor
-    const proxy = new Float16Array(newLength);
-    const array = getFloat16BitsArray(proxy);
-
-    let k = 0;
-    while (k < actualStart) {
-      array[k] = float16bitsArray[k];
-      ++k;
-    }
-
-    for (let i = 0; i < insertCount; ++i) {
-      array[k] = roundToFloat16Bits(converedItems[i]);
-      ++k;
-    }
-
-    while (k < newLength) {
-      array[k] = float16bitsArray[k + actualDeleteCount - insertCount];
-      ++k;
-    }
-
-    return proxy;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray */
