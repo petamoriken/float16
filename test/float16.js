@@ -1,6 +1,6 @@
-/*! @petamoriken/float16 v3.6.6-1-gcb043ab | MIT License - https://github.com/petamoriken/float16 */
+/*! @petamoriken/float16 v3.6.6-5-gdfea263 | MIT License - https://github.com/petamoriken/float16 */
 
-const float16 = (function (exports) {
+var float16 = (function (exports) {
   'use strict';
 
   const THIS_IS_NOT_AN_OBJECT = "This is not an object";
