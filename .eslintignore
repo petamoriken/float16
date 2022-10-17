@@ -4,4 +4,4 @@
 /test
 /tools
 nightwatch.conf.js
-rollup.config.js
+rollup.config.mjs
