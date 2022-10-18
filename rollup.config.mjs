@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import cleanup from 'rollup-plugin-cleanup';
+import cleanup from "rollup-plugin-cleanup";
 
 const name = process.env.npm_package_name;
 const version = process.env.NPM_VERSION_SCRIPT === "1"
