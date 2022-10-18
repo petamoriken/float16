@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.6.6-32-g503e115 | MIT License - https://github.com/petamoriken/float16 */
+/*! @petamoriken/float16 v3.6.6-36-g96ac0b4 | MIT License - https://github.com/petamoriken/float16 */
 
 var float16 = (function (exports) {
   'use strict';
@@ -1235,7 +1235,7 @@ var float16 = (function (exports) {
   exports.isTypedArray = isTypedArray;
   exports.setFloat16 = setFloat16;
 
-  Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: 'Module' } });
+  Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 
   return exports;
 

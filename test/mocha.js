@@ -1,4 +1,4 @@
-// mocha@10.0.0 in javascript ES2018
+// mocha@10.1.0 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -10899,7 +10899,7 @@
       .replace(/^\uFEFF/, '')
       // (traditional)->  space/name     parameters    body     (lambda)-> parameters       body   multi-statement/single          keep body content
       .replace(
-        /^function(?:\s*|\s+[^(]*)\([^)]*\)\s*\{((?:.|\n)*?)\s*\}$|^\([^)]*\)\s*=>\s*(?:\{((?:.|\n)*?)\s*\}|((?:.|\n)*))$/,
+        /^function(?:\s*|\s[^(]*)\([^)]*\)\s*\{((?:.|\n)*?)\}$|^\([^)]*\)\s*=>\s*(?:\{((?:.|\n)*?)\}|((?:.|\n)*))$/,
         '$1$2$3'
       );
 
@@ -16542,6 +16542,20 @@
    */
   Progress.prototype.draw = function (ctx) {
     try {
+      var darkMatcher = window.matchMedia('(prefers-color-scheme: dark)');
+      var isDarkMode = !!darkMatcher.matches;
+      var lightColors = {
+        outerCircle: '#9f9f9f',
+        innerCircle: '#eee',
+        text: '#000'
+      };
+      var darkColors = {
+        outerCircle: '#888',
+        innerCircle: '#444',
+        text: '#fff'
+      };
+      var colors = isDarkMode ? darkColors : lightColors;
+
       var percent = Math.min(this.percent, 100);
       var size = this._size;
       var half = size / 2;
@@ -16556,13 +16570,13 @@
       ctx.clearRect(0, 0, size, size);
 
       // outer circle
-      ctx.strokeStyle = '#9f9f9f';
+      ctx.strokeStyle = colors.outerCircle;
       ctx.beginPath();
       ctx.arc(x, y, rad, 0, angle, false);
       ctx.stroke();
 
       // inner circle
-      ctx.strokeStyle = '#eee';
+      ctx.strokeStyle = colors.innerCircle;
       ctx.beginPath();
       ctx.arc(x, y, rad - 1, 0, angle, true);
       ctx.stroke();
@@ -16571,6 +16585,7 @@
       var text = this._text || (percent | 0) + '%';
       var w = ctx.measureText(text).width;
 
+      ctx.fillStyle = colors.text;
       ctx.fillText(text, x - w / 2 + 1, y + fontSize / 2 - 1);
     } catch (ignore) {
       // don't fail if we can't render progress
@@ -17766,7 +17781,7 @@
       var ret = obj;
       var key = SUITE_PREFIX + suite.title;
 
-      obj = obj[key] = obj[key] || {suite: suite};
+      obj = obj[key] = obj[key] || {suite};
       suite.suites.forEach(function (suite) {
         mapTOC(suite, obj);
       });
@@ -18096,7 +18111,7 @@
     var total = runner.total;
 
     runner.once(EVENT_RUN_BEGIN, function () {
-      writeEvent(['start', {total: total}]);
+      writeEvent(['start', {total}]);
     });
 
     runner.on(EVENT_TEST_PASS, function (test) {
@@ -18628,9 +18643,9 @@
 
       context.describe = context.context = function (title, fn) {
         return common$1.suite.create({
-          title: title,
-          file: file,
-          fn: fn
+          title,
+          file,
+          fn
         });
       };
 
@@ -18643,9 +18658,9 @@
         context.describe.skip =
           function (title, fn) {
             return common$1.suite.skip({
-              title: title,
-              file: file,
-              fn: fn
+              title,
+              file,
+              fn
             });
           };
 
@@ -18655,9 +18670,9 @@
 
       context.describe.only = function (title, fn) {
         return common$1.suite.only({
-          title: title,
-          file: file,
-          fn: fn
+          title,
+          file,
+          fn
         });
       };
 
@@ -18750,9 +18765,9 @@
        */
       context.suite = function (title, fn) {
         return common$1.suite.create({
-          title: title,
-          file: file,
-          fn: fn
+          title,
+          file,
+          fn
         });
       };
 
@@ -18761,9 +18776,9 @@
        */
       context.suite.skip = function (title, fn) {
         return common$1.suite.skip({
-          title: title,
-          file: file,
-          fn: fn
+          title,
+          file,
+          fn
         });
       };
 
@@ -18772,9 +18787,9 @@
        */
       context.suite.only = function (title, fn) {
         return common$1.suite.only({
-          title: title,
-          file: file,
-          fn: fn
+          title,
+          file,
+          fn
         });
       };
 
@@ -18859,8 +18874,8 @@
           suites.shift();
         }
         return common$1.suite.create({
-          title: title,
-          file: file,
+          title,
+          file,
           fn: false
         });
       };
@@ -18874,8 +18889,8 @@
           suites.shift();
         }
         return common$1.suite.only({
-          title: title,
-          file: file,
+          title,
+          file,
           fn: false
         });
       };
@@ -19061,7 +19076,7 @@
   };
 
   var name = "mocha";
-  var version = "10.0.0";
+  var version = "10.1.0";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
