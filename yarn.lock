@@ -37,7 +37,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.19.3.tgz#707b939793f867f5a73b2666e6d9a3396eb03151"
   integrity sha512-prBHMK4JYYK+wDjJF1q99KK4JLL+egWS4nmNqdlMUgCExMZ+iZW0hGhyC3VEbsPjvaN0TBhW//VIFwBrk8sEiw==
 
-"@babel/core@^7.18.10", "@babel/core@^7.19.6", "@babel/core@^7.7.5":
+"@babel/core@^7.19.6", "@babel/core@^7.7.5":
   version "7.19.6"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.19.6.tgz#7122ae4f5c5a37c0946c066149abd8e75f81540f"
   integrity sha512-D2Ue4KHpc6Ys2+AxpIx1BZ8+UegLLLE2p3KJEuJRKmokHOtl49jQ5ny1773KsGLZs8MQvBidAF6yWUJxRqtKtg==
@@ -1993,12 +1993,12 @@ find-cache-dir@^3.2.0:
     make-dir "^3.0.2"
     pkg-dir "^4.1.0"
 
-find-unused-exports@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/find-unused-exports/-/find-unused-exports-4.0.0.tgz#39e095278a647e9d0f8a07bcda948b63de569e0d"
-  integrity sha512-6ClPW9tWGMwFO2mF/SgeDfFukoKXlwJssk63LExN3i2DP7HwRBxqIrv17bIplcWsUjnq4tR1MTaf2fgHakPPyg==
+find-unused-exports@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/find-unused-exports/-/find-unused-exports-5.0.0.tgz#853b7da019110575940db775aa814f0a29f580de"
+  integrity sha512-jITgJu32oyoXKPHmWz4erOMzRXogalC10gP8Mv5XH/zeahPYgbOxm/4teYCHlyRcTZjQXhblqIcDZ/vVe9WrEQ==
   dependencies:
-    "@babel/core" "^7.18.10"
+    "@babel/core" "^7.19.6"
     "@types/babel__core" "^7.1.19"
     "@types/node" "*"
     arg "^5.0.2"
