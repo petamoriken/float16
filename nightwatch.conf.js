@@ -17,7 +17,7 @@ const FIREFOX_ESR_VERSION =
 module.exports = {
   src_folders: "test/browser",
   output_folder: "test_report",
-  custom_commands_path: "./node_modules/nightwatch-saucelabs-endsauce/commands",
+  plugins: ["nightwatch-saucelabs-endsauce"],
 
   test_settings: {
     default: {
