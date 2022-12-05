@@ -1115,5 +1115,4 @@ ObjectDefineProperty(Float16ArrayPrototype, SymbolIterator, {
   configurable: true,
 });
 
-// To make `new Float16Array() instanceof Uint16Array` returns `false`
 ReflectSetPrototypeOf(Float16ArrayPrototype, TypedArrayPrototype);
