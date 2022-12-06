@@ -20,6 +20,7 @@ import {
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
+  THE_COMPARISON_FUNCTION_MUST_BE_EITHER_A_FUNCTION_OR_UNDEFINED,
   THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY,
   THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT,
 } from "./_util/messages.mjs";
@@ -937,6 +938,11 @@ export class Float16Array {
     assertFloat16Array(this);
     const float16bitsArray = getFloat16BitsArray(this);
 
+    if (compareFn !== undefined && typeof compareFn !== "function") {
+      throw new NativeTypeError(THE_COMPARISON_FUNCTION_MUST_BE_EITHER_A_FUNCTION_OR_UNDEFINED);
+    }
+    const sortCompare = compareFn !== undefined ? compareFn : defaultCompare;
+
     // don't use SpeciesConstructor
     const uint16 = new NativeUint16Array(
       TypedArrayPrototypeGetBuffer(float16bitsArray),
@@ -950,7 +956,6 @@ export class Float16Array {
     );
 
     const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
-    const sortCompare = compareFn !== undefined ? compareFn : defaultCompare;
     TypedArrayPrototypeSort(clonedFloat16bitsArray, (x, y) => {
       return sortCompare(convertToNumber(x), convertToNumber(y));
     });
