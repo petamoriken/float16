@@ -17,4 +17,6 @@ export const CANNOT_MIX_BIGINT_AND_OTHER_TYPES =
 export const ITERATOR_PROPERTY_IS_NOT_CALLABLE = "@@iterator property is not callable";
 export const REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE =
   "Reduce of empty array with no initial value";
+export const THE_COMPARISON_FUNCTION_MUST_BE_EITHER_A_FUNCTION_OR_UNDEFINED =
+  "The comparison function must be either a function or undefined";
 export const OFFSET_IS_OUT_OF_BOUNDS = "Offset is out of bounds";

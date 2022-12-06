@@ -826,6 +826,60 @@ describe("Float16Array", () => {
     });
   });
 
+  describe("#with()", () => {
+    it("property `name` is 'with'", () => {
+      assert(Float16Array.prototype.with.name === "with");
+    });
+
+    it("property `length` is 1", () => {
+      assert(Float16Array.prototype.with.length === 2);
+    });
+
+    it("with", () => {
+      const float16_1 = new Float16Array([1, 2, 3]);
+      const float16_2 = float16_1.with(1, 4);
+
+      assert(float16_1.buffer !== float16_2.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
+      assert.equalFloat16ArrayValues(float16_2, [1, 4, 3]);
+
+      const float16_3 = float16_1.with(-1, 4);
+
+      assert(float16_1.buffer !== float16_3.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
+      assert.equalFloat16ArrayValues(float16_3, [1, 2, 4]);
+
+      const float16_4 = float16_1.with(0, "aaa");
+
+      assert(float16_1.buffer !== float16_4.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
+      assert.equalFloat16ArrayValues(float16_4, [NaN, 2, 3]);
+    });
+
+    it("throw Error with invalid index", () => {
+      const float16 = new Float16Array([1, 2, 3]);
+
+      // out of range
+      assert.throws(() => {
+        float16.with(5, 0);
+      }, RangeError);
+      assert.throws(() => {
+        float16.with(-5, 0);
+      }, RangeError);
+
+      assert.throws(() => {
+        float16.with(Symbol(), 0);
+      }, TypeError);
+
+      // Safari 13 doesn't have BigInt
+      if (typeof BigInt !== "undefined") {
+        assert.throws(() => {
+          float16.with(BigInt(0), 0);
+        }, TypeError);
+      }
+    });
+  });
+
   describe("#map()", () => {
     it("property `name` is 'map'", () => {
       assert(Float16Array.prototype.map.name === "map");
@@ -1436,6 +1490,25 @@ describe("Float16Array", () => {
     });
   });
 
+  describe("#toReversed()", () => {
+    it("property `name` is 'reverse'", () => {
+      assert(Float16Array.prototype.toReversed.name === "toReversed");
+    });
+
+    it("property `length` is 0", () => {
+      assert(Float16Array.prototype.toReversed.length === 0);
+    });
+
+    it("toReversed", () => {
+      const float16_1 = new Float16Array([1, 2, 3]);
+      const float16_2 = float16_1.toReversed();
+
+      assert(float16_1.buffer !== float16_2.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [1, 2, 3]);
+      assert.equalFloat16ArrayValues(float16_2, [3, 2, 1]);
+    });
+  });
+
   describe("#fill()", () => {
     it("property `name` is 'fill'", () => {
       assert(Float16Array.prototype.fill.name === "fill");
@@ -1526,14 +1599,86 @@ describe("Float16Array", () => {
     it("check custom compare", () => {
       const float16 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
 
-      assert(float16.sort((x, y) => x - y) === float16);
+      assert(float16.sort((x, y) => y - x) === float16);
       assert.equalFloat16ArrayValues(float16, [
+        Infinity,
+        2,
+        1,
+        -1,
+        -2,
+        -Infinity,
+      ]);
+    });
+  });
+
+  describe("#toSorted()", () => {
+    it("property `name` is 'toSorted'", () => {
+      assert(Float16Array.prototype.toSorted.name === "toSorted");
+    });
+
+    it("property `length` is 1", () => {
+      assert(Float16Array.prototype.toSorted.length === 1);
+    });
+
+    it("check default compare", () => {
+      const float16_1 = new Float16Array([
+        1,
+        2,
+        -1,
+        -2,
+        0,
+        -0,
+        NaN,
+        Infinity,
+        -Infinity,
+      ]);
+      const float16_2 = float16_1.toSorted();
+
+      assert(float16_1.buffer !== float16_2.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [
+        1,
+        2,
+        -1,
+        -2,
+        0,
+        -0,
+        NaN,
+        Infinity,
+        -Infinity,
+      ]);
+      assert.equalFloat16ArrayValues(float16_2, [
         -Infinity,
         -2,
         -1,
+        -0,
+        0,
         1,
         2,
         Infinity,
+        NaN,
+      ]);
+    });
+
+    it("check custom compare", () => {
+      const float16_1 = new Float16Array([1, 2, -1, -2, Infinity, -Infinity]);
+      const float16_2 = float16_1.toSorted((x, y) => y - x);
+
+      assert(float16_1.buffer !== float16_2.buffer);
+      assert.equalFloat16ArrayValues(float16_1, [
+        1,
+        2,
+        -1,
+        -2,
+        Infinity,
+        -Infinity,
+      ]);
+      assert.equalFloat16ArrayValues(float16_2, [
+        Infinity,
+        2,
+        1,
+        -1,
+        -2,
+        -Infinity,
       ]);
     });
   });

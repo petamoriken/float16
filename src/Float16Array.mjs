@@ -20,6 +20,7 @@ import {
   OFFSET_IS_OUT_OF_BOUNDS,
   REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE,
   SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT,
+  THE_COMPARISON_FUNCTION_MUST_BE_EITHER_A_FUNCTION_OR_UNDEFINED,
   THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY,
   THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT,
 } from "./_util/messages.mjs";
@@ -524,6 +525,39 @@ export class Float16Array {
     return convertToNumber(float16bitsArray[k]);
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.with */
+  with(index, value) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
+    const relativeIndex = ToIntegerOrInfinity(index);
+    const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
+
+    const number = +value;
+
+    if (k < 0 || k >= length) {
+      throw NativeRangeError(OFFSET_IS_OUT_OF_BOUNDS);
+    }
+
+    // don't use SpeciesConstructor
+    const uint16 = new NativeUint16Array(
+      TypedArrayPrototypeGetBuffer(float16bitsArray),
+      TypedArrayPrototypeGetByteOffset(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray)
+    );
+    const cloned = new Float16Array(
+      TypedArrayPrototypeGetBuffer(
+        TypedArrayPrototypeSlice(uint16)
+      )
+    );
+    const array = getFloat16BitsArray(cloned);
+
+    array[k] = roundToFloat16Bits(number);
+
+    return cloned;
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map */
   map(callback, ...opts) {
     assertFloat16Array(this);
@@ -839,6 +873,29 @@ export class Float16Array {
     return this;
   }
 
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toReversed */
+  toReversed() {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    // don't use SpeciesConstructor
+    const uint16 = new NativeUint16Array(
+      TypedArrayPrototypeGetBuffer(float16bitsArray),
+      TypedArrayPrototypeGetByteOffset(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray)
+    );
+    const cloned = new Float16Array(
+      TypedArrayPrototypeGetBuffer(
+        TypedArrayPrototypeSlice(uint16)
+      )
+    );
+
+    const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
+    TypedArrayPrototypeReverse(clonedFloat16bitsArray);
+
+    return cloned;
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill */
   fill(value, ...opts) {
     assertFloat16Array(this);
@@ -874,6 +931,36 @@ export class Float16Array {
     });
 
     return this;
+  }
+
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toSorted */
+  toSorted(compareFn) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    if (compareFn !== undefined && typeof compareFn !== "function") {
+      throw new NativeTypeError(THE_COMPARISON_FUNCTION_MUST_BE_EITHER_A_FUNCTION_OR_UNDEFINED);
+    }
+    const sortCompare = compareFn !== undefined ? compareFn : defaultCompare;
+
+    // don't use SpeciesConstructor
+    const uint16 = new NativeUint16Array(
+      TypedArrayPrototypeGetBuffer(float16bitsArray),
+      TypedArrayPrototypeGetByteOffset(float16bitsArray),
+      TypedArrayPrototypeGetLength(float16bitsArray)
+    );
+    const cloned = new Float16Array(
+      TypedArrayPrototypeGetBuffer(
+        TypedArrayPrototypeSlice(uint16)
+      )
+    );
+
+    const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
+    TypedArrayPrototypeSort(clonedFloat16bitsArray, (x, y) => {
+      return sortCompare(convertToNumber(x), convertToNumber(y));
+    });
+
+    return cloned;
   }
 
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice */
