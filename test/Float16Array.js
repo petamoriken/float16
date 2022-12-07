@@ -317,20 +317,6 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(float16_2, checkArray);
     });
 
-    it("input TypedArray with custom ArrayBuffer", () => {
-      class FooArrayBuffer extends ArrayBuffer {}
-      const buffer = new FooArrayBuffer(16);
-
-      const float16 = new Float16Array(new Float32Array(buffer));
-
-      assert(float16.BYTES_PER_ELEMENT === 2);
-      assert(float16.byteOffset === 0);
-      assert(float16.byteLength === 8);
-      assert(float16.length === 4);
-      assert(float16.buffer instanceof FooArrayBuffer);
-      assert(float16.buffer !== buffer);
-    });
-
     it("input TypedArray with custom SharedArrayBuffer", function () {
       if (typeof SharedArrayBuffer === "undefined") {
         this.skip();
@@ -390,25 +376,13 @@ describe("Float16Array", () => {
       const array = [1, 1.1, 1.2, 1.3];
       const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
-      const float16_1 = new Float16Array(new Float16Array(array));
+      const float16 = new Float16Array(new Float16Array(array));
 
-      assert(float16_1.BYTES_PER_ELEMENT === 2);
-      assert(float16_1.byteOffset === 0);
-      assert(float16_1.byteLength === 8);
-      assert(float16_1.length === 4);
-      assert.equalFloat16ArrayValues(float16_1, checkArray);
-
-      class FooArrayBuffer extends ArrayBuffer {}
-      const buffer = new FooArrayBuffer(16);
-
-      const float16_2 = new Float16Array(new Float16Array(buffer));
-
-      assert(float16_2.BYTES_PER_ELEMENT === 2);
-      assert(float16_2.byteOffset === 0);
-      assert(float16_2.byteLength === 16);
-      assert(float16_2.length === 8);
-      assert( float16_2.buffer instanceof FooArrayBuffer );
-      assert(float16_2.buffer !== buffer);
+      assert(float16.BYTES_PER_ELEMENT === 2);
+      assert(float16.byteOffset === 0);
+      assert(float16.byteLength === 8);
+      assert(float16.length === 4);
+      assert.equalFloat16ArrayValues(float16, checkArray);
     });
 
     it("input Float16Array with detached ArrayBuffer", function () {
@@ -430,25 +404,13 @@ describe("Float16Array", () => {
       const array = [1, 1.1, 1.2, 1.3];
       const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
 
-      const float16_1 = new Float16Array(new AnotherRealmFloat16Array(array));
+      const float16 = new Float16Array(new AnotherRealmFloat16Array(array));
 
-      assert(float16_1.BYTES_PER_ELEMENT === 2);
-      assert(float16_1.byteOffset === 0);
-      assert(float16_1.byteLength === 8);
-      assert(float16_1.length === 4);
-      assert.equalFloat16ArrayValues(float16_1, checkArray);
-
-      class FooArrayBuffer extends ArrayBuffer {}
-      const buffer = new FooArrayBuffer(16);
-
-      const float16_2 = new Float16Array(new AnotherRealmFloat16Array(buffer));
-
-      assert(float16_2.BYTES_PER_ELEMENT === 2);
-      assert(float16_2.byteOffset === 0);
-      assert(float16_2.byteLength === 16);
-      assert(float16_2.length === 8);
-      assert( float16_2.buffer instanceof FooArrayBuffer );
-      assert(float16_2.buffer !== buffer);
+      assert(float16.BYTES_PER_ELEMENT === 2);
+      assert(float16.byteOffset === 0);
+      assert(float16.byteLength === 8);
+      assert(float16.length === 4);
+      assert.equalFloat16ArrayValues(float16, checkArray);
     });
 
     it("input ArrayBuffer", () => {
