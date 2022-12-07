@@ -3392,10 +3392,10 @@ nightwatch-axe-verbose@2.0.3:
   dependencies:
     axe-core "^4.4.3"
 
-nightwatch-saucelabs-endsauce@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/nightwatch-saucelabs-endsauce/-/nightwatch-saucelabs-endsauce-2.0.0.tgz#ea0a66ba09c9bc5e7ff36909911297454db991e9"
-  integrity sha512-xtgZyexXgG94wabTCM4T5qqaIiEBcO0zYpc/Ow9rsyebrmYGB2my/zygIiS2CHbELfMjdqqjdpq5GA89hhFMCQ==
+nightwatch-saucelabs-endsauce@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/nightwatch-saucelabs-endsauce/-/nightwatch-saucelabs-endsauce-2.1.0.tgz#a25e97f742401839b846a6586feff35a91ed7c50"
+  integrity sha512-ilNdiD/B/1ntSSQjNRM+8s0Sujdxc+q7CT41LCtY/H1hmD+Dpu5Sb7yf95fhRn40hMZWV8jMsbO+IOXuvkJdFw==
   dependencies:
     saucelabs "^7.2.0"
 
