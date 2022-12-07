@@ -63,13 +63,8 @@ describe("isTypedArray", () => {
     assert(isTypedArray("") === false);
     assert(isTypedArray("foo") === false);
     assert(isTypedArray(Symbol()) === false);
-
-    // Safari 13 doesn't have BigInt
-    if (typeof BigInt !== "undefined") {
-      assert(isTypedArray(BigInt(0)) === false);
-      assert(isTypedArray(BigInt(1)) === false);
-    }
-
+    assert(isTypedArray(BigInt(0)) === false);
+    assert(isTypedArray(BigInt(1)) === false);
     assert(isTypedArray({}) === false);
     assert(isTypedArray([]) === false);
     assert(isTypedArray(/a/) === false);
