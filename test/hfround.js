@@ -62,13 +62,8 @@ describe("hfround()", () => {
   });
 
   it("throw TypeError when value is bigint", function () {
-    // Safari 13 doesn't have BigInt
-    if (typeof BigInt === "undefined") {
-      this.skip();
-    }
-
     assert.throws(() => {
-      hfround(BigInt(0));
+      hfround(0n);
     }, TypeError);
   });
 });
