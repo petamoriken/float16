@@ -164,38 +164,36 @@ describe('isTypedArray', () => {
             filepath: 'test/isTypedArray.js',
             line: 65
         }));
-        if (typeof BigInt !== 'undefined') {
-            assert(_rec18._expr(_rec18._capt(_rec18._capt(isTypedArray(_rec18._capt(BigInt(0), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
-                content: 'assert(isTypedArray(BigInt(0)) === false)',
-                filepath: 'test/isTypedArray.js',
-                line: 69
-            }));
-            assert(_rec19._expr(_rec19._capt(_rec19._capt(isTypedArray(_rec19._capt(BigInt(1), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
-                content: 'assert(isTypedArray(BigInt(1)) === false)',
-                filepath: 'test/isTypedArray.js',
-                line: 70
-            }));
-        }
+        assert(_rec18._expr(_rec18._capt(_rec18._capt(isTypedArray(_rec18._capt(BigInt(0), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isTypedArray(BigInt(0)) === false)',
+            filepath: 'test/isTypedArray.js',
+            line: 66
+        }));
+        assert(_rec19._expr(_rec19._capt(_rec19._capt(isTypedArray(_rec19._capt(BigInt(1), 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
+            content: 'assert(isTypedArray(BigInt(1)) === false)',
+            filepath: 'test/isTypedArray.js',
+            line: 67
+        }));
         assert(_rec20._expr(_rec20._capt(_rec20._capt(isTypedArray(_rec20._capt({}, 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isTypedArray({}) === false)',
             filepath: 'test/isTypedArray.js',
-            line: 73
+            line: 68
         }));
         assert(_rec21._expr(_rec21._capt(_rec21._capt(isTypedArray(_rec21._capt([], 'arguments/0/left/arguments/0')), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isTypedArray([]) === false)',
             filepath: 'test/isTypedArray.js',
-            line: 74
+            line: 69
         }));
         assert(_rec22._expr(_rec22._capt(_rec22._capt(isTypedArray(/a/), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isTypedArray(/a/) === false)',
             filepath: 'test/isTypedArray.js',
-            line: 75
+            line: 70
         }));
         assert(_rec23._expr(_rec23._capt(_rec23._capt(isTypedArray(() => {
         }), 'arguments/0/left') === false, 'arguments/0'), {
             content: 'assert(isTypedArray(() => {}) === false)',
             filepath: 'test/isTypedArray.js',
-            line: 76
+            line: 71
         }));
     });
     it('check if Float16Array from another realm', function () {
@@ -206,7 +204,7 @@ describe('isTypedArray', () => {
         assert(_rec24._expr(_rec24._capt(_rec24._capt(isTypedArray(_rec24._capt(new AnotherRealmFloat16Array(), 'arguments/0/left/arguments/0')), 'arguments/0/left') === true, 'arguments/0'), {
             content: 'assert(isTypedArray(new AnotherRealmFloat16Array()) === true)',
             filepath: 'test/isTypedArray.js',
-            line: 84
+            line: 79
         }));
     });
 });

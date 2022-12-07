@@ -130,13 +130,6 @@ describe("Float16Array", () => {
   });
 
   it("define properties", function () {
-    // Safari 13 bug
-    try {
-      const float32 = new Float32Array(1);
-      Object.defineProperty(float32, 0, { value: 1 });
-    } catch (e) {
-      this.skip();
-    }
     const float16 = new Float16Array(5);
 
     Object.defineProperty(float16, 0, { value: 1.337 });
@@ -211,18 +204,6 @@ describe("Float16Array", () => {
   });
 
   it("can't be frozen with elements", function () {
-    // Safari 13 bug
-    try {
-      Object.freeze(
-        new Proxy({ foo: 1 }, {
-          defineProperty() {
-            return false;
-          },
-        }),
-      );
-      this.skip();
-    } catch (e) { /* empty */ }
-
     assert.doesNotThrow(() => Object.freeze(new Float16Array()));
     assert.throws(() => Object.freeze(new Float16Array(4)), TypeError);
   });
@@ -302,11 +283,6 @@ describe("Float16Array", () => {
     });
 
     it("input BigInt TypedArray", function () {
-      // Safari 13 doesn't have BigInt
-      if (typeof BigUint64Array === "undefined") {
-        this.skip();
-      }
-
       assert.throws(() => new Float16Array(new BigUint64Array()), TypeError);
     });
 
@@ -777,12 +753,9 @@ describe("Float16Array", () => {
         float16.at(Symbol(), 0);
       }, TypeError);
 
-      // Safari 13 doesn't have BigInt
-      if (typeof BigInt !== "undefined") {
-        assert.throws(() => {
-          float16.at(BigInt(0), 0);
-        }, TypeError);
-      }
+      assert.throws(() => {
+        float16.at(BigInt(0), 0);
+      }, TypeError);
     });
   });
 
@@ -830,13 +803,9 @@ describe("Float16Array", () => {
       assert.throws(() => {
         float16.with(Symbol(), 0);
       }, TypeError);
-
-      // Safari 13 doesn't have BigInt
-      if (typeof BigInt !== "undefined") {
-        assert.throws(() => {
-          float16.with(BigInt(0), 0);
-        }, TypeError);
-      }
+      assert.throws(() => {
+        float16.with(BigInt(0), 0);
+      }, TypeError);
     });
   });
 
@@ -1348,11 +1317,6 @@ describe("Float16Array", () => {
     });
 
     it("set BigInt TypedArray", function () {
-      // Safari 13 doesn't have BigInt
-      if (typeof BigUint64Array === "undefined") {
-        this.skip();
-      }
-
       const float16 = new Float16Array([1, 2, 3, 4, 5]);
       assert.throws(() => float16.set(new BigUint64Array()), TypeError);
     });
@@ -2071,7 +2035,7 @@ describe("isFloat16Array", () => {
     assert(isFloat16Array(new Float32Array()) === false);
     assert(isFloat16Array(new Uint16Array()) === false);
 
-    assert(isFloat16Array() === /* empty */ false);
+    assert(isFloat16Array(/* empty */) === false);
     assert(isFloat16Array(null) === false);
     assert(isFloat16Array(undefined) === false);
     assert(isFloat16Array(0) === false);
@@ -2083,13 +2047,8 @@ describe("isFloat16Array", () => {
     assert(isFloat16Array("") === false);
     assert(isFloat16Array("foo") === false);
     assert(isFloat16Array(Symbol()) === false);
-
-    // Safari 13 doesn't have BigInt
-    if (typeof BigInt !== "undefined") {
-      assert(isFloat16Array(BigInt(0)) === false);
-      assert(isFloat16Array(BigInt(1)) === false);
-    }
-
+    assert(isFloat16Array(BigInt(0)) === false);
+    assert(isFloat16Array(BigInt(1)) === false);
     assert(isFloat16Array({}) === false);
     assert(isFloat16Array([]) === false);
     assert(isFloat16Array(/a/) === false);

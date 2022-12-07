@@ -188,9 +188,6 @@ describe('hfround()', () => {
         }));
     });
     it('throw TypeError when value is bigint', function () {
-        if (typeof BigInt === 'undefined') {
-            this.skip();
-        }
         assert.throws(() => {
             hfround(BigInt(0));
         }, TypeError);
