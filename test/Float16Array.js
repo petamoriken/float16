@@ -792,7 +792,7 @@ describe("Float16Array", () => {
       }, TypeError);
 
       assert.throws(() => {
-        float16.at(0n, 0);
+        float16.at(BigInt(0), 0);
       }, TypeError);
     });
   });
@@ -842,7 +842,7 @@ describe("Float16Array", () => {
         float16.with(Symbol(), 0);
       }, TypeError);
       assert.throws(() => {
-        float16.with(0n, 0);
+        float16.with(BigInt(0), 0);
       }, TypeError);
     });
   });
@@ -2085,8 +2085,8 @@ describe("isFloat16Array", () => {
     assert(isFloat16Array("") === false);
     assert(isFloat16Array("foo") === false);
     assert(isFloat16Array(Symbol()) === false);
-    assert(isFloat16Array(0n) === false);
-    assert(isFloat16Array(1n) === false);
+    assert(isFloat16Array(BigInt(0)) === false);
+    assert(isFloat16Array(BigInt(1)) === false);
     assert(isFloat16Array({}) === false);
     assert(isFloat16Array([]) === false);
     assert(isFloat16Array(/a/) === false);

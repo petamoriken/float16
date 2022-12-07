@@ -63,8 +63,8 @@ describe("isTypedArray", () => {
     assert(isTypedArray("") === false);
     assert(isTypedArray("foo") === false);
     assert(isTypedArray(Symbol()) === false);
-    assert(isTypedArray(0n) === false);
-    assert(isTypedArray(1n) === false);
+    assert(isTypedArray(BigInt(0)) === false);
+    assert(isTypedArray(BigInt(1)) === false);
     assert(isTypedArray({}) === false);
     assert(isTypedArray([]) === false);
     assert(isTypedArray(/a/) === false);

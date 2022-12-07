@@ -63,7 +63,7 @@ describe("hfround()", () => {
 
   it("throw TypeError when value is bigint", function () {
     assert.throws(() => {
-      hfround(0n);
+      hfround(BigInt(0));
     }, TypeError);
   });
 });
