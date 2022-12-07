@@ -9,7 +9,6 @@ import {
   isObject,
   isOrdinaryArray,
   isOrdinaryNativeTypedArray,
-  isSharedArrayBuffer,
 } from "./_util/is.mjs";
 import {
   ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER,
@@ -271,12 +270,6 @@ export class Float16Array {
         length = TypedArrayPrototypeGetLength(input);
 
         const buffer = TypedArrayPrototypeGetBuffer(input);
-        const BufferConstructor = !isSharedArrayBuffer(buffer)
-          ? /** @type {ArrayBufferConstructor} */ (SpeciesConstructor(
-            buffer,
-            NativeArrayBuffer
-          ))
-          : NativeArrayBuffer;
 
         if (IsDetachedBuffer(buffer)) {
           throw NativeTypeError(ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
@@ -286,7 +279,7 @@ export class Float16Array {
           throw NativeTypeError(CANNOT_MIX_BIGINT_AND_OTHER_TYPES);
         }
 
-        const data = new BufferConstructor(
+        const data = new NativeArrayBuffer(
           length * BYTES_PER_ELEMENT
         );
         float16bitsArray = ReflectConstruct(NativeUint16Array, [data], new.target);
