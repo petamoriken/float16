@@ -1,11 +1,10 @@
 name: Dependabot Auto-merge
 
 on:
-  workflow_run:
-    types:
-      - completed
-    workflows:
-      - Test
+  push:
+    branches:
+      - master
+  pull_request:
 
 permissions:
   contents: write
@@ -15,7 +14,9 @@ jobs:
   auto_merge:
     name: Auto-merge
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' && github.actor == 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]'
 
     steps:
       - uses: fastify/github-action-merge-dependabot@v3
+        with:
+          use-github-auto-merge: true
