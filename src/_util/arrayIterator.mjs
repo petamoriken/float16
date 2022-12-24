@@ -39,7 +39,10 @@ const SafeIteratorPrototype = ObjectCreate(null, {
  * @type {<T>(array: T[]) => Iterable<T>}
  */
 export function safeIfNeeded(array) {
-  if (array[SymbolIterator] === NativeArrayPrototypeSymbolIterator) {
+  if (
+    array[SymbolIterator] === NativeArrayPrototypeSymbolIterator &&
+    ArrayIteratorPrototype.next === ArrayIteratorPrototypeNext
+  ) {
     return array;
   }
 
