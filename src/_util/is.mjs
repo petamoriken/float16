@@ -1,6 +1,8 @@
 import {
   ArrayBufferPrototypeGetByteLength,
   ArrayIsArray,
+  ArrayIteratorPrototype,
+  ArrayIteratorPrototypeNext,
   MathTrunc,
   NativeArrayPrototypeSymbolIterator,
   NativeSharedArrayBuffer,
@@ -89,7 +91,11 @@ export function isOrdinaryArray(value) {
     return false;
   }
 
-  if (value[SymbolIterator] === NativeArrayPrototypeSymbolIterator) {
+  // Verify that there are no changes in ArrayIterator
+  if (
+    value[SymbolIterator] === NativeArrayPrototypeSymbolIterator &&
+    ArrayIteratorPrototype.next === ArrayIteratorPrototypeNext
+  ) {
     return true;
   }
 
@@ -108,7 +114,11 @@ export function isOrdinaryNativeTypedArray(value) {
     return false;
   }
 
-  if (value[SymbolIterator] === NativeTypedArrayPrototypeSymbolIterator) {
+  // Verify that there are no changes in ArrayIterator
+  if (
+    value[SymbolIterator] === NativeTypedArrayPrototypeSymbolIterator &&
+    ArrayIteratorPrototype.next === ArrayIteratorPrototypeNext
+  ) {
     return true;
   }
 
