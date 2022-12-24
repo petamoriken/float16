@@ -1,4 +1,4 @@
-// mocha@10.1.0 in javascript ES2018
+// mocha@10.2.0 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -19076,7 +19076,7 @@
   };
 
   var name = "mocha";
-  var version = "10.1.0";
+  var version = "10.2.0";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
@@ -19517,6 +19517,8 @@
    * @see {@link Mocha#addFile}
    * @see {@link Mocha#run}
    * @see {@link Mocha#unloadFiles}
+   * @param {Object} [options] - Settings object.
+   * @param {Function} [options.esmDecorator] - Function invoked on esm module name right before importing it. By default will passthrough as is.
    * @returns {Promise}
    * @example
    *
@@ -19525,7 +19527,7 @@
    *   .then(() => mocha.run(failures => process.exitCode = failures ? 1 : 0))
    *   .catch(() => process.exitCode = 1);
    */
-  Mocha.prototype.loadFilesAsync = function () {
+  Mocha.prototype.loadFilesAsync = function ({esmDecorator} = {}) {
     var self = this;
     var suite = this.suite;
     this.lazyLoadFiles(true);
@@ -19538,7 +19540,8 @@
       function (file, resultModule) {
         suite.emit(EVENT_FILE_REQUIRE, resultModule, file, self);
         suite.emit(EVENT_FILE_POST_REQUIRE, commonjsGlobal, file, self);
-      }
+      },
+      esmDecorator
     );
   };
 
