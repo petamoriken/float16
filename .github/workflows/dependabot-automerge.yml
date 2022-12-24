@@ -1,9 +1,6 @@
 name: Dependabot Auto-merge
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
 
 permissions:
