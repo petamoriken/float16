@@ -18,8 +18,10 @@ import {
  * @returns {value is {}}
  */
 export function isObject(value) {
-  return (value !== null && typeof value === "object") ||
-    typeof value === "function";
+  return (
+    (value !== null && typeof value === "object") ||
+    typeof value === "function"
+  );
 }
 
 /**
@@ -47,8 +49,10 @@ export function isNativeTypedArray(value) {
  */
 export function isNativeBigIntTypedArray(value) {
   const typedArrayName = TypedArrayPrototypeGetSymbolToStringTag(value);
-  return typedArrayName === "BigInt64Array" ||
-    typedArrayName === "BigUint64Array";
+  return (
+    typedArrayName === "BigInt64Array" ||
+    typedArrayName === "BigUint64Array"
+  );
 }
 
 /**
