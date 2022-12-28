@@ -10,7 +10,6 @@ import {
   NumberIsFinite,
   SharedArrayBufferPrototypeGetByteLength,
   SymbolIterator,
-  SymbolToStringTag,
   TypedArrayPrototypeGetSymbolToStringTag,
 } from "./primordials.mjs";
 
@@ -92,17 +91,10 @@ export function isOrdinaryArray(value) {
   }
 
   // Verify that there are no changes in ArrayIterator
-  if (
+  return (
     value[SymbolIterator] === NativeArrayPrototypeSymbolIterator &&
     ArrayIteratorPrototype.next === ArrayIteratorPrototypeNext
-  ) {
-    return true;
-  }
-
-  // for other realms
-  // eslint-disable-next-line no-restricted-syntax
-  const iterator = value[SymbolIterator]();
-  return iterator[SymbolToStringTag] === "Array Iterator";
+  );
 }
 
 /**
@@ -115,17 +107,10 @@ export function isOrdinaryNativeTypedArray(value) {
   }
 
   // Verify that there are no changes in ArrayIterator
-  if (
+  return (
     value[SymbolIterator] === NativeTypedArrayPrototypeSymbolIterator &&
     ArrayIteratorPrototype.next === ArrayIteratorPrototypeNext
-  ) {
-    return true;
-  }
-
-  // for other realms
-  // eslint-disable-next-line no-restricted-syntax
-  const iterator = value[SymbolIterator]();
-  return iterator[SymbolToStringTag] === "Array Iterator";
+  );
 }
 
 /**
