@@ -21,10 +21,10 @@ jobs:
 
     steps:
       - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -40,10 +40,10 @@ jobs:
 
     steps:
       - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -59,10 +59,10 @@ jobs:
 
     steps:
       - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -76,12 +76,12 @@ jobs:
 
     steps:
       - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -104,12 +104,12 @@ jobs:
 
     steps:
       - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
