@@ -718,10 +718,10 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-axe-core@^4.4.3:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.5.2.tgz#823fdf491ff717ac3c58a52631d4206930c1d9f7"
-  integrity sha512-u2MVsXfew5HBvjsczCv+xlwdNnB1oQR9HlAcsejZttNjKKSkeDNVwB1vMThIUIFI9GoT57Vtk8iQLwqOfAkboA==
+axe-core@^4.6.1:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.6.2.tgz#6e566ab2a3d29e415f5115bc0fd2597a5eb3e5e3"
+  integrity sha512-b1WlTV8+XKLj9gZy2DZXgQiyDp9xkkoe2a6U6UbYccScq2wgH/YwCeI2/Jq2mgo0HzQxqJOjWZBLeA/mqsk5Mg==
 
 babel-plugin-replace-import-extension@^1.1.3:
   version "1.1.3"
@@ -3578,12 +3578,12 @@ next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-nightwatch-axe-verbose@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/nightwatch-axe-verbose/-/nightwatch-axe-verbose-2.0.3.tgz#719f0a1b53d611fa2b4872ee5730f5c0ad2c0cec"
-  integrity sha512-VxwYTXmdbWZ4GRxgAc0/6uZ1nDQ5/xnXUipLrxoUsLxrh9OjNmAwqlMsIlQN8o33XwbjGm+o9ikan5erYGEOFQ==
+nightwatch-axe-verbose@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/nightwatch-axe-verbose/-/nightwatch-axe-verbose-2.1.0.tgz#3a03f70dd9b78739a5178ee096a24e0658a8ee53"
+  integrity sha512-j31VB0wdv/HXoQWWAJsvNc9UenXzXf1u/QsvExCUDuFOMR4GRg3963wlPIxd2ME47egXsnkXPd1dl8Ozdk7XHA==
   dependencies:
-    axe-core "^4.4.3"
+    axe-core "^4.6.1"
 
 nightwatch-saucelabs-endsauce@^2.1.0:
   version "2.1.0"
@@ -3592,10 +3592,10 @@ nightwatch-saucelabs-endsauce@^2.1.0:
   dependencies:
     saucelabs "^7.2.0"
 
-nightwatch@^2.6.4:
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.6.4.tgz#dfc981b7e335ba29b21f4663b1502e6e2ddb1215"
-  integrity sha512-ODw1tzkWD6T7RziDkcb9TG5CS5NFK00mAsQZkzb1Q4EWUBYkZRnUgA+WdilHJ3FupwgOQuobpXNTFCrhiE63Pg==
+nightwatch@^2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.6.6.tgz#f811b8c534206a33c88a2d2c86713b4eb5691b58"
+  integrity sha512-Vris8WRfRWACW4g58bSiC5nFmPsBKyg2mkb/qpPpYg7bBB5Y7nsnpSnsZvxJm6hocfWtbKtx4y+AUR7Pun4rpg==
   dependencies:
     "@nightwatch/chai" "5.0.2"
     "@nightwatch/html-reporter-template" "0.1.3"
@@ -3621,7 +3621,7 @@ nightwatch@^2.6.4:
     minimist "1.2.6"
     mkpath "1.0.0"
     mocha "9.2.2"
-    nightwatch-axe-verbose "2.0.3"
+    nightwatch-axe-verbose "^2.1.0"
     open "8.4.0"
     ora "5.4.1"
     selenium-webdriver "4.6.1"
