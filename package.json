@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.20.7",
+    "@babel/core": "^7.20.12",
     "@babel/plugin-transform-modules-commonjs": "^7.20.11",
     "@types/nightwatch": "^2.3.17",
     "babel-plugin-replace-import-extension": "^1.1.3",
