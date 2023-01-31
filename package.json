@@ -81,7 +81,7 @@
     "concurrently": "^7.6.0",
     "eslint": "^8.33.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsdoc": "^39.7.4",
+    "eslint-plugin-jsdoc": "^39.7.5",
     "espower-cli": "^1.1.0",
     "espower-loader": "^1.2.2",
     "exorcist": "^2.0.0",
