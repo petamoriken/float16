@@ -114,6 +114,9 @@ const ArrayBufferPrototype = NativeArrayBuffer.prototype;
 export const ArrayBufferPrototypeSlice = uncurryThis(ArrayBufferPrototype.slice);
 /** @type {(buffer: ArrayBuffer) => ArrayBuffer} */
 export const ArrayBufferPrototypeGetByteLength = uncurryThisGetter(ArrayBufferPrototype, "byteLength");
+/** @type {null | ((buffer: ArrayBuffer) => boolean)} */
+export const ArrayBufferPrototypeGetResizable = typeof ArrayBufferPrototype["resize"] !== "undefined" ?
+  uncurryThisGetter(ArrayBufferPrototype, "resizable") : null;
 
 // SharedArrayBuffer
 export const NativeSharedArrayBuffer = typeof SharedArrayBuffer !== "undefined" ? SharedArrayBuffer : null;
