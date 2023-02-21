@@ -454,10 +454,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/nightwatch@^2.3.18":
-  version "2.3.18"
-  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.18.tgz#ed3ced47cb18645f0fd31f1412e77affed64cd1d"
-  integrity sha512-eaUxUnexrpZuBBgjlGjFraO5MfVliZSpjeuNhAbsyaKRhFPI0UH5wy75PPVO2yN1ql4U/n4JJk9Zt/NYs1bbFg==
+"@types/nightwatch@^2.3.19":
+  version "2.3.19"
+  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.19.tgz#e2ca263234420fd8eee2d03dc75ada70e0be8fe0"
+  integrity sha512-c83dyCvtAaD2FEXp6PznRaVygt3DlKku9b+64J9T8s9JizfyZQclPLw5YUI8NJUANsx15d/NJpOqnmq0mRolng==
   dependencies:
     "@types/chai" "*"
     "@types/selenium-webdriver" "*"
@@ -3577,10 +3577,10 @@ nightwatch-saucelabs-endsauce@^2.1.4:
   dependencies:
     saucelabs "^7.2.0"
 
-nightwatch@^2.6.14:
-  version "2.6.14"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.6.14.tgz#713d26f4fe2c7dd7dd9eab3ff97dd78f845d3ef9"
-  integrity sha512-PV+ouPpRnN9ePZ/BL549CNKZeZ8ryrm/19MSdr0Ab2Yj7RkCnwWmC25ZAHMZRjQ6e/enG+Dz7dfKFajU1+gsgQ==
+nightwatch@^2.6.15:
+  version "2.6.15"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.6.15.tgz#488691ad9cc4782695594550e834741dfd889f3c"
+  integrity sha512-mZFtts5RIdlVQbYy/LOWSD+qdwc9sRCyVIe4A1ijftO7Zr3QaobPPtW2gIRnP6gcWT0UvLPUk2IGheo9HZL0Rw==
   dependencies:
     "@nightwatch/chai" "5.0.2"
     "@nightwatch/html-reporter-template" "0.1.4"
