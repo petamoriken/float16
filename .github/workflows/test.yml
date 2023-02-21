@@ -112,7 +112,7 @@ jobs:
 
       - uses: saucelabs/sauce-connect-action@v2
         with:
-          username: ${{ vars.SAUCE_USERNAME }}
+          username: petamoriken # ${{ vars.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
 
       - name: Install dependencies
@@ -129,7 +129,7 @@ jobs:
           sleep 5
       - run: yarn test-browser
         env:
-          SAUCE_USERNAME: ${{ vars.SAUCE_USERNAME }}
+          SAUCE_USERNAME: petamoriken # ${{ vars.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
 
       - uses: syossan27/purge-github-readme-image@v1.0.0
