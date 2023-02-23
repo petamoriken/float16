@@ -75,7 +75,7 @@
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.0",
     "@babel/plugin-transform-modules-commonjs": "^7.20.11",
-    "@types/nightwatch": "^2.3.19",
+    "@types/nightwatch": "^2.3.21",
     "babel-plugin-replace-import-extension": "^1.1.3",
     "browserslist": "^4.21.5",
     "concurrently": "^7.6.0",
