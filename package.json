@@ -88,7 +88,7 @@
     "find-unused-exports": "^5.0.0",
     "http-server": "^14.1.1",
     "mocha": "^10.2.0",
-    "nightwatch": "^2.6.17",
+    "nightwatch": "^2.6.18",
     "nightwatch-saucelabs-endsauce": "^2.1.4",
     "nyc": "^15.1.0",
     "power-assert": "^1.4.2",
