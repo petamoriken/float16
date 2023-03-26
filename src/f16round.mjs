@@ -7,7 +7,7 @@ import { NumberIsFinite } from "./_util/primordials.mjs";
  * @param {number} x
  * @returns {number}
  */
-export function hfround(x) {
+export function f16round(x) {
   const number = +x;
 
   // for optimization

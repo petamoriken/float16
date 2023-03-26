@@ -63,7 +63,7 @@ bun add @petamoriken/float16
 import {
   Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
-  hfround,
+  f16round,
 } from "@petamoriken/float16";
 ```
 
@@ -72,7 +72,7 @@ import {
 const {
   Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
-  hfround,
+  f16round,
 } = require("@petamoriken/float16");
 ```
 
@@ -85,7 +85,7 @@ service.
 import {
   Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
-  hfround,
+  f16round,
 } from "https://deno.land/x/float16/mod.ts";
 ```
 
@@ -100,7 +100,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
   import {
     Float16Array, isFloat16Array, isTypedArray,
     getFloat16, setFloat16,
-    hfround,
+    f16round,
   } from "DEST/TO/float16.mjs";
 </script>
 ```
@@ -112,7 +112,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
   const {
     Float16Array, isFloat16Array, isTypedArray,
     getFloat16, setFloat16,
-    hfround,
+    f16round,
   } = float16;
 </script>
 ```
@@ -126,7 +126,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
     import {
       Float16Array, isFloat16Array, isTypedArray,
       getFloat16, setFloat16,
-      hfround,
+      f16round,
     } from "https://cdn.jsdelivr.net/npm/@petamoriken/float16/+esm";
   </script>
   ```
@@ -138,7 +138,7 @@ from your Web server with the JavaScript `Content-Type` HTTP header.
     const {
       Float16Array, isFloat16Array, isTypedArray,
       getFloat16, setFloat16,
-      hfround,
+      f16round,
     } = float16;
   </script>
   ```
@@ -250,19 +250,19 @@ view.setFloat16(0, Math.PI, true);
 view.getFloat16(0, true); // 3.140625
 ```
 
-### `hfround`
+### `f16round` (`hfround`)
 
-`hfround` is similar to `Math.fround`
+`f16round` is similar to `Math.fround`
 ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
 This function returns nearest half-precision float representation of a number.
 
 ```ts
-declare function hfround(x: number): number;
+declare function f16round(x: number): number;
 ```
 
 ```js
 Math.fround(1.337); // 1.3370000123977661
-hfround(1.337); // 1.3369140625
+f16round(1.337); // 1.3369140625
 ```
 
 ## `Float16Array` limitations (edge cases)

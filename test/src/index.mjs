@@ -1,7 +1,7 @@
 import {
   Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
-  hfround,
+  f16round,
 } from "../../src/index.mjs";
 
 const float16 = new Float16Array([1.0, 1.1, 1.2]);
@@ -21,7 +21,7 @@ const view = new DataView(buffer);
 setFloat16(view, 0, Math.PI, true);
 assertEqualsTrue(getFloat16(view, 0, true) === 3.140625);
 
-assertEqualsTrue(hfround(1.337) === 1.3369140625);
+assertEqualsTrue(f16round(1.337) === 1.3369140625);
 
 function assertEqualsTrue(target) {
   if (target !== true) {

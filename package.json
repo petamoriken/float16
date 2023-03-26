@@ -13,7 +13,7 @@
     "DataView",
     "getFloat16",
     "setFloat16",
-    "hfround",
+    "f16round",
     "ponyfill",
     "shim"
   ],
