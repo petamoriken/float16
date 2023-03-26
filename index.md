@@ -250,7 +250,7 @@ view.setFloat16(0, Math.PI, true);
 view.getFloat16(0, true); // 3.140625
 ```
 
-### `f16round` (`hfround`)
+### `f16round` (alias: `hfround`)
 
 `f16round` is similar to `Math.fround`
 ([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround)).
@@ -380,7 +380,14 @@ f16round(1.337); // 1.3369140625
 
   ### Manual build
 
-  First, download devDependencies.
+  This repository uses corepack for package manager manager.
+  You may have to activate yarn in corepack.
+
+  ```console
+  corepack enable yarn
+  ```
+
+  Download devDependencies.
 
   ```console
   yarn
@@ -400,7 +407,14 @@ f16round(1.337); // 1.3369140625
 
   ### Test
 
-  First, download devDependencies.
+  This repository uses corepack for package manager manager.
+  You may have to activate yarn in corepack.
+
+  ```console
+  corepack enable yarn
+  ```
+
+  Download devDependencies.
 
   ```console
   yarn
