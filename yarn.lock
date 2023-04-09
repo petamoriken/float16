@@ -359,10 +359,10 @@
     pathval "1.1.1"
     type-detect "4.0.8"
 
-"@nightwatch/html-reporter-template@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@nightwatch/html-reporter-template/-/html-reporter-template-0.1.4.tgz#c70db1a13bb2e7e1932e6b10ac1e022e61177c94"
-  integrity sha512-fVylXypRuNJbyFAwY/5H2QM1A1XVoZWis0zhiMwA5LQN0cxHzpG2aUheb+qP1EfkxhFxwSUHOcrvphFLbPA8ow==
+"@nightwatch/html-reporter-template@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@nightwatch/html-reporter-template/-/html-reporter-template-0.2.1.tgz#9fa86e8cab6ee703d2e55b47abac92613f97a298"
+  integrity sha512-GEBeGoXVmTYPtNC4Yq34vfgxf6mlFyEagxpsfH18Qe5BvctF2rprX+wI5dKBm9p5IqHo6ZOcXHCufOeP3cjuOw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -3463,11 +3463,6 @@ mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-mkpath@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mkpath/-/mkpath-1.0.0.tgz#ebb3a977e7af1c683ae6fda12b545a6ba6c5853d"
-  integrity sha512-PbNHr7Y/9Y/2P5pKFv5XOGBfNQqZ+fdiHWcuf7swLACN5ZW5LU7J5tMU8LSBjpluAxAxKYGD9nnaIbdRy9+m1w==
-
 mocha@9.2.2:
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/mocha/-/mocha-9.2.2.tgz#d70db46bdb93ca57402c809333e5a84977a88fb9"
@@ -3584,13 +3579,13 @@ nightwatch-saucelabs-endsauce@^2.1.4:
   dependencies:
     saucelabs "^7.2.0"
 
-nightwatch@^2.6.19:
-  version "2.6.19"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.6.19.tgz#2c35304eb67e06d24f982cb42cce618c617a3fcb"
-  integrity sha512-AxuPEWlf+MCfo4tZ0BFKkxqUIL0x/jZeFSvxV7Wwp/sBM8XmVA1rEEhNe/pCVsyjL+Q4G97rMKTonFYF/aXsBw==
+nightwatch@^2.6.20:
+  version "2.6.20"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-2.6.20.tgz#8c3b808f4f33699bcd67987b22e6ebeee61ddc9c"
+  integrity sha512-XEyxuSGhESdHj4LHqA5snrc/nMgH4tsB/mWrbyGt3EwW1AgjyE7DRzJUbhG7J00Np3Dv3k2nmyJs0Xq0FX/yvQ==
   dependencies:
     "@nightwatch/chai" "5.0.2"
-    "@nightwatch/html-reporter-template" "0.1.4"
+    "@nightwatch/html-reporter-template" "0.2.1"
     ansi-to-html "0.7.2"
     assertion-error "1.1.0"
     boxen "5.1.2"
@@ -3611,7 +3606,6 @@ nightwatch@^2.6.19:
     lodash.pick "4.4.0"
     minimatch "3.1.2"
     minimist "1.2.6"
-    mkpath "1.0.0"
     mocha "9.2.2"
     nightwatch-axe-verbose "^2.1.0"
     open "8.4.0"
