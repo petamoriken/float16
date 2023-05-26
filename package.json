@@ -31,7 +31,8 @@
   "exports": {
     ".": {
       "require": "./lib/index.cjs",
-      "import": "./src/index.mjs"
+      "import": "./src/index.mjs",
+      "types": "./index.d.ts"
     },
     "./inspect": {
       "require": "./inspect/node.cjs",
