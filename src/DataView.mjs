@@ -7,7 +7,6 @@ import {
 
 /**
  * returns an unsigned 16-bit float at the specified byte offset from the start of the DataView
- *
  * @param {DataView} dataView
  * @param {number} byteOffset
  * @param {[boolean]} opts
@@ -21,7 +20,6 @@ export function getFloat16(dataView, byteOffset, ...opts) {
 
 /**
  * stores an unsigned 16-bit float value at the specified byte offset from the start of the DataView
- *
  * @param {DataView} dataView
  * @param {number} byteOffset
  * @param {number} value

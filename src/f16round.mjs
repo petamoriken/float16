@@ -3,7 +3,6 @@ import { NumberIsFinite } from "./_util/primordials.mjs";
 
 /**
  * returns the nearest half-precision float representation of a number
- *
  * @param {number} x
  * @returns {number}
  */

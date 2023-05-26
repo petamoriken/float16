@@ -325,7 +325,6 @@ export class Float16Array {
 
   /**
    * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
-   *
    * @see https://tc39.es/ecma262/#sec-%typedarray%.from
    */
   static from(src, ...opts) {
@@ -425,7 +424,6 @@ export class Float16Array {
 
   /**
    * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
-   *
    * @see https://tc39.es/ecma262/#sec-%typedarray%.of
    */
   static of(...items) {
@@ -470,7 +468,6 @@ export class Float16Array {
 
   /**
    * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
-   *
    * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
    */
   values() {
@@ -487,7 +484,6 @@ export class Float16Array {
 
   /**
    * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
-   *
    * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
    */
   entries() {
@@ -497,7 +493,7 @@ export class Float16Array {
     return wrap((function* () {
       // eslint-disable-next-line no-restricted-syntax
       for (const [i, val] of TypedArrayPrototypeEntries(float16bitsArray)) {
-        yield /** @type {[Number, number]} */ ([i, convertToNumber(val)]);
+        yield /** @type {[number, number]} */ ([i, convertToNumber(val)]);
       }
     })());
   }

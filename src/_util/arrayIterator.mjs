@@ -35,7 +35,6 @@ const SafeIteratorPrototype = ObjectCreate(null, {
 
 /**
  * Wrap the Array around the SafeIterator If Array.prototype [@@iterator] has been modified
- *
  * @type {<T>(array: T[]) => Iterable<T>}
  */
 export function safeIfNeeded(array) {
@@ -78,7 +77,6 @@ for (const key of ReflectOwnKeys(ArrayIteratorPrototype)) {
 
 /**
  * Wrap the Generator around the dummy ArrayIterator
- *
  * @type {<T>(generator: Generator<T>) => IterableIterator<T>}
  */
 export function wrap(generator) {

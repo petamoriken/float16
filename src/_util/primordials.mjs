@@ -223,7 +223,6 @@ export const NativeRangeError = RangeError;
 // WeakSet
 /**
  * Do not construct with arguments to avoid calling the "add" method
- *
  * @type {{new <T extends {}>(): WeakSet<T>}}
  */
 export const NativeWeakSet = WeakSet;
@@ -236,7 +235,6 @@ export const WeakSetPrototypeHas = uncurryThis(WeakSetPrototype.has);
 // WeakMap
 /**
  * Do not construct with arguments to avoid calling the "set" method
- *
  * @type {{new <K extends {}, V>(): WeakMap<K, V>}}
  */
 export const NativeWeakMap = WeakMap;
