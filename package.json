@@ -73,7 +73,7 @@
     "version": "NPM_VERSION_SCRIPT=1 yarn run refresh"
   },
   "devDependencies": {
-    "@babel/cli": "^7.22.5",
+    "@babel/cli": "^7.22.6",
     "@babel/core": "^7.22.6",
     "@babel/plugin-transform-modules-commonjs": "^7.22.5",
     "@types/nightwatch": "^2.3.24",
