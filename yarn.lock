@@ -3735,10 +3735,10 @@ nightwatch-saucelabs-endsauce@^2.3.1:
   dependencies:
     saucelabs "^7.2.2"
 
-nightwatch@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-3.1.0.tgz#aeec9e4bd5161b8a4d86d814247a104506ba9a00"
-  integrity sha512-RYQ4ZWBoDCFWZMQNahAZtlbiCVzcUFyIVPQnQafss1OSDXKTe63jFrH5XjmFpvuU8EcXEiR/fkSEev9WxBTL2Q==
+nightwatch@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-3.1.1.tgz#66416c5fef824e64bbd91802380aa3ed600c6654"
+  integrity sha512-iQ1WRkTElTzPL1aUsfzGFGrfBDnmdVCfSYcBdpm9qG2WdG6Nkubn4eKbw2jyTLZJwjYFaNQ+apPJr2uNTXalxA==
   dependencies:
     "@nightwatch/chai" "5.0.2"
     "@nightwatch/html-reporter-template" "0.2.1"
