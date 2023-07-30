@@ -168,13 +168,13 @@ describe('f16round()', () => {
     it('return \xB1float16 min value when value is \xB1float16 min value / 2 \xB1 a bit number', () => {
         var _rec21 = new _PowerAssertRecorder1();
         var _rec22 = new _PowerAssertRecorder1();
-        assert(_rec21._expr(_rec21._capt(_rec21._capt(f16round(_rec21._capt(_rec21._capt(_rec21._capt(minFloat16, 'arguments/0/left/arguments/0/left/left') / 2, 'arguments/0/left/arguments/0/left') + _rec21._capt(2 ** _rec21._capt(-25, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec21._capt(minFloat16, 'arguments/0/right'), 'arguments/0'), {
-            content: 'assert(f16round(minFloat16 / 2 + 2 ** -25) === minFloat16)',
+        assert(_rec21._expr(_rec21._capt(_rec21._capt(f16round(2.980232238769532e-8), 'arguments/0/left') === _rec21._capt(minFloat16, 'arguments/0/right'), 'arguments/0'), {
+            content: 'assert(f16round(2.980232238769531911744490042422139897126953655970282852649688720703125e-8) === minFloat16)',
             filepath: 'test/f16round.js',
             line: 56
         }));
-        assert(_rec22._expr(_rec22._capt(_rec22._capt(f16round(_rec22._capt(_rec22._capt(_rec22._capt(-_rec22._capt(minFloat16, 'arguments/0/left/arguments/0/left/left/argument'), 'arguments/0/left/arguments/0/left/left') / 2, 'arguments/0/left/arguments/0/left') - _rec22._capt(2 ** _rec22._capt(-25, 'arguments/0/left/arguments/0/right/right'), 'arguments/0/left/arguments/0/right'), 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec22._capt(-_rec22._capt(minFloat16, 'arguments/0/right/argument'), 'arguments/0/right'), 'arguments/0'), {
-            content: 'assert(f16round(-minFloat16 / 2 - 2 ** -25) === -minFloat16)',
+        assert(_rec22._expr(_rec22._capt(_rec22._capt(f16round(_rec22._capt(-2.980232238769532e-8, 'arguments/0/left/arguments/0')), 'arguments/0/left') === _rec22._capt(-_rec22._capt(minFloat16, 'arguments/0/right/argument'), 'arguments/0/right'), 'arguments/0'), {
+            content: 'assert(f16round(-2.980232238769531911744490042422139897126953655970282852649688720703125e-8) === -minFloat16)',
             filepath: 'test/f16round.js',
             line: 57
         }));

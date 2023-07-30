@@ -195,7 +195,7 @@ describe("Float16Array", () => {
   });
 
   it("iterate", () => {
-    const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+    const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
     const float16 = new Float16Array([1, 1.1, 1.2, 1.3]);
     for (const val of float16) {
@@ -263,7 +263,7 @@ describe("Float16Array", () => {
 
     it("input Array or TypedArray", () => {
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16_1 = new Float16Array(array);
 
@@ -289,7 +289,7 @@ describe("Float16Array", () => {
     it("input custom Array", () => {
       class FooArray extends Array {}
       const array = FooArray.from([1, 1.1, 1.2, 1.3]);
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16_1 = new Float16Array(array);
 
@@ -348,7 +348,7 @@ describe("Float16Array", () => {
 
     it("input Iterable", () => {
       const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = new Float16Array(iterable);
 
@@ -361,7 +361,7 @@ describe("Float16Array", () => {
 
     it("input ArrayLike", () => {
       const arrayLike = { "0": 1, "1": 1.1, "2": 1.2, "3": 1.3, length: 4 };
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = new Float16Array(arrayLike);
 
@@ -374,7 +374,7 @@ describe("Float16Array", () => {
 
     it("input Float16Array", () => {
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = new Float16Array(new Float16Array(array));
 
@@ -402,7 +402,7 @@ describe("Float16Array", () => {
       }
 
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = new Float16Array(new AnotherRealmFloat16Array(array));
 
@@ -414,7 +414,7 @@ describe("Float16Array", () => {
     });
 
     it("input ArrayBuffer", () => {
-      const buffer = new Uint16Array([15360, 15462, 15564, 15667]).buffer;
+      const buffer = new Uint16Array([15360, 15462, 15565, 15667]).buffer;
 
       const float16_1 = new Float16Array(buffer);
 
@@ -426,7 +426,7 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(float16_1, [
         1,
         1.099609375,
-        1.19921875,
+        1.2001953125,
         1.2998046875,
       ]);
 
@@ -437,7 +437,7 @@ describe("Float16Array", () => {
       assert(float16_2.byteOffset === 2);
       assert(float16_2.byteLength === 4);
       assert(float16_2.length === 2);
-      assert.equalFloat16ArrayValues(float16_2, [1.099609375, 1.19921875]);
+      assert.equalFloat16ArrayValues(float16_2, [1.099609375, 1.2001953125]);
     });
 
     it("input detached ArrayBuffer", function () {
@@ -473,7 +473,7 @@ describe("Float16Array", () => {
 
     it("input Array or TypedArray", () => {
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16_1 = Float16Array.from(array);
 
@@ -488,7 +488,7 @@ describe("Float16Array", () => {
 
     it("input Iterable", () => {
       const iterable = [1, 1.1, 1.2, 1.3][Symbol.iterator]();
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = Float16Array.from(iterable);
 
@@ -498,7 +498,7 @@ describe("Float16Array", () => {
 
     it("input ArrayLike", () => {
       const arrayLike = { 0: 1, 1: 1.1, 2: 1.2, 3: 1.3, length: 4 };
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = Float16Array.from(arrayLike);
 
@@ -508,7 +508,7 @@ describe("Float16Array", () => {
 
     it("input Float16Array", () => {
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = Float16Array.from(new Float16Array(array));
 
@@ -522,7 +522,7 @@ describe("Float16Array", () => {
       }
 
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = Float16Array.from(new AnotherRealmFloat16Array(array));
 
@@ -533,7 +533,7 @@ describe("Float16Array", () => {
     it("call from subclass", () => {
       class Foo extends Float16Array {}
 
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const array = [1, 1.1, 1.2, 1.3];
       const foo1 = Foo.from(array);
@@ -603,7 +603,7 @@ describe("Float16Array", () => {
 
     it("input", () => {
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const float16 = Float16Array.of(...array);
 
@@ -615,7 +615,7 @@ describe("Float16Array", () => {
       class Foo extends Float16Array {}
 
       const array = [1, 1.1, 1.2, 1.3];
-      const checkArray = [1, 1.099609375, 1.19921875, 1.2998046875];
+      const checkArray = [1, 1.099609375, 1.2001953125, 1.2998046875];
 
       const foo = Foo.of(...array);
 

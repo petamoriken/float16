@@ -254,7 +254,7 @@ describe('Float16Array', () => {
         const checkArray = [
             1,
             1.099609375,
-            1.19921875,
+            1.2001953125,
             1.2998046875
         ];
         const float16 = new Float16Array([
@@ -377,7 +377,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16_1 = new Float16Array(array);
@@ -448,7 +448,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16_1 = new Float16Array(array);
@@ -576,7 +576,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = new Float16Array(iterable);
@@ -617,7 +617,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = new Float16Array(arrayLike);
@@ -657,7 +657,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = new Float16Array(new Float16Array(array));
@@ -708,7 +708,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = new Float16Array(new AnotherRealmFloat16Array(array));
@@ -748,7 +748,7 @@ describe('Float16Array', () => {
             const buffer = new Uint16Array([
                 15360,
                 15462,
-                15564,
+                15565,
                 15667
             ]).buffer;
             const float16_1 = new Float16Array(buffer);
@@ -780,7 +780,7 @@ describe('Float16Array', () => {
             assert.equalFloat16ArrayValues(float16_1, [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ]);
             const float16_2 = new Float16Array(buffer, 2, 2);
@@ -811,7 +811,7 @@ describe('Float16Array', () => {
             }));
             assert.equalFloat16ArrayValues(float16_2, [
                 1.099609375,
-                1.19921875
+                1.2001953125
             ]);
         });
         it('input detached ArrayBuffer', function () {
@@ -865,7 +865,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16_1 = Float16Array.from(array);
@@ -894,7 +894,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = Float16Array.from(iterable);
@@ -917,7 +917,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = Float16Array.from(arrayLike);
@@ -939,7 +939,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = Float16Array.from(new Float16Array(array));
@@ -964,7 +964,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = Float16Array.from(new AnotherRealmFloat16Array(array));
@@ -985,7 +985,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const array = [
@@ -1145,7 +1145,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const float16 = Float16Array.of(...array);
@@ -1169,7 +1169,7 @@ describe('Float16Array', () => {
             const checkArray = [
                 1,
                 1.099609375,
-                1.19921875,
+                1.2001953125,
                 1.2998046875
             ];
             const foo = Foo.of(...array);

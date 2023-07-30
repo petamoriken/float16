@@ -53,8 +53,8 @@ describe("f16round()", () => {
   });
 
   it("return ±float16 min value when value is ±float16 min value / 2 ± a bit number", () => {
-    assert(f16round(minFloat16 / 2 + 2 ** -25) === minFloat16);
-    assert(f16round(-minFloat16 / 2 - 2 ** -25) === -minFloat16);
+    assert(f16round(2.980232238769531911744490042422139897126953655970282852649688720703125e-8) === minFloat16);
+    assert(f16round(-2.980232238769531911744490042422139897126953655970282852649688720703125e-8) === -minFloat16);
   });
 
   it("return 1.3369140625 when value is 1.337", () => {
