@@ -104,7 +104,14 @@ export const NativeArrayPrototypeSymbolIterator = ArrayPrototype[SymbolIterator]
 export const ArrayPrototypeSymbolIterator = uncurryThis(NativeArrayPrototypeSymbolIterator);
 
 // Math
-export const MathTrunc = Math.trunc;
+export const {
+  abs: MathAbs,
+  floor: MathFloor,
+  log2: MathLog2,
+  pow: MathPow,
+  sign: MathSign,
+  trunc: MathTrunc,
+} = Math;
 
 // ArrayBuffer
 export const NativeArrayBuffer = ArrayBuffer;
