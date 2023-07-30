@@ -177,7 +177,7 @@ environments:
 ```js
 const array = new Float16Array([1.0, 1.1, 1.2, 1.3]);
 for (const value of array) {
-  // 1, 1.099609375, 1.19921875, 1.2998046875
+  // 1, 1.099609375, 1.2001953125, 1.2998046875
   console.log(value);
 }
 
