@@ -14,6 +14,11 @@ import {
   ObjectIs,
 } from "./primordials.mjs";
 
+const mantissaBitLength = 10;
+const mantissaMask = 0x3ff;
+const exponentMax = 31;
+const exponentBias = 15;
+
 // base algorithm: https://github.com/feross/ieee754
 // BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource>
 
@@ -25,18 +30,12 @@ import {
  */
 function roundTiesToEven(num) {
   const truncated = MathTrunc(num);
-  const isOdd = truncated % 2 !== 0;
   const delta = MathAbs(num - truncated);
-  if (delta > 0.5 || delta === 0.5 && isOdd) {
+  if (delta > 0.5 || delta === 0.5 && truncated % 2 !== 0) {
     return truncated + MathSign(num);
   }
   return truncated;
 }
-
-const f16EMax = 31;
-const f16EBias = 15;
-const f16MLen = 10;
-const f16MMask = 0x3ff;
 
 /**
  * round a number to a half float number bits
@@ -52,7 +51,7 @@ export function roundToFloat16Bits(num) {
   // NaN, Infinity, -Infinity
   if (!NumberIsFinite(absNum)) {
     m = NumberIsNaN(absNum) ? 0x200 : 0;
-    e = f16EMax;
+    e = exponentMax;
 
   // finite
   } else {
@@ -67,19 +66,19 @@ export function roundToFloat16Bits(num) {
       c /= 2;
     }
 
-    if (rawE + f16EBias >= f16EMax) {
+    if (rawE + exponentBias >= exponentMax) {
       m = 0;
-      e = f16EMax;
-    } else if (rawE + f16EBias >= 1) {
-      m = roundTiesToEven(((absNum * c) - 1) * 0x400) & f16MMask;
-      e = rawE + f16EBias;
+      e = exponentMax;
+    } else if (rawE + exponentBias >= 1) {
+      m = roundTiesToEven(((absNum * c) - 1) * 0x400) & mantissaMask;
+      e = rawE + exponentBias;
     } else {
-      m = roundTiesToEven(absNum * 0x1000000) & f16MMask;
+      m = roundTiesToEven(absNum * 0x1000000) & mantissaMask;
       e = 0;
     }
   }
 
-  return s << 15 | e << f16MLen | m;
+  return s << 15 | e << mantissaBitLength | m;
 }
 
 // base algorithm: http://fox-toolkit.org/ftp/fasthalffloatconversion.pdf
@@ -132,7 +131,7 @@ for (let i = 1; i < 64; ++i) {
  * @returns {number} double float
  */
 export function convertToNumber(float16bits) {
-  const i = float16bits >> 10;
-  uint32View[0] = mantissaTable[offsetTable[i] + (float16bits & 0x3ff)] + exponentTable[i];
+  const i = float16bits >> mantissaBitLength;
+  uint32View[0] = mantissaTable[offsetTable[i] + (float16bits & mantissaMask)] + exponentTable[i];
   return floatView[0];
 }
