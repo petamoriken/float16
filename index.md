@@ -32,7 +32,7 @@
 
 <p align="center">
   <a href="https://saucelabs.com/u/petamoriken">
-    <img src="https://saucelabs.com/browser-matrix/petamoriken.svg" alt="Sauce Labs browser matrix">
+    <img src="https://app.saucelabs.com/browser-matrix/petamoriken.svg" alt="Sauce Labs browser matrix">
   </a>
 </p>
 
