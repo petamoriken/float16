@@ -23,12 +23,12 @@ const exponentBias = 15;
 // BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource>
 
 /**
- * round a number to nearest value; if the number falls midway,
- * it is rounded to the nearest value with an even least significant digit.
+ * round a number to nearest integer value;
+ * if the number is halfway, it is rounded to the nearest even number
  * @param {number} num - double float
  * @returns {number} half float number bits
  */
-function roundTiesToEven(num) {
+function roundToEven(num) {
   const truncated = MathTrunc(num);
   const delta = MathAbs(num - truncated);
   if (delta > 0.5 || delta === 0.5 && truncated % 2 !== 0) {
@@ -43,37 +43,42 @@ function roundTiesToEven(num) {
  * @returns {number} half float number bits
  */
 export function roundToFloat16Bits(num) {
-  const absNum = MathAbs(/** @type {number} */ (num));
+  const absolute = MathAbs(/** @type {number} */ (num));
 
   const s = /** @type {number} */ (num) < 0 || ObjectIs(num, -0) ? 1 : 0;
   let m, e;
 
   // NaN, Infinity, -Infinity
-  if (!NumberIsFinite(absNum)) {
-    m = NumberIsNaN(absNum) ? 0x200 : 0;
+  if (!NumberIsFinite(absolute)) {
+    // quiet NaN
+    m = NumberIsNaN(absolute) ? 0x200 : 0;
     e = exponentMax;
 
   // finite
   } else {
-    let rawE = MathFloor(MathLog2(absNum));
+    let rawE = MathFloor(MathLog2(absolute));
     let c = MathPow(2, -rawE);
-    if (absNum * c < 1) {
+    if (absolute * c < 1) {
       --rawE;
       c *= 2;
-    }
-    if (absNum * c >= 2) {
+    } else if (absolute * c >= 2) {
       ++rawE;
       c /= 2;
     }
 
+    // Infinity, -Infinity
     if (rawE + exponentBias >= exponentMax) {
       m = 0;
       e = exponentMax;
+
+    // normal number
     } else if (rawE + exponentBias >= 1) {
-      m = roundTiesToEven(((absNum * c) - 1) * 0x400) & mantissaMask;
+      m = roundToEven(((absolute * c) - 1) * 0x400);
       e = rawE + exponentBias;
+
+    // subnormal number, 0, -0
     } else {
-      m = roundTiesToEven(absNum * 0x1000000) & mantissaMask;
+      m = roundToEven(absolute * 0x1000000);
       e = 0;
     }
   }
