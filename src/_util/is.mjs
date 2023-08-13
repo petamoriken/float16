@@ -59,7 +59,7 @@ export function isNativeBigIntTypedArray(value) {
  * @param {unknown} value
  * @returns {value is ArrayBuffer}
  */
-export function isArrayBuffer(value) {
+function isArrayBuffer(value) {
   try {
     ArrayBufferPrototypeGetByteLength(/** @type {any} */ (value));
     return true;
@@ -83,6 +83,14 @@ export function isSharedArrayBuffer(value) {
   } catch (e) {
     return false;
   }
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is ArrayBuffer|SharedArrayBuffer}
+ */
+export function isAnyArrayBuffer(value) {
+  return isArrayBuffer(value) || isSharedArrayBuffer(value);
 }
 
 /**

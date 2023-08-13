@@ -2,7 +2,7 @@ import { safeIfNeeded, wrap } from "./_util/arrayIterator.mjs";
 import { brand, hasFloat16ArrayBrand } from "./_util/brand.mjs";
 import { convertToNumber, roundToFloat16Bits } from "./_util/converter.mjs";
 import {
-  isArrayBuffer,
+  isAnyArrayBuffer,
   isCanonicalIntegerIndexString,
   isNativeBigIntTypedArray,
   isNativeTypedArray,
@@ -259,7 +259,7 @@ export class Float16Array {
 
     if (isFloat16Array(input)) {
       float16bitsArray = ReflectConstruct(NativeUint16Array, [getFloat16BitsArray(input)], new.target);
-    } else if (isObject(input) && !isArrayBuffer(input)) { // object without ArrayBuffer
+    } else if (isObject(input) && !isAnyArrayBuffer(input)) { // object without ArrayBuffer, SharedArrayBuffer
       /** @type {ArrayLike<unknown>} */
       let list;
       /** @type {number} */
@@ -310,7 +310,7 @@ export class Float16Array {
       for (let i = 0; i < length; ++i) {
         float16bitsArray[i] = roundToFloat16Bits(list[i]);
       }
-    } else { // primitive, ArrayBuffer
+    } else { // primitive, ArrayBuffer, SharedArrayBuffer
       float16bitsArray = ReflectConstruct(NativeUint16Array, arguments, new.target);
     }
 

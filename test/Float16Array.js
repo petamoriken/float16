@@ -448,6 +448,42 @@ describe("Float16Array", () => {
       const detachedBuffer = detach(new ArrayBuffer(4));
       assert.throws(() => new Float16Array(detachedBuffer), TypeError);
     });
+
+    it("input SharedArrayBuffer", function () {
+      if (typeof SharedArrayBuffer === "undefined") {
+        this.skip();
+      }
+
+      const buffer = new SharedArrayBuffer(8);
+      const uint16 = new Uint16Array(buffer);
+      uint16[0] = 15360;
+      uint16[1] = 15462;
+      uint16[2] = 15565;
+      uint16[3] = 15667;
+
+      const float16_1 = new Float16Array(buffer);
+
+      assert(float16_1.BYTES_PER_ELEMENT === 2);
+      assert(float16_1.buffer === buffer);
+      assert(float16_1.byteOffset === 0);
+      assert(float16_1.byteLength === 8);
+      assert(float16_1.length === 4);
+      assert.equalFloat16ArrayValues(float16_1, [
+        1,
+        1.099609375,
+        1.2001953125,
+        1.2998046875,
+      ]);
+
+      const float16_2 = new Float16Array(buffer, 2, 2);
+
+      assert(float16_2.BYTES_PER_ELEMENT === 2);
+      assert(float16_2.buffer === buffer);
+      assert(float16_2.byteOffset === 2);
+      assert(float16_2.byteLength === 4);
+      assert(float16_2.length === 2);
+      assert.equalFloat16ArrayValues(float16_2, [1.099609375, 1.2001953125]);
+    });
   });
 
   describe(".from()", () => {
