@@ -1,5 +1,9 @@
 describe("Float16Array", () => {
-  let detach;
+  function detach(buffer) {
+    structuredClone(buffer, { transfer: [buffer] });
+    return buffer;
+  }
+
   let AnotherRealmFloat16Array;
 
   before(async function () {
@@ -26,13 +30,6 @@ describe("Float16Array", () => {
 
       assert.deepStrictEqual(float16, array);
     };
-
-    if (typeof structuredClone !== "undefined") {
-      detach = (buffer) => {
-        structuredClone(buffer, { transfer: [buffer] });
-        return buffer;
-      };
-    }
 
     if (typeof window !== "undefined") {
       const iframe = document.getElementById("realm");
@@ -335,11 +332,7 @@ describe("Float16Array", () => {
       assert(float16.buffer !== buffer);
     });
 
-    it("input TypedArray with detached ArrayBuffer", function () {
-      if (detach === undefined) {
-        this.skip();
-      }
-
+    it("input TypedArray with detached ArrayBuffer", () => {
       const float32 = new Float32Array(4);
       detach(float32.buffer);
 
@@ -385,11 +378,7 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(float16, checkArray);
     });
 
-    it("input Float16Array with detached ArrayBuffer", function () {
-      if (detach === undefined) {
-        this.skip();
-      }
-
+    it("input Float16Array with detached ArrayBuffer", () => {
       const float16 = new Float16Array(4);
       detach(float16.buffer);
 
@@ -440,11 +429,7 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(float16_2, [1.099609375, 1.2001953125]);
     });
 
-    it("input detached ArrayBuffer", function () {
-      if (detach === undefined) {
-        this.skip();
-      }
-
+    it("input detached ArrayBuffer", () => {
       const detachedBuffer = detach(new ArrayBuffer(4));
       assert.throws(() => new Float16Array(detachedBuffer), TypeError);
     });
@@ -1357,11 +1342,7 @@ describe("Float16Array", () => {
       assert.throws(() => float16.set(new BigUint64Array()), TypeError);
     });
 
-    it("set TypedArray with detached ArrayBuffer", function () {
-      if (detach === undefined) {
-        this.skip();
-      }
-
+    it("set TypedArray with detached ArrayBuffer", () => {
       const float16 = new Float16Array(4);
 
       const float32 = new Float32Array(2);
@@ -1410,11 +1391,7 @@ describe("Float16Array", () => {
       assert.equalFloat16ArrayValues(float16, [1, 2, 10, 11, 5]);
     });
 
-    it("set TypedArray with detached ArrayBuffer", function () {
-      if (detach === undefined) {
-        this.skip();
-      }
-
+    it("set TypedArray with detached ArrayBuffer", () => {
       const float16 = new Float16Array(4);
 
       const float16_2 = new Float16Array(2);
