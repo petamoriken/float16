@@ -32,7 +32,7 @@ const FLOAT16_EPSILON_DEVIDED_BY_EPSILON = FLOAT16_EPSILON * INVERSE_OF_EPSILON;
 /**
  * round a number to a half float number
  * @param {unknown} num - double float
- * @returns {number} half float number bits
+ * @returns {number} half float number
  */
 export function roundToFloat16(num) {
   const number = +num;
