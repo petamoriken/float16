@@ -179,12 +179,18 @@ describe('f16round()', () => {
             line: 57
         }));
     });
-    it('return 1.3369140625 when value is 1.337', () => {
+    it('round finite values properly', () => {
         var _rec23 = new _PowerAssertRecorder1();
-        assert(_rec23._expr(_rec23._capt(_rec23._capt(f16round(1.337), 'arguments/0/left') === 1.3369140625, 'arguments/0'), {
-            content: 'assert(f16round(1.337) === 1.3369140625)',
+        var _rec24 = new _PowerAssertRecorder1();
+        assert(_rec23._expr(_rec23._capt(_rec23._capt(f16round(0.499994), 'arguments/0/left') === 0.5, 'arguments/0'), {
+            content: 'assert(f16round(0.499994) === 0.5)',
             filepath: 'test/f16round.js',
             line: 61
+        }));
+        assert(_rec24._expr(_rec24._capt(_rec24._capt(f16round(1.337), 'arguments/0/left') === 1.3369140625, 'arguments/0'), {
+            content: 'assert(f16round(1.337) === 1.3369140625)',
+            filepath: 'test/f16round.js',
+            line: 62
         }));
     });
     it('throw TypeError when value is bigint', function () {
