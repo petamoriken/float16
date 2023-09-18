@@ -57,7 +57,8 @@ describe("f16round()", () => {
     assert(f16round(-2.980232238769531911744490042422139897126953655970282852649688720703125e-8) === -minFloat16);
   });
 
-  it("return 1.3369140625 when value is 1.337", () => {
+  it("round finite values properly", () => {
+    assert(f16round(0.499994) === 0.5);
     assert(f16round(1.337) === 1.3369140625);
   });
 

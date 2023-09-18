@@ -39,6 +39,7 @@ export const NativeProxy = Proxy;
 
 // Number
 export const {
+  EPSILON,
   MAX_SAFE_INTEGER,
   isFinite: NumberIsFinite,
   isNaN: NumberIsNaN,
@@ -106,10 +107,6 @@ export const ArrayPrototypeSymbolIterator = uncurryThis(NativeArrayPrototypeSymb
 // Math
 export const {
   abs: MathAbs,
-  floor: MathFloor,
-  log2: MathLog2,
-  pow: MathPow,
-  sign: MathSign,
   trunc: MathTrunc,
 } = Math;
 
@@ -185,6 +182,9 @@ export const TypedArrayPrototypeGetSymbolToStringTag = uncurryThisGetter(
   TypedArrayPrototype,
   SymbolToStringTag
 );
+
+// Uint8Array
+export const NativeUint8Array = Uint8Array;
 
 // Uint16Array
 export const NativeUint16Array = Uint16Array;
