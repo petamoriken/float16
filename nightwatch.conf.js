@@ -72,7 +72,6 @@ module.exports = {
       desiredCapabilities: {
         browserName: "firefox",
         browserVersion: "latest",
-        platformName: "windows",
       },
     },
 
@@ -80,7 +79,6 @@ module.exports = {
       desiredCapabilities: {
         browserName: "firefox",
         browserVersion: "latest-1",
-        platformName: "windows",
       },
     },
 
@@ -88,7 +86,6 @@ module.exports = {
       desiredCapabilities: {
         browserName: "firefox",
         browserVersion: FIREFOX_ESR_VERSION,
-        platformName: "windows",
       },
     },
 
@@ -96,7 +93,6 @@ module.exports = {
       desiredCapabilities: {
         browserName: "MicrosoftEdge",
         browserVersion: "latest",
-        platformName: "windows",
       },
     },
 
@@ -104,7 +100,6 @@ module.exports = {
       desiredCapabilities: {
         browserName: "MicrosoftEdge",
         browserVersion: "latest-1",
-        platformName: "windows",
       },
     },
 
@@ -112,7 +107,6 @@ module.exports = {
       desiredCapabilities: {
         browserName: "safari",
         browserVersion: "latest",
-        platformName: "mac",
       },
     },
 
@@ -120,7 +114,6 @@ module.exports = {
       desiredCapabilities: {
         browserName: "safari",
         browserVersion: "latest-1",
-        platformName: "mac",
       },
     },
   },
