@@ -56,6 +56,7 @@ module.exports = {
       desiredCapabilities: {
         browserName: "chrome",
         browserVersion: "latest",
+        platformName: "windows",
       },
     },
 
@@ -63,6 +64,7 @@ module.exports = {
       desiredCapabilities: {
         browserName: "chrome",
         browserVersion: "latest-1",
+        platformName: "windows",
       },
     },
 
