@@ -701,10 +701,10 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.199.tgz#c3edb5650149d847a277a8961a7ad360c474e9bf"
   integrity sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==
 
-"@types/nightwatch@^2.3.26":
-  version "2.3.26"
-  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.26.tgz#e0ad2f8905f4b4523e25c65a3d9634a9c6b712f0"
-  integrity sha512-Jc6wXqR84e3u+sBaGP5IrxHziKFbUteD21+7Lob1G4FoUbe2RqH54HZP1a32TgvDPISbYfQ/XMBAngL15hhi5A==
+"@types/nightwatch@^2.3.27":
+  version "2.3.27"
+  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.27.tgz#952f9d04c5e626349b5fdcd8414f1f64ba54cc5b"
+  integrity sha512-hCC1kHiedyv09TLptjEuZqH5luLaygWWroHQ17w3Pe+4k7TfZ1DT9Ev7qkCBPQbSK7x+TzNn3PPGxoLVGOCQrA==
   dependencies:
     "@types/chai" "*"
     "@types/selenium-webdriver" "*"
