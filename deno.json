@@ -1,0 +1,8 @@
+{
+  "name": "@petamoriken/float16",
+  "version": "3.8.4",
+  "exports": {
+    ".": "./mod.ts",
+    "./inspect": "./inspect/node.mjs"
+  }
+}

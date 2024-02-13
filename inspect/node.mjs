@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-import { inspect } from "util";
+import { inspect } from "node:util";
 
 /**
  * @example
