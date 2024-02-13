@@ -1,4 +1,4 @@
-// mocha@10.2.0 in javascript ES2018
+// mocha@10.3.0 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -971,6 +971,11 @@
   Buffer$1.TYPED_ARRAY_SUPPORT = global$2.TYPED_ARRAY_SUPPORT !== undefined
     ? global$2.TYPED_ARRAY_SUPPORT
     : true;
+
+  /*
+   * Export kMaxLength after typed array support is determined.
+   */
+  kMaxLength$1();
 
   function kMaxLength$1 () {
     return Buffer$1.TYPED_ARRAY_SUPPORT
@@ -8722,6 +8727,11 @@
     ? global$1.TYPED_ARRAY_SUPPORT
     : true;
 
+  /*
+   * Export kMaxLength after typed array support is determined.
+   */
+  kMaxLength();
+
   function kMaxLength () {
     return Buffer.TYPED_ARRAY_SUPPORT
       ? 0x7fffffff
@@ -8813,6 +8823,8 @@
   if (Buffer.TYPED_ARRAY_SUPPORT) {
     Buffer.prototype.__proto__ = Uint8Array.prototype;
     Buffer.__proto__ = Uint8Array;
+    if (typeof Symbol !== 'undefined' && Symbol.species &&
+        Buffer[Symbol.species] === Buffer) ;
   }
 
   function assertSize (size) {
@@ -10456,28 +10468,6 @@
 
   var utils$3 = {};
 
-  let urlAlphabet =
-    'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict';
-  let customAlphabet = (alphabet, defaultSize = 21) => {
-    return (size = defaultSize) => {
-      let id = '';
-      let i = size;
-      while (i--) {
-        id += alphabet[(Math.random() * alphabet.length) | 0];
-      }
-      return id
-    }
-  };
-  let nanoid = (size = 21) => {
-    let id = '';
-    let i = size;
-    while (i--) {
-      id += urlAlphabet[(Math.random() * 64) | 0];
-    }
-    return id
-  };
-  var nonSecure = { nanoid, customAlphabet };
-
   var he = {exports: {}};
 
   /*! https://mths.be/he v1.2.0 by @mathias | MIT license */
@@ -10831,8 +10821,6 @@
   /**
    * Module dependencies.
    */
-
-  const {nanoid} = nonSecure;
   var path = require$$1;
   var util = require$$0$1;
   var he$1 = he.exports;
@@ -11438,11 +11426,22 @@
     MOCHA_ID_PROP_NAME
   });
 
+  const uniqueIDBase =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
+
   /**
    * Creates a new unique identifier
+   * Does not create cryptographically safe ids.
+   * Trivial copy of nanoid/non-secure
    * @returns {string} Unique identifier
    */
-  exports.uniqueID = () => nanoid();
+  exports.uniqueID = () => {
+    let id = '';
+    for (let i = 0; i < 21; i++) {
+      id += uniqueIDBase[(Math.random() * 64) | 0];
+    }
+    return id;
+  };
 
   exports.assignNewMochaID = obj => {
     const id = exports.uniqueID();
@@ -12969,7 +12968,7 @@
    *
    * @memberof Mocha.Runnable
    * @public
-   * @return {string}
+   * @return {string[]}
    */
   Runnable$3.prototype.titlePath = function () {
     return this.parent.titlePath().concat([this.title]);
@@ -13712,7 +13711,7 @@
    *
    * @memberof Suite
    * @public
-   * @return {string}
+   * @return {string[]}
    */
   Suite.prototype.titlePath = function () {
     var result = [];
@@ -17296,7 +17295,7 @@
     runner.once(EVENT_RUN_END, function () {
       Base.cursor.show();
       for (var i = 0; i < self.numberOfLines; i++) {
-        write('\n');
+        process.stdout.write('\n');
       }
       self.epilogue();
     });
@@ -17332,15 +17331,15 @@
     var stats = this.stats;
 
     function draw(type, n) {
-      write(' ');
-      write(Base.color(type, n));
-      write('\n');
+      process.stdout.write(' ');
+      process.stdout.write(Base.color(type, n));
+      process.stdout.write('\n');
     }
 
     draw('green', stats.passes);
     draw('fail', stats.failures);
     draw('pending', stats.pending);
-    write('\n');
+    process.stdout.write('\n');
 
     this.cursorUp(this.numberOfLines);
   };
@@ -17374,9 +17373,9 @@
     var self = this;
 
     this.trajectories.forEach(function (line) {
-      write('\u001b[' + self.scoreboardWidth + 'C');
-      write(line.join(''));
-      write('\n');
+      process.stdout.write('\u001b[' + self.scoreboardWidth + 'C');
+      process.stdout.write(line.join(''));
+      process.stdout.write('\n');
     });
 
     this.cursorUp(this.numberOfLines);
@@ -17393,25 +17392,25 @@
     var dist = '\u001b[' + startWidth + 'C';
     var padding = '';
 
-    write(dist);
-    write('_,------,');
-    write('\n');
+    process.stdout.write(dist);
+    process.stdout.write('_,------,');
+    process.stdout.write('\n');
 
-    write(dist);
+    process.stdout.write(dist);
     padding = self.tick ? '  ' : '   ';
-    write('_|' + padding + '/\\_/\\ ');
-    write('\n');
+    process.stdout.write('_|' + padding + '/\\_/\\ ');
+    process.stdout.write('\n');
 
-    write(dist);
+    process.stdout.write(dist);
     padding = self.tick ? '_' : '__';
     var tail = self.tick ? '~' : '^';
-    write(tail + '|' + padding + this.face() + ' ');
-    write('\n');
+    process.stdout.write(tail + '|' + padding + this.face() + ' ');
+    process.stdout.write('\n');
 
-    write(dist);
+    process.stdout.write(dist);
     padding = self.tick ? ' ' : '  ';
-    write(padding + '""  "" ');
-    write('\n');
+    process.stdout.write(padding + '""  "" ');
+    process.stdout.write('\n');
 
     this.cursorUp(this.numberOfLines);
   };
@@ -17443,7 +17442,7 @@
    */
 
   NyanCat.prototype.cursorUp = function (n) {
-    write('\u001b[' + n + 'A');
+    process.stdout.write('\u001b[' + n + 'A');
   };
 
   /**
@@ -17454,7 +17453,7 @@
    */
 
   NyanCat.prototype.cursorDown = function (n) {
-    write('\u001b[' + n + 'B');
+    process.stdout.write('\u001b[' + n + 'B');
   };
 
   /**
@@ -17493,15 +17492,6 @@
     this.colorIndex += 1;
     return '\u001b[38;5;' + color + 'm' + str + '\u001b[0m';
   };
-
-  /**
-   * Stdout helper.
-   *
-   * @param {string} string A message to write to stdout.
-   */
-  function write(string) {
-    process.stdout.write(string);
-  }
 
   NyanCat.description = '"nyan cat"';
   }(nyan));
@@ -19076,7 +19066,7 @@
   };
 
   var name = "mocha";
-  var version = "10.2.0";
+  var version = "10.3.0";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
