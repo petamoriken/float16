@@ -93,7 +93,7 @@
     "nightwatch-saucelabs-endsauce": "^2.3.1",
     "nyc": "^15.1.0",
     "power-assert": "^1.4.2",
-    "rollup": "^4.10.0",
+    "rollup": "^4.11.0",
     "rollup-plugin-cleanup": "^3.2.1",
     "source-map-support": "^0.5.21"
   },
