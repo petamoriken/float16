@@ -563,12 +563,13 @@
   dependencies:
     "@types/node" "*"
 
-"@types/nightwatch@^2.3.30":
-  version "2.3.30"
-  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.30.tgz#bb342bf21bc6cd0a7134681523ba42eeefe73c4d"
-  integrity sha512-TiVGKR9mORwx0nN3ylonXp2IobpQoZxwV63IjABYkxsEpNauHL8GU9kmceEThjqDUigKaeh6aPOqepwC4bwCfA==
+"@types/nightwatch@^2.3.31":
+  version "2.3.31"
+  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.31.tgz#ea9093e12441303bfe5a06791438ff3ff2d0c215"
+  integrity sha512-DqkgFUNhIEbO09RfsRZtFdr2cOP1TbtNDHp0RUKiVYG0mIEBQfYGBtNCH8UWEuCspMD3yhqBd+WeBdsTzQpfHQ==
   dependencies:
     "@types/chai" "*"
+    "@types/node" "*"
     "@types/selenium-webdriver" "*"
     devtools-protocol "^0.0.1025565"
 
