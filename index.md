@@ -1,8 +1,8 @@
 # <a href="https://github.com/petamoriken/float16">float16</a>
 
 <p align="center">
-  IEEE 754 half-precision floating-point for JavaScript<br>
-  See <a href="https://esdiscuss.org/topic/float16array">the archive of the ES Discuss Float16Array topic</a> for details
+  IEEE 754 half-precision floating-point ponyfill for JavaScript<br>
+  See <a href="https://github.com/tc39/proposal-float16array">TC39 proposal</a> or <a href="https://esdiscuss.org/topic/float16array">the archive of the ES Discuss Float16Array topic</a> for details
 </p>
 
 <p align="center">
@@ -149,6 +149,9 @@ array.map((value) => value * 2);
 ```
 
 ### `isFloat16Array`
+
+> [!WARNING]
+> This API returns `false` for ECMAScript's native `Float16Array`
 
 `isFloat16Array` is a utility function to check whether the value given as an
 argument is an instance of `Float16Array` or not.
