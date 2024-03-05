@@ -1,14 +1,17 @@
 /* eslint-env node */
 
-import { inspect } from "node:util";
-
 /**
- * @example
+ * Custom inspect function for Node.js
+ *
  * ```
  * Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
  * ```
+ * @param {number} _deps
+ * @param {import("node:util").InspectOptions} options
+ * @param {import("node:util").inspect} inspect
+ * @returns {string}
  */
-export function customInspect(_deps, options) {
+export function customInspect(_deps, options, inspect) {
   const length = this.length;
 
   const array = [];

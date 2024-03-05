@@ -1,7 +1,8 @@
 import type { Float16Array } from "../index.d.ts";
 
 /**
- * @example
+ * Custom inspect function for Deno
+ *
  * ```
  * // deno-lint-ignore no-explicit-any
  * (Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;

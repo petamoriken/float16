@@ -2,15 +2,18 @@
 
 "use strict";
 
-const { inspect } = require("util");
-
 /**
- * @example
+ * Custom inspect function for Node.js
+ *
  * ```
  * Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
  * ```
+ * @param {number} _deps
+ * @param {import("node:util").InspectOptions} options
+ * @param {import("node:util").inspect} inspect
+ * @returns {string}
  */
-exports.customInspect = function customInspect(_deps, options) {
+exports.customInspect = function customInspect(_deps, options, inspect) {
   const length = this.length;
 
   const array = [];
