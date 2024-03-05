@@ -6,28 +6,13 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@petamoriken/float16">
-    <img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads">
-  </a>
-  <a href="https://www.jsdelivr.com/package/npm/@petamoriken/float16">
-    <img src="https://img.shields.io/jsdelivr/npm/hw/@petamoriken/float16?label=hits&amp;logo=jsDelivr&amp;style=flat-square" alt="jsDelivr hits">
-  </a>
-  <a href="https://www.npmjs.com/package/@petamoriken/float16">
-    <img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;logo=npm&amp;style=flat-square" alt="npm version">
-  </a>
-  <a href="https://deno.land/x/float16">
-    <img src="https://img.shields.io/github/v/tag/petamoriken/float16?label=version&amp;logo=deno&amp;style=flat-square" alt="deno version">
-  </a>
+  <a href="https://www.npmjs.com/package/@petamoriken/float16"><img src="https://img.shields.io/npm/dw/@petamoriken/float16?logo=npm&amp;style=flat-square" alt="npm downloads"></a>
+  <a href="https://www.npmjs.com/package/@petamoriken/float16"><img src="https://img.shields.io/npm/v/@petamoriken/float16.svg?label=version&amp;logo=npm&amp;style=flat-square" alt="npm version"></a>
+  <a href="https://jsr.io/@petamoriken/float16"><img src="https://jsr.io/badges/@petamoriken/float16?label=version&amp;style=flat-square" alt="jsr version"></a>
   <br>
-  <a href="https://github.com/petamoriken/float16/blob/master/package.json">
-    <img src="https://img.shields.io/badge/dependencies-none-brightgreen?style=flat-square" alt="dependencies">
-  </a>
-  <a href="https://github.com/petamoriken/float16/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license">
-  </a>
-  <a href="https://codecov.io/gh/petamoriken/float16">
-    <img src="https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&amp;style=flat-square" alt="codecov">
-  </a>
+  <a href="https://github.com/petamoriken/float16/blob/master/package.json"><img src="https://img.shields.io/badge/dependencies-none-brightgreen?style=flat-square" alt="dependencies"></a>
+  <a href="https://github.com/petamoriken/float16/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/@petamoriken/float16.svg?style=flat-square" alt="license"></a>
+  <a href="https://codecov.io/gh/petamoriken/float16"><img src="https://img.shields.io/codecov/c/gh/petamoriken/float16?logo=codecov&amp;style=flat-square" alt="codecov"></a>
 </p>
 
 <p align="center">
@@ -44,8 +29,10 @@
 npm install @petamoriken/float16
 ```
 
+### Deno
+
 ```console
-yarn add @petamoriken/float16
+deno add @petamoriken/float16
 ```
 
 ### Bun
@@ -56,37 +43,14 @@ bun add @petamoriken/float16
 
 ## Import
 
-### Node.js, Bun or Bundler (webpack, rollup.js, esbuild, etc)
+### Node.js, Deno, Bun or Bundler
 
 ```js
-// ES Modules
 import {
   Float16Array, isFloat16Array, isTypedArray,
   getFloat16, setFloat16,
   f16round,
 } from "@petamoriken/float16";
-```
-
-```js
-// CommonJS
-const {
-  Float16Array, isFloat16Array, isTypedArray,
-  getFloat16, setFloat16,
-  f16round,
-} = require("@petamoriken/float16");
-```
-
-### Deno
-
-You can get modules from the [deno.land/x](https://deno.land/x/float16) hosting
-service.
-
-```ts
-import {
-  Float16Array, isFloat16Array, isTypedArray,
-  getFloat16, setFloat16,
-  f16round,
-} from "https://deno.land/x/float16/mod.ts";
 ```
 
 ### Browser
@@ -164,7 +128,6 @@ environments:
 - Node.js: Active LTS
 - Firefox: last 2 versions and ESR
 - Chrome: last 2 versions
-- Edge: last 2 versions
 - Safari: last 2 versions
 
 ## API
@@ -346,17 +309,8 @@ f16round(1.337); // 1.3369140625
   ### Node.js
 
   ```js
-  // ES Modules
   import { Float16Array } from "@petamoriken/float16";
   import { customInspect } from "@petamoriken/float16/inspect";
-
-  Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
-  ```
-
-  ```js
-  // CommonJS
-  const { Float16Array } = require("@petamoriken/float16");
-  const { customInspect } = require("@petamoriken/float16/inspect");
 
   Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
   ```

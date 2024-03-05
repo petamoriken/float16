@@ -89,20 +89,6 @@ module.exports = {
       },
     },
 
-    edge: {
-      desiredCapabilities: {
-        browserName: "MicrosoftEdge",
-        browserVersion: "latest",
-      },
-    },
-
-    edge_old: {
-      desiredCapabilities: {
-        browserName: "MicrosoftEdge",
-        browserVersion: "latest-1",
-      },
-    },
-
     safari: {
       desiredCapabilities: {
         browserName: "safari",

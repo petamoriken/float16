@@ -69,7 +69,7 @@
     "refresh": "yarn run clean && yarn run build && yarn run docs",
     "setup-test-browser": "http-server docs/test -p 8000 > /dev/null 2>&1 &",
     "test": "mocha test/*.js",
-    "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,edge,edge_old,safari",
+    "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,safari,safari_old",
     "version": "NPM_VERSION_SCRIPT=1 yarn run refresh"
   },
   "devDependencies": {
