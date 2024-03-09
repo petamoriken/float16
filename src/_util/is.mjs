@@ -61,6 +61,8 @@ export function isNativeBigIntTypedArray(value) {
  */
 function isArrayBuffer(value) {
   try {
+    // ArrayBuffers are never arrays
+    if (Array.isArray(value)) return false;
     ArrayBufferPrototypeGetByteLength(/** @type {any} */ (value));
     return true;
   } catch (e) {
