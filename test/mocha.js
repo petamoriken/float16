@@ -1,4 +1,4 @@
-// mocha@10.3.0 in javascript ES2018
+// mocha@10.4.0 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -14433,11 +14433,22 @@
       err = thrown2Error(err);
     }
 
-    try {
-      err.stack =
-        this.fullStackTrace || !err.stack ? err.stack : stackFilter(err.stack);
-    } catch (ignore) {
-      // some environments do not take kindly to monkeying with the stack
+    // Filter the stack traces
+    if (!this.fullStackTrace) {
+      const alreadyFiltered = new Set();
+      let currentErr = err;
+
+      while (currentErr && currentErr.stack && !alreadyFiltered.has(currentErr)) {
+        alreadyFiltered.add(currentErr);
+
+        try {
+          currentErr.stack = stackFilter(currentErr.stack);
+        } catch (ignore) {
+          // some environments do not take kindly to monkeying with the stack
+        }
+
+        currentErr = currentErr.cause;
+      }
     }
 
     this.emit(constants$1.EVENT_TEST_FAIL, test, err);
@@ -15469,6 +15480,56 @@
   });
 
   /**
+   * Traverses err.cause and returns all stack traces
+   *
+   * @private
+   * @param {Error} err
+   * @param {Set<Error>} [seen]
+   * @return {FullErrorStack}
+   */
+  var getFullErrorStack = function (err, seen) {
+    if (seen && seen.has(err)) {
+      return { message: '', msg: '<circular>', stack: '' };
+    }
+
+    var message;
+
+    if (typeof err.inspect === 'function') {
+      message = err.inspect() + '';
+    } else if (err.message && typeof err.message.toString === 'function') {
+      message = err.message + '';
+    } else {
+      message = '';
+    }
+
+    var msg;
+    var stack = err.stack || message;
+    var index = message ? stack.indexOf(message) : -1;
+
+    if (index === -1) {
+      msg = message;
+    } else {
+      index += message.length;
+      msg = stack.slice(0, index);
+      // remove msg from stack
+      stack = stack.slice(index + 1);
+
+      if (err.cause) {
+        seen = seen || new Set();
+        seen.add(err);
+        const causeStack = getFullErrorStack(err.cause, seen);
+        stack += '\n   Caused by: ' + causeStack.msg + (causeStack.stack ? '\n' + causeStack.stack : '');
+      }
+    }
+
+    return {
+      message,
+      msg,
+      stack
+    };
+  };
+
+  /**
    * Outputs the given `failures` as a list.
    *
    * @public
@@ -15488,7 +15549,6 @@
         color('error stack', '\n%s\n');
 
       // msg
-      var msg;
       var err;
       if (test.err && test.err.multiple) {
         if (multipleTest !== test) {
@@ -15499,25 +15559,8 @@
       } else {
         err = test.err;
       }
-      var message;
-      if (typeof err.inspect === 'function') {
-        message = err.inspect() + '';
-      } else if (err.message && typeof err.message.toString === 'function') {
-        message = err.message + '';
-      } else {
-        message = '';
-      }
-      var stack = err.stack || message;
-      var index = message ? stack.indexOf(message) : -1;
 
-      if (index === -1) {
-        msg = message;
-      } else {
-        index += message.length;
-        msg = stack.slice(0, index);
-        // remove msg from stack
-        stack = stack.slice(index + 1);
-      }
+      var { message, msg, stack } = getFullErrorStack(err);
 
       // uncaught
       if (err.uncaught) {
@@ -15795,6 +15838,15 @@
   Base.consoleLog = consoleLog;
 
   Base.abstract = true;
+
+  /**
+   * An object with all stack traces recursively mounted from each err.cause
+   * @memberof module:lib/reporters/base
+   * @typedef {Object} FullErrorStack
+   * @property {string} message
+   * @property {string} msg
+   * @property {string} stack
+   */
   }(base$1, base$1.exports));
 
   var dot = {exports: {}};
@@ -17658,6 +17710,7 @@
     var attrs = {
       classname: test.parent.fullTitle(),
       name: test.title,
+      file: test.file,
       time: test.duration / 1000 || 0
     };
 
@@ -19066,7 +19119,7 @@
   };
 
   var name = "mocha";
-  var version = "10.3.0";
+  var version = "10.4.0";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
