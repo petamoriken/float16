@@ -31,6 +31,9 @@ npm install @petamoriken/float16
 
 ### Deno
 
+> [!NOTE]
+> `Float16Array`, `DataView` methods for reading and setting float16 values, and `Math.f16round` are supported since Deno v1.43.
+
 ```console
 deno add @petamoriken/float16
 ```
