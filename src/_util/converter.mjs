@@ -75,7 +75,7 @@ for (let i = 0; i < 256; ++i) {
   const e = i - 127;
 
   // very small number (0, -0)
-  if (e < -27) {
+  if (e < -24) {
     baseTable[i]         = 0x0000;
     baseTable[i | 0x100] = 0x8000;
     shiftTable[i]         = 24;
