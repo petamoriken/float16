@@ -5,10 +5,12 @@
     ".": "./mod.ts",
     "./inspect": "./inspect/node.mjs"
   },
-  "include": [
-    "src/",
-    "inspect/node.mjs",
-    "index.d.ts",
-    "mod.ts"
-  ]
+  "publish": {
+    "include": [
+      "src",
+      "inspect/node.mjs",
+      "index.d.ts",
+      "mod.ts"
+    ]
+  }
 }
