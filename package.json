@@ -72,7 +72,7 @@
     "test-browser": "nightwatch -e chrome,chrome_old,firefox,firefox_old,firefox_esr,safari,safari_old"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.6",
+    "@babel/cli": "^7.24.7",
     "@babel/core": "^7.24.7",
     "@babel/plugin-transform-modules-commonjs": "^7.24.7",
     "@types/nightwatch": "^2.3.31",
