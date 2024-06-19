@@ -77,7 +77,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.24.7",
     "@types/nightwatch": "^2.3.31",
     "babel-plugin-replace-import-extension": "^1.1.4",
-    "browserslist": "^4.23.0",
+    "browserslist": "^4.23.1",
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
