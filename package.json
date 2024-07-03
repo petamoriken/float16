@@ -87,7 +87,7 @@
     "exorcist": "^2.0.0",
     "find-unused-exports": "^5.0.0",
     "http-server": "^14.1.1",
-    "mocha": "^10.5.2",
+    "mocha": "^10.6.0",
     "nightwatch": "^3.6.3",
     "nightwatch-saucelabs-endsauce": "^2.4.0",
     "nyc": "^17.0.0",
