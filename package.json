@@ -78,7 +78,7 @@
     "@types/nightwatch": "^2.3.31",
     "babel-plugin-replace-import-extension": "^1.1.4",
     "browserslist": "^4.23.3",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-jsdoc": "^50.2.2",
