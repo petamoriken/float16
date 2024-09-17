@@ -228,6 +228,11 @@
     "@babel/helper-validator-identifier" "^7.24.7"
     to-fast-properties "^2.0.0"
 
+"@bazel/runfiles@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@bazel/runfiles/-/runfiles-5.8.1.tgz#737d5b3dc9739767054820265cfe432a80564c82"
+  integrity sha512-NDdfpdQ6rZlylgv++iMn5FkObC/QlBQvipinGLSOguTYpRywmieOyJ29XHvUilspwTFSILWpoE9CqMGkHXug1g==
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
@@ -3889,10 +3894,10 @@ nightwatch-saucelabs-endsauce@^2.4.0:
   dependencies:
     saucelabs "^7.5.0"
 
-nightwatch@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-3.7.0.tgz#2942a3a2960afe50cf7be1b074b46679db1cf1e5"
-  integrity sha512-KtMXBbs3eEdPDZ7fuKmk+upBD0IT8u9XVikigJQFjHKKpWfKQSXDXZ4umIT6OM6yWLnGwvab7PwZp2xfdmZPww==
+nightwatch@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-3.8.0.tgz#e841252c9920616eb5c0b4cdb92256f9a541fd08"
+  integrity sha512-aO2u05Tbc+RIfUESa0k+3SKByxoiOKDqTiJWk/B5GU//ZfhJE/EYT+NKB/drkKRUAh8tvD3O47aPWTXTAwaqZA==
   dependencies:
     "@nightwatch/chai" "5.0.3"
     "@nightwatch/html-reporter-template" "^0.3.0"
@@ -3922,7 +3927,7 @@ nightwatch@^3.7.0:
     open "8.4.2"
     ora "5.4.1"
     piscina "^4.3.1"
-    selenium-webdriver "4.22.0"
+    selenium-webdriver "4.24.1"
     semver "7.5.4"
     stacktrace-parser "0.1.10"
     strip-ansi "6.0.1"
@@ -4824,14 +4829,15 @@ secure-compare@3.0.1:
   resolved "https://registry.yarnpkg.com/secure-compare/-/secure-compare-3.0.1.tgz#f1a0329b308b221fae37b9974f3d578d0ca999e3"
   integrity sha512-AckIIV90rPDcBcglUwXPF3kg0P0qmPsPXAj6BBEENQE1p5yA1xfmDJzfi1Tappj37Pv2mVbKpL3Z1T+Nn7k1Qw==
 
-selenium-webdriver@4.22.0:
-  version "4.22.0"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.22.0.tgz#da9426aed5004ef16532010224b41a3a8b8dd132"
-  integrity sha512-GNbrkCHmy249ai885wgXqTfqL2lZnclUH/P8pwTDIqzyFxU3YhDiN7p/c9tMFA4NhgRdEBO2QCG+CWmG7xr/Mw==
+selenium-webdriver@4.24.1:
+  version "4.24.1"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.24.1.tgz#4315214420cc26dddaa21ae26863dd452aec2829"
+  integrity sha512-fcK5BTI/54cSqIhiVtrd9li1YL6LW109yIwuVw6V+FlVE6y4riGiX2qdZxVzHq+sm2TJyps+D2sjzXrpDZe1Og==
   dependencies:
+    "@bazel/runfiles" "^5.8.1"
     jszip "^3.10.1"
     tmp "^0.2.3"
-    ws ">=8.16.0"
+    ws "^8.18.0"
 
 semver@7.5.4:
   version "7.5.4"
@@ -5758,12 +5764,7 @@ write-file-atomic@^3.0.0:
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
 
-ws@>=8.16.0:
-  version "8.17.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.17.1.tgz#9293da530bb548febc95371d90f9c878727d919b"
-  integrity sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==
-
-ws@^8.17.0:
+ws@^8.17.0, ws@^8.18.0:
   version "8.18.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.0.tgz#0d7505a6eafe2b0e712d232b42279f53bc289bbc"
   integrity sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==
