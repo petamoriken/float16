@@ -599,10 +599,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/nightwatch@^2.3.31":
-  version "2.3.31"
-  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.31.tgz#ea9093e12441303bfe5a06791438ff3ff2d0c215"
-  integrity sha512-DqkgFUNhIEbO09RfsRZtFdr2cOP1TbtNDHp0RUKiVYG0mIEBQfYGBtNCH8UWEuCspMD3yhqBd+WeBdsTzQpfHQ==
+"@types/nightwatch@^2.3.32":
+  version "2.3.32"
+  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.32.tgz#8bb372da8deac9d1d222da83cefcb50e852bf011"
+  integrity sha512-RXAWpe83AERF0MbRHXaEJlMQGDtA6BW5sgbn2jO0z04yzbxc4gUvzaJwHpGULBSa2QKUHfBZoLwe/tuQx0PWLg==
   dependencies:
     "@types/chai" "*"
     "@types/node" "*"
