@@ -79,7 +79,7 @@
     "babel-plugin-replace-import-extension": "^1.1.4",
     "browserslist": "^4.24.0",
     "concurrently": "^9.0.1",
-    "eslint": "^8.57.1",
+    "eslint": "^9.12.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^50.4.1",
     "espower-cli": "^1.1.0",
