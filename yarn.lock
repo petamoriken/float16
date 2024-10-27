@@ -2430,10 +2430,10 @@ find-cache-dir@^3.2.0:
     make-dir "^3.0.2"
     pkg-dir "^4.1.0"
 
-find-unused-exports@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/find-unused-exports/-/find-unused-exports-7.1.0.tgz#0e5eddde34fd2c1e280be00c55ef30f6f87a2d5c"
-  integrity sha512-5dPEiyCFzLcSQ8P5e6ZO4NGnvEz1rpX97VFQzgE1wdEMl7uAyaaqFJg4szxwH1L55X+g6qzYp4BC+CWe6YCGxA==
+find-unused-exports@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/find-unused-exports/-/find-unused-exports-7.1.1.tgz#8036fc6b573a4cb76b05eddf83b0d8d8fd9d460c"
+  integrity sha512-vr8llp+VmD3/+SvjPoGzo/SyzJGeYFBSjOaQex2hvAomfzB4ke9BEUXc6lR+CjG5xd+SSvWylFhhdCctGzeV0g==
   dependencies:
     "@babel/core" "^7.25.7"
     "@import-maps/resolve" "^2.0.0"
