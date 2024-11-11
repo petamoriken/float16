@@ -187,10 +187,10 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
-"@bazel/runfiles@^5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@bazel/runfiles/-/runfiles-5.8.1.tgz#737d5b3dc9739767054820265cfe432a80564c82"
-  integrity sha512-NDdfpdQ6rZlylgv++iMn5FkObC/QlBQvipinGLSOguTYpRywmieOyJ29XHvUilspwTFSILWpoE9CqMGkHXug1g==
+"@bazel/runfiles@^6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@bazel/runfiles/-/runfiles-6.3.1.tgz#3f8824b2d82853377799d42354b4df78ab0ace0b"
+  integrity sha512-1uLNT5NZsUVIGS4syuHwTzZ8HycMPyr6POA3FCE4GbMtc4rhoJk8aZKtNIRthJYfL+iioppi+rTfH3olMPr9nA==
 
 "@colors/colors@1.5.0":
   version "1.5.0"
@@ -3840,10 +3840,10 @@ nightwatch-saucelabs-endsauce@^2.4.0:
   dependencies:
     saucelabs "^7.5.0"
 
-nightwatch@^3.8.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-3.8.1.tgz#ebbd6414e59c83907d7ae7a8b6f4d4c2d0343058"
-  integrity sha512-M+7uXE2JKOXk5IEIT4xru3EZwqh/bzvpEejmVke7UyV2W8z3BZUOWEStr4FLQc9WItn5vbb5FkU3AK1dNRAx9g==
+nightwatch@^3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-3.9.0.tgz#31e71cf14ace22f05f962e9ea06487a65b76e3dc"
+  integrity sha512-SIkcvRXtGtPy33fodtZC4xDUXKY444dfYvyiODB2sP1M4Ewt7KqE+cxdPuGY0qr+Hsb982KhOnjDUjhSSaX+AA==
   dependencies:
     "@nightwatch/chai" "5.0.3"
     "@nightwatch/html-reporter-template" "^0.3.0"
@@ -3873,7 +3873,7 @@ nightwatch@^3.8.1:
     open "8.4.2"
     ora "5.4.1"
     piscina "^4.3.1"
-    selenium-webdriver "4.24.1"
+    selenium-webdriver "4.26.0"
     semver "7.5.4"
     stacktrace-parser "0.1.10"
     strip-ansi "6.0.1"
@@ -4777,12 +4777,12 @@ secure-compare@3.0.1:
   resolved "https://registry.yarnpkg.com/secure-compare/-/secure-compare-3.0.1.tgz#f1a0329b308b221fae37b9974f3d578d0ca999e3"
   integrity sha512-AckIIV90rPDcBcglUwXPF3kg0P0qmPsPXAj6BBEENQE1p5yA1xfmDJzfi1Tappj37Pv2mVbKpL3Z1T+Nn7k1Qw==
 
-selenium-webdriver@4.24.1:
-  version "4.24.1"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.24.1.tgz#4315214420cc26dddaa21ae26863dd452aec2829"
-  integrity sha512-fcK5BTI/54cSqIhiVtrd9li1YL6LW109yIwuVw6V+FlVE6y4riGiX2qdZxVzHq+sm2TJyps+D2sjzXrpDZe1Og==
+selenium-webdriver@4.26.0:
+  version "4.26.0"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.26.0.tgz#23163cdad20388214a4ad17c1f38262a0857c902"
+  integrity sha512-nA7jMRIPV17mJmAiTDBWN96Sy0Uxrz5CCLb7bLVV6PpL417SyBMPc2Zo/uoREc2EOHlzHwHwAlFtgmSngSY4WQ==
   dependencies:
-    "@bazel/runfiles" "^5.8.1"
+    "@bazel/runfiles" "^6.3.1"
     jszip "^3.10.1"
     tmp "^0.2.3"
     ws "^8.18.0"
