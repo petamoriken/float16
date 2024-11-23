@@ -32,7 +32,8 @@ npm install @petamoriken/float16
 ### Deno
 
 > [!NOTE]
-> float16 features are supported since [Deno v1.43](https://deno.com/blog/v1.43#v8-124).
+> Native float16 features are supported since
+> [Deno v1.43](https://deno.com/blog/v1.43#v8-124).
 
 ```console
 deno add @petamoriken/float16
@@ -41,7 +42,8 @@ deno add @petamoriken/float16
 ### Bun
 
 > [!NOTE]
-> float16 features are supported since [Bun v1.1.23](https://bun.sh/blog/bun-v1.1.23#float16array).
+> Native float16 features are supported since
+> [Bun v1.1.23](https://bun.sh/blog/bun-v1.1.23#float16array).
 
 ```console
 bun add @petamoriken/float16
