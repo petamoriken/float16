@@ -1,4 +1,4 @@
-// mocha@10.7.0 in javascript ES2018
+// mocha@10.8.2 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -11638,7 +11638,9 @@
 
       seen.add(obj);
       for (const k in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+        const descriptor = Object.getOwnPropertyDescriptor(obj, k);
+
+        if (descriptor && descriptor.writable) {
           obj[k] = _breakCircularDeps(obj[k]);
         }
       }
@@ -16729,11 +16731,12 @@
   module.exports = HTML;
 
   /**
-   * Stats template.
+   * Stats template: Result, progress, passes, failures, and duration.
    */
 
   var statsTemplate =
     '<ul id="mocha-stats">' +
+    '<li class="result"></li>' +
     '<li class="progress-contain"><progress class="progress-element" max="100" value="0"></progress><svg class="progress-ring"><circle class="ring-flatlight" stroke-dasharray="100%,0%"/><circle class="ring-highlight" stroke-dasharray="0%,100%"/></svg><div class="progress-text">0%</div></li>' +
     '<li class="passes"><a href="javascript:void(0);">passes:</a> <em>0</em></li>' +
     '<li class="failures"><a href="javascript:void(0);">failures:</a> <em>0</em></li>' +
@@ -16759,18 +16762,35 @@
     var stats = this.stats;
     var stat = fragment(statsTemplate);
     var items = stat.getElementsByTagName('li');
-    var passes = items[1].getElementsByTagName('em')[0];
-    var passesLink = items[1].getElementsByTagName('a')[0];
-    var failures = items[2].getElementsByTagName('em')[0];
-    var failuresLink = items[2].getElementsByTagName('a')[0];
-    var duration = items[3].getElementsByTagName('em')[0];
+    const resultIndex = 0;
+    const progressIndex = 1;
+    const passesIndex = 2;
+    const failuresIndex = 3;
+    const durationIndex = 4;
+    /** Stat item containing the root suite pass or fail indicator (hasFailures ? '✖' : '✓') */
+    var resultIndicator = items[resultIndex];
+    /** Passes text and count */
+    const passesStat = items[passesIndex];
+    /** Stat item containing the pass count (not the word, just the number) */
+    const passesCount = passesStat.getElementsByTagName('em')[0];
+    /** Stat item linking to filter to show only passing tests */
+    const passesLink = passesStat.getElementsByTagName('a')[0];
+    /** Failures text and count */
+    const failuresStat = items[failuresIndex];
+    /** Stat item containing the failure count (not the word, just the number) */
+    const failuresCount = failuresStat.getElementsByTagName('em')[0];
+    /** Stat item linking to filter to show only failing tests */
+    const failuresLink = failuresStat.getElementsByTagName('a')[0];
+    /** Stat item linking to the duration time (not the word or unit, just the number) */
+    var duration = items[durationIndex].getElementsByTagName('em')[0];
     var report = fragment('<ul id="mocha-report"></ul>');
     var stack = [report];
-    var progressText = items[0].getElementsByTagName('div')[0];
-    var progressBar = items[0].getElementsByTagName('progress')[0];
+    var progressText = items[progressIndex].getElementsByTagName('div')[0];
+    var progressBar = items[progressIndex].getElementsByTagName('progress')[0];
     var progressRing = [
-      items[0].getElementsByClassName('ring-flatlight')[0],
-      items[0].getElementsByClassName('ring-highlight')[0]];
+      items[progressIndex].getElementsByClassName('ring-flatlight')[0],
+      items[progressIndex].getElementsByClassName('ring-highlight')[0]
+    ];
     var root = document.getElementById('mocha');
 
     if (!root) {
@@ -16823,6 +16843,10 @@
 
     runner.on(EVENT_SUITE_END, function (suite) {
       if (suite.root) {
+        if (stats.failures === 0) {
+          text(resultIndicator, '✓');
+          stat.className += ' pass';
+        }
         updateStats();
         return;
       }
@@ -16843,6 +16867,10 @@
     });
 
     runner.on(EVENT_TEST_FAIL, function (test) {
+      // Update stat items
+      text(resultIndicator, '✖');
+      stat.className += ' fail';
+
       var el = fragment(
         '<li class="test fail"><h2>%e <a href="%e" class="replay">' +
           playIcon +
@@ -16915,7 +16943,6 @@
     }
 
     function updateStats() {
-      // TODO: add to stats
       var percent = ((stats.tests / runner.total) * 100) | 0;
       progressBar.value = percent;
       if (progressText) {
@@ -16941,8 +16968,8 @@
 
       // update stats
       var ms = new Date() - stats.start;
-      text(passes, stats.passes);
-      text(failures, stats.failures);
+      text(passesCount, stats.passes);
+      text(failuresCount, stats.failures);
       text(duration, (ms / 1000).toFixed(2));
     }
   }
@@ -16956,16 +16983,16 @@
   function makeUrl(s) {
     var search = window.location.search;
 
-    // Remove previous grep query parameter if present
+    // Remove previous {grep, fgrep, invert} query parameters if present
     if (search) {
-      search = search.replace(/[?&]grep=[^&\s]*/g, '').replace(/^&/, '?');
+      search = search.replace(/[?&](?:f?grep|invert)=[^&\s]*/g, '').replace(/^&/, '?');
     }
 
     return (
       window.location.pathname +
       (search ? search + '&' : '?') +
       'grep=' +
-      encodeURIComponent(escapeRe(s))
+      encodeURIComponent(s)
     );
   }
 
@@ -16975,7 +17002,7 @@
    * @param {Object} [suite]
    */
   HTML.prototype.suiteURL = function (suite) {
-    return makeUrl(suite.fullTitle());
+    return makeUrl('^' + escapeRe(suite.fullTitle()) + ' ');
   };
 
   /**
@@ -16984,7 +17011,7 @@
    * @param {Object} [test]
    */
   HTML.prototype.testURL = function (test) {
-    return makeUrl(test.fullTitle());
+    return makeUrl('^' + escapeRe(test.fullTitle()) + '$');
   };
 
   /**
@@ -19174,7 +19201,7 @@
   };
 
   var name = "mocha";
-  var version = "10.7.0";
+  var version = "10.8.2";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
