@@ -10,6 +10,8 @@
       "src",
       "inspect/node.mjs",
       "index.d.ts",
+      "index.v5.6.d.ts",
+      "index.v5.7.d.ts",
       "mod.ts"
     ]
   }

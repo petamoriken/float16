@@ -398,22 +398,22 @@ export interface Float16Array {
 
   [index: number]: number;
 
-  [Symbol.iterator](): IterableIterator<number>;
+  [Symbol.iterator](): ArrayIterator<number>;
 
   /**
    * Returns an array of key, value pairs for every entry in the array
    */
-  entries(): IterableIterator<[number, number]>;
+  entries(): ArrayIterator<[number, number]>;
 
   /**
    * Returns an list of keys in the array
    */
-  keys(): IterableIterator<number>;
+  keys(): ArrayIterator<number>;
 
   /**
    * Returns an list of values in the array
    */
-  values(): IterableIterator<number>;
+  values(): ArrayIterator<number>;
 
   readonly [Symbol.toStringTag]: "Float16Array";
 }

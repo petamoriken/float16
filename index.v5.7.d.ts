@@ -2,7 +2,9 @@
  * A typed array of 16-bit float values. The contents are initialized to 0. If the requested number
  * of bytes could not be allocated an exception is raised.
  */
-export interface Float16Array {
+export interface Float16Array<
+  TArrayBuffer extends ArrayBufferLike = ArrayBufferLike,
+> {
   /**
    * The size in bytes of each element in the array.
    */
@@ -11,7 +13,7 @@ export interface Float16Array {
   /**
    * The ArrayBuffer instance referenced by the array.
    */
-  readonly buffer: ArrayBufferLike;
+  readonly buffer: TArrayBuffer;
 
   /**
    * The length in bytes of the array.
@@ -73,7 +75,7 @@ export interface Float16Array {
   filter(
     predicate: (value: number, index: number, array: this) => any,
     thisArg?: any,
-  ): Float16Array;
+  ): Float16Array<ArrayBuffer>;
 
   /**
    * Returns the value of the first element in the array where predicate is true, and undefined
@@ -170,7 +172,7 @@ export interface Float16Array {
    * Returns the index of the first occurrence of a value in an array.
    * @param searchElement The value to locate in the array.
    * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the
-   *  search starts at index 0.
+   * search starts at index 0.
    */
   indexOf(searchElement: number, fromIndex?: number): number;
 
@@ -205,7 +207,7 @@ export interface Float16Array {
   map(
     callbackfn: (value: number, index: number, array: this) => number,
     thisArg?: any,
-  ): Float16Array;
+  ): Float16Array<ArrayBuffer>;
 
   /**
    * Calls the specified callback function for all the elements in an array. The return value of
@@ -320,7 +322,7 @@ export interface Float16Array {
    * @param start The beginning of the specified portion of the array.
    * @param end The end of the specified portion of the array. This is exclusive of the element at the index 'end'.
    */
-  slice(start?: number, end?: number): Float16Array;
+  slice(start?: number, end?: number): Float16Array<ArrayBuffer>;
 
   /**
    * Determines whether the specified callback function returns true for any element of an array.
@@ -352,7 +354,7 @@ export interface Float16Array {
    * @param begin The index of the beginning of the array.
    * @param end The index of the end of the array.
    */
-  subarray(begin?: number, end?: number): Float16Array;
+  subarray(begin?: number, end?: number): Float16Array<TArrayBuffer>;
 
   /**
    * Converts a number to a string by using the current locale.
@@ -365,7 +367,7 @@ export interface Float16Array {
   /**
    * Copies the array and returns the copy with the elements in reverse order.
    */
-  toReversed(): Float16Array;
+  toReversed(): Float16Array<ArrayBuffer>;
 
   /**
    * Copies and sorts the array.
@@ -377,7 +379,9 @@ export interface Float16Array {
    * myNums.toSorted((a, b) => a - b) // Float16Array(4) [-22.5, 1, 2, 11.5]
    * ```
    */
-  toSorted(compareFn?: (a: number, b: number) => number): Float16Array;
+  toSorted(
+    compareFn?: (a: number, b: number) => number,
+  ): Float16Array<ArrayBuffer>;
 
   /**
    * Returns a string representation of an array.
@@ -394,39 +398,39 @@ export interface Float16Array {
    * @param value The value to insert into the copied array.
    * @returns A copy of the original array with the inserted value.
    */
-  with(index: number, value: number): Float16Array;
+  with(index: number, value: number): Float16Array<ArrayBuffer>;
 
   [index: number]: number;
 
-  [Symbol.iterator](): IterableIterator<number>;
+  [Symbol.iterator](): ArrayIterator<number>;
 
   /**
    * Returns an array of key, value pairs for every entry in the array
    */
-  entries(): IterableIterator<[number, number]>;
+  entries(): ArrayIterator<[number, number]>;
 
   /**
    * Returns an list of keys in the array
    */
-  keys(): IterableIterator<number>;
+  keys(): ArrayIterator<number>;
 
   /**
    * Returns an list of values in the array
    */
-  values(): IterableIterator<number>;
+  values(): ArrayIterator<number>;
 
   readonly [Symbol.toStringTag]: "Float16Array";
 }
 
 export interface Float16ArrayConstructor {
-  readonly prototype: Float16Array;
-  new (length?: number): Float16Array;
-  new (array: ArrayLike<number> | Iterable<number>): Float16Array;
-  new (
-    buffer: ArrayBufferLike,
+  readonly prototype: Float16Array<ArrayBufferLike>;
+  new (length?: number): Float16Array<ArrayBuffer>;
+  new (array: ArrayLike<number> | Iterable<number>): Float16Array<ArrayBuffer>;
+  new <TArrayBuffer extends ArrayBufferLike = ArrayBuffer>(
+    buffer: TArrayBuffer,
     byteOffset?: number,
     length?: number,
-  ): Float16Array;
+  ): Float16Array<TArrayBuffer>;
 
   /**
    * The size in bytes of each element in the array.
@@ -437,13 +441,13 @@ export interface Float16ArrayConstructor {
    * Returns a new array from a set of elements.
    * @param items A set of elements to include in the new array object.
    */
-  of(...items: number[]): Float16Array;
+  of(...items: number[]): Float16Array<ArrayBuffer>;
 
   /**
    * Creates an array from an array-like or iterable object.
    * @param arrayLike An array-like object to convert to an array.
    */
-  from(arrayLike: ArrayLike<number>): Float16Array;
+  from(arrayLike: ArrayLike<number>): Float16Array<ArrayBuffer>;
 
   /**
    * Creates an array from an array-like or iterable object.
@@ -455,13 +459,13 @@ export interface Float16ArrayConstructor {
     arrayLike: ArrayLike<T>,
     mapfn: (v: T, k: number) => number,
     thisArg?: any,
-  ): Float16Array;
+  ): Float16Array<ArrayBuffer>;
 
   /**
    * Creates an array from an array-like or iterable object.
    * @param elements An iterable object to convert to an array.
    */
-  from(elements: Iterable<number>): Float16Array;
+  from(elements: Iterable<number>): Float16Array<ArrayBuffer>;
 
   /**
    * Creates an array from an array-like or iterable object.
@@ -473,7 +477,7 @@ export interface Float16ArrayConstructor {
     elements: Iterable<T>,
     mapfn?: (v: T, k: number) => number,
     thisArg?: any,
-  ): Float16Array;
+  ): Float16Array<ArrayBuffer>;
 }
 export declare const Float16Array: Float16ArrayConstructor;
 
@@ -486,47 +490,50 @@ export declare const Float16Array: Float16ArrayConstructor;
 export declare function isFloat16Array(value: unknown): value is Float16Array;
 
 /**
- * Returns `true` if the value is a type of TypedArray instance that contains  Float16Array.
+ * Returns `true` if the value is a type of TypedArray instance that contains Float16Array.
+ *
  * @since v3.6.0
  */
 export declare function isTypedArray(
   value: unknown,
 ): value is
-  | Uint8Array
-  | Uint8ClampedArray
-  | Uint16Array
-  | Uint32Array
-  | Int8Array
-  | Int16Array
-  | Int32Array
-  | Float16Array
-  | Float32Array
-  | Float64Array
-  | BigUint64Array
-  | BigInt64Array;
+  | Uint8Array<ArrayBufferLike>
+  | Uint8ClampedArray<ArrayBufferLike>
+  | Uint16Array<ArrayBufferLike>
+  | Uint32Array<ArrayBufferLike>
+  | Int8Array<ArrayBufferLike>
+  | Int16Array<ArrayBufferLike>
+  | Int32Array<ArrayBufferLike>
+  | Float16Array<ArrayBufferLike>
+  | Float32Array<ArrayBufferLike>
+  | Float64Array<ArrayBufferLike>
+  | BigUint64Array<ArrayBufferLike>
+  | BigInt64Array<ArrayBufferLike>;
 
 /**
  * Gets the Float16 value at the specified byte offset from the start of the view. There is
  * no alignment constraint; multi-byte values may be fetched from any offset.
+ *
  * @param byteOffset The place in the buffer at which the value should be retrieved.
  * @param littleEndian If false or undefined, a big-endian value should be read,
  * otherwise a little-endian value should be read.
  */
 export declare function getFloat16(
-  dataView: DataView,
+  dataView: DataView<ArrayBufferLike>,
   byteOffset: number,
   littleEndian?: boolean,
 ): number;
 
 /**
  * Stores an Float16 value at the specified byte offset from the start of the view.
+ *
  * @param byteOffset The place in the buffer at which the value should be set.
  * @param value The value to set.
  * @param littleEndian If false or undefined, a big-endian value should be written,
  * otherwise a little-endian value should be written.
  */
 export declare function setFloat16(
-  dataView: DataView,
+  dataView: DataView<ArrayBufferLike>,
   byteOffset: number,
   value: number,
   littleEndian?: boolean,
@@ -534,12 +541,14 @@ export declare function setFloat16(
 
 /**
  * Returns the nearest half-precision float representation of a number.
+ *
  * @param x A numeric expression.
  */
 export declare function f16round(x: number): number;
 
 /**
  * Returns the nearest half-precision float representation of a number.
+ *
  * @alias f16round
  * @param x A numeric expression.
  */
