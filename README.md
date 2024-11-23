@@ -36,7 +36,7 @@ npm install @petamoriken/float16
 > [Deno v1.43](https://deno.com/blog/v1.43#v8-124).
 
 ```console
-deno add @petamoriken/float16
+deno add jsr:@petamoriken/float16
 ```
 
 ### Bun
@@ -317,8 +317,6 @@ f16round(1.337); // 1.3369140625
   <summary>Provides custom inspection for Node.js and Deno, which makes the results of <code>console.log</code> more readable.
   </summary>
 
-  ### Node.js
-
   ```js
   import { Float16Array } from "@petamoriken/float16";
   import { customInspect } from "@petamoriken/float16/inspect";
@@ -326,14 +324,12 @@ f16round(1.337); // 1.3369140625
   Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
   ```
 
-  ### Deno
-
   ```ts
-  import { Float16Array } from "https://deno.land/x/float16/mod.ts";
-  import { customInspect } from "https://deno.land/x/float16/inspect.ts";
+  import { Float16Array } from "@petamoriken/float16";
+  import { customInspect } from "@petamoriken/float16/inspect";
 
   // deno-lint-ignore no-explicit-any
-  (Float16Array.prototype as any)[Symbol.for("Deno.customInspect")] = customInspect;
+  (Float16Array.prototype as any)[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
   ```
 
 </details>
