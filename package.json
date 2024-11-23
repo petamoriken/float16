@@ -42,14 +42,24 @@
   "main": "./lib/index.cjs",
   "browser": "./browser/float16.js",
   "module": "./src/index.mjs",
-  "types": "index.d.ts",
+  "types": "./index.d.ts",
+  "typesVersions": {
+    ">=5.7": {
+      "index.d.ts": ["index.v5.7.d.ts"]
+    },
+    ">=5.6": {
+      "index.d.ts": ["index.v5.6.d.ts"]
+    }
+  },
   "files": [
     "src",
     "lib",
     "browser",
     "inspect/node.mjs",
     "inspect/node.cjs",
-    "index.d.ts"
+    "index.d.ts",
+    "index.v5.6.d.ts",
+    "index.v5.7.d.ts"
   ],
   "scripts": {
     "build": "concurrently \"yarn:build:*\"",
