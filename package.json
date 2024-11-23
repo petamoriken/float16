@@ -45,10 +45,14 @@
   "types": "./index.d.ts",
   "typesVersions": {
     ">=5.7": {
-      "index.d.ts": ["index.v5.7.d.ts"]
+      "index.d.ts": [
+        "index.v5.7.d.ts"
+      ]
     },
     ">=5.6": {
-      "index.d.ts": ["index.v5.6.d.ts"]
+      "index.d.ts": [
+        "index.v5.6.d.ts"
+      ]
     }
   },
   "files": [
@@ -86,6 +90,7 @@
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-modules-commonjs": "^7.25.9",
     "@types/nightwatch": "^2.3.32",
+    "@types/node": "^22.9.3",
     "babel-plugin-replace-import-extension": "^1.1.4",
     "browserslist": "^4.24.2",
     "concurrently": "^9.1.0",

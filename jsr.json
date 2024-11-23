@@ -2,17 +2,17 @@
   "name": "@petamoriken/float16",
   "version": "3.9.0",
   "exports": {
-    ".": "./mod.ts",
-    "./inspect": "./inspect/node.mjs"
+    ".": "./src/index.mjs",
+    "./inspect": "./inspect/node.ts"
   },
   "publish": {
     "include": [
       "src",
-      "inspect/node.mjs",
+      "inspect/node.ts",
       "index.d.ts",
       "index.v5.6.d.ts",
       "index.v5.7.d.ts",
-      "mod.ts"
+      "README.md"
     ]
   }
 }
