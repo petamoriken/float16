@@ -546,7 +546,7 @@
     "@types/node" "*"
     "@types/responselike" "^1.0.0"
 
-"@types/chai@*", "@types/chai@^4.3.5":
+"@types/chai@^4.3.5":
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.3.5.tgz#ae69bcbb1bebb68c4ac0b11e9d8ed04526b3562b"
   integrity sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==
@@ -573,15 +573,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/nightwatch@^2.3.32":
-  version "2.3.32"
-  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-2.3.32.tgz#8bb372da8deac9d1d222da83cefcb50e852bf011"
-  integrity sha512-RXAWpe83AERF0MbRHXaEJlMQGDtA6BW5sgbn2jO0z04yzbxc4gUvzaJwHpGULBSa2QKUHfBZoLwe/tuQx0PWLg==
+"@types/nightwatch@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/nightwatch/-/nightwatch-3.0.1.tgz#865a2243f6d23269fba0dbc36d899dfe4975a394"
+  integrity sha512-qIHzQTLHRTDVkRSk5zxEg0br4Gh3+9ZAvizBNL4/wlMF+aJMLNlfMRhTGl8NEaPkxBqTZ6T45XkdW64/uKKH+g==
   dependencies:
-    "@types/chai" "*"
-    "@types/node" "*"
-    "@types/selenium-webdriver" "*"
-    devtools-protocol "^0.0.1025565"
+    nightwatch "*"
 
 "@types/node@*":
   version "18.11.11"
@@ -602,7 +599,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/selenium-webdriver@*", "@types/selenium-webdriver@^4.1.14":
+"@types/selenium-webdriver@^4.1.14":
   version "4.1.15"
   resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-4.1.15.tgz#d346b674b96f5ba43f1ad5343f997030559e5b23"
   integrity sha512-oQ15G3q3EZ0dS049SB/5zx2tQkIS2kmDQWC/TSfAHJYKvXLZoUiLaPXnfSwbLP8Q5lcJeu5oYjKVSEV0t3H6Bg==
@@ -1668,11 +1665,6 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
   integrity sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==
-
-devtools-protocol@^0.0.1025565:
-  version "0.0.1025565"
-  resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.1025565.tgz#0b3da0d3714c556aad06b0ec60f4fde68a701a90"
-  integrity sha512-0s5sbGQR/EfYQhd8EpZgphpndsv+CufTlaeUyA6vYXCA0H5kMAsHCS/cHtUFWoKJCO125hpoKicQCfpxRj4oqw==
 
 devtools-protocol@^0.0.1140464:
   version "0.0.1140464"
@@ -3847,7 +3839,7 @@ nightwatch-saucelabs-endsauce@^2.4.0:
   dependencies:
     saucelabs "^7.5.0"
 
-nightwatch@^3.9.0:
+nightwatch@*, nightwatch@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-3.9.0.tgz#31e71cf14ace22f05f962e9ea06487a65b76e3dc"
   integrity sha512-SIkcvRXtGtPy33fodtZC4xDUXKY444dfYvyiODB2sP1M4Ewt7KqE+cxdPuGY0qr+Hsb982KhOnjDUjhSSaX+AA==
