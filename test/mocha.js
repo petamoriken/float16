@@ -1,4 +1,4 @@
-// mocha@10.8.2 in javascript ES2018
+// mocha@11.0.1 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -13771,7 +13771,7 @@
     var hook = this._createHook(title, fn);
     this._beforeAll.push(hook);
     this.emit(constants.EVENT_SUITE_ADD_HOOK_BEFORE_ALL, hook);
-    return this;
+    return hook;
   };
 
   /**
@@ -13795,7 +13795,7 @@
     var hook = this._createHook(title, fn);
     this._afterAll.push(hook);
     this.emit(constants.EVENT_SUITE_ADD_HOOK_AFTER_ALL, hook);
-    return this;
+    return hook;
   };
 
   /**
@@ -13819,7 +13819,7 @@
     var hook = this._createHook(title, fn);
     this._beforeEach.push(hook);
     this.emit(constants.EVENT_SUITE_ADD_HOOK_BEFORE_EACH, hook);
-    return this;
+    return hook;
   };
 
   /**
@@ -13843,7 +13843,7 @@
     var hook = this._createHook(title, fn);
     this._afterEach.push(hook);
     this.emit(constants.EVENT_SUITE_ADD_HOOK_AFTER_EACH, hook);
-    return this;
+    return hook;
   };
 
   /**
@@ -15296,11 +15296,11 @@
    * @public
    * @example
    * // this reporter needs proper object references when run in parallel mode
-   * class MyReporter() {
+   * class MyReporter {
    *   constructor(runner) {
-   *     this.runner.linkPartialObjects(true)
+   *     runner.linkPartialObjects(true)
    *       .on(EVENT_SUITE_BEGIN, suite => {
-             // this Suite may be the same object...
+   *         // this Suite may be the same object...
    *       })
    *       .on(EVENT_TEST_BEGIN, test => {
    *         // ...as the `test.parent` property
@@ -18593,7 +18593,7 @@
        * @param {Function} fn
        */
       before: function (name, fn) {
-        suites[0].beforeAll(name, fn);
+        return suites[0].beforeAll(name, fn);
       },
 
       /**
@@ -18603,7 +18603,7 @@
        * @param {Function} fn
        */
       after: function (name, fn) {
-        suites[0].afterAll(name, fn);
+        return suites[0].afterAll(name, fn);
       },
 
       /**
@@ -18613,7 +18613,7 @@
        * @param {Function} fn
        */
       beforeEach: function (name, fn) {
-        suites[0].beforeEach(name, fn);
+        return suites[0].beforeEach(name, fn);
       },
 
       /**
@@ -18623,7 +18623,7 @@
        * @param {Function} fn
        */
       afterEach: function (name, fn) {
-        suites[0].afterEach(name, fn);
+        return suites[0].afterEach(name, fn);
       },
 
       suite: {
@@ -19201,7 +19201,7 @@
   };
 
   var name = "mocha";
-  var version = "10.8.2";
+  var version = "11.0.1";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
