@@ -1,4 +1,4 @@
-// mocha@11.0.1 in javascript ES2018
+// mocha@11.1.0 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -11652,6 +11652,13 @@
 
     return _breakCircularDeps(inputObj);
   };
+
+  /**
+   * Checks if provided input can be parsed as a JavaScript Number.
+   */
+  exports.isNumeric = input => {
+    return !isNaN(parseFloat(input));
+  };
   }(utils$3));
 
   var _nodeResolve_empty = {};
@@ -19201,7 +19208,7 @@
   };
 
   var name = "mocha";
-  var version = "11.0.1";
+  var version = "11.1.0";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
@@ -19407,7 +19414,9 @@
       .ui(options.ui)
       .reporter(
         options.reporter,
-        options.reporterOption || options.reporterOptions // for backwards compatibility
+        options['reporter-option'] ||
+          options.reporterOption ||
+          options.reporterOptions // for backwards compatibility
       )
       .slow(options.slow)
       .global(options.global);
