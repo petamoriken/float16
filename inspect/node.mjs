@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 /**
- * Custom inspect function for Node.js
+ * Custom inspect function for Node.js, Deno, and Bun
  *
  * ```
  * Float16Array.prototype[Symbol.for("nodejs.util.inspect.custom")] = customInspect;
