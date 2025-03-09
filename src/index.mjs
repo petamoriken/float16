@@ -1,5 +1,5 @@
 /* ignore unused exports */
-// @ts-self-types="../index.v5.6.d.ts"
+// @ts-self-types="../index.v5.7.d.ts"
 
 export { Float16Array, isFloat16Array } from "./Float16Array.mjs";
 export { isTypedArray } from "./isTypedArray.mjs";
