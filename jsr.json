@@ -1,6 +1,6 @@
 {
   "name": "@petamoriken/float16",
-  "version": "3.9.1",
+  "version": "3.9.2",
   "exports": {
     ".": "./src/index.mjs",
     "./inspect": "./inspect/node.ts"
