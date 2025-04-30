@@ -15,10 +15,10 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@babel/cli@^7.27.0":
-  version "7.27.0"
-  resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.27.0.tgz#076603b25fc7dd88298ea94ab249c8237c7e71cc"
-  integrity sha512-bZfxn8DRxwiVzDO5CEeV+7IqXeCkzI4yYnrQbpwjT76CUyossQc6RYE7n+xfm0/2k40lPaCpW0FhxYs7EBAetw==
+"@babel/cli@^7.27.1":
+  version "7.27.1"
+  resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.27.1.tgz#699f03267f3fb6625b6de527cd8f2bda7f6371d9"
+  integrity sha512-uW6vyhrV/YB9f3QFyPX2sMmDTID853+f3rOsTvH9q/FsL+e40GKqdMy5fdnGBvXsk5WiWJuMhR6sl03/x+XqqA==
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.25"
     commander "^6.2.0"
