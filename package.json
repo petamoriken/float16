@@ -32,7 +32,7 @@
     ".": {
       "require": "./lib/index.cjs",
       "import": "./src/index.mjs",
-      "types": "./index.d.ts"
+      "types": "./index.v5.7.d.ts"
     },
     "./inspect": {
       "require": "./inspect/node.cjs",
