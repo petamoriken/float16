@@ -1,4 +1,4 @@
-// mocha@11.1.0 in javascript ES2018
+// mocha@11.2.2 in javascript ES2018
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -12980,8 +12980,10 @@
 
   var runnable = Runnable$3;
 
+  // "Additional properties" doc comment added for hosted docs (mochajs.org/api)
   /**
    * Initialize a new `Runnable` with the given `title` and callback `fn`.
+   * Additional properties, like `getFullTitle()` and `slow()`, can be viewed in the `Runnable` source.
    *
    * @class
    * @extends external:EventEmitter
@@ -14234,7 +14236,39 @@
 
   var constants$1 = utils$1.defineConstants(
     /**
-     * {@link Runner}-related constants.
+     * {@link Runner}-related constants. Used by reporters. Each event emits the corresponding object, unless otherwise indicated.
+     * @example
+     * const Mocha = require('mocha');
+     * const Base = Mocha.reporters.Base;
+     * const {
+     *   EVENT_HOOK_BEGIN,
+     *   EVENT_TEST_PASS,
+     *   EVENT_TEST_FAIL,
+     *   EVENT_TEST_END
+     * } = Mocha.Runner.constants
+     *
+     * function MyReporter(runner, options) {
+     *   Base.call(this, runner, options);
+     *
+     *   runner.on(EVENT_HOOK_BEGIN, function(hook) {
+     *     console.log('hook called: ', hook.title);
+     *   });
+     *
+     *   runner.on(EVENT_TEST_PASS, function(test) {
+     *     console.log('pass: %s', test.fullTitle());
+     *   });
+     *
+     *   runner.on(EVENT_TEST_FAIL, function(test, err) {
+     *     console.log('fail: %s -- error: %s', test.fullTitle(), err.message);
+     *   });
+     *
+     *   runner.on(EVENT_TEST_END, function() {
+     *     console.log('end: %d/%d', runner.stats.passes, runner.stats.tests);
+     *   });
+     * }
+     *
+     * module.exports = MyReporter;
+     *
      * @public
      * @memberof Runner
      * @readonly
@@ -14284,7 +14318,13 @@
        */
       EVENT_TEST_END: 'test end',
       /**
-       * Emitted when {@link Test} execution fails
+       * Emitted when {@link Test} execution fails. Includes an `err` object of type `Error`.
+       * @example
+       * runner.on(EVENT_TEST_FAIL, function(test, err) {
+       *   console.log('fail: %s -- error: %s', test.fullTitle(), err.message);
+       * });
+       *
+       *
        */
       EVENT_TEST_FAIL: 'fail',
       /**
@@ -17745,7 +17785,7 @@
       );
 
       tests.forEach(function (t) {
-        self.test(t);
+        self.test(t, options);
       });
 
       self.write('</testsuite>');
@@ -17793,13 +17833,13 @@
    *
    * @param {Test} test
    */
-  XUnit.prototype.test = function (test) {
+  XUnit.prototype.test = function (test, options) {
     Base.useColors = false;
 
     var attrs = {
       classname: test.parent.fullTitle(),
       name: test.title,
-      file: test.file,
+      file: testFilePath(test.file, options),
       time: test.duration / 1000 || 0
     };
 
@@ -17854,6 +17894,14 @@
       tag += content + '</' + name + end;
     }
     return tag;
+  }
+
+  function testFilePath(filepath, options) {
+    if (options && options.reporterOptions && options.reporterOptions.showRelativePaths) {
+      return path.relative(process.cwd(), filepath);
+    }
+
+    return filepath;
   }
 
   XUnit.description = 'XUnit-compatible XML output';
@@ -19208,7 +19256,7 @@
   };
 
   var name = "mocha";
-  var version = "11.1.0";
+  var version = "11.2.2";
   var homepage = "https://mochajs.org/";
   var notifyLogo = "https://ibin.co/4QuRuGjXvl36.png";
   var require$$17 = {
