@@ -90,7 +90,7 @@
     "@babel/core": "^7.27.1",
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@types/nightwatch": "^3.0.1",
-    "@types/node": "^22.15.17",
+    "@types/node": "^22.15.21",
     "babel-plugin-replace-import-extension": "^1.1.5",
     "browserslist": "^4.24.5",
     "concurrently": "^9.1.2",
