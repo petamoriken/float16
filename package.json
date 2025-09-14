@@ -92,7 +92,7 @@
     "@types/nightwatch": "^3.0.1",
     "@types/node": "^24.4.0",
     "babel-plugin-replace-import-extension": "^1.1.5",
-    "browserslist": "^4.25.4",
+    "browserslist": "^4.26.0",
     "concurrently": "^9.2.1",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.32.0",
