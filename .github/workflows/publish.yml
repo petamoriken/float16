@@ -28,10 +28,11 @@ jobs:
       - name: Build
         run: NPM_VERSION_SCRIPT=1 yarn run refresh
 
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Publish
-        run: npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
 
   jsr_publish:
     name: Publish to jsr
