@@ -1,8 +1,8 @@
-# <a href="https://github.com/petamoriken/float16">float16</a>
-
 > [!NOTE]
 > Float16 proposal has been included in the ES2025 specification. In modern environments, there is no need to load this ponyfill.
 > Please refer to [the Web Platform Status](https://webstatus.dev/features/float16array) for browser implementation status.
+
+# <a href="https://github.com/petamoriken/float16">float16</a>
 
 <p align="center">
   IEEE 754 half-precision floating-point ponyfill for JavaScript<br>

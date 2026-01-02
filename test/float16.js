@@ -1,4 +1,4 @@
-/*! @petamoriken/float16 v3.9.3-8-g09f86bf | undefined License - undefined */
+/*! @petamoriken/float16 v3.9.3-8-gd86aaca | undefined License - undefined */
 
 var float16 = (function (exports) {
   'use strict';
