@@ -28,13 +28,18 @@ jobs:
         with:
           node-version: lts/*
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn build:lib
+        run: pnpm install --frozen-lockfile
+
+      - run: pnpm build:lib
         env:
           NODE_ENV: test
 
-      - run: yarn coverage
+      - run: pnpm coverage
 
       - uses: codecov/codecov-action@v5
         with:

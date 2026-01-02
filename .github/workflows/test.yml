@@ -83,13 +83,18 @@ jobs:
         with:
           node-version: lts/*
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn build:lib
+        run: pnpm install --frozen-lockfile
+
+      - run: pnpm build:lib
         env:
           NODE_ENV: test
 
-      - run: yarn test
+      - run: pnpm test
 
   browser_test:
     name: Unit Test (Browser)
@@ -110,24 +115,29 @@ jobs:
         with:
           node-version: lts/*
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: saucelabs/sauce-connect-action@v2
         with:
           username: petamoriken # ${{ vars.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn build:browser
+        run: pnpm install --frozen-lockfile
+
+      - run: pnpm build:browser
         env:
           NODE_ENV: test
 
-      - run: yarn docs
+      - run: pnpm docs
 
       - name: Start Server
         run: |
-          yarn setup-test-browser
+          pnpm setup-test-browser
           sleep 5
-      - run: yarn test-browser
+      - run: pnpm test-browser
         env:
           SAUCE_USERNAME: petamoriken # ${{ vars.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
