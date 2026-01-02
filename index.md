@@ -1,5 +1,9 @@
 # <a href="https://github.com/petamoriken/float16">float16</a>
 
+> [!NOTE]
+> Float16 proposal has been included in the ES2025 specification. In modern environments, there is no need to load this ponyfill.
+> Please refer to [the Web Platform Status](https://webstatus.dev/features/float16array) for browser implementation status.
+
 <p align="center">
   IEEE 754 half-precision floating-point ponyfill for JavaScript<br>
   See <a href="https://github.com/tc39/proposal-float16array">TC39 proposal</a> or <a href="https://esdiscuss.org/topic/float16array">the archive of the ES Discuss Float16Array topic</a> for details
@@ -24,6 +28,10 @@
 ## Install
 
 ### Node.js
+
+> [!NOTE]
+> Native float16 features are supported since
+> [Node.js v24.0.0](https://nodejs.org/en/blog/release/v24.0.0).
 
 ```console
 npm install @petamoriken/float16
