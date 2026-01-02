@@ -98,6 +98,8 @@ jobs:
         with:
           username: petamoriken # ${{ vars.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          region: us-west-1
+          tunnelName: github-action-tunnel
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
