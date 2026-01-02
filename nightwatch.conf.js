@@ -43,6 +43,7 @@ module.exports = {
         "sauce:options" : {
           username: SAUCE_USERNAME,
           accessKey: SAUCE_ACCESS_KEY,
+          tunnelName: "github-action-tunnel",
           extendedDebugging: true,
           build: GITHUB_EVENT_NAME === "push"
             ? `build-${GITHUB_RUN_NUMBER}`
