@@ -26,11 +26,15 @@ jobs:
         with:
           node-version: lts/*
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: ESLint
-        run: yarn lint:eslint
+        run: pnpm lint:eslint
 
       - name: Check unused exports
-        run: yarn lint:unused
+        run: pnpm lint:unused

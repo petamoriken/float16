@@ -17,17 +17,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn build:browser
+        run: pnpm install --frozen-lockfile
+
+      - run: pnpm build:browser
         env:
           NODE_ENV: test
 
-      - run: yarn docs
+      - run: pnpm docs
 
       - uses: peaceiris/actions-gh-pages@v4
         with:

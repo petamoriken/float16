@@ -341,58 +341,50 @@ f16round(1.337); // 1.3369140625
 
   ### Manual build
 
-  This repository uses corepack for package manager manager.
-  You may have to activate yarn in corepack.
-
-  ```console
-  corepack enable yarn
-  ```
+  This repository uses pnpm for package manager.
+  You may have to install pnpm in corepack.
 
   Download devDependencies.
 
   ```console
-  yarn
+  pnpm install
   ```
 
   Build `lib/`, `browser/` files.
 
   ```console
-  yarn run build
+  pnpm run build
   ```
 
   Build `docs/` files (for browser test).
 
   ```console
-  yarn run docs
+  pnpm run docs
   ```
 
   ### Test
 
-  This repository uses corepack for package manager manager.
-  You may have to activate yarn in corepack.
-
-  ```console
-  corepack enable yarn
-  ```
+  This repository uses pnpm for package manager.
+  You may have to install pnpm in corepack.
 
   Download devDependencies.
 
   ```console
-  yarn
+  pnpm install
   ```
 
   #### Node.js test
 
   ```console
-  NODE_ENV=test yarn build:lib
-  yarn test
+  NODE_ENV=test pnpm build:lib
+  pnpm test
   ```
 
   #### Browser test
 
   ```console
-  NODE_ENV=test yarn build:browser
-  yarn docs
+  NODE_ENV=test pnpm build:browser
+  pnpm docs
   ```
 
   Access `docs/test/index.html` with browsers.
