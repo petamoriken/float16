@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - master
-  pull_request_target:
+  pull_request:
     branches:
       - master
 
@@ -19,12 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v4
-      - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v6
         with:
@@ -37,12 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v4
-      - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
 
       - uses: denoland/setup-deno@v2
         with:
@@ -55,12 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v4
-      - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
 
       - run: curl -fsSL https://bun.sh/install | bash
       - run: echo "${HOME}/.bun/bin" >> $GITHUB_PATH
@@ -72,12 +57,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v4
-      - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v6
         with:
@@ -101,15 +81,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-tags: true
 
       - uses: actions/setup-node@v6
         with:
