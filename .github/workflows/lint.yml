@@ -34,7 +34,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: ESLint
-        run: pnpm lint:eslint
+        run: pnpm run lint:eslint
 
       - name: Check unused exports
-        run: pnpm lint:unused
+        run: pnpm run lint:unused

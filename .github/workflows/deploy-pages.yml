@@ -29,11 +29,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - run: pnpm build:browser
+      - run: pnpm run build:browser
         env:
           NODE_ENV: test
 
-      - run: pnpm docs
+      - run: pnpm run docs
 
       - uses: peaceiris/actions-gh-pages@v4
         with:

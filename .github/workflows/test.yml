@@ -90,7 +90,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - run: pnpm build:lib
+      - run: pnpm run build:lib
         env:
           NODE_ENV: test
 
@@ -127,17 +127,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - run: pnpm build:browser
+      - run: pnpm run build:browser
         env:
           NODE_ENV: test
 
-      - run: pnpm docs
+      - run: pnpm run docs
 
       - name: Start Server
         run: |
           pnpm setup-test-browser
           sleep 5
-      - run: pnpm test-browser
+      - run: pnpm run test-browser
         env:
           SAUCE_USERNAME: petamoriken # ${{ vars.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
