@@ -75,7 +75,7 @@
     "docs:test": "mkdir -p docs/test && concurrently \"pnpm:docs:test:*\"",
     "docs:test:build": "cp test/*.js docs/test && tools/power",
     "docs:test:copy": "cp browser/float16.js docs/test/float16.js && cp test/browser/*.html docs/test",
-    "docs:test:dependencies": "cp node_modules/mocha/mocha.js node_modules/mocha/mocha.css node_modules/power-assert/build/power-assert.js docs/test",
+    "docs:test:dependencies": "cp -L node_modules/mocha/mocha.js node_modules/mocha/mocha.css node_modules/power-assert/build/power-assert.js docs/test",
     "lint": "concurrently \"pnpm:lint:*\"",
     "lint:eslint": "eslint src/**/*.mjs",
     "lint:unused": "find-unused-exports --module-glob 'src/**/*.mjs'",
