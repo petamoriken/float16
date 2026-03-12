@@ -18,8 +18,8 @@ importers:
         specifier: ^7.28.6
         version: 7.28.6(@babel/core@7.29.0)
       '@types/node':
-        specifier: ^25.4.0
-        version: 25.4.0
+        specifier: ^25.5.0
+        version: 25.5.0
       babel-plugin-replace-import-extension:
         specifier: ^1.1.5
         version: 1.1.5
@@ -584,8 +584,8 @@ packages:
   '@types/keyv@3.1.4':
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
 
-  '@types/node@25.4.0':
-    resolution: {integrity: sha512-9wLpoeWuBlcbBpOY3XmzSTG3oscB6xjBEEtn+pYXTfhyXhIxC5FsBer2KTopBlvKEiW9l13po9fq+SJY/5lkhw==}
+  '@types/node@25.5.0':
+    resolution: {integrity: sha512-jp2P3tQMSxWugkCUKLRPVUpGaL5MVFwF8RDuSRztfwgN1wmqJeMSbKlnEtQqU8UrhTmzEmZdu2I6v2dpp7XIxw==}
 
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
@@ -3677,7 +3677,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 25.4.0
+      '@types/node': 25.5.0
       '@types/responselike': 1.0.3
 
   '@types/chai@4.3.20': {}
@@ -3690,24 +3690,24 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 25.4.0
+      '@types/node': 25.5.0
 
-  '@types/node@25.4.0':
+  '@types/node@25.5.0':
     dependencies:
       undici-types: 7.18.2
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 25.4.0
+      '@types/node': 25.5.0
 
   '@types/selenium-webdriver@4.35.5':
     dependencies:
-      '@types/node': 25.4.0
+      '@types/node': 25.5.0
       '@types/ws': 8.18.1
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 25.4.0
+      '@types/node': 25.5.0
 
   '@typescript-eslint/types@8.56.1': {}
 
@@ -4826,7 +4826,7 @@ snapshots:
       '@babel/core': 7.29.0
       '@import-maps/resolve': 2.0.0
       '@types/babel__core': 7.20.5
-      '@types/node': 25.4.0
+      '@types/node': 25.5.0
       arg: 5.0.2
       globby: 14.1.0
       kleur: 4.1.5
