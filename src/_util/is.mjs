@@ -1,5 +1,6 @@
 import {
   ArrayBufferPrototypeGetByteLength,
+  ArrayBufferPrototypeGetResizable,
   ArrayIsArray,
   ArrayIteratorPrototype,
   ArrayIteratorPrototypeNext,
@@ -95,6 +96,22 @@ export function isSharedArrayBuffer(value) {
  */
 export function isAnyArrayBuffer(value) {
   return isArrayBuffer(value) || isSharedArrayBuffer(value);
+}
+
+/**
+ * @param {unknown} value
+ * @returns {boolean}
+ */
+export function isResizableArrayBuffer(value) {
+  if (ArrayBufferPrototypeGetResizable === null) {
+    return false;
+  }
+
+  try {
+    return ArrayBufferPrototypeGetResizable(/** @type {any} */ (value));
+  } catch (e) {
+    return false;
+  }
 }
 
 /**
