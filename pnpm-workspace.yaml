@@ -1,4 +1,4 @@
 allowBuilds:
-  '@nightwatch/nightwatch-inspector': set this to true or false
-  core-js: set this to true or false
-  es5-ext: set this to true or false
+  '@nightwatch/nightwatch-inspector': false
+  core-js: false
+  es5-ext: false
