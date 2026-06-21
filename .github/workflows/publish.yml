@@ -22,7 +22,7 @@ jobs:
           node-version: lts/*
           registry-url: https://registry.npmjs.org
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@v6.0.8
         with:
           version: 10
 
