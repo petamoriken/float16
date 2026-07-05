@@ -89,7 +89,7 @@
     "@babel/cli": "^7.29.7",
     "@babel/core": "^7.29.7",
     "@babel/plugin-transform-modules-commonjs": "^7.29.7",
-    "@types/node": "^26.0.1",
+    "@types/node": "^26.1.0",
     "babel-plugin-replace-import-extension": "^1.1.5",
     "browserslist": "^4.28.4",
     "concurrently": "^10.0.3",
