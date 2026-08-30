@@ -606,6 +606,29 @@ export class Float16Array {
     return /** @type {any} */ (array);
   }
 
+  /** @see https://tc39.es/proposal-array-filtering/ */
+  filterReject(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = TypedArrayPrototypeGetLength(float16bitsArray);
+    const thisArg = opts[0];
+
+    const kept = [];
+    for (let i = 0; i < length; ++i) {
+      const val = convertToNumber(float16bitsArray[i]);
+      if (!ReflectApply(callback, thisArg, [val, i, this])) {
+        ArrayPrototypePush(kept, val);
+      }
+    }
+
+    const Constructor = SpeciesConstructor(float16bitsArray, Float16Array);
+    const array = new Constructor(kept);
+    assertSpeciesTypedArray(array);
+
+    return /** @type {any} */ (array);
+  }
+
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduce */
   reduce(callback, ...opts) {
     assertFloat16Array(this);
